@@ -5,7 +5,7 @@ namespace App;
 //use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Testmongo extends Eloquent
+class Userlist extends Eloquent
 {
-    protected $collection = 'restaurants';
+    protected $collection = 'user';
 }
