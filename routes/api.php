@@ -26,4 +26,8 @@ use Illuminate\Http\Request;
 | Routes to add club members
 | Routes to assign roles.
 */
+/* Listing users */
 Route::get('/users', 'UselistController@index'); //http://cabinapi.app/api/users?page=9
+
+/* Get information from of user */
+Route::get('/users/{id}', 'UselistController@show');

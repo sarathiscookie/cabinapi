@@ -14,7 +14,8 @@ class UselistController extends Controller
      */
     public function index()
     {
-        $userList = Userlist::paginate(10);
+        $userList = Userlist::where('is_delete', 0)
+            ->paginate(10);
         return response($userList, 200);
     }
 
@@ -45,9 +46,10 @@ class UselistController extends Controller
      * @param  \App\Userlist  $userlist
      * @return \Illuminate\Http\Response
      */
-    public function show(Userlist $userlist)
+    public function show(Userlist $userlist, $id)
     {
-        //
+        $userList = Userlist::find($id);
+        return response($userList, 200);
     }
 
     /**
