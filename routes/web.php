@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'TestmongoController@index')->name('test');
+/*Route::get('/test', 'TestmongoController@index')->name('test');*/

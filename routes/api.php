@@ -27,7 +27,10 @@ use Illuminate\Http\Request;
 | Routes to assign roles.
 */
 /* Listing users */
-Route::get('/users', 'UselistController@index'); //http://cabinapi.app/api/users?page=9
+Route::get('/users', 'UserlistController@index')->name('users.index'); //http://cabinapi.app/api/users?page=9
 
 /* Get information from of user */
-Route::get('/users/{id}', 'UselistController@show');
+Route::get('/users/{id}', 'UserlistController@show')->name('users.show');
+
+/* Trash user */
+Route::put('/users/{id}', 'UserlistController@trash')->name('users.trash');

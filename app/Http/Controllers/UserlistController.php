@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Userlist;
 use Illuminate\Http\Request;
 
-class UselistController extends Controller
+class UserlistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,7 +46,7 @@ class UselistController extends Controller
      * @param  \App\Userlist  $userlist
      * @return \Illuminate\Http\Response
      */
-    public function show(Userlist $userlist, $id)
+    public function show($id)
     {
         $userList = Userlist::find($id);
         return response($userList, 200);
@@ -76,12 +76,27 @@ class UselistController extends Controller
     }
 
     /**
+     * Disable the specified resource from storage.
+     *
+     * @param  \App\Userlist  $userlist
+     * @return \Illuminate\Http\Response
+     */
+    public function trash(Request $request, $id)
+    {
+        $userList            = Userlist::find($id);
+        $userList->is_delete = 1;
+        $userList->save();
+
+        return response()->json(['response' => 'trashed']);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Userlist  $userlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Userlist $userlist)
+    public function destroy($id)
     {
         //
     }
