@@ -76,19 +76,20 @@ class UserlistController extends Controller
     }
 
     /**
-     * Disable the specified resource from storage.
+     * Update the specified resource in storage.
      *
-     * @param  \App\Userlist  $userlist
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function trash(Request $request, $id)
+    public function statusUpdate(Request $request, $statusId, $id)
     {
         $userList            = Userlist::find($id);
-        $userList->is_delete = 1;
+        $userList->usrActive = $statusId;
         $userList->save();
 
-        return response()->json(['response' => 'trashed']);
+        return response($userList->usrActive, 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -98,6 +99,10 @@ class UserlistController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $userList            = Userlist::find($id);
+        $userList->is_delete = 1;
+        $userList->save();
+
+        return response($userList->is_delete, 200);
     }
 }

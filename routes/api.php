@@ -29,8 +29,11 @@ use Illuminate\Http\Request;
 /* Listing users */
 Route::get('/users', 'UserlistController@index')->name('users.index'); //http://cabinapi.app/api/users?page=9
 
-/* Get information from of user */
+/* Get information from user */
 Route::get('/users/{id}', 'UserlistController@show')->name('users.show');
 
-/* Trash user */
-Route::put('/users/{id}', 'UserlistController@trash')->name('users.trash');
+/* Delete user */
+Route::delete('/users/{id}', 'UserlistController@destroy')->name('users.destroy');
+
+/* Update user status to activate and deactivate */
+Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate')->name('users.statusUpdate');
