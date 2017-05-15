@@ -4,14 +4,19 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| API General Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Here we define general routes
 |
 */
+
+/* Listing countries */
+Route::get('/countries', 'CountryController@index');
+
+/* Listing clubs */
+Route::get('/clubs', 'ClubController@index');
+
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -27,13 +32,20 @@ use Illuminate\Http\Request;
 | Routes to assign roles.
 */
 /* Listing users */
-Route::get('/users', 'UserlistController@index')->name('users.index'); //http://cabinapi.app/api/users?page=9
+Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
 
 /* Get information from user */
-Route::get('/users/{id}', 'UserlistController@show')->name('users.show');
-
-/* Delete user */
-Route::delete('/users/{id}', 'UserlistController@destroy')->name('users.destroy');
+Route::get('/users/{id}', 'UserlistController@show');
 
 /* Update user status to activate and deactivate */
-Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate')->name('users.statusUpdate');
+Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate');
+
+/* Update user status to activate and deactivate */
+Route::put('/users/role/{roleId}/{id}', 'UserlistController@roleUpdate');
+
+/* Update user details */
+Route::put('/users/edit/{id}', 'UserlistController@update');
+
+/* Delete user */
+Route::delete('/users/{id}', 'UserlistController@destroy');
+
