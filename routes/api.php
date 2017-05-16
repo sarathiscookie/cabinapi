@@ -52,3 +52,15 @@ Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
 /* Delete user */
 Route::delete('/users/{id}', 'UserlistController@destroy');
 
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for bookings
+|--------------------------------------------------------------------------
+|
+| Routes to listing & delete bookings
+| Routes to update payment
+| Routes to send vouchers.
+*/
+/* Listing bookings */
+Route::get('/bookings', 'BookingController@index');
