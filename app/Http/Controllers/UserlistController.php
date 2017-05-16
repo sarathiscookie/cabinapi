@@ -70,6 +70,27 @@ class UserlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function clubUpdate(Request $request, $id)
+    {
+        $clubUpdate          = Userlist::find($id);
+        // Here we need data from angular. Data is an array and it is the combination of club number and club name "316148-DAV-Deutscher Alpenverein".
+        //{ "usrDAV":["316148-DAV-Deutscher Alpenverein", "316149-DAV-Deutscher Alpenverein"]}
+        $clubUpdate->usrDAV  = $request->input('usrDAV');
+        $clubUpdate->save();
+
+        if(!$clubUpdate){
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        return response()->json(['message' => 'Club added successfully'], 201);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
      * @param  \App\Http\Requests\UserlistRequest  $request
      * @param  string $id
      * @return \Illuminate\Http\Response
@@ -97,12 +118,12 @@ class UserlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UserlistRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string $statusId
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function statusUpdate(UserlistRequest $request, $statusId, $id)
+    public function statusUpdate(Request $request, $statusId, $id)
     {
         $userList            = Userlist::find($id);
         $userList->usrActive = $statusId;
@@ -116,12 +137,12 @@ class UserlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UserlistRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  string $roleId
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function roleUpdate(UserlistRequest $request, $roleId, $id)
+    public function roleUpdate(Request $request, $roleId, $id)
     {
         $userList            = Userlist::find($id);
         $userList->usrlId    = $roleId;

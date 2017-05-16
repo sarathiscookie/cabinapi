@@ -46,6 +46,9 @@ Route::put('/users/role/{roleId}/{id}', 'UserlistController@roleUpdate');
 /* Update user details */
 Route::put('/users/edit/{id}', 'UserlistController@update');
 
+/* Add or Update club */
+Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
+
 /* Delete user */
 Route::delete('/users/{id}', 'UserlistController@destroy');
 
