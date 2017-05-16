@@ -15,11 +15,13 @@ class Userlist extends Eloquent
     protected $collection = 'user';
 
     /**
-     * Indicates if the model should be timestamped.
+     * Indicates if the model should be timestamped. Updating only the usrUpdateDate
      *
      * @var bool
      */
-    public $timestamps = false;
+    const UPDATED_AT   = 'usrUpdateDate';
+    public $timestamps = [ "UPDATED_AT" ];
+
     /**
      * The attributes that are mass assignable.
      *

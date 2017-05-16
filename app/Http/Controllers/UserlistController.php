@@ -16,7 +16,7 @@ class UserlistController extends Controller
     public function index()
     {
         $userList = Userlist::where('is_delete', 0)
-            ->paginate(10);
+            ->paginate(15);
         return response()->json(['userlists' => $userList], 200);
     }
 
@@ -49,10 +49,8 @@ class UserlistController extends Controller
      */
     public function show($id)
     {
-        $userList = Userlist::find($id);
-        if(!$userList){
-            return response()->json(['message' => 'User details not found'], 404);
-        }
+        $userList = Userlist::findOrFail($id);
+
         return response()->json(['userlists' => $userList], 200);
     }
 
@@ -76,15 +74,12 @@ class UserlistController extends Controller
      */
     public function clubUpdate(Request $request, $id)
     {
-        $clubUpdate          = Userlist::find($id);
+        $clubUpdate          = Userlist::findOrFail($id);
         // Here we need data from angular. Data is an array and it is the combination of club number and club name "316148-DAV-Deutscher Alpenverein".
         //{ "usrDAV":["316148-DAV-Deutscher Alpenverein", "316149-DAV-Deutscher Alpenverein"]}
         $clubUpdate->usrDAV  = $request->input('usrDAV');
         $clubUpdate->save();
 
-        if(!$clubUpdate){
-            return response()->json(['message' => 'User not found'], 404);
-        }
         return response()->json(['message' => 'Club added successfully'], 201);
     }
 
@@ -97,21 +92,20 @@ class UserlistController extends Controller
      */
     public function update(UserlistRequest $request, $id)
     {
-        $userDetails                = Userlist::find($id);
+        $userDetails                = Userlist::findOrFail($id);
         $userDetails->usrFirstname  = $request->input('usrFirstname');
         $userDetails->usrLastname   = $request->input('usrLastname');
         $userDetails->usrTelephone  = $request->input('usrTelephone');
         $userDetails->usrEmail      = $request->input('usrEmail');
         $userDetails->usrMobile     = $request->input('usrMobile');
+        $userDetails->usrCountry    = $request->input('usrCountry');
         $userDetails->usrAddress    = $request->input('usrAddress');
         $userDetails->usrCity       = $request->input('usrCity');
         $userDetails->usrZip        = $request->input('usrZip');
         $userDetails->usrBirthday   = $request->input('usrBirthday');
         $userDetails->usrNewsletter = $request->input('usrNewsletter');
         $userDetails->save();
-        if(!$userDetails){
-            return response()->json(['message' => 'User not found'], 404);
-        }
+
         return response()->json(['userDetails' => $userDetails], 201);
     }
 
@@ -125,12 +119,10 @@ class UserlistController extends Controller
      */
     public function statusUpdate(Request $request, $statusId, $id)
     {
-        $userList            = Userlist::find($id);
+        $userList            = Userlist::findOrFail($id);
         $userList->usrActive = $statusId;
         $userList->save();
-        if(!$userList){
-            return response()->json(['message' => 'User not found'], 404);
-        }
+
         return response()->json(['message' => 'Status updated successfully'], 201);
     }
 
@@ -144,12 +136,10 @@ class UserlistController extends Controller
      */
     public function roleUpdate(Request $request, $roleId, $id)
     {
-        $userList            = Userlist::find($id);
+        $userList            = Userlist::findOrFail($id);
         $userList->usrlId    = $roleId;
         $userList->save();
-        if(!$userList){
-            return response()->json(['message' => 'User not found'], 404);
-        }
+
         return response()->json(['message' => 'Role updated successfully'], 201);
     }
 
@@ -161,12 +151,10 @@ class UserlistController extends Controller
      */
     public function destroy($id)
     {
-        $userList            = Userlist::find($id);
+        $userList            = Userlist::findOrFail($id);
         $userList->is_delete = 1;
         $userList->save();
-        if(!$userList){
-            return response()->json(['message' => 'User not found'], 404);
-        }
+
         return response()->json(['message' => 'User deleted'], 201);
     }
 }
