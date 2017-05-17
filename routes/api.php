@@ -63,4 +63,13 @@ Route::delete('/users/{id}', 'UserlistController@destroy');
 | Routes to send vouchers.
 */
 /* Listing bookings */
-Route::get('/bookings', 'BookingController@index');
+Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
+
+/* Get information from user */
+Route::get('/bookings/{id}', 'BookingController@show');
+
+/* Delete bookings */
+Route::delete('/bookings/{id}', 'BookingController@destroy');
+
+/* Update payment status */
+Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
