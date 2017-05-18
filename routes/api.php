@@ -68,8 +68,8 @@ Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bo
 /* Get information from user */
 Route::get('/bookings/{id}', 'BookingController@show');
 
-/* Delete bookings */
-Route::delete('/bookings/{id}', 'BookingController@destroy');
-
 /* Update payment status */
 Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
+
+/* Delete bookings */
+Route::delete('/bookings/{id}', 'BookingController@destroy');

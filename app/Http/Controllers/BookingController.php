@@ -6,6 +6,7 @@ use App\Booking;
 use App\Userlist;
 use App\Tempuser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -118,17 +119,37 @@ class BookingController extends Controller
             $bookingDetails->sent_email     = 0;
             $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
             $bookingDetails->save();
-            // send email to user
-            $message                        = "Status updated to Test";
+
+            /* Functionality to send email about faulty payment begin */
+            $userDetails                    = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail')
+                ->first($bookingDetails->user);
+
+            Mail::send('emails.FaultyPayment', ['userID' => $bookingDetails->user, 'firstname' => $userDetails->usrFirstname, 'lastname' => $userDetails->usrLastname, 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'], function ($message) use ($userDetails){
+                $message->to($userDetails->usrEmail)->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung');
+            });
+            /* Functionality to send email about faulty payment end */
+
+            $message                        = "Status updated to test";
         }
-        else{
+        else if ($status == 1){
             $bookingDetails                 = Booking::findOrFail($id);
             $bookingDetails->status_comment = $comment;
             $bookingDetails->status         = 1;
             $bookingDetails->payment_status = 1;
+            $bookingDetails->sent_email     = 1;
             $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
             $bookingDetails->save();
-            $message                        = "Status updated successfully";
+            // send pdf to user
+            $message                        = "Payment done successfully";
+        }
+        else{
+            $bookingDetails                 = Booking::findOrFail($id);
+            $bookingDetails->status_comment = $comment;
+            $bookingDetails->status         = 5;
+            $bookingDetails->payment_status = 0;
+            $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
+            $bookingDetails->save();
+            $message                        = "Payment failed";
         }
         return response()->json(['message' => $message], 201);
 
