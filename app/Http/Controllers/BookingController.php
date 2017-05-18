@@ -122,7 +122,7 @@ class BookingController extends Controller
 
             /* Functionality to send email about faulty payment begin */
             $userDetails                    = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail')
-                ->first($bookingDetails->user);
+                ->find($bookingDetails->user);
 
             Mail::send('emails.FaultyPayment', ['userID' => $bookingDetails->user, 'firstname' => $userDetails->usrFirstname, 'lastname' => $userDetails->usrLastname, 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'], function ($message) use ($userDetails){
                 $message->to($userDetails->usrEmail)->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung');
