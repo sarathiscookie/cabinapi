@@ -237,7 +237,7 @@
 
                                                                 <h1>{{ $subject }}</h1>
 
-                                                                <p>Sehr geehrter {{ $firstname }}.{{ $lastname }},<br>
+                                                                <p>Sehr geehrter {{ $firstname }} {{ $lastname }},<br>
                                                                     <br>
                                                                     aufgrund eine technischen Problems bei unserem Zahlungsdienstleister, wurde die Zahlung fuer Ihre Buchung leider nicht durchgefuehrt.<br /><br />
 

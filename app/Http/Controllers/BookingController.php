@@ -8,6 +8,7 @@ use App\Tempuser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FaultyPayment;
+use App\Mail\SuccessPaymentAttachment;
 
 class BookingController extends Controller
 {
@@ -124,14 +125,7 @@ class BookingController extends Controller
             /* Functionality to send email about faulty payment begin */
             $userDetails                    = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrEmail')
                 ->find($bookingDetails->user);
-
             Mail::send(new FaultyPayment($userDetails));
-
-
-
-            /*Mail::send('emails.FaultyPayment', ['userID' => $bookingDetails->user, 'firstname' => $userDetails->usrFirstname, 'lastname' => $userDetails->usrLastname, 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'], function ($message) use ($userDetails){
-                $message->to($userDetails->usrEmail)->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung');
-            });*/
             /* Functionality to send email about faulty payment end */
 
             $message                        = "Status updated to test";
@@ -144,7 +138,11 @@ class BookingController extends Controller
             $bookingDetails->sent_email     = 1;
             $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
             $bookingDetails->save();
-            // send pdf to user
+
+            /* Functionality to send attachment email about payment success begin */
+            Mail::send(new SuccessPaymentAttachment($bookingDetails));
+            /* Functionality to send attachment email about payment success end */
+
             $message                        = "Payment done successfully";
         }
         else{
