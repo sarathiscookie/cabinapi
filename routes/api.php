@@ -71,5 +71,8 @@ Route::get('/bookings/{id}', 'BookingController@show');
 /* Update payment status */
 Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
 
+/* Send voucher*/
+Route::post('/bookings/voucher/{id}', 'BookingController@sendVoucher');
+
 /* Delete bookings */
 Route::delete('/bookings/{id}', 'BookingController@destroy');

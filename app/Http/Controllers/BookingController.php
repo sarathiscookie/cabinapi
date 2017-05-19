@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FaultyPayment;
 use App\Mail\SuccessPaymentAttachment;
+use App\Mail\SendVoucher;
 
 class BookingController extends Controller
 {
@@ -156,6 +157,23 @@ class BookingController extends Controller
         }
         return response()->json(['message' => $message], 201);
 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sendVoucher(Request $request, $id)
+    {
+        $bookingDetails                 = Booking::find($id);
+
+        /* Functionality to send invoice begin */
+        Mail::send(new SendVoucher($bookingDetails));
+        /* Functionality to send invoice end */
+        return response()->json(['message' => 'Voucher send successfully'], 201);
     }
 
     /**

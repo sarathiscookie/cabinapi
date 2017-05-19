@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Booking;
 use App\Userlist;
+use App\Cabin;
 use Storage;
 use PDF;
 use Illuminate\Bus\Queueable;
@@ -11,7 +12,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SuccessPaymentAttachment extends Mailable
+class SendVoucher extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +22,6 @@ class SuccessPaymentAttachment extends Mailable
      * @var $bookingDetails
      */
     protected $bookingDetails;
-
 
     /**
      * Create a new message instance.
@@ -40,7 +40,7 @@ class SuccessPaymentAttachment extends Mailable
      */
     public function build()
     {
-        $userDetails                    = Userlist::find($this->bookingDetails->user);
+        $userDetails  = Userlist::find($this->bookingDetails->user);
 
         /* PDF Generation begin*/
         setlocale(LC_MONETARY, 'de_DE');
@@ -54,6 +54,13 @@ class SuccessPaymentAttachment extends Mailable
         else{
             $html_dav = "Nein";
         }
+
+        $cabin      = Cabin::select('sleeping_place')
+            ->where('name', $this->bookingDetails->cabinname)
+            ->where('is_delete', 0)
+            ->first();
+
+        //dd($cabin->sleeping_place);
         //
         /*$days                           = round(abs(date('d.m.Y', strtotime($this->bookingDetails->checkin_from)) - date('d.m.Y', strtotime($this->bookingDetails->reserve_to))) / 86400);*/
 
@@ -97,8 +104,15 @@ class SuccessPaymentAttachment extends Mailable
                             <td>'.$this->bookingDetails->sleeps.'</td>
                             <td>days</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
-                            </tr>
-                       </table>
+                            </tr>';
+                           if($cabin->sleeping_place != 1)
+                           {
+                            $html.= '<tr>
+                                     <td>Booked Sleeps:</td>
+                                     <td colspan="6">' . $this->bookingDetails->beds. 'Beds, ' . $this->bookingDetails->dormitory . 'Dormitory</td> </tr>';
+                           }
+
+        $html.='</table>
                        
                        <table style="padding:10px 30px;width:100%;font-family:font-family:arial,sans-serif;font-size:13px;"><tr><td colspan="6" style="font-size:23px;padding-top:40px;padding-bottom:5px;color:#afca14;font-weight:bold;" >Wichtige Informationen</td></tr>        
                               <tr><td colspan="1"><img style="width: 20px" id="logo" src="/img/plus.png"> </td><td colspan="6">Legen Sie diesen Gutschein bei Ankunft dem Hüttenwirt vor.</td> </tr>   
@@ -119,7 +133,7 @@ class SuccessPaymentAttachment extends Mailable
         PDF::loadHTML($html)->setPaper('a4', 'portrait')->setWarnings(false)->save(storage_path("app/public/Gutschein-". $this->bookingDetails->invoice_number . ".pdf"));
         /* PDF Generation end*/
 
-        return $this->view('emails.successPaymentAttachment')
+        return $this->view('emails.sendVoucher')
             ->to($userDetails->usrEmail)
             ->bcc(env('MAIL_BCC_PAYMENT'))
             ->subject('Ihre Gutschein für Ihre Buchung-'.$this->bookingDetails->cabinname)
