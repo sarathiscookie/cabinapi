@@ -7,6 +7,7 @@ use App\Userlist;
 use App\Tempuser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\FaultyPayment;
 
 class BookingController extends Controller
 {
@@ -121,12 +122,16 @@ class BookingController extends Controller
             $bookingDetails->save();
 
             /* Functionality to send email about faulty payment begin */
-            $userDetails                    = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail')
+            $userDetails                    = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrEmail')
                 ->find($bookingDetails->user);
 
-            Mail::send('emails.FaultyPayment', ['userID' => $bookingDetails->user, 'firstname' => $userDetails->usrFirstname, 'lastname' => $userDetails->usrLastname, 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'], function ($message) use ($userDetails){
+            Mail::send(new FaultyPayment($userDetails));
+
+
+
+            /*Mail::send('emails.FaultyPayment', ['userID' => $bookingDetails->user, 'firstname' => $userDetails->usrFirstname, 'lastname' => $userDetails->usrLastname, 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'], function ($message) use ($userDetails){
                 $message->to($userDetails->usrEmail)->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung');
-            });
+            });*/
             /* Functionality to send email about faulty payment end */
 
             $message                        = "Status updated to test";
