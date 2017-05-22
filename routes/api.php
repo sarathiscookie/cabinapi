@@ -17,6 +17,8 @@ Route::get('/countries', 'CountryController@index');
 /* Listing clubs */
 Route::get('/clubs', 'ClubController@index');
 
+/* Listing lands */
+Route::get('/lands', 'LandController@index');
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -95,3 +97,22 @@ Route::put('/roles/{id}', 'RoleController@update');
 
 /* Deleted roles */
 Route::delete('/roles/{id}', 'RoleController@destroy');
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for regions
+|--------------------------------------------------------------------------
+|
+| Routes to list, edit, add & delete regions
+*/
+/* Listing regions */
+Route::get('/regions', 'RegionController@index'); //http://cabinapi.app/api/regions?page=9
+
+/* Create regions */
+Route::post('/regions', 'RegionController@store');
+
+/* Update regions */
+Route::put('/regions/{id}', 'RegionController@update');
+
+/* Deleted regions */
+Route::delete('/regions/{id}', 'RegionController@destroy');
