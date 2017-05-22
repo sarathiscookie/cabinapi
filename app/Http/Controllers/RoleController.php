@@ -88,7 +88,7 @@ class RoleController extends Controller
         $roles->role_id        = $request->role_id;
         $roles->save();
 
-        return response()->json(['message' => 'Updated new role successfully'], 201);
+        return response()->json(['message' => 'Updated role successfully'], 201);
     }
 
     /**
