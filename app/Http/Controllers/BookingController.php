@@ -124,9 +124,7 @@ class BookingController extends Controller
             $bookingDetails->save();
 
             /* Functionality to send email about faulty payment begin */
-            $userDetails                    = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrEmail')
-                ->find($bookingDetails->user);
-            Mail::send(new FaultyPayment($userDetails));
+            Mail::send(new FaultyPayment($bookingDetails));
             /* Functionality to send email about faulty payment end */
 
             $message                        = "Status updated to test";

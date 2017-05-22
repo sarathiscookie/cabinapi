@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Userlist;
+use App\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -17,16 +18,16 @@ class FaultyPayment extends Mailable
      *
      * @var $userDetails
      */
-    protected $userDetails;
+    protected $bookingDetails;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Userlist $userDetails)
+    public function __construct(Booking $bookingDetails)
     {
-        $this->userDetails = $userDetails;
+        $this->bookingDetails = $bookingDetails;
     }
 
     /**
@@ -36,13 +37,16 @@ class FaultyPayment extends Mailable
      */
     public function build()
     {
+        $userDetails                    = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrEmail')
+            ->find($this->bookingDetails->user);
+
         return $this->view('emails.FaultyPayment')
-            ->to($this->userDetails->usrEmail)
+            ->to($userDetails->usrEmail)
             ->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung')
             ->with([
-                'firstname' => $this->userDetails->usrFirstname,
-                'lastname' => $this->userDetails->usrLastname,
-                'userID' => $this->userDetails->_id,
+                'firstname' => $userDetails->usrFirstname,
+                'lastname' => $userDetails->usrLastname,
+                'userID' => $userDetails->_id,
                 'subject' => 'Fehlerhafte Zahlung Ihrer Hüttenbuchung'
             ]);
     }
