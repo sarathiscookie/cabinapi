@@ -16,7 +16,7 @@ class FaultyPayment extends Mailable
     /**
      * The user instance.
      *
-     * @var $userDetails
+     * @var $bookingDetails
      */
     protected $bookingDetails;
 
@@ -37,8 +37,7 @@ class FaultyPayment extends Mailable
      */
     public function build()
     {
-        $userDetails                    = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrEmail')
-            ->find($this->bookingDetails->user);
+        $userDetails                    = Userlist::find($this->bookingDetails->user);
 
         return $this->view('emails.FaultyPayment')
             ->to($userDetails->usrEmail)
