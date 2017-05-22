@@ -76,3 +76,22 @@ Route::post('/bookings/voucher/{id}', 'BookingController@sendVoucher');
 
 /* Delete bookings */
 Route::delete('/bookings/{id}', 'BookingController@destroy');
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for roles
+|--------------------------------------------------------------------------
+|
+| Routes to list, edit, add & delete role
+*/
+/* Listing roles */
+Route::get('/roles', 'RoleController@index'); //http://cabinapi.app/api/roles?page=9
+
+/* Create role */
+Route::post('/roles', 'RoleController@store');
+
+/* Update roles */
+Route::put('/roles/{id}', 'RoleController@update');
+
+/* Deleted roles */
+Route::delete('/roles/{id}', 'RoleController@destroy');
