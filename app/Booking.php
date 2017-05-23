@@ -28,13 +28,4 @@ class Booking extends Eloquent
      */
     protected $guarded = ['id'];
 
-
-    /**
-     * Get the user that books the cabin.
-     */
-   /* public function bookings()
-    {
-        return $this->belongsTo('App\User');
-    }*/
-
 }

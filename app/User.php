@@ -27,11 +27,4 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * Get the user that books the cabin.
-     */
-    /*public function users()
-    {
-        return $this->hasMany('App\Booking');
-    }*/
 }
