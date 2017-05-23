@@ -29,9 +29,9 @@ Route::get('/lands', 'LandController@index');
 | API Routes for users
 |--------------------------------------------------------------------------
 |
-| Routes to listing, update, delete users
-| Routes to add club members
-| Routes to assign roles.
+| Routes for listing, update, delete users
+| Routes for add club members
+| Routes for assign roles.
 */
 /* Listing users */
 Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
@@ -60,9 +60,9 @@ Route::delete('/users/{id}', 'UserlistController@destroy');
 | API Routes for bookings
 |--------------------------------------------------------------------------
 |
-| Routes to listing & delete bookings
-| Routes to update payment
-| Routes to send vouchers.
+| Routes for listing & delete bookings
+| Routes for update payment
+| Routes for send vouchers.
 */
 /* Listing bookings */
 Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
@@ -73,8 +73,8 @@ Route::get('/bookings/{id}', 'BookingController@show');
 /* Update payment status */
 Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
 
-/* Send voucher*/
-Route::post('/bookings/voucher/{id}', 'BookingController@sendVoucher');
+/* Send invoice*/
+Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
 
 /* Delete bookings */
 Route::delete('/bookings/{id}', 'BookingController@destroy');
@@ -84,7 +84,7 @@ Route::delete('/bookings/{id}', 'BookingController@destroy');
 | API Routes for roles
 |--------------------------------------------------------------------------
 |
-| Routes to list, edit, add & delete role
+| Routes for list, edit, add & delete role
 */
 /* Listing roles */
 Route::get('/roles', 'RoleController@index'); //http://cabinapi.app/api/roles?page=9
@@ -103,7 +103,7 @@ Route::delete('/roles/{id}', 'RoleController@destroy');
 | API Routes for regions
 |--------------------------------------------------------------------------
 |
-| Routes to list, edit, add & delete regions
+| Routes for list, edit, add & delete regions
 */
 /* Listing regions */
 Route::get('/regions', 'RegionController@index'); //http://cabinapi.app/api/regions?page=9
