@@ -12,7 +12,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendVoucher extends Mailable
+class SendInvoice extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -140,10 +140,10 @@ class SendVoucher extends Mailable
         PDF::loadHTML($html)->setPaper('a4', 'portrait')->setWarnings(false)->save(storage_path("app/public/Gutschein-". $this->bookingDetails->invoice_number . ".pdf"));
         /* PDF Generation end*/
 
-        return $this->view('emails.sendVoucher')
+        return $this->view('emails.sendInvoice')
             ->to($userDetails->usrEmail)
             ->bcc(env('MAIL_BCC_PAYMENT'))
-            ->subject('Ihre Gutschein für Ihre Buchung-'.$this->bookingDetails->cabinname)
+            ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
             ->attach(public_path('/storage/Huetten-Holiday-AGB.pdf'), [
                 'mime' => 'application/pdf',
             ])
