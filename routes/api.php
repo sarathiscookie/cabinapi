@@ -116,3 +116,14 @@ Route::put('/regions/{id}', 'RegionController@update');
 
 /* Deleted regions */
 Route::delete('/regions/{id}', 'RegionController@destroy');
+
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for payment completed booking and send vouchers
+|--------------------------------------------------------------------------
+|
+| Routes for completed booking within date range & send vouchers
+*/
+/* Listing vouchers */
+Route::get('/list/bookings', 'InvoiceController@index'); //http://cabinapi.app/api/bookings/completed?page=9
