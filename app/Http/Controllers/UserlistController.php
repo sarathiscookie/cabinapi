@@ -102,7 +102,7 @@ class UserlistController extends Controller
         $userDetails->usrAddress    = $request->input('usrAddress');
         $userDetails->usrCity       = $request->input('usrCity');
         $userDetails->usrZip        = $request->input('usrZip');
-        $userDetails->usrBirthday   = $request->input('usrBirthday');
+        $userDetails->usrBirthday   = $request->input('usrBirthday'); //here format is date so not save as character.
         $userDetails->usrNewsletter = $request->input('usrNewsletter');
         $userDetails->save();
 
