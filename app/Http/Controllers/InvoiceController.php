@@ -31,7 +31,7 @@ class InvoiceController extends Controller
             $bookings = Booking::where('is_delete', 0)
                 ->where('status', "1")
                 ->where('payment_status', "1")
-                ->where('bookingdate', '>', new DateTime('-1 months'))
+                ->where('bookingdate', '>', new DateTime('-1 month'))
                 ->paginate(15);
         }
 
@@ -51,8 +51,8 @@ class InvoiceController extends Controller
         $endDate          = $request->to;
         $checkbox         = $request->checkbox;   // get checked multiple id from angular and apply foreach
 
-        $begin            = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-01 00:00:00')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
-        $end              = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-02 00:00:00')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+        $begin            = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-01')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+        $end              = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-02')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
 
         $bookingBulkData  = Booking::where('is_delete', 0)
             ->where('status', "1")
