@@ -39,7 +39,7 @@ class FaultyPayment extends Mailable
     {
         $userDetails                    = Userlist::find($this->bookingDetails->user);
 
-        return $this->view('emails.FaultyPayment')
+        return $this->view('emails.faultyPayment')
             ->to($userDetails->usrEmail)
             ->subject('Fehlerhafte Zahlung für Ihr Hüttenbuchung')
             ->with([

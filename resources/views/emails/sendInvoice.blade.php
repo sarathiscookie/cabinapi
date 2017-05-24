@@ -13,8 +13,6 @@
 
         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-            <h1>{{ $subject }}</h1>
-
             <p>Sehr geehrter {{ $firstname }} {{ $lastname }},<br>
                 <br>
                 im Anhang erhalten Sie Ihren Uebernachtungsgutschein als PDF zum Ausdruck. Bitte legen Sie den Ausdruck dem Huettenwirt bei Ihrer Ankunft vor.<br /><br />
