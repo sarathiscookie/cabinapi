@@ -120,10 +120,13 @@ Route::delete('/regions/{id}', 'RegionController@destroy');
 
 /*
 |--------------------------------------------------------------------------
-| API Routes for payment completed booking and send vouchers
+| API Routes for fetch booking within date range and send vouchers
 |--------------------------------------------------------------------------
 |
 | Routes for completed booking within date range & send vouchers
 */
 /* Listing vouchers */
-Route::get('/list/bookings', 'InvoiceController@index'); //http://cabinapi.app/api/bookings/completed?page=9
+Route::get('/daterange/bookings/{beginDate?}/{endDate?}', 'InvoiceController@index'); //http://cabinapi.app/api/bookings/completed?page=9
+
+/* Send bulk invoice */
+Route::post('/daterange/bookings/invoices/send', 'InvoiceController@sendInvoice');

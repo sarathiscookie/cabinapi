@@ -2,41 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
+use App\Booking;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use DateTime;
+use Mail;
+use App\Mail\BulkInvoiceSend;
 
 class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @uses $gte::it selects the documents where the value of the field is greater than or equal to (i.e. >=)
-     * @uses $lte::it selects the documents where the value of the field is less than or equal to (i.e. <=)
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($beginDate = null, $endDate = null)
     {
-        /* Fetching results of 30 days */
-        $currentDate    = Carbon::now(); // get the current time
-        $startDate      = $currentDate->subDays(30); // add 30 days to the current time
-        $endDate        = Carbon::now(); // get the current time
+        if($beginDate != '' && $endDate != ''){
+            $begin    = new \MongoDB\BSON\UTCDateTime(new DateTime($beginDate)); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+            $end      = new \MongoDB\BSON\UTCDateTime(new DateTime($endDate)); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
 
-        $start = new DateTime("2017-01-01 00:00:00");
-        $stop = new DateTime("2017-01-30 00:00:00");
+            $bookings = Booking::where('is_delete', 0)
+                ->where('status', "1")
+                ->where('payment_status', "1")
+                ->whereBetween('bookingdate', array($begin, $end))
+                ->paginate(15);
+        }
+        else{
+            $bookings = Booking::where('is_delete', 0)
+                ->where('status', "1")
+                ->where('payment_status', "1")
+                ->where('bookingdate', '>', new DateTime('-1 months'))
+                ->paginate(15);
+        }
 
-        //dd($startDate.' - '.$endDate); //2017-04-23 - 2017-05-23
-        $invoice = Invoice::where('is_delete', 0)
+        return response()->json(['bookingDaterange' => $bookings], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendInvoice(Request $request)
+    {
+        $beginDate        = $request->from;
+        $endDate          = $request->to;
+        $checkbox         = $request->checkbox;   // get checked multiple id from angular and apply foreach
+
+        $begin            = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-01 00:00:00')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+        $end              = new \MongoDB\BSON\UTCDateTime(new DateTime('2017-03-02 00:00:00')); //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+
+        $bookingBulkData  = Booking::where('is_delete', 0)
             ->where('status', "1")
             ->where('payment_status', "1")
-           /* ->where('bookingdate', '>', new DateTime('-2 months'))*/
-            ->whereBetween('bookingdate', array($start, $stop))
-            /*->whereRaw(['bookingdate' => array('$gte' => $startDate, '$lte' => $endDate)])*/
+            ->whereBetween('bookingdate', array($begin, $end))
+            ->take(2)
             ->get();
 
-        dd($invoice);
-        return response()->json(['invoice' => $invoice], 200);
+        /* Functionality to send bulk invoice begin */
+        foreach($bookingBulkData as $bookingDetails)
+        {
+            Mail::send(new BulkInvoiceSend($bookingDetails));
+        }
+        /* Functionality to send bulk invoice end */
+
+        return response()->json(['bookingDaterange' => 'Invoice send successfully'], 201);
     }
 
     /**
@@ -63,10 +94,9 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show()
     {
         //
     }
@@ -74,10 +104,9 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit()
     {
         //
     }
@@ -86,10 +115,9 @@ class InvoiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(Request $request)
     {
         //
     }
@@ -97,10 +125,9 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy()
     {
         //
     }
