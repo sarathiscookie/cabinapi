@@ -46,6 +46,7 @@ class InvoiceController extends Controller
      */
     public function sendInvoice(Request $request)
     {
+        // This functionality works when we click SendInvoice button
         $beginDate        = $request->from;
         $endDate          = $request->to;
         $checkbox         = $request->checkbox;   // get checked multiple id from angular and apply foreach
@@ -57,7 +58,7 @@ class InvoiceController extends Controller
             ->where('status', "1")
             ->where('payment_status', "1")
             ->whereBetween('bookingdate', array($begin, $end))
-            ->take(2)
+            ->limit(2) //instead of limit here where condition will work for check box id
             ->get();
 
         /* Functionality to send bulk invoice begin */
@@ -67,7 +68,7 @@ class InvoiceController extends Controller
         }
         /* Functionality to send bulk invoice end */
 
-        return response()->json(['bookingDaterange' => 'Invoice send successfully'], 201);
+        return response()->json(['message' => 'Invoice send successfully'], 201);
     }
 
     /**
