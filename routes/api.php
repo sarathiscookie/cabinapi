@@ -130,3 +130,27 @@ Route::get('/daterange/bookings/{beginDate?}/{endDate?}', 'InvoiceController@ind
 
 /* Send bulk invoice */
 Route::post('/daterange/bookings/invoices/send', 'InvoiceController@sendInvoice');
+
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for cabins
+|--------------------------------------------------------------------------
+|
+| Routes for list, edit, add & delete cabins
+| Routes for update cabin price
+| Routes for update season date
+| Routes for update cabin type
+| Routes for assign user to cabin
+*/
+/* Listing cabins */
+Route::get('/cabins', 'CabinController@index'); //http://cabinapi.app/api/cabins?page=9
+
+/* Listing other cabins */
+Route::get('/cabins/othercabins', 'CabinController@indexOtherCabin'); //http://cabinapi.app/api/cabins/othercabins?page=9
+
+/* Assign user to cabin */
+Route::put('/cabins/assign/{userId}/{id}', 'CabinController@assignUser');
+
+/* Update cabin type */
+Route::put('/cabins/type/{type}/{id}', 'CabinController@updateType');
