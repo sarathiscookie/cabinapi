@@ -93,6 +93,19 @@ class CabinController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showPrice($id)
+    {
+        $prices = Cabin::select('price_bed', 'price_dormitory', 'club_price_bed', 'club_price_dormitory', 'y_price_bed', 'y_price_dormitory', 'y_club_price_bed', 'y_club_price_dormitory')->findOrFail($id);
+
+        return response()->json(['prices' => $prices], 200);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -113,6 +126,27 @@ class CabinController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePrice(Request $request, $id)
+    {
+        $cabin                         = Cabin::findOrFail($id);
+        $cabin->price_bed              = $request->price_bed;
+        $cabin->price_dormitory        = $request->price_dormitory;
+        $cabin->club_price_bed         = $request->club_price_bed;
+        $cabin->club_price_dormitory   = $request->club_price_dormitory;
+        $cabin->y_price_bed            = $request->y_price_bed;
+        $cabin->y_price_dormitory      = $request->y_price_dormitory;
+        $cabin->y_club_price_bed       = $request->y_club_price_bed;
+        $cabin->y_club_price_dormitory = $request->y_club_price_dormitory;
+        $cabin->save();
     }
 
     /**

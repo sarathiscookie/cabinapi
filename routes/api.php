@@ -152,6 +152,12 @@ Route::get('/cabins/othercabins', 'CabinController@indexOtherCabin'); //http://c
 /* Get information of cabin */
 Route::get('/cabins/{id}', 'CabinController@show');
 
+/* Get cabin price */
+Route::get('/cabins/price/{id}', 'CabinController@showPrice');
+
+/* Update cabin price */
+Route::put('/cabins/price/{id}', 'CabinController@updatePrice');
+
 /* Assign user to cabin */
 Route::put('/cabins/assign/{userId}/{id}', 'CabinController@assignUser');
 
