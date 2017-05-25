@@ -149,8 +149,14 @@ Route::get('/cabins', 'CabinController@index'); //http://cabinapi.app/api/cabins
 /* Listing other cabins */
 Route::get('/cabins/othercabins', 'CabinController@indexOtherCabin'); //http://cabinapi.app/api/cabins/othercabins?page=9
 
+/* Get information of cabin */
+Route::get('/cabins/{id}', 'CabinController@show');
+
 /* Assign user to cabin */
 Route::put('/cabins/assign/{userId}/{id}', 'CabinController@assignUser');
 
 /* Update cabin type */
 Route::put('/cabins/type/{type}/{id}', 'CabinController@updateType');
+
+/* Delete cabin */
+Route::delete('/cabins/{id}', 'CabinController@destroy');

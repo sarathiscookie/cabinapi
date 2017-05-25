@@ -82,12 +82,14 @@ class CabinController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $cabinDetails = Cabin::findOrFail($id);
+
+        return response()->json(['cabinDetails' => $cabinDetails], 200);
     }
 
     /**
@@ -152,11 +154,15 @@ class CabinController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $cabin                 = Cabin::findOrFail($id);
+        $cabin->is_delete      = 1;
+        $cabin->save();
+
+        return response()->json(['message' => 'Cabin deleted'], 201);
     }
 }
