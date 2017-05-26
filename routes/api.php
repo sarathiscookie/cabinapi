@@ -20,6 +20,9 @@ Route::get('/clubs', 'ClubController@index');
 /* Listing lands */
 Route::get('/lands', 'LandController@index');
 
+/* Listing facilities */
+Route::get('/facilities', 'FacilityController@index');
+
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/

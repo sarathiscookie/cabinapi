@@ -104,7 +104,7 @@ class CabinController extends Controller
 
         return response()->json(['prices' => $prices], 200);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -147,6 +147,8 @@ class CabinController extends Controller
         $cabin->y_club_price_bed       = $request->y_club_price_bed;
         $cabin->y_club_price_dormitory = $request->y_club_price_dormitory;
         $cabin->save();
+
+        return response()->json(['message' => 'Cabin price updated'], 201);
     }
 
     /**

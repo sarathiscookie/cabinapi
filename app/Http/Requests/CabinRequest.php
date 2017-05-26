@@ -23,6 +23,8 @@ class CabinRequest extends FormRequest
      */
     public function rules()
     {
-        //
+        return [
+            //
+        ];
     }
 }
