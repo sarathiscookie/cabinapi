@@ -13,7 +13,7 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        //echo __('facilityMessages.Wifi');
+        dd( __('facilityMessages.Wifi'));
         $facilities = array(
             'wifi'                                     => __('facilityMessages.Wifi'),
             'shower'                                   => __('facilityMessages.shower available'),
@@ -34,7 +34,7 @@ class FacilityController extends Controller
             'advancementIncludingTime'                 => __('facilityMessages.Advancement possibilities including time'),
             'reachableHut'                             => __('facilityMessages.Reachable peaks from hut'),
             'reachablePhone'                           => __('facilityMessages.reachable by phone'),
-            'Smoking'                                  => __('facilityMessages.Smoking (allowed, forbidden)'),
+            'smoking'                                  => __('facilityMessages.Smoking (allowed, forbidden)'),
             'smokeDetector'                            => __('facilityMessages.smoke detector'),
             'CarbonMonoxideDetector'                   => __('facilityMessages.Carbon monoxide detector'),
             'PaymentMethods'                           => __('facilityMessages.Payment methods at the cottage'),
