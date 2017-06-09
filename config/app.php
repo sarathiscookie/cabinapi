@@ -190,6 +190,11 @@ return [
          * Barryvdh dompdf
          */
         Barryvdh\DomPDF\ServiceProvider::class,
+
+        /*
+         * Authentication within Laravel using JSON Web Tokens
+         */
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -240,6 +245,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Moloquent'  => Jenssegers\Mongodb\Eloquent\Model::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];
