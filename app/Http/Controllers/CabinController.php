@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Cabin;
 use App\Userlist;
+use App\Booking;
 use App\Http\Requests\CabinRequest;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,21 @@ class CabinController extends Controller
             ->get();
 
         return $users;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  string $bookingCabinName
+     * @return \Illuminate\Http\Response
+     */
+    public function statistics($bookingCabinName)
+    {
+        $statistics  = Booking::select('*')
+            ->where('cabinname', $bookingCabinName)
+            ->paginate(15);
+
+        return response()->json(['statistics' => $statistics], 200);
     }
 
     /**

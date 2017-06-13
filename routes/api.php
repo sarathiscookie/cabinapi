@@ -169,3 +169,7 @@ Route::put('/cabins/type/{type}/{id}', 'CabinController@updateType');
 
 /* Delete cabin */
 Route::delete('/cabins/{id}', 'CabinController@destroy');
+
+
+/* Statistics purpose */
+Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');
