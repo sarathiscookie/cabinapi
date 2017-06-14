@@ -69,7 +69,7 @@ class CabinController extends Controller
     {
         $statistics  = Booking::select('*')
             ->where('cabinname', $bookingCabinName)
-            ->paginate(15);
+            ->get();
 
         return response()->json(['statistics' => $statistics], 200);
     }
