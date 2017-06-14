@@ -23,14 +23,15 @@ class BookingController extends Controller
         $bookings = Booking::where('is_delete', 0)
             ->paginate(15);
 
-        foreach ($bookings as $booking){
+        foreach ($bookings as $key=> $booking){
             if($booking->temp_user_id != ""){
                 $tempUsers = Tempuser::select('usrFirstname', 'usrLastname', 'usrEmail')
                     ->where('_id', $booking->temp_user_id)
                     ->get();
                 foreach ($tempUsers as $tempUser){
                     //var_dump($tempUser->usrEmail . " -- " . $tempUser->usrFirstname . " : " . $tempUser->usrLastname . " -- " . $booking->_id . " -- temp_user_id");
-                    $userDetails[] = $tempUser->usrEmail . " -- " . $tempUser->usrFirstname . " : " . $tempUser->usrLastname . " -- " . $booking->_id . " -- temp_user_id";
+                    $usrEmail = $tempUser->usrEmail;
+                    $bookings[$key]['usrEmail'] = $usrEmail;
                 }
             }
             else{
@@ -39,10 +40,13 @@ class BookingController extends Controller
                     ->get();
                 foreach ($users as $user){
                     //var_dump($user->usrEmail . " -- " .$user->usrFirstname. " : ".$user->usrLastname." -- " . $booking->_id . " -- user");
-                    $userDetails[] = $user->usrEmail . " -- " .$user->usrFirstname. " : ".$user->usrLastname." -- " . $booking->_id . " -- user";
+                    $usrEmail = $user->usrEmail;
+                    $bookings[$key]['usrEmail'] = $usrEmail;
                 }
             }
         }
+
+
         return response()->json(['bookingDetails' => $bookings], 200);
     }
 
