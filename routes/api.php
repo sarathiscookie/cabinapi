@@ -70,7 +70,7 @@ Route::delete('/users/{id}', 'UserlistController@destroy');
 /* Listing bookings */
 Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
 
-/* Get information from user */
+/* Get individual information from bookings */
 Route::get('/bookings/{id}', 'BookingController@show');
 
 /* Update payment status */
