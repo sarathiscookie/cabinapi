@@ -29,9 +29,10 @@ class BookingController extends Controller
                     ->where('_id', $booking->temp_user_id)
                     ->get();
                 foreach ($tempUsers as $tempUser){
-                    //var_dump($tempUser->usrEmail . " -- " . $tempUser->usrFirstname . " : " . $tempUser->usrLastname . " -- " . $booking->_id . " -- temp_user_id");
                     $usrEmail = $tempUser->usrEmail;
-                    $bookings[$key]['usrEmail'] = $usrEmail;
+                    $message  = 'Booking from cabin owner';
+                    $comment  = '<span class="label label-info">'.$message.'</span>';
+                    $bookings[$key]['usrEmail'] = $comment;
                 }
             }
             else{
@@ -39,7 +40,6 @@ class BookingController extends Controller
                     ->where('_id', $booking->user)
                     ->get();
                 foreach ($users as $user){
-                    //var_dump($user->usrEmail . " -- " .$user->usrFirstname. " : ".$user->usrLastname." -- " . $booking->_id . " -- user");
                     $usrEmail = $user->usrEmail;
                     $bookings[$key]['usrEmail'] = $usrEmail;
                 }
