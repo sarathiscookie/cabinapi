@@ -30,7 +30,7 @@ class BookingController extends Controller
                     ->get();
                 foreach ($tempUsers as $tempUser){
                     /*$usrEmail = $tempUser->usrEmail;*/
-                    $usrEmail = 'cabinowner';
+                    $usrEmail = 'Booked by cabin owner';
                     $bookings[$key]['usrEmail'] = $usrEmail;
                 }
             }
