@@ -29,10 +29,9 @@ class BookingController extends Controller
                     ->where('_id', $booking->temp_user_id)
                     ->get();
                 foreach ($tempUsers as $tempUser){
-                    $usrEmail = $tempUser->usrEmail;
-                    $message  = 'Booking from cabin owner';
-                    $comment  = '<span class="label label-info">'.$message.'</span>';
-                    $bookings[$key]['usrEmail'] = $comment;
+                    /*$usrEmail = $tempUser->usrEmail;*/
+                    $usrEmail = 'cabinowner';
+                    $bookings[$key]['usrEmail'] = $usrEmail;
                 }
             }
             else{
@@ -45,7 +44,6 @@ class BookingController extends Controller
                 }
             }
         }
-
 
         return response()->json(['bookingDetails' => $bookings], 200);
     }
