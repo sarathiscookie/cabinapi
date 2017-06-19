@@ -46,7 +46,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/admin/dashboard" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>PI</span>
         <!-- logo for regular state and mobile devices -->
@@ -182,6 +182,11 @@
     @yield('content')
 </div>
 <!-- /.content-wrapper -->
+
+<footer class="main-footer">
+    <strong>Copyright &copy; 2017-2018 <a href="#">Huetten-Holiday</a>.</strong> All rights
+    reserved.
+</footer>
 
     <!-- Scripts -->
     {{--<script src="{{ asset('js/app.js') }}"></script>--}}
