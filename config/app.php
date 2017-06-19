@@ -190,11 +190,6 @@ return [
          * Barryvdh dompdf
          */
         Barryvdh\DomPDF\ServiceProvider::class,
-
-        /*
-         * Authentication within Laravel using JSON Web Tokens
-         */
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
