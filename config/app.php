@@ -175,7 +175,7 @@ return [
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
-
+        Jenssegers\Mongodb\Session\SessionServiceProvider::class,
         /*
          *
          * Barryvdh dompdf
