@@ -10,18 +10,30 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\FaultyPayment;
 use App\Mail\SuccessPaymentAttachment;
 use App\Mail\SendInvoice;
+use Yajra\Datatables\Facades\Datatables;
+use DB;
 
 class BookingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display data table page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+        return view('backend.bookings');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dataTables()
+    {
         $bookings = Booking::where('is_delete', 0)
-            ->paginate(15);
+            ->get();
 
         foreach ($bookings as $key=> $booking){
             if($booking->temp_user_id != ""){
@@ -44,8 +56,10 @@ class BookingController extends Controller
             }
         }
 
-        return view('backend.bookings');
-        /*return response()->json(['bookingDetails' => $bookings], 200);*/
+        // Functionality for laravel datatables
+        $bookingDetails = Datatables::collection($bookings)->make(true);
+
+        return $bookingDetails;
     }
 
     /**

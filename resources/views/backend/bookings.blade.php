@@ -4,6 +4,7 @@
 
 @section('css')
     <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('plugins/datatables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
 @endsection
 
@@ -32,162 +33,43 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="dataTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>Book Num</th>
+                                    <th>Email</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Beds</th>
+                                    <th>Dorms</th>
+                                    <th>Book Status</th>
+                                    <th>Pay Status</th>
+                                    <th>Pay Type</th>
+                                    <th>Total Amount</th>
+                                    <th>Txid</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td> 4</td>
-                                    <td>X</td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>5</td>
-                                    <td>C</td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 5.5
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>5.5</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 6
-                                    </td>
-                                    <td>Win 98+</td>
-                                    <td>6</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 7</td>
-                                    <td>Win XP SP2+</td>
-                                    <td>7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Netscape Navigator 9</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.1</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.1</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.2</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.2</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.3</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.3</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.4</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.4</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.5</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.5</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.6</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1.6</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.7</td>
-                                    <td>Win 98+ / OSX.1+</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Gecko</td>
-                                    <td>Mozilla 1.8</td>
-                                    <td>Win 98+ / OSX.1+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Webkit</td>
-                                    <td>S60</td>
-                                    <td>S60</td>
-                                    <td>413</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Presto</td>
-                                    <td>Opera 7.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>-</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr>
-                                    <td>Presto</td>
-                                    <td>Opera 7.5</td>
-                                    <td>Win 95+ / OSX.2+</td>
-                                    <td>-</td>
-                                    <td>A</td>
-                                </tr>
-                                </tbody>
+                                <tbody></tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>Number</th>
+                                    <th>Email</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <th>Type</th>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 </tfoot>
                             </table>
+                            <!-- Export buttons are append here -->
+                            <div class="panel-body">
+                                <div id="buttons"></div>
+                            </div>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -202,17 +84,98 @@
     <!-- DataTables -->
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/jszip.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
 
     <script>
         $(function () {
-            $('#example1').DataTable({
-                /*"paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false*/
+
+            /* Functionality for data table begin */
+            var table = $('#dataTable').DataTable({
+                /*"processing": true,
+                "serverSide": true,*/
+                "ajax": '{!! route('bookings.datatables') !!}',
+                "columns": [
+                    {"data": "invoice_number", name: "invoice_number"},
+                    {"data": "usrEmail", name: "usrEmail"/*, "render": function ( data, type, full, meta ) {
+                        return '<span class="label label-info">'+data+'</span>';
+                    }*/},
+                    {"data": "checkin_from", name: "checkin_from"},
+                    {"data": "reserve_to", name: "reserve_to"},
+                    {"data": "beds", name: "beds"},
+                    {"data": "dormitory", name: "dormitory"},
+                    {"data": "status", name: "status"},
+                    {"data": "payment_status", name: "payment_status"},
+                    {"data": "payment_type", name: "payment_type"},
+                    {"data": "total_prepayment_amount", name: "total_prepayment_amount"},
+                    {"data": "txid", name: "txid"}
+                ],
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets"  : "_all",
+                }],
             });
+
+            $('#dataTable tfoot th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" placeholder="Search ' + title + '"/>' );
+            });
+
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'portrait',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                        }
+                    },
+                ]
+            }).container().appendTo($('#buttons'));
+
+            // Apply the search
+            table.columns().every( function () {
+                const that = this;
+
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                });
+            });
+            /* Data table functionality end */
         });
     </script>
 @endsection

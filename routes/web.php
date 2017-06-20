@@ -93,8 +93,12 @@ Route::prefix('admin')->group(function () {
     | Routes for update payment
     | Routes for send vouchers.
     */
+
     /* Listing bookings */
-    Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
+    Route::get('/bookings', 'BookingController@index');
+
+    /* Show datatable page */
+    Route::get('/booking/datatables', 'BookingController@dataTables')->name('bookings.datatables');
 
     /* Get individual information from bookings */
     Route::get('/bookings/{id}', 'BookingController@show');

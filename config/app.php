@@ -170,15 +170,6 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
 
         /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-
-        /*
          * Mongo db service providers
          *
          */
@@ -190,6 +181,21 @@ return [
          * Barryvdh dompdf
          */
         Barryvdh\DomPDF\ServiceProvider::class,
+
+        /*
+         *
+         * Laravel datatable
+         */
+        Yajra\Datatables\DatatablesServiceProvider::class,
+
+        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
     ],
 
     /*
@@ -240,8 +246,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Moloquent'  => Jenssegers\Mongodb\Eloquent\Model::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];
