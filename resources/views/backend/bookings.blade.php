@@ -33,6 +33,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div class="responseMessage"></div>
                             <table id="dataTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -270,7 +271,8 @@
                         data: { "_token": "{{ csrf_token() }}" },
                         type: 'DELETE',
                         success: function(result) {
-                            console.log(result);
+                            $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                            $('.responseMessage').show().delay(5000).fadeOut();
                         }
                     });
                     table

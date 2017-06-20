@@ -206,6 +206,6 @@ class BookingController extends Controller
         $booking->is_delete = 1;
         $booking->save();
 
-        return response()->json(['message' => 'Booking deleted'], 201);
+        return response()->json(['message' => 'Booking deleted successfully'], 201);
     }
 }
