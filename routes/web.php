@@ -98,7 +98,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/bookings', 'BookingController@index');
 
     /* Show datatable page */
-    Route::get('/booking/datatables', 'BookingController@dataTables')->name('bookings.datatables');
+    Route::get('/bookings/datatables', 'BookingController@dataTables')->name('bookings.datatables');
 
     /* Get individual information from bookings */
     Route::get('/bookings/{id}', 'BookingController@show');
@@ -110,7 +110,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
 
     /* Delete bookings */
-    Route::delete('/bookings/{id}', 'BookingController@destroy');
+    Route::delete('/bookings/{id}', 'BookingController@destroy')->name('bookings.delete');
 
     /*
     |--------------------------------------------------------------------------

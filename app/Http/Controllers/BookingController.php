@@ -57,7 +57,11 @@ class BookingController extends Controller
         }
 
         // Functionality for laravel datatables
-        $bookingDetails = Datatables::collection($bookings)->make(true);
+        $bookingDetails = Datatables::collection($bookings)
+            ->addColumn('action', function ($bookings) {
+                return '<a href="/bookings/'.$bookings->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$bookings->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            })
+            ->make(true);
 
         return $bookingDetails;
     }

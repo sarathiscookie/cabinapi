@@ -48,6 +48,7 @@
                                     <th>Pay Type</th>
                                     <th>Total Amount</th>
                                     <th>Txid</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -63,6 +64,7 @@
                                     <td></td>
                                     <td></td>
                                     <th>Type</th>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -97,14 +99,21 @@
     <script>
         $(function () {
 
+            /* Checking for the CSRF token */
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             /* Functionality for data table begin */
             var table = $('#dataTable').DataTable({
                 /*"processing": true,
                 "serverSide": true,*/
                 "ajax": '{!! route('bookings.datatables') !!}',
                 "columns": [
-                    {"data": "invoice_number", name: "invoice_number"},
-                    {"data": "usrEmail", name: "usrEmail", "render": function ( data, type, full, meta ) {
+                    {"data": "invoice_number", "name": "invoice_number"},
+                    {"data": "usrEmail", "name": "usrEmail", "render": function ( data, type, full, meta ) {
                         if( data === 'cabinowner' ){
                             return '<span class="label label-info">Booked by cabin owner</span>';
                         }
@@ -112,7 +121,7 @@
                             return data;
                         }
                     }},
-                    {"data": "checkin_from", name: "checkin_from", "render": function ( data, type, full, meta ) {
+                    {"data": "checkin_from", "name": "checkin_from", "render": function ( data, type, full, meta ) {
                         if (!data) {
                             return '<span class="label label-default">No data</span>'
                         }
@@ -131,7 +140,7 @@
                             return dateformat;
                         }
                     }},
-                    {"data": "reserve_to", name: "reserve_to", "render": function ( data, type, full, meta ) {
+                    {"data": "reserve_to", "name": "reserve_to", "render": function ( data, type, full, meta ) {
                         if (!data) {
                             return '<span class="label label-default">No data</span>'
                         }
@@ -150,10 +159,10 @@
                             return dateformat;
                         }
                     }},
-                    {"data": "beds", name: "beds"},
-                    {"data": "dormitory", name: "dormitory"},
-                    {"data": "sleeps", name: "sleeps"},
-                    {"data": "status", name: "status", "render": function ( data, type, full, meta ) {
+                    {"data": "beds", "name": "beds"},
+                    {"data": "dormitory", "name": "dormitory"},
+                    {"data": "sleeps", "name": "sleeps"},
+                    {"data": "status", "name": "status", "render": function ( data, type, full, meta ) {
                         if( data === '1' ){
                             return '<span class="label label-primary">New</span>';
                         }
@@ -173,7 +182,7 @@
                             return '<span class="label label-default">No data</span>';
                         }
                     }},
-                    {"data": "payment_status", name: "payment_status", "render": function ( data, type, full, meta ) {
+                    {"data": "payment_status", "name": "payment_status", "render": function ( data, type, full, meta ) {
                         if( data === '1' ){
                             return '<span class="label label-success">Done</span>';
                         }
@@ -184,9 +193,10 @@
                             return '<span class="label label-default">No data</span>';
                         }
                     }},
-                    {"data": "payment_type", name: "payment_type"},
-                    {"data": "total_prepayment_amount", name: "total_prepayment_amount"},
-                    {"data": "txid", name: "txid"}
+                    {"data": "payment_type", "name": "payment_type"},
+                    {"data": "total_prepayment_amount", "name": "total_prepayment_amount"},
+                    {"data": "txid", "name": "txid"},
+                    {"data": "action", "name": "action", "orderable": false, "searchable": false}
                 ],
                 "columnDefs": [{
                     "defaultContent": "-",
@@ -238,7 +248,7 @@
 
             // Apply the search
             table.columns().every( function () {
-                const that = this;
+                var that = this;
 
                 $( 'input', this.footer() ).on( 'keyup change', function () {
                     if ( that.search() !== this.value ) {
@@ -249,6 +259,28 @@
                 });
             });
             /* Data table functionality end */
+
+            /* Delete function */
+            $('#dataTable tbody').on( 'click', 'a.deleteEvent', function (e) {
+                var bookingId = $(this).data('id');
+                var r = confirm("Do you want to delete this booking?");
+                if (r == true) {
+                    $.ajax({
+                        url: '/admin/bookings/' + bookingId,
+                        data: { "_token": "{{ csrf_token() }}" },
+                        type: 'DELETE',
+                        success: function(result) {
+                            console.log(result);
+                        }
+                    });
+                    table
+                        .row( $(this).parents('tr') )
+                        .remove()
+                        .draw();
+                }
+                e.preventDefault();
+            });
+
         });
     </script>
 @endsection
