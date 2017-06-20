@@ -41,7 +41,7 @@ class BookingController extends Controller
                     ->where('_id', $booking->temp_user_id)
                     ->get();
                 foreach ($tempUsers as $tempUser){
-                    $usrEmail = 'Booked by cabin owner';
+                    $usrEmail = 'cabinowner';
                     $bookings[$key]['usrEmail'] = $usrEmail;
                 }
             }

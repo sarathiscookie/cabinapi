@@ -42,6 +42,7 @@
                                     <th>To</th>
                                     <th>Beds</th>
                                     <th>Dorms</th>
+                                    <th>Sleeps</th>
                                     <th>Book Status</th>
                                     <th>Pay Status</th>
                                     <th>Pay Type</th>
@@ -54,6 +55,7 @@
                                 <tr>
                                     <th>Number</th>
                                     <th>Email</th>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -102,15 +104,86 @@
                 "ajax": '{!! route('bookings.datatables') !!}',
                 "columns": [
                     {"data": "invoice_number", name: "invoice_number"},
-                    {"data": "usrEmail", name: "usrEmail"/*, "render": function ( data, type, full, meta ) {
-                        return '<span class="label label-info">'+data+'</span>';
-                    }*/},
-                    {"data": "checkin_from", name: "checkin_from"},
-                    {"data": "reserve_to", name: "reserve_to"},
+                    {"data": "usrEmail", name: "usrEmail", "render": function ( data, type, full, meta ) {
+                        if( data === 'cabinowner' ){
+                            return '<span class="label label-info">Booked by cabin owner</span>';
+                        }
+                        else{
+                            return data;
+                        }
+                    }},
+                    {"data": "checkin_from", name: "checkin_from", "render": function ( data, type, full, meta ) {
+                        if (!data) {
+                            return '<span class="label label-default">No data</span>'
+                        }
+                        else {
+                            var date       = new Date(data);
+                            var dd         = date.getDate();
+                            var mm         = date.getMonth()+1; //January is 0!
+                            var yyyy       = date.getFullYear();
+                            if( dd < 10 ){
+                                dd='0'+dd;
+                            }
+                            if( mm < 10 ){
+                                mm='0'+mm;
+                            }
+                            var dateformat = dd+'.'+mm+'.'+yyyy;
+                            return dateformat;
+                        }
+                    }},
+                    {"data": "reserve_to", name: "reserve_to", "render": function ( data, type, full, meta ) {
+                        if (!data) {
+                            return '<span class="label label-default">No data</span>'
+                        }
+                        else {
+                            var date       = new Date(data);
+                            var dd         = date.getDate();
+                            var mm         = date.getMonth()+1; //January is 0!
+                            var yyyy       = date.getFullYear();
+                            if( dd < 10 ){
+                                dd='0'+dd;
+                            }
+                            if( mm < 10 ){
+                                mm='0'+mm;
+                            }
+                            var dateformat = dd+'.'+mm+'.'+yyyy;
+                            return dateformat;
+                        }
+                    }},
                     {"data": "beds", name: "beds"},
                     {"data": "dormitory", name: "dormitory"},
-                    {"data": "status", name: "status"},
-                    {"data": "payment_status", name: "payment_status"},
+                    {"data": "sleeps", name: "sleeps"},
+                    {"data": "status", name: "status", "render": function ( data, type, full, meta ) {
+                        if( data === '1' ){
+                            return '<span class="label label-primary">New</span>';
+                        }
+                        else if( data === '2' ){
+                            return '<span class="label label-warning">Cancelled</span>';
+                        }
+                        else if( data === '3' ){
+                            return '<span class="label label-success">Completed</span>';
+                        }
+                        else if( data === '4' ){
+                            return '<span class="label label-info">Request</span>';
+                        }
+                        else if( data === '5' ){
+                            return '<span class="label label-danger">Failed</span>';
+                        }
+                        else{
+                            return '<span class="label label-default">No data</span>';
+                        }
+                    }},
+                    {"data": "payment_status", name: "payment_status", "render": function ( data, type, full, meta ) {
+                        if( data === '1' ){
+                            return '<span class="label label-success">Done</span>';
+                        }
+                        else if( data === '0' ){
+                            return '<span class="label label-danger">Failed</span>';
+                        }
+                        else{
+                            return '<span class="label label-default">No data</span>';
+                        }
+                    }},
                     {"data": "payment_type", name: "payment_type"},
                     {"data": "total_prepayment_amount", name: "total_prepayment_amount"},
                     {"data": "txid", name: "txid"}
@@ -131,19 +204,19 @@
                     {
                         extend: 'copy',
                         exportOptions: {
-                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                            columns: [  0, 1, 2, 3, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
                         }
                     },
                     {
@@ -151,13 +224,13 @@
                         orientation: 'portrait',
                         pageSize: 'LEGAL',
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [  0, 1, 2, 3, 6, 7, 8, 9, 10 ]
+                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
                         }
                     },
                 ]
