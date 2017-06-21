@@ -36,6 +36,10 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Booking Details</h3>
+                            {{--<div class="pull-right box-tools">
+                                <button type="button" class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range">
+                                    <i class="fa fa-calendar"></i></button>
+                            </div>--}}
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -239,13 +243,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+                            columns: [ 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+                            columns: [ 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
@@ -253,13 +257,13 @@
                         orientation: 'portrait',
                         pageSize: 'LEGAL',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+                            columns: [ 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
+                            columns: [ 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                 ]
@@ -306,8 +310,10 @@
                         data: { "_token": "{{ csrf_token() }}" },
                         type: 'DELETE',
                         success: function(result) {
-                            $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
-                            $('.responseMessage').show().delay(5000).fadeOut();
+                            if(result) {
+                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                                $('.responseMessage').show().delay(5000).fadeOut();
+                            }
                         }
                     });
                     table
