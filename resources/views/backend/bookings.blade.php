@@ -6,6 +6,12 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
+    <style type="text/css">
+        .nounderline{
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -37,6 +43,7 @@
                             <table id="dataTable" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Book Num</th>
                                     <th>Email</th>
                                     <th>From</th>
@@ -55,6 +62,7 @@
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
+                                    <td></td>
                                     <th>Number</th>
                                     <th>Email</th>
                                     <td></td>
@@ -77,6 +85,11 @@
                             </div>
                         </div>
                         <!-- /.box-body -->
+
+                        <!-- modal -->
+                        <div class="modalBookingData"></div>
+                        <!-- /.modal -->
+
                     </div>
                 </div>
             </div>
@@ -113,7 +126,17 @@
                 "serverSide": true,*/
                 "ajax": '{!! route('bookings.datatables') !!}',
                 "columns": [
-                    {"data": "invoice_number", "name": "invoice_number"},
+                    {"data": function(data){
+                        return '<input type="checkbox" name="id[]" value="'+ data._id +'" />';
+                    }, "orderable": false, "searchable": false, "name":"_id" },
+                    {"data": function ( data ) {
+                        if(!data.invoice_number){
+                            return '<span class="label label-default">No data</span>'
+                        }
+                        else {
+                            return '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'+ data._id +'" data-modalID="'+ data._id +'">'+data.invoice_number+'</a><div class="modal fade" id="bookingModal_'+ data._id +'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="modal-body"><div class="list-group"><a href="#" class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'+ data.cabinname +'</p></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'+ data.reference_no +'</p></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'+ data.clubmember +'</p></a><a href="#" class="list-group-item"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-block btn-primary btn-sm sendInvoice" data-sendInvoice="'+ data._id +'"><i class="fa fa-envelope"></i> Send</button></a></div></div><div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                        }
+                    }, "name": "invoice_number"},
                     {"data": "usrEmail", "name": "usrEmail", "render": function ( data, type, full, meta ) {
                         if( data === 'cabinowner' ){
                             return '<span class="label label-info">Booked by cabin owner</span>';
@@ -201,7 +224,7 @@
                 ],
                 "columnDefs": [{
                     "defaultContent": "-",
-                    "targets"  : "_all",
+                    "targets": "_all"
                 }],
             });
 
@@ -213,21 +236,15 @@
             var buttons = new $.fn.dataTable.Buttons(table, {
                 buttons: [
                     {
-                        extend: 'copy',
-                        exportOptions: {
-                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
-                        }
-                    },
-                    {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [  0, 1, 2, 3, 7, 8, 9, 10 ]
+                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
+                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
@@ -235,13 +252,13 @@
                         orientation: 'portrait',
                         pageSize: 'LEGAL',
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
+                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 7, 8, 9, 10 ]
+                            columns: [ 1, 2, 3, 4, 7, 8, 9, 10 ]
                         }
                     },
                 ]
@@ -260,6 +277,21 @@
                 });
             });
             /* Data table functionality end */
+
+            /* Send invoice */
+            $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
+                var bookingId = $(this).data('sendInvoice');
+                $.ajax({
+                    url: '/admin/bookings/voucher/' + bookingId,
+                    data: { "_token": "{{ csrf_token() }}" },
+                    type: 'POST',
+                    success: function(result) {
+                        console.log(result);
+                        /*$('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                        $('.responseMessage').show().delay(5000).fadeOut();*/
+                    }
+                });
+            });
 
             /* Delete function */
             $('#dataTable tbody').on( 'click', 'a.deleteEvent', function (e) {

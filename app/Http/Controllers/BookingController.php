@@ -180,11 +180,10 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function sendInvoice(Request $request, $id)
+    public function sendInvoice($id)
     {
         $bookingDetails                 = Booking::find($id);
 
