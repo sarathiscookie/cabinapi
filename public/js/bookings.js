@@ -184,10 +184,11 @@ $(function () {
         autoUpdateInput: false,
         locale: {
             "cancelLabel": "Clear",
+            "format": 'DD.MM.YYYY'
         }
     });
     $("#date_range").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+        $(this).val(picker.startDate.format('DD.MM.YYYY') + ' to ' + picker.endDate.format('DD.MM.YYYY'));
         table.draw();
     });
 
@@ -205,8 +206,8 @@ $(function () {
             var give_results_daterange = grab_daterange.split(" to ");
             var filterstart = give_results_daterange[0];
             var filterend = give_results_daterange[1];
-            var iStartDateCol = 4; //using column 2 in this instance
-            var iEndDateCol = 4;
+            var iStartDateCol = 3; //using column 2 in this instance
+            var iEndDateCol = 3;
             var tabledatestart = aData[iStartDateCol];
             var tabledateend= aData[iEndDateCol];
 
