@@ -10,33 +10,11 @@ $(function () {
         }
     });
 
-    /* Functionality for date range */
-    var start = moment().subtract(29, 'days');
-    var end = moment();
-
-    function cb(start, end) {
-        $('.daterange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-    }
-
-    $('.daterange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
-
-    cb(start, end);
-
     /* Functionality for data table begin */
     var table = $('#dataTable').DataTable({
         /*"processing": true,
          "serverSide": true,*/
+        "dom": '<"toolbar">frtip',
         "responsive": true,
         "ajax": {
             "type": "POST",
@@ -198,6 +176,59 @@ $(function () {
         });
     });
     /* Data table functionality end */
+
+    /* Functionality for date range begin */
+    $("div.toolbar").html('<label>Daterange: </label> <input id="date_range" type="text">');
+
+    $('#date_range').daterangepicker({
+        autoUpdateInput: false,
+        locale: {
+            "cancelLabel": "Clear",
+        }
+    });
+    $("#date_range").on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+        table.draw();
+    });
+
+    $("#date_range").on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+        table.draw();
+    });
+
+
+    /* Funtionality for daterange in datatables */
+    $.fn.dataTableExt.afnFiltering.push(
+        function( oSettings, aData, iDataIndex ) {
+
+            var grab_daterange = $("#date_range").val();
+            var give_results_daterange = grab_daterange.split(" to ");
+            var filterstart = give_results_daterange[0];
+            var filterend = give_results_daterange[1];
+            var iStartDateCol = 4; //using column 2 in this instance
+            var iEndDateCol = 4;
+            var tabledatestart = aData[iStartDateCol];
+            var tabledateend= aData[iEndDateCol];
+
+            if ( !filterstart && !filterend )
+            {
+                return true;
+            }
+            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "")
+            {
+                return true;
+            }
+            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "")
+            {
+                return true;
+            }
+            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend)))
+            {
+                return true;
+            }
+            return false;
+        }
+    );
 
     /* Send invoice */
     $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {

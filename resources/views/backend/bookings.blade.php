@@ -39,10 +39,10 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Booking Details</h3>
-                            <div class="pull-right box-tools">
+                            {{--<div class="pull-right box-tools">
                                 <button type="button" class="btn btn-primary btn-sm daterange pull-right">
                                     <i class="fa fa-calendar"></i></button>
-                            </div>
+                            </div>--}}
                         </div>
 
                         <!-- /.box-header -->
