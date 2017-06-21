@@ -85,7 +85,7 @@ class SendInvoice extends Mailable
                        <body>
                        <table style="padding:10px 30px;width:100%;font-family:arial,sans-serif;font-size:13px;">
                        
-                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.$this->bookingDetails->bookingdate.'</td></tr> 
+                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.($this->bookingDetails->bookingdate)->format('d.m.y').'</td></tr> 
                             
                             <tr><td colspan="7" style="color:#afca14;font-size:95px;text-align:center;padding-top:40px;padding-bottom:0px;font-family:Amienne;" ><img width="300px" id="logo" src="'.public_path('img/pdf_title1.png').'" alt="Huetten-Holiday.de"></td></tr> 
                             <tr><td colspan="7" style="font-size:25px;font-weight:bold;text-align:center;padding-top:0px;padding-bottom:40px;" >'.$userDetails->usrFirstname.' '.$userDetails->usrLastname.'</td></tr>
@@ -106,8 +106,8 @@ class SendInvoice extends Mailable
                             <tr>
                             <td>'.$this->bookingDetails->cabinname.'</td>
                             <td>'.$this->bookingDetails->invoice_number.'</td>
-                            <td>'.$this->bookingDetails->checkin_from.'</td>
-                            <td>'.$this->bookingDetails->reserve_to.'</td> 
+                            <td>'.($this->bookingDetails->checkin_from)->format('d.m.y').'</td>
+                            <td>'.($this->bookingDetails->reserve_to)->format('d.m.y').'</td> 
                             <td>'.$this->bookingDetails->sleeps.'</td>
                             <td>days</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
