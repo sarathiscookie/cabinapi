@@ -98,7 +98,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/bookings', 'BookingController@index');
 
     /* Show datatable page */
-    Route::get('/bookings/datatables', 'BookingController@dataTables')->name('bookings.datatables');
+    Route::post('/bookings/datatables', 'BookingController@dataTables')->name('bookings.datatables');
 
     /* Get individual information from bookings */
     Route::get('/bookings/{id}', 'BookingController@show');

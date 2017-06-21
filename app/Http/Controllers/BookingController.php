@@ -30,7 +30,7 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dataTables()
+    public function dataTables(Request $request)
     {
         $bookings = Booking::where('is_delete', 0)
             ->get();
