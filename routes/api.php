@@ -12,16 +12,16 @@ use Illuminate\Http\Request;
 */
 
 /* Listing countries */
-Route::get('/countries', 'CountryController@index');
+//Route::get('/countries', 'CountryController@index');
 
 /* Listing clubs */
-Route::get('/clubs', 'ClubController@index');
+//Route::get('/clubs', 'ClubController@index');
 
 /* Listing lands */
-Route::get('/lands', 'LandController@index');
+//Route::get('/lands', 'LandController@index');
 
 /* Listing facilities */
-Route::get('/facilities', 'FacilityController@index');
+//Route::get('/facilities', 'FacilityController@index');
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -37,25 +37,25 @@ Route::get('/facilities', 'FacilityController@index');
 | Routes for assign roles.
 */
 /* Listing users */
-Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
+//Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
 
 /* Get information from user */
-Route::get('/users/{id}', 'UserlistController@show');
+//Route::get('/users/{id}', 'UserlistController@show');
 
 /* Update user status to activate and deactivate */
-Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate');
+//Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate');
 
 /* Update user status to activate and deactivate */
-Route::put('/users/role/{roleId}/{id}', 'UserlistController@roleUpdate');
+//Route::put('/users/role/{roleId}/{id}', 'UserlistController@roleUpdate');
 
 /* Update user details */
-Route::put('/users/edit/{id}', 'UserlistController@update');
+//Route::put('/users/edit/{id}', 'UserlistController@update');
 
 /* Add or Update club */
-Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
+//Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
 
 /* Delete user */
-Route::delete('/users/{id}', 'UserlistController@destroy');
+//Route::delete('/users/{id}', 'UserlistController@destroy');
 
 
 /*
@@ -68,19 +68,19 @@ Route::delete('/users/{id}', 'UserlistController@destroy');
 | Routes for send vouchers.
 */
 /* Listing bookings */
-Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
+//Route::get('/bookings', 'BookingController@index'); //http://cabinapi.app/api/bookings?page=9
 
 /* Get individual information from bookings */
-Route::get('/bookings/{id}', 'BookingController@show');
+//Route::get('/bookings/{id}', 'BookingController@show');
 
 /* Update payment status */
-Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
+//Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
 
 /* Send invoice*/
-Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
+//Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
 
 /* Delete bookings */
-Route::delete('/bookings/{id}', 'BookingController@destroy');
+//Route::delete('/bookings/{id}', 'BookingController@destroy');
 
 /*
 |--------------------------------------------------------------------------
@@ -90,16 +90,16 @@ Route::delete('/bookings/{id}', 'BookingController@destroy');
 | Routes for list, edit, add & delete role
 */
 /* Listing roles */
-Route::get('/roles', 'RoleController@index'); //http://cabinapi.app/api/roles?page=9
+//Route::get('/roles', 'RoleController@index'); //http://cabinapi.app/api/roles?page=9
 
 /* Create role */
-Route::post('/roles', 'RoleController@store');
+//Route::post('/roles', 'RoleController@store');
 
 /* Update roles */
-Route::put('/roles/{id}', 'RoleController@update');
+//Route::put('/roles/{id}', 'RoleController@update');
 
 /* Deleted roles */
-Route::delete('/roles/{id}', 'RoleController@destroy');
+//Route::delete('/roles/{id}', 'RoleController@destroy');
 
 /*
 |--------------------------------------------------------------------------
@@ -109,16 +109,16 @@ Route::delete('/roles/{id}', 'RoleController@destroy');
 | Routes for list, edit, add & delete regions
 */
 /* Listing regions */
-Route::get('/regions', 'RegionController@index'); //http://cabinapi.app/api/regions?page=9
+//Route::get('/regions', 'RegionController@index'); //http://cabinapi.app/api/regions?page=9
 
 /* Create regions */
-Route::post('/regions', 'RegionController@store');
+//Route::post('/regions', 'RegionController@store');
 
 /* Update regions */
-Route::put('/regions/{id}', 'RegionController@update');
+//Route::put('/regions/{id}', 'RegionController@update');
 
 /* Deleted regions */
-Route::delete('/regions/{id}', 'RegionController@destroy');
+//Route::delete('/regions/{id}', 'RegionController@destroy');
 
 
 /*
@@ -129,10 +129,10 @@ Route::delete('/regions/{id}', 'RegionController@destroy');
 | Routes for completed booking within date range & send vouchers
 */
 /* Listing vouchers */
-Route::get('/daterange/bookings/{beginDate?}/{endDate?}', 'InvoiceController@index'); //http://cabinapi.app/api/bookings/completed?page=9
+//Route::get('/daterange/bookings/{beginDate?}/{endDate?}', 'InvoiceController@index'); //http://cabinapi.app/api/bookings/completed?page=9
 
 /* Send bulk invoice */
-Route::post('/daterange/bookings/invoices/send', 'InvoiceController@sendInvoice');
+//Route::post('/daterange/bookings/invoices/send', 'InvoiceController@sendInvoice');
 
 
 /*
@@ -147,29 +147,29 @@ Route::post('/daterange/bookings/invoices/send', 'InvoiceController@sendInvoice'
 | Routes for assign user to cabin
 */
 /* Listing cabins */
-Route::get('/cabins', 'CabinController@index'); //http://cabinapi.app/api/cabins?page=9
+//Route::get('/cabins', 'CabinController@index'); //http://cabinapi.app/api/cabins?page=9
 
 /* Listing other cabins */
-Route::get('/cabins/othercabins', 'CabinController@indexOtherCabin'); //http://cabinapi.app/api/cabins/othercabins?page=9
+//Route::get('/cabins/othercabins', 'CabinController@indexOtherCabin'); //http://cabinapi.app/api/cabins/othercabins?page=9
 
 /* Get information of cabin */
-Route::get('/cabins/{id}', 'CabinController@show');
+//Route::get('/cabins/{id}', 'CabinController@show');
 
 /* Get cabin price */
-Route::get('/cabins/price/{id}', 'CabinController@showPrice');
+//Route::get('/cabins/price/{id}', 'CabinController@showPrice');
 
 /* Update cabin price */
-Route::put('/cabins/price/{id}', 'CabinController@updatePrice');
+//Route::put('/cabins/price/{id}', 'CabinController@updatePrice');
 
 /* Assign user to cabin */
-Route::put('/cabins/assign/{userId}/{id}', 'CabinController@assignUser');
+//Route::put('/cabins/assign/{userId}/{id}', 'CabinController@assignUser');
 
 /* Update cabin type */
-Route::put('/cabins/type/{type}/{id}', 'CabinController@updateType');
+//Route::put('/cabins/type/{type}/{id}', 'CabinController@updateType');
 
 /* Delete cabin */
-Route::delete('/cabins/{id}', 'CabinController@destroy');
+//Route::delete('/cabins/{id}', 'CabinController@destroy');
 
 
 /* Statistics purpose */
-Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');
+//Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');
