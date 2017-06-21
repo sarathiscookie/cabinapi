@@ -125,6 +125,7 @@
                 /*"processing": true,
                 "serverSide": true,*/
                 "ajax": '{!! route('bookings.datatables') !!}',
+                "dataType": "jsonp",
                 "columns": [
                     {"data": function(data){
                         return '<input type="checkbox" name="id[]" value="'+ data._id +'" />';
