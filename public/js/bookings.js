@@ -188,7 +188,7 @@ $(function () {
         }
     });
     $("#date_range").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD.MM.YYYY') + ' to ' + picker.endDate.format('DD.MM.YYYY'));
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
         table.draw();
     });
 
