@@ -135,7 +135,7 @@
                             return '<span class="label label-default">No data</span>'
                         }
                         else {
-                            return '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'+ data._id +'" data-modalID="'+ data._id +'">'+data.invoice_number+'</a><div class="modal fade" id="bookingModal_'+ data._id +'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'+ data.cabinname +'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'+ data.reference_no +'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'+ data.clubmember +'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Voucher</h4><a class="btn btn-primary btn-sm sendInvoice" data-invoice="'+ data._id +'"><i class="fa fa-envelope"></i> Send</a></li></ul></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                            return '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'+ data._id +'" data-modalID="'+ data._id +'">'+data.invoice_number+'</a><div class="modal fade" id="bookingModal_'+ data._id +'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'+ data.cabinname +'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'+ data.reference_no +'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'+ data.clubmember +'</p></li><li class="list-group-item" data-invoice="'+ data._id +'"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button></li></ul></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         }
                     }, "name": "invoice_number"},
                     {"data": "usrEmail", "name": "usrEmail", "render": function ( data, type, full, meta ) {
@@ -280,15 +280,17 @@
             /* Data table functionality end */
 
             /* Send invoice */
-            $('#dataTable tbody').on( 'click', 'a.sendInvoice', function (e) {
-                var bookingId = $(this).data('invoice');
+            $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
+                var bookingId = $(this).closest('li').data('invoice');
+                var $btn      = $(this).button('loading');
                 $.ajax({
                     url: '/admin/bookings/voucher/' + bookingId,
-                    data: { "_token": "{{ csrf_token() }}" },
+                    data: { "_token": "" },
                     type: 'POST',
                     success: function(result) {
                         if(result){
                             $('.alert-invoice').show().delay(5000).fadeOut();
+                            $btn.button('reset');
                         }
                     }
                 });
