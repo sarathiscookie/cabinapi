@@ -24,7 +24,6 @@
                 Viele Gruesse und eine schoene Wanderung<br /><br />
 
                 <br />
-                Huetten-Holiday.de<br />
                 Huetten-Holiday.de GmbH<br />
                 Nebelhornstraße 3<br />
                 87448 Waltenhofen <br /><br />
