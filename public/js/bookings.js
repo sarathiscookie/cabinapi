@@ -12,8 +12,8 @@ $(function () {
 
     /* Functionality for data table begin */
     var table = $('#dataTable').DataTable({
-        /*"processing": true,
-         "serverSide": true,*/
+        "processing": true,
+        "serverSide": true,
         "dom": '<"toolbar">frtip',
         "responsive": true,
         "ajax": {
