@@ -52,7 +52,7 @@
                                 <span></span> <b class="caret"></b>
                             </div>--}}
                             <div class="responseMessage"></div>
-                            <table id="dataTable" class="table table-bordered table-striped table-hover">
+                            <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -63,12 +63,11 @@
                                     <th>Beds</th>
                                     <th>Dorms</th>
                                     <th>Sleeps</th>
-                                    <th>Book Status</th>
+                                    <th>Status</th>
                                     <th>Pay Status</th>
                                     <th>Pay Type</th>
                                     <th>Total Amount</th>
-                                    <th>Txid</th>
-                                    <th>Action</th>
+                                    <th>Total Txid</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -84,8 +83,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <th>Type</th>
-                                    <td></td>
+                                    <th>Pay Type</th>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -125,5 +123,65 @@
     <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/bookings.js') }}"></script>
+    <script>
+        $(function () {
+            /* Checking for the CSRF token */
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#booking_data').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": '{{ route('bookings.datatables') }}',
+                    "dataType": "json",
+                    "type": "POST",
+                    "data":{ _token: "{{csrf_token()}}"}
+                },
+                "columns": [
+                    { "data": "hash" },
+                    { "data": "invoice_number" },
+                    { "data": "usrEmail" },
+                    { "data": "checkin_from" },
+                    { "data": "reserve_to" },
+                    { "data": "beds" },
+                    { "data": "dormitory" },
+                    { "data": "sleeps" },
+                    { "data": "status" },
+                    { "data": "payment_status" },
+                    { "data": "payment_type" },
+                    { "data": "total_prepayment_amount" },
+                    { "data": "txid" }
+                ],
+                "columnDefs": [
+                    {
+                        "orderable": false,
+                        "targets": [1, 2, 3, 4, 5, 6, 7, 11, 12]
+                    }
+                ]
+            });
+
+            /* Send invoice */
+            $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
+                var bookingId = $(this).closest('li').data('invoice');
+                var $btn      = $(this).button('loading');
+                $.ajax({
+                    url: '/admin/bookings/voucher/' + bookingId,
+                    data: { "_token": "" },
+                    type: 'POST',
+                    success: function(result) {
+                        if(result){
+                            $('.alert-invoice').show().delay(5000).fadeOut();
+                            $btn.button('reset');
+                        }
+                    }
+                });
+            });
+
+
+        });
+    </script>
 @endsection

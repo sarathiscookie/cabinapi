@@ -32,10 +32,147 @@ class BookingController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $bookings = Booking::where('is_delete', 0)
+        $columns       = array('invoice_number', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid');
+
+        $totalData     = Booking::where('is_delete', 0)->count();
+
+        $totalFiltered = $totalData;
+        $limit         = (int)$request->input('length');
+        $start         = (int)$request->input('start');
+        $order         = $columns[$request->input('order.0.column')];
+        $dir           = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {
+            $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                ->where('is_delete', 0)
+                ->skip($start)
+                ->take($limit)
+                ->orderBy($order, $dir)
+                ->get();
+        }
+        else {
+            $search   = $request->input('search.value');
+            $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                ->where('is_delete', 0)
+                ->where('invoice_number', 'like', "%{$search}%")
+                ->orWhere('beds', 'like', "%{$search}%")
+                ->skip($start)
+                ->take($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                ->where('is_delete', 0)
+                ->where('invoice_number', 'like', "%{$search}%")
+                ->orWhere('beds', 'like', "%{$search}%")
+                ->count();
+        }
+
+        $data = array();
+        if(!empty($bookings))
+        {
+            foreach ($bookings as $key=> $booking)
+            {
+                /* Condition for checking who booked bookings. If a booking collection has temp_user_id then show notification (Booked by cabin owner) otherwise user email. begin*/
+                if($booking->temp_user_id != ""){
+                    $tempUsers = Tempuser::select('usrFirstname', 'usrLastname', 'usrEmail')
+                        ->where('_id', $booking->temp_user_id)
+                        ->get();
+                    foreach ($tempUsers as $tempUser){
+                        $usrEmail = '<span class="label label-info">Booked by cabin owner</span>';
+                        $bookings[$key]['usrEmail'] = $usrEmail;
+                    }
+                }
+                else{
+                    $users = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail')
+                        ->where('_id', $booking->user)
+                        ->get();
+                    foreach ($users as $user){
+                        $usrEmail = $user->usrEmail;
+                        $bookings[$key]['usrEmail'] = $usrEmail;
+                    }
+                }
+                /* Condition for checking who booked bookings end*/
+
+                /* Condition for booking status begin */
+                if($booking->status == '1') {
+                    $bookingStatusLabel = '<span class="label label-primary">New</span>';
+                }
+                else if ($booking->status == '2') {
+                    $bookingStatusLabel = '<span class="label label-warning">Cancelled</span>';
+                }
+                else if ($booking->status == '3') {
+                    $bookingStatusLabel = '<span class="label label-success">Completed</span>';
+                }
+                else if ($booking->status == '4') {
+                    $bookingStatusLabel = '<span class="label label-info">Request</span>';
+                }
+                else if ($booking->status == '5') {
+                    $bookingStatusLabel = '<span class="label label-danger">Failed</span>';
+                }
+                else {
+                    $bookingStatusLabel = '<span class="label label-default">No data</span>';
+                }
+                /* Condition for payment status end */
+
+                /* Condition for payment status begin */
+                if($booking->payment_status == '1') {
+                    $paymentStatusLabel = '<span class="label label-success">Done</span>';
+                }
+                else if ($booking->payment_status == '0') {
+                    $paymentStatusLabel = '<span class="label label-danger">Failed</span>';
+                }
+                else {
+                    $paymentStatusLabel = '<span class="label label-default">No data</span>';
+                }
+                /* Condition for payment status end */
+
+                $nestedData['hash']                    = '<input type="checkbox" name="id[]" value="'.$booking->_id.'" />';
+                $nestedData['invoice_number']          = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
+                $nestedData['usrEmail']                = $bookings[$key]['usrEmail'];
+                $nestedData['checkin_from']            = ($booking->checkin_from)->format('d.m.y');
+                $nestedData['reserve_to']              = ($booking->reserve_to)->format('d.m.y');
+                $nestedData['beds']                    = $booking->beds;
+                $nestedData['dormitory']               = $booking->dormitory;
+                $nestedData['sleeps']                  = $booking->sleeps;
+                $nestedData['status']                  = $bookingStatusLabel;
+                $nestedData['payment_status']          = $paymentStatusLabel;
+                $nestedData['payment_type']            = $booking->payment_type;
+                $nestedData['total_prepayment_amount'] = $booking->total_prepayment_amount;
+                $nestedData['txid']                    = $booking->txid;
+                $data[]                                = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*$bookings = Booking::select('invoice_number', 'beds', 'checkin_from', 'reserve_to')
+            ->where('is_delete', 0)
             ->get();
 
-        foreach ($bookings as $key=> $booking){
+        /*foreach ($bookings as $key=> $booking){
             if($booking->temp_user_id != ""){
                 $tempUsers = Tempuser::select('usrFirstname', 'usrLastname', 'usrEmail')
                     ->where('_id', $booking->temp_user_id)
@@ -63,7 +200,7 @@ class BookingController extends Controller
             })
             ->make(true);
 
-        return $bookingDetails;
+        return $bookingDetails;*/
     }
 
     /**

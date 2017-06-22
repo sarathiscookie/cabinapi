@@ -12,10 +12,8 @@ $(function () {
 
     /* Functionality for data table begin */
     var table = $('#dataTable').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "dom": '<"toolbar">frtip',
-        "responsive": true,
+        /*"processing": true,
+        "serverSide": true,*/
         "ajax": {
             "type": "POST",
             "url": '/admin/bookings/datatables',
@@ -176,60 +174,6 @@ $(function () {
         });
     });
     /* Data table functionality end */
-
-    /* Functionality for date range begin */
-    $("div.toolbar").html('<label>Daterange: </label> <input id="date_range" type="text">');
-
-    $('#date_range').daterangepicker({
-        autoUpdateInput: false,
-        locale: {
-            "cancelLabel": "Clear",
-            "format": 'DD.MM.YYYY'
-        }
-    });
-    $("#date_range").on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
-        table.draw();
-    });
-
-    $("#date_range").on('cancel.daterangepicker', function(ev, picker) {
-        $(this).val('');
-        table.draw();
-    });
-
-
-    /* Funtionality for daterange in datatables */
-    $.fn.dataTableExt.afnFiltering.push(
-        function( oSettings, aData, iDataIndex ) {
-
-            var grab_daterange = $("#date_range").val();
-            var give_results_daterange = grab_daterange.split(" to ");
-            var filterstart = give_results_daterange[0];
-            var filterend = give_results_daterange[1];
-            var iStartDateCol = 3; //using column 2 in this instance
-            var iEndDateCol = 3;
-            var tabledatestart = aData[iStartDateCol];
-            var tabledateend= aData[iEndDateCol];
-
-            if ( !filterstart && !filterend )
-            {
-                return true;
-            }
-            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && filterend === "")
-            {
-                return true;
-            }
-            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isAfter(tabledatestart)) && filterstart === "")
-            {
-                return true;
-            }
-            else if ((moment(filterstart).isSame(tabledatestart) || moment(filterstart).isBefore(tabledatestart)) && (moment(filterend).isSame(tabledateend) || moment(filterend).isAfter(tabledateend)))
-            {
-                return true;
-            }
-            return false;
-        }
-    );
 
     /* Send invoice */
     $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
