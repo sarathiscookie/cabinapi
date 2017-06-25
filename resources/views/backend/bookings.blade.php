@@ -46,7 +46,7 @@
                         </div>
 
                         <!-- /.box-header -->
-                        <div class="box-body"> <!-- if we need responsive add class = "table-responsive" in this div -->
+                        <div class="box-body table-responsive"> <!-- if we need responsive add class = "table-responsive" in this div -->
                             {{--<div id="reportrange" class="pull-right reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                 <span></span> <b class="caret"></b>
@@ -133,6 +133,7 @@
             });
 
             $('#booking_data').DataTable({
+                "order": [[ 1, "desc" ]],
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
@@ -159,7 +160,7 @@
                 "columnDefs": [
                     {
                         "orderable": false,
-                        "targets": [1, 2, 3, 4, 5, 6, 7, 11, 12]
+                        "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                     }
                 ]
             });

@@ -22,6 +22,10 @@ class BookingController extends Controller
      */
     public function index()
     {
+        /*$bookings = Booking::with('searchuser')
+            ->limit(5)
+            ->get();
+        return $bookings;*/
         return view('backend.bookings');
     }
 
@@ -32,7 +36,7 @@ class BookingController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $columns       = array('invoice_number', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid');
+        $columns       = array('invoice_number'/*, 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount'*/, 'txid');
 
         $totalData     = Booking::where('is_delete', 0)->count();
 
@@ -40,6 +44,8 @@ class BookingController extends Controller
         $limit         = (int)$request->input('length');
         $start         = (int)$request->input('start');
         $order         = $columns[$request->input('order.0.column')];
+        //$ordrby = isset( $columns[ 'order'  ] ) ? $columns[ 'columns' ][ $columns[ 'order' ][ 0 ][ 'column' ] ][ 'name' ] : '';
+        //$ordrdr = isset( $columns[ 'order'  ] ) ? $columns[ 'order' ][ 0 ][ 'dir' ] : 'asc';
         $dir           = $request->input('order.0.dir');
 
         if(empty($request->input('search.value')))
@@ -50,13 +56,40 @@ class BookingController extends Controller
                 ->take($limit)
                 ->orderBy($order, $dir)
                 ->get();
+            /*switch( $order ) {
+                case 'invoice_number':
+
+                    $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                        ->where('is_delete', 0)
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy( 'invoice_number', $dir )
+                        ->get();
+                    break;
+                case 'txid':
+                    $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                        ->where('is_delete', 0)
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy( 'txid', $dir )
+                        ->get();
+                    break;
+                default:
+                    $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+                        ->where('is_delete', 0)
+                        ->skip($start)
+                        ->take($limit)
+                        ->get();
+            }*/
         }
         else {
             $search   = $request->input('search.value');
             $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
                 ->where('is_delete', 0)
-                ->where('invoice_number', 'like', "%{$search}%")
-                ->orWhere('beds', 'like', "%{$search}%")
+                ->where(function($query) use ($search) { /* That's the closure */
+                    $query->where('invoice_number', 'like', "%{$search}%")
+                        ->orWhere('payment_type', 'like', "%{$search}%");
+                })
                 ->skip($start)
                 ->take($limit)
                 ->orderBy($order, $dir)
@@ -64,8 +97,10 @@ class BookingController extends Controller
 
             $totalFiltered = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
                 ->where('is_delete', 0)
-                ->where('invoice_number', 'like', "%{$search}%")
-                ->orWhere('beds', 'like', "%{$search}%")
+                ->where(function($query) use ($search) { /* That's the closure */
+                    $query->where('invoice_number', 'like', "%{$search}%")
+                        ->orWhere('payment_type', 'like', "%{$search}%");
+                })
                 ->count();
         }
 
@@ -146,61 +181,13 @@ class BookingController extends Controller
         }
 
         $json_data = array(
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
+            'draw'            => (int)$request->input('draw'),
+            'recordsTotal'    => (int)$totalData,
+            'recordsFiltered' => (int)$totalFiltered,
+            'data'            => $data
         );
 
         echo json_encode($json_data);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*$bookings = Booking::select('invoice_number', 'beds', 'checkin_from', 'reserve_to')
-            ->where('is_delete', 0)
-            ->get();
-
-        /*foreach ($bookings as $key=> $booking){
-            if($booking->temp_user_id != ""){
-                $tempUsers = Tempuser::select('usrFirstname', 'usrLastname', 'usrEmail')
-                    ->where('_id', $booking->temp_user_id)
-                    ->get();
-                foreach ($tempUsers as $tempUser){
-                    $usrEmail = 'cabinowner';
-                    $bookings[$key]['usrEmail'] = $usrEmail;
-                }
-            }
-            else{
-                $users = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail')
-                    ->where('_id', $booking->user)
-                    ->get();
-                foreach ($users as $user){
-                    $usrEmail = $user->usrEmail;
-                    $bookings[$key]['usrEmail'] = $usrEmail;
-                }
-            }
-        }
-
-        // Functionality for laravel datatables
-        $bookingDetails = Datatables::collection($bookings)
-            ->addColumn('action', function ($bookings) {
-                return '<a href="/bookings/'.$bookings->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$bookings->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-            })
-            ->make(true);
-
-        return $bookingDetails;*/
     }
 
     /**
