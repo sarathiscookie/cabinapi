@@ -43,10 +43,10 @@
 
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <div class="text-right"><button class="btn btn-app text-right paymentStatusBtn">
-                                    <i class="fa fa-euro"></i> Payment Status Update
-                                </button></div>
                             <div class="responseMessage"></div>
+                            <div class="text-right">
+                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="Updating..." autocomplete="off"><i class="fa fa-euro"></i> Payment Status Update</button>
+                            </div>
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -203,6 +203,7 @@
                 }
                 else {
                     var bookingId = new Array();
+                    var $btn      = $(this).button('loading');
                     $("input:checked").each(function() {
                         bookingId.push($(this).val());
                     });
@@ -216,6 +217,7 @@
                                 booking_data.ajax.reload();
                                 $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
                                 $('.responseMessage').show().delay(5000).fadeOut();
+                                $btn.button('reset');
                             }
                         }
                     });
