@@ -168,7 +168,7 @@
                 ]
             });
 
-            /* Bottom buttons */
+            /* Bottom buttons for datatables */
             var buttons = new $.fn.dataTable.Buttons(booking_data, {
                 buttons: [
                     {
@@ -230,7 +230,10 @@
                         type: 'DELETE',
                         success: function(result) {
                             if(result) {
-                                booking_data.rows( $('#booking_data tr.active') ).remove().draw();
+                                booking_data
+                                    .row( $(this).parents('tr') )
+                                    .remove()
+                                    .draw();
                                 $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
                                 $('.responseMessage').show().delay(5000).fadeOut();
                             }
