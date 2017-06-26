@@ -68,6 +68,7 @@
                                     <th>Pay Type</th>
                                     <th>Total Amount</th>
                                     <th>Total Txid</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -84,6 +85,7 @@
                                     <td></td>
                                     <td></td>
                                     <th>Pay Type</th>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -132,7 +134,7 @@
                 }
             });
 
-            $('#booking_data').DataTable({
+            var booking_data = $('#booking_data').DataTable({
                 "order": [[ 1, "desc" ]],
                 "processing": true,
                 "serverSide": true,
@@ -155,18 +157,20 @@
                     { "data": "payment_status" },
                     { "data": "payment_type" },
                     { "data": "total_prepayment_amount" },
-                    { "data": "txid" }
+                    { "data": "txid" },
+                    { "data": "action" }
                 ],
                 "columnDefs": [
                     {
                         "orderable": false,
-                        "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        "targets": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                     }
                 ]
             });
 
             /* Send invoice */
-            $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
+            $('#booking_data tbody').on( 'click', 'button.sendInvoice', function (e) {
+                e.preventDefault();
                 var bookingId = $(this).closest('li').data('invoice');
                 var $btn      = $(this).button('loading');
                 $.ajax({
@@ -180,6 +184,27 @@
                         }
                     }
                 });
+            });
+
+            /* Delete function */
+            $('#booking_data tbody').on( 'click', 'a.deleteEvent', function (e) {
+                e.preventDefault();
+                var bookingId = $(this).data('id');
+                var r = confirm("Do you want to delete this booking?");
+                if (r == true) {
+                    $.ajax({
+                        url: '/admin/bookings/' + bookingId,
+                        data: { "_token": "{{ csrf_token() }}" },
+                        type: 'DELETE',
+                        success: function(result) {
+                            if(result) {
+                                booking_data.rows( $('#booking_data tr.active') ).remove().draw();
+                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                                $('.responseMessage').show().delay(5000).fadeOut();
+                            }
+                        }
+                    });
+                }
             });
 
 

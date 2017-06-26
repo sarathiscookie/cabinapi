@@ -50,7 +50,7 @@ class BookingController extends Controller
 
         if(empty($request->input('search.value')))
         {
-            $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+            $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                 ->where('is_delete', 0)
                 ->skip($start)
                 ->take($limit)
@@ -84,7 +84,7 @@ class BookingController extends Controller
         }
         else {
             $search   = $request->input('search.value');
-            $bookings = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+            $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                 ->where('is_delete', 0)
                 ->where(function($query) use ($search) { /* That's the closure */
                     $query->where('invoice_number', 'like', "%{$search}%")
@@ -95,7 +95,7 @@ class BookingController extends Controller
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = Booking::select('invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'txid')
+            $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                 ->where('is_delete', 0)
                 ->where(function($query) use ($search) { /* That's the closure */
                     $query->where('invoice_number', 'like', "%{$search}%")
@@ -176,6 +176,7 @@ class BookingController extends Controller
                 $nestedData['payment_type']            = $booking->payment_type;
                 $nestedData['total_prepayment_amount'] = $booking->total_prepayment_amount;
                 $nestedData['txid']                    = $booking->txid;
+                $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Booking Date</h4><p class="list-group-item-text">'.($booking->bookingdate)->format('d.m.y').'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button></li></ul></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                 $data[]                                = $nestedData;
             }
         }
