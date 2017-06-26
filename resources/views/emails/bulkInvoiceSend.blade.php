@@ -29,7 +29,7 @@
                 Nebelhornstraße 3<br />
                 87448 Waltenhofen <br /><br />
 
-                Ust.-Id.: DE 299 379 199<br />
+                Ust.-Id.: DE 310 927 476<br />
             </p>
 
         </td>

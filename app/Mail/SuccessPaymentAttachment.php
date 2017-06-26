@@ -113,7 +113,7 @@ class SuccessPaymentAttachment extends Mailable
                                <span style="float:left;width:17%"><img style="width: 100px" id="logo" src="'.public_path('img/pdf_logo.png').'"></span>
                                <span style="text-align:left;float:left;width:20%;padding-top:18px;">Huetten-Holiday.de<br>Huetten-Holiday.de GmbH</span>
                                <span style="text-align:left;float:left;width:18%;padding-top:18px;">Nebelhornstraße 3<br>87448 Waltenhofen</span>
-                               <span style="text-align:left;float:left;width:20%;padding-top:18px;">Umsatzsteuer-Id-Nr.:<br>DE 299 379 199</span>
+                               <span style="text-align:left;float:left;width:20%;padding-top:18px;">Umsatzsteuer-Id-Nr.:<br>DE 310 927 476</span>
                                <span style="text-align:right;float:left;width:25%;padding-top:18px;"><img  width="15px"  src="'.public_path('img/phone.png').'"> +49 (0) 9001 / 32 99 99<br><img  width="15px"  src="'.public_path('img/email.png').'">service@huetten-holiday.de</span>
                            </div>
                        </body>
