@@ -168,6 +168,38 @@
                 ]
             });
 
+            /* Bottom buttons */
+            var buttons = new $.fn.dataTable.Buttons(booking_data, {
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'portrait',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                        }
+                    },
+                ]
+            }).container().appendTo($('#buttons'));
+
             /* Send invoice */
             $('#booking_data tbody').on( 'click', 'button.sendInvoice', function (e) {
                 e.preventDefault();
