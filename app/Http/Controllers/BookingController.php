@@ -163,7 +163,7 @@ class BookingController extends Controller
                 }
                 /* Condition for payment status end */
 
-                $nestedData['hash']                    = '<input type="checkbox" name="id[]" value="'.$booking->_id.'" />';
+                $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 $nestedData['invoice_number']          = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
                 $nestedData['usrEmail']                = $bookings[$key]['usrEmail'];
                 $nestedData['checkin_from']            = ($booking->checkin_from)->format('d.m.y');
@@ -256,27 +256,11 @@ class BookingController extends Controller
      * @param  string $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $status, $id)
+    public function update(Request $request)
     {
-        $comment                            = $request->input('status_comment');
-        if($status == 4){
-            $bookingDetails                 = Booking::findOrFail($id);
-            $bookingDetails->status_comment = $comment;
-            $bookingDetails->status         = 5;
-            $bookingDetails->payment_status = 4;
-            $bookingDetails->sent_email     = 0;
-            $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
-            $bookingDetails->save();
-
-            /* Functionality to send email about faulty payment begin */
-            Mail::send(new FaultyPayment($bookingDetails));
-            /* Functionality to send email about faulty payment end */
-
-            $message                        = "Status updated to test";
-        }
-        else if ($status == 1){
-            $bookingDetails                 = Booking::findOrFail($id);
-            $bookingDetails->status_comment = $comment;
+        foreach ($request->bookingId as $id) {
+            $bookingDetails                 = Booking::find($id);
+            $bookingDetails->status_comment = 'Payment updated via backend';
             $bookingDetails->status         = 1;
             $bookingDetails->payment_status = 1;
             $bookingDetails->sent_email     = 1;
@@ -284,20 +268,11 @@ class BookingController extends Controller
             $bookingDetails->save();
 
             /* Functionality to send attachment email about payment success begin */
-            Mail::send(new SuccessPaymentAttachment($bookingDetails));
+            //Mail::send(new SuccessPaymentAttachment($bookingDetails));
             /* Functionality to send attachment email about payment success end */
+        }
 
-            $message                        = "Payment done successfully";
-        }
-        else{
-            $bookingDetails                 = Booking::findOrFail($id);
-            $bookingDetails->status_comment = $comment;
-            $bookingDetails->status         = 5;
-            $bookingDetails->payment_status = 0;
-            $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
-            $bookingDetails->save();
-            $message                        = "Payment failed";
-        }
+        $message                        = "Payment status updated and email send successfully";
         return response()->json(['message' => $message], 201);
 
     }

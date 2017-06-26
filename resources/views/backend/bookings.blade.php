@@ -39,18 +39,13 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Booking Details</h3>
-                            {{--<div class="pull-right box-tools">
-                                <button type="button" class="btn btn-primary btn-sm daterange pull-right">
-                                    <i class="fa fa-calendar"></i></button>
-                            </div>--}}
                         </div>
 
                         <!-- /.box-header -->
-                        <div class="box-body table-responsive"> <!-- if we need responsive add class = "table-responsive" in this div -->
-                            {{--<div id="reportrange" class="pull-right reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                <span></span> <b class="caret"></b>
-                            </div>--}}
+                        <div class="box-body table-responsive">
+                            <div class="text-right"><button class="btn btn-app text-right paymentStatusBtn">
+                                    <i class="fa fa-euro"></i> Payment Status Update
+                                </button></div>
                             <div class="responseMessage"></div>
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
@@ -200,6 +195,33 @@
                 ]
             }).container().appendTo($('#buttons'));
 
+            /* Payment status change */
+            $('.paymentStatusBtn').on('click', function(e){
+                e.preventDefault();
+                if(!$('.checked').is(':checked')) {
+                    confirm("Please select at least one booking");
+                }
+                else {
+                    var bookingId = new Array();
+                    $("input:checked").each(function() {
+                        bookingId.push($(this).val());
+                    });
+                    $.ajax({
+                        url: '/admin/bookings/payment/status',
+                        data: { "bookingId": bookingId },
+                        dataType: 'JSON',
+                        type: 'PUT',
+                        success: function(result) {
+                            if(result) {
+                                booking_data.ajax.reload();
+                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                                $('.responseMessage').show().delay(5000).fadeOut();
+                            }
+                        }
+                    });
+                }
+            });
+
             /* Send invoice */
             $('#booking_data tbody').on( 'click', 'button.sendInvoice', function (e) {
                 e.preventDefault();
@@ -207,7 +229,8 @@
                 var $btn      = $(this).button('loading');
                 $.ajax({
                     url: '/admin/bookings/voucher/' + bookingId,
-                    data: { "_token": "" },
+                    data: { "_token": "{{ csrf_token() }}" },
+                    dataType: 'JSON',
                     type: 'POST',
                     success: function(result) {
                         if(result){
@@ -227,6 +250,7 @@
                     $.ajax({
                         url: '/admin/bookings/' + bookingId,
                         data: { "_token": "{{ csrf_token() }}" },
+                        dataType: 'JSON',
                         type: 'DELETE',
                         success: function(result) {
                             if(result) {
@@ -241,7 +265,6 @@
                     });
                 }
             });
-
 
         });
     </script>

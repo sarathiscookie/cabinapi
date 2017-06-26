@@ -104,7 +104,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/bookings/{id}', 'BookingController@show');
 
     /* Update payment status */
-    Route::put('/bookings/payment/{status}/{id}', 'BookingController@update');
+    Route::put('/bookings/payment/status', 'BookingController@update')->name('bookings.payment.status.update');
 
     /* Send invoice*/
     Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
