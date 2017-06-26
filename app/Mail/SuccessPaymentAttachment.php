@@ -54,10 +54,6 @@ class SuccessPaymentAttachment extends Mailable
         else{
             $html_dav = "Nein";
         }
-        //
-        /*$days                           = round(abs(date('d.m.Y', strtotime($this->bookingDetails->checkin_from)) - date('d.m.Y', strtotime($this->bookingDetails->reserve_to))) / 86400);*/
-
-        //$days       = round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400);
 
         $html       = '<!DOCTYPE html>
                         <html lang="en">
@@ -102,7 +98,7 @@ class SuccessPaymentAttachment extends Mailable
                             <td>'.$this->bookingDetails->checkin_from.'</td>
                             <td>'.$this->bookingDetails->reserve_to.'</td> 
                             <td>'.$this->bookingDetails->sleeps.'</td>
-                            <td>days</td>
+                            <td>'.round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400).'</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
                             </tr>
                        </table>
