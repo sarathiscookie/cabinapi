@@ -137,13 +137,13 @@ class BookingController extends Controller
 
                 /* Condition for booking status begin */
                 if($booking->status == '1') {
-                    $bookingStatusLabel = '<span class="label label-primary">New</span>';
+                    $bookingStatusLabel = '<span class="label label-success">Buchung fix</span>';
                 }
                 else if ($booking->status == '2') {
                     $bookingStatusLabel = '<span class="label label-warning">Cancelled</span>';
                 }
                 else if ($booking->status == '3') {
-                    $bookingStatusLabel = '<span class="label label-success">Completed</span>';
+                    $bookingStatusLabel = '<span class="label label-primary">Completed</span>';
                 }
                 else if ($booking->status == '4') {
                     $bookingStatusLabel = '<span class="label label-info">Request</span>';
