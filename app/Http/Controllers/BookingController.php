@@ -268,7 +268,7 @@ class BookingController extends Controller
             $bookingDetails->save();
 
             /* Functionality to send attachment email about payment success begin */
-            //Mail::send(new SuccessPaymentAttachment($bookingDetails));
+            Mail::send(new SuccessPaymentAttachment($bookingDetails));
             /* Functionality to send attachment email about payment success end */
         }
 
