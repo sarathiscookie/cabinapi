@@ -61,8 +61,8 @@
                                     <th>Status</th>
                                     <th>Pay Status</th>
                                     <th>Pay Type</th>
-                                    <th>Total Amount</th>
-                                    <th>Total Txid</th>
+                                    <th>Amount</th>
+                                    <th>Txid</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
