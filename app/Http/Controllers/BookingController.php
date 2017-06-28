@@ -64,7 +64,7 @@ class BookingController extends Controller
             $search   = $request->input('search.value');
 
             /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is object and booking.user is a string */
-            /*$users     = Userlist::select('_id', 'usrEmail')
+            $users     = Userlist::select('_id', 'usrEmail')
                 ->where('is_delete', 0)
                 ->where(function($query) use ($search) {
                     $query->where('usrEmail', 'like', "%{$search}%");
@@ -72,9 +72,9 @@ class BookingController extends Controller
                 ->skip($start)
                 ->take($limit)
                 ->orderBy($order, $dir)
-                ->get();*/
+                ->get();
 
-            /*if(count($users) > 0) {
+            if(count($users) > 0) {
                 foreach ($users as $user) {
                     $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                         ->where('is_delete', 0)
@@ -89,7 +89,7 @@ class BookingController extends Controller
                         ->count();
                 }
             }
-            else {*/
+            else {
                 $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                     ->where('is_delete', 0)
                     ->where(function($query) use ($search) {
@@ -110,7 +110,7 @@ class BookingController extends Controller
                             ->orWhere('txid', 'like', "%{$search}%");
                     })
                     ->count();
-            /*}*/
+            }
         }
 
         $data   = array();
