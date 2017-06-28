@@ -110,12 +110,14 @@ class BookingController extends Controller
             }
         }
 
-        $data = array();
+        $data   = array();
+        $noData = '<span class="label label-default">No data</span>';
         if(!empty($bookings))
         {
             foreach ($bookings as $key=> $booking)
             {
                 /* Condition for checking who booked bookings. If a booking collection has temp_user_id then show notification (Booked by cabin owner) otherwise user email. begin*/
+                $bookings[$key]['usrEmail'] = $noData;
                 if($booking->temp_user_id != ""){
                     $tempUsers = Tempuser::select('usrFirstname', 'usrLastname', 'usrEmail')
                         ->where('_id', $booking->temp_user_id)
@@ -158,7 +160,7 @@ class BookingController extends Controller
                     $bookingStatusLabel = '<span class="label label-danger">Failed</span>';
                 }
                 else {
-                    $bookingStatusLabel = '<span class="label label-default">No data</span>';
+                    $bookingStatusLabel = $noData;
                 }
                 /* Condition for payment status end */
 
@@ -170,7 +172,7 @@ class BookingController extends Controller
                     $paymentStatusLabel = '<span class="label label-danger">Failed</span>';
                 }
                 else {
-                    $paymentStatusLabel = '<span class="label label-default">No data</span>';
+                    $paymentStatusLabel = $noData;
                 }
                 /* Condition for payment status end */
 
