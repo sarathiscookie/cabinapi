@@ -34,9 +34,4 @@ class Booking extends Eloquent
      */
 
     protected $dates = ['bookingdate', 'checkin_from', 'reserve_to'];
-
-   /* public function searchuser()
-    {
-        return $this->hasOne('App\Userlist', 'user', '_id');
-    }*/
 }
