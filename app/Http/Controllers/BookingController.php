@@ -32,15 +32,24 @@ class BookingController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $columns       = array('invoice_number'/*, 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount'*/, 'txid');
+        $params = $request->all();
+
+        $columns = array(
+            1 => 'invoice_number',
+            2 => 'usrEmail',
+            3 => 'checkin_from',
+            4 => 'reserve_to',
+            5 => 'beds',
+            6 => 'dormitory',
+        );
 
         $totalData     = Booking::where('is_delete', 0)->count();
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
         $start         = (int)$request->input('start');
-        $order         = $columns[$request->input('order.0.column')];
-        $dir           = $request->input('order.0.dir');
+        $order         = $columns[$params['order'][0]['column']]; //contains column index
+        $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
         if(empty($request->input('search.value')))
         {
@@ -53,24 +62,52 @@ class BookingController extends Controller
         }
         else {
             $search   = $request->input('search.value');
-            $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+
+            /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is object and booking.user is a string */
+            $users     = Userlist::select('_id', 'usrEmail')
                 ->where('is_delete', 0)
-                ->where(function($query) use ($search) { /* That's the closure */
-                    $query->where('invoice_number', 'like', "%{$search}%")
-                        ->orWhere('payment_type', 'like', "%{$search}%");
+                ->where(function($query) use ($search) {
+                    $query->where('usrEmail', 'like', "%{$search}%");
                 })
-                ->skip($start)
-                ->take($limit)
-                ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
-                ->where('is_delete', 0)
-                ->where(function($query) use ($search) { /* That's the closure */
-                    $query->where('invoice_number', 'like', "%{$search}%")
-                        ->orWhere('payment_type', 'like', "%{$search}%");
-                })
-                ->count();
+            if(count($users) > 0) {
+                foreach ($users as $user) {
+                    $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                        ->where('is_delete', 0)
+                        ->where('user', $user->_id)
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy($order, $dir)
+                        ->get();
+
+                    $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                        ->where('is_delete', 0)
+                        ->count();
+                }
+            }
+            else {
+                $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                    ->where('is_delete', 0)
+                    ->where(function($query) use ($search) {
+                        $query->where('invoice_number', 'like', "%{$search}%")
+                            ->orWhere('payment_type', 'like', "%{$search}%")
+                            ->orWhere('txid', 'like', "%{$search}%");
+                    })
+                    ->skip($start)
+                    ->take($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
+
+                $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                    ->where('is_delete', 0)
+                    ->where(function($query) use ($search) {
+                        $query->where('invoice_number', 'like', "%{$search}%")
+                            ->orWhere('payment_type', 'like', "%{$search}%")
+                            ->orWhere('txid', 'like', "%{$search}%");
+                    })
+                    ->count();
+            }
         }
 
         $data = array();

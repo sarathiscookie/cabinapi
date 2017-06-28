@@ -67,7 +67,7 @@
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
-                                <tfoot>
+                                <!--<tfoot>
                                 <tr>
                                     <td></td>
                                     <th>Number</th>
@@ -84,7 +84,7 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                </tfoot>
+                                </tfoot>-->
                             </table>
                             <!-- Export buttons are append here -->
                             <div class="panel-body">
