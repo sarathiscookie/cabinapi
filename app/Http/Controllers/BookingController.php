@@ -179,11 +179,33 @@ class BookingController extends Controller
                 }
                 /* Condition for payment status end */
 
+                /* Checking checkin_from, reserve_to and bookingdate fields are available ro not */
+                if(!$booking->checkin_from){
+                    $checkin_from = $noData;
+                }
+                else {
+                    $checkin_from = ($booking->checkin_from)->format('d.m.y');
+                }
+
+                if(!$booking->reserve_to){
+                    $reserve_to = $noData;
+                }
+                else {
+                    $reserve_to = ($booking->reserve_to)->format('d.m.y');
+                }
+
+                if(!$booking->bookingdate){
+                    $bookingdate = $noData;
+                }
+                else {
+                    $bookingdate = ($booking->bookingdate)->format('d.m.y');
+                }
+
                 $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 $nestedData['invoice_number']          = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
                 $nestedData['usrEmail']                = $bookings[$key]['usrEmail'];
-                $nestedData['checkin_from']            = ($booking->checkin_from)->format('d.m.y');
-                $nestedData['reserve_to']              = ($booking->reserve_to)->format('d.m.y');
+                $nestedData['checkin_from']            = $checkin_from;
+                $nestedData['reserve_to']              = $reserve_to;
                 $nestedData['beds']                    = $booking->beds;
                 $nestedData['dormitory']               = $booking->dormitory;
                 $nestedData['sleeps']                  = $booking->sleeps;
@@ -192,7 +214,7 @@ class BookingController extends Controller
                 $nestedData['payment_type']            = $booking->payment_type;
                 $nestedData['total_prepayment_amount'] = $booking->total_prepayment_amount;
                 $nestedData['txid']                    = $booking->txid;
-                $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Booking Date</h4><p class="list-group-item-text">'.($booking->bookingdate)->format('d.m.y').'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Firstname</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Lastname</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Address</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Telephone</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Mobile</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Booking Date</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Firstname</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Lastname</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Address</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Telephone</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Mobile</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                 $data[]                                = $nestedData;
             }
         }
