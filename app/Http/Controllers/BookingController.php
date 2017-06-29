@@ -119,6 +119,60 @@ class BookingController extends Controller
             }
         }
 
+        /* tfoot search functionality for booking number, email, payment type, txid begin */
+        if( !empty($params['columns'][1]['search']['value']) || !empty($params['columns'][10]['search']['value']) || !empty($params['columns'][12]['search']['value']) ) {
+            $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                ->where('is_delete', 0)
+                ->where(function($query) use ($params) {
+                    $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
+                        ->orWhere('payment_type', 'like', "%{$params['columns'][10]['search']['value']}%")
+                        ->orWhere('txid', 'like', "%{$params['columns'][12]['search']['value']}%");
+                })
+                ->skip($start)
+                ->take($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                ->where('is_delete', 0)
+                ->where(function($query) use ($params) {
+                    $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
+                        ->orWhere('payment_type', 'like', "%{$params['columns'][10]['search']['value']}%")
+                        ->orWhere('txid', 'like', "%{$params['columns'][12]['search']['value']}%");
+                })
+                ->count();
+        }
+        if( !empty($params['columns'][2]['search']['value']) ) {
+            $users     = Userlist::select('_id', 'usrEmail')
+                ->where('is_delete', 0)
+                ->where(function($query) use ($params) {
+                    $query->where('usrEmail', 'like', "%{$params['columns'][2]['search']['value']}%");
+                })
+                ->skip($start)
+                ->take($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            if(count($users) > 0) {
+                foreach ($users as $user) {
+                    $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                        ->where('is_delete', 0)
+                        ->where('user', $user->_id)
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy($order, $dir)
+                        ->get();
+
+                    $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                        ->where('is_delete', 0)
+                        ->count();
+                }
+            }
+        }
+        /* tfoot search functionality for booking number, email, payment type, txid end */
+
+
+
         $data   = array();
         $noData = '<span class="label label-default">No data</span>';
         if(!empty($bookings))
@@ -210,7 +264,7 @@ class BookingController extends Controller
                 /* Condition for user is cabin owner or not  */
                 if($bookings[$key]['usrEmail'] == 'cabinowner') {
                     $bookedBy        = '<span class="label label-info">Booked by cabin owner</span>';
-                    $sendVoucherHtml = '<span class="label label-info">Booked by cabin owner</span>';
+                    $sendVoucherHtml = '<span class="label label-warning">Booked by cabin owner</span>';
                 }
                 else {
                     $bookedBy        = $bookings[$key]['usrEmail'];

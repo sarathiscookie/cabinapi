@@ -67,11 +67,11 @@
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
-                                <!--<tfoot>
+                                <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th>Number</th>
-                                    <th>Email</th>
+                                    <th><input type="text" id="1"  class="search-input" placeholder="Search Booking Number"></th>
+                                    <th><input type="text" id="2"  class="search-input" placeholder="Search email"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -79,12 +79,12 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <th>Pay Type</th>
+                                    <th><input type="text" id="10"  class="search-input" placeholder="Search Payment type"></th>
                                     <td></td>
-                                    <td></td>
+                                    <th><input type="text" id="12"  class="search-input" placeholder="Search Transaction Id"></th>
                                     <td></td>
                                 </tr>
-                                </tfoot>-->
+                                </tfoot>
                             </table>
                             <!-- Export buttons are append here -->
                             <div class="panel-body">
@@ -224,7 +224,7 @@
                 }
             });
 
-            /* Send invoice */
+            /* Send invoice functionality */
             $('#booking_data tbody').on( 'click', 'button.sendInvoice', function (e) {
                 e.preventDefault();
                 var bookingId = $(this).closest('li').data('invoice');
@@ -243,7 +243,7 @@
                 });
             });
 
-            /* Delete function */
+            /* Delete functionality */
             $('#booking_data tbody').on( 'click', 'a.deleteEvent', function (e) {
                 e.preventDefault();
                 var bookingId = $(this).data('id');
@@ -267,6 +267,14 @@
                     });
                 }
             });
+
+            /* Footer search functionality */
+
+            $('.search-input').on( 'keyup change', function () {
+                var i =$(this).attr('id');  // getting column index
+                var v =$(this).val();  // getting search input value
+                booking_data.columns(i).search(v).draw();
+            } );
 
         });
     </script>
