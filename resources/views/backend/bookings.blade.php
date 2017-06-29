@@ -45,7 +45,7 @@
                         <div class="box-body table-responsive">
                             <div class="responseMessage"></div>
                             <div class="text-right">
-                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> Payment Status Update</button>
+                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> @lang('admin.paymentStatusUpdate')</button>
                             </div>
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
