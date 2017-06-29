@@ -69,7 +69,7 @@ class BookingController extends Controller
         else {
             $search   = $request->input('search.value');
 
-            /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is object and booking.user is a string */
+            /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is objectid and booking.user is a string */
             $users     = Userlist::select('_id', 'usrEmail')
                 ->where('is_delete', 0)
                 ->where(function($query) use ($search) {
@@ -185,7 +185,7 @@ class BookingController extends Controller
                 }
                 /* Condition for payment status end */
 
-                /* Checking checkin_from, reserve_to and bookingdate fields are available ro not */
+                /* Checking checkin_from, reserve_to and booking date fields are available or not */
                 if(!$booking->checkin_from){
                     $checkin_from = $noData;
                 }
@@ -243,7 +243,7 @@ class BookingController extends Controller
      */
     public function getEmail($user_id)
     {
-        /* Write forloop in angular and check bookings contains temp_user_id. If temp_user_id != "" then get details from Tempuser collection otherwise get details from user collection*/
+        /* Write for loop in angular and check bookings contains temp_user_id. If temp_user_id != "" then get details from Tempuser collection otherwise get details from user collection*/
         /* Pass $user_id with identification (temp_user or user) from angular. Then get the identification and write condition (if temp_user get details from Tempuser collection else get details from user collection)*/
 
     }
