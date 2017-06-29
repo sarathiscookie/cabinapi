@@ -41,6 +41,12 @@ class BookingController extends Controller
             4 => 'reserve_to',
             5 => 'beds',
             6 => 'dormitory',
+            7 => 'sleeps',
+            8 => 'status',
+            9 => 'payment_status',
+            10 => 'payment_type',
+            11 => 'total_prepayment_amount',
+            12 => 'txid'
         );
 
         $totalData     = Booking::where('is_delete', 0)->count();
@@ -220,7 +226,7 @@ class BookingController extends Controller
         }
 
         $json_data = array(
-            'draw'            => (int)$request->input('draw'),
+            'draw'            => (int)$params['draw'],
             'recordsTotal'    => (int)$totalData,
             'recordsFiltered' => (int)$totalFiltered,
             'data'            => $data
