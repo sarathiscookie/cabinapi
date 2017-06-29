@@ -174,7 +174,7 @@ class BookingController extends Controller
 
 
         $data   = array();
-        $noData = '<span class="label label-default">No data</span>';
+        $noData = '<span class="label label-default">'.__("admin.noResult").'</span>';
         if(!empty($bookings))
         {
             foreach ($bookings as $key=> $booking)
@@ -208,19 +208,19 @@ class BookingController extends Controller
 
                 /* Condition for booking status begin */
                 if($booking->status == '1') {
-                    $bookingStatusLabel = '<span class="label label-success">Buchung fix</span>';
+                    $bookingStatusLabel = '<span class="label label-success">'.__("admin.bookingFix").'</span>';
                 }
                 else if ($booking->status == '2') {
-                    $bookingStatusLabel = '<span class="label label-warning">Cancelled</span>';
+                    $bookingStatusLabel = '<span class="label label-warning">'.__("admin.cancelled").'</span>';
                 }
                 else if ($booking->status == '3') {
-                    $bookingStatusLabel = '<span class="label label-primary">Completed</span>';
+                    $bookingStatusLabel = '<span class="label label-primary">'.__("admin.completed").'</span>';
                 }
                 else if ($booking->status == '4') {
-                    $bookingStatusLabel = '<span class="label label-info">Request</span>';
+                    $bookingStatusLabel = '<span class="label label-info">'.__("admin.request").'</span>';
                 }
                 else if ($booking->status == '5') {
-                    $bookingStatusLabel = '<span class="label label-danger">Failed</span>';
+                    $bookingStatusLabel = '<span class="label label-danger">'.__("admin.failed").'</span>';
                 }
                 else {
                     $bookingStatusLabel = $noData;
@@ -229,10 +229,10 @@ class BookingController extends Controller
 
                 /* Condition for payment status begin */
                 if($booking->payment_status == '1') {
-                    $paymentStatusLabel = '<span class="label label-success">Done</span>';
+                    $paymentStatusLabel = '<span class="label label-success">'.__("admin.paymentStatusDone").'</span>';
                 }
                 else if ($booking->payment_status == '0') {
-                    $paymentStatusLabel = '<span class="label label-danger">Failed</span>';
+                    $paymentStatusLabel = '<span class="label label-danger">'.__("admin.paymentStatusFailed").'</span>';
                 }
                 else {
                     $paymentStatusLabel = $noData;
@@ -263,12 +263,12 @@ class BookingController extends Controller
 
                 /* Condition for user is cabin owner or not  */
                 if($bookings[$key]['usrEmail'] == 'cabinowner') {
-                    $bookedBy        = '<span class="label label-info">Booked by cabin owner</span>';
-                    $sendVoucherHtml = '<span class="label label-warning">Booked by cabin owner</span>';
+                    $bookedBy        = '<span class="label label-info">'.__('admin.bookedByCabinOwner').'</span>';
+                    $sendVoucherHtml = '<span class="label label-warning">'.__('admin.bookedByCabinOwner').'</span>';
                 }
                 else {
                     $bookedBy        = $bookings[$key]['usrEmail'];
-                    $sendVoucherHtml = '<button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button>';
+                    $sendVoucherHtml = '<button class="btn btn-primary btn-sm sendInvoice" data-loading-text="'.__('admin.sendingProcess').'" autocomplete="off"><i class="fa fa-envelope"></i> Send</button>';
                 }
 
                 $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
@@ -284,7 +284,7 @@ class BookingController extends Controller
                 $nestedData['payment_type']            = $booking->payment_type;
                 $nestedData['total_prepayment_amount'] = $booking->total_prepayment_amount;
                 $nestedData['txid']                    = $booking->txid;
-                $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Booking Date</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">Voucher</h4>'.$sendVoucherHtml.'</li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Firstname</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Lastname</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Address</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Telephone</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Mobile</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> Delete</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("admin.moreDetails").'</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '.__("admin.wellDone").'</h4>'.__("admin.sendVoucherSuccessResponse").'</div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.cabinName").'</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.referenceNumber").'</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.clubMember").'</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.bookingDate").'Booking Date</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">'.__("admin.voucher").'</h4>'.$sendVoucherHtml.'</li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.firstName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.lastName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.address").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.telephone").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.mobile").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                 $data[]                                = $nestedData;
             }
         }
@@ -380,7 +380,7 @@ class BookingController extends Controller
             /* Functionality to send attachment email about payment success end */
         }
 
-        $message                        = "Payment status updated and email send successfully";
+        $message                            = __('admin.paymentStatusSuccessResponse');
         return response()->json(['message' => $message], 201);
 
     }
@@ -398,7 +398,7 @@ class BookingController extends Controller
         /* Functionality to send invoice begin */
         Mail::send(new SendInvoice($bookingDetails));
         /* Functionality to send invoice end */
-        return response()->json(['message' => 'Invoice send successfully'], 201);
+        return response()->json(['message' => __('admin.sendVoucherSuccessResponse')], 201);
     }
 
     /**
@@ -413,6 +413,6 @@ class BookingController extends Controller
         $booking->is_delete = 1;
         $booking->save();
 
-        return response()->json(['message' => 'Booking deleted successfully'], 201);
+        return response()->json(['message' => __('admin.bookingDeleteSuccessResponse')], 201);
     }
 }

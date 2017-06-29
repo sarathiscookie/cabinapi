@@ -23,12 +23,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Bookings
-                <small>Control panel</small>
+                @lang('admin.bookings')
+                <small>@lang('admin.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li class="active">Bookings</li>
+                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
+                <li class="active">@lang('admin.bookings')</li>
             </ol>
         </section>
 
@@ -38,40 +38,40 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Booking Details</h3>
+                            <h3 class="box-title">@lang('admin.bookingDetails')</h3>
                         </div>
 
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
                             <div class="responseMessage"></div>
                             <div class="text-right">
-                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="Status Updating..." autocomplete="off"><i class="fa fa-euro"></i> Payment Status Update</button>
+                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> Payment Status Update</button>
                             </div>
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Book Num</th>
-                                    <th>Email</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Beds</th>
-                                    <th>Dorms</th>
-                                    <th>Sleeps</th>
-                                    <th>Status</th>
-                                    <th>Pay Status</th>
-                                    <th>Pay Type</th>
-                                    <th>Amount</th>
-                                    <th>Txid</th>
-                                    <th>Action</th>
+                                    <th>@lang('admin.bookingNumber')</th>
+                                    <th>@lang('admin.email')</th>
+                                    <th>@lang('admin.from')</th>
+                                    <th>@lang('admin.to')</th>
+                                    <th>@lang('admin.beds')</th>
+                                    <th>@lang('admin.dorms')</th>
+                                    <th>@lang('admin.sleeps')</th>
+                                    <th>@lang('admin.status')</th>
+                                    <th>@lang('admin.payStatus')</th>
+                                    <th>@lang('admin.payType')</th>
+                                    <th>@lang('admin.amount')</th>
+                                    <th>@lang('admin.txid')</th>
+                                    <th>@lang('admin.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="search-input" placeholder="Search Booking Number"></th>
-                                    <th><input type="text" id="2"  class="search-input" placeholder="Search email"></th>
+                                    <th><input type="text" id="1"  class="search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
+                                    <th><input type="text" id="2"  class="search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -79,9 +79,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <th><input type="text" id="10"  class="search-input" placeholder="Search Payment type"></th>
+                                    <th><input type="text" id="10"  class="search-input" placeholder="@lang('admin.searchPaymentType')"></th>
                                     <td></td>
-                                    <th><input type="text" id="12"  class="search-input" placeholder="Search Transaction Id"></th>
+                                    <th><input type="text" id="12"  class="search-input" placeholder="@lang('admin.searchTxID')"></th>
                                     <td></td>
                                 </tr>
                                 </tfoot>
@@ -199,7 +199,7 @@
             $('.paymentStatusBtn').on('click', function(e){
                 e.preventDefault();
                 if(!$('.checked').is(':checked')) {
-                    confirm("Please select at least one booking");
+                    confirm("@lang('admin.bookingStatusUpdateAlert')");
                 }
                 else {
                     var bookingId = new Array();
@@ -215,7 +215,7 @@
                         success: function(result) {
                             if(result) {
                                 booking_data.ajax.reload();
-                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> @lang('admin.wellDone')</h4>'+result.message+'</div>')
                                 $('.responseMessage').show().delay(5000).fadeOut();
                                 $btn.button('reset');
                             }
@@ -247,7 +247,7 @@
             $('#booking_data tbody').on( 'click', 'a.deleteEvent', function (e) {
                 e.preventDefault();
                 var bookingId = $(this).data('id');
-                var r = confirm("Do you want to delete this booking?");
+                var r = confirm("@lang('admin.deleteBookingAlert')");
                 if (r == true) {
                     $.ajax({
                         url: '/admin/bookings/' + bookingId,
@@ -260,7 +260,7 @@
                                     .row( $(this).parents('tr') )
                                     .remove()
                                     .draw();
-                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> @lang('admin.wellDone')</h4>'+result.message+'</div>')
                                 $('.responseMessage').show().delay(5000).fadeOut();
                             }
                         }
@@ -269,7 +269,6 @@
             });
 
             /* Footer search functionality */
-
             $('.search-input').on( 'keyup change', function () {
                 var i =$(this).attr('id');  // getting column index
                 var v =$(this).val();  // getting search input value
