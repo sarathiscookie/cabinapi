@@ -168,7 +168,7 @@ class SendInvoice extends Mailable
 
         return $this->view('emails.sendInvoice')
             /*->to($userDetails->usrEmail)*/
-            ->to('iamsarath1986@gmail.com')
+            ->to('michael@hofer-werbung.de')
            /* ->bcc(env('MAIL_BCC_PAYMENT'))*/
             ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
             ->attach(public_path('storage/Huetten-Holiday-AGB.pdf'), [
