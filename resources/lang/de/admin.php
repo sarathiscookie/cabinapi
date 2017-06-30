@@ -66,5 +66,6 @@ return [
     'wellDone'                               => 'Gut gemacht!',
     'paymentStatusSuccessResponse'           => 'Zahlungsstatus aktualisiert, Voucher erfolgreich versendet.',
     'sendVoucherSuccessResponse'             => 'Voucher versendet!',
-    'bookingDeleteSuccessResponse'           => 'Buchung erfolgreich gelöscht!'
+    'bookingDeleteSuccessResponse'           => 'Buchung erfolgreich gelöscht!',
+    'deleteButton'                           => 'Löschen'
 ];

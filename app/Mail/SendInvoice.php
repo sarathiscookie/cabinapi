@@ -109,8 +109,8 @@ class SendInvoice extends Mailable
                            if($cabin->sleeping_place != 1)
                            {
                             $html.= '<tr>
-                                     <td>Booked Sleeps:</td>
-                                     <td colspan="6">' . $this->bookingDetails->beds. 'Beds, ' . $this->bookingDetails->dormitory . 'Dormitory</td> </tr>';
+                                     <td>Gebuchte Plätze:</td>
+                                     <td colspan="6">' . $this->bookingDetails->beds. 'Betten, ' . $this->bookingDetails->dormitory . 'Lager</td> </tr>';
                            }
 
         $html.='</table>

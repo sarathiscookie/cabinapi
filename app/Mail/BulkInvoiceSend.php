@@ -118,8 +118,8 @@ class BulkInvoiceSend extends Mailable
         if($cabin->sleeping_place != 1)
         {
             $html.= '<tr>
-                                     <td>Gebuchte Schlafplätze:</td>
-                                     <td colspan="6">' . $this->bookingDetails->beds. 'Betten, ' . $this->bookingDetails->dormitory . 'Matratzenlager</td> </tr>';
+                                     <td>Gebuchte Plätze:</td>
+                                     <td colspan="6">' . $this->bookingDetails->beds. 'Betten, ' . $this->bookingDetails->dormitory . 'Lager</td> </tr>';
         }
 
         $html.='</table>

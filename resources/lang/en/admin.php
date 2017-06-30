@@ -66,5 +66,6 @@ return [
     'wellDone'                               => 'Well Done!',
     'paymentStatusSuccessResponse'           => 'Payment status updated and email send successfully',
     'sendVoucherSuccessResponse'             => 'Invoice send successfully',
-    'bookingDeleteSuccessResponse'           => 'Booking deleted successfully'
+    'bookingDeleteSuccessResponse'           => 'Booking deleted successfully',
+    'deleteButton'                           => 'Delete'
 ];
