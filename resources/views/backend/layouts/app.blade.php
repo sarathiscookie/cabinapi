@@ -148,8 +148,8 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> Bookings List</a></li>
-                        <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
+                        <li><a href="/admin/bookings" target="_blank"><i class="fa fa-circle-o"></i> Bookings List</a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
                 </li>
 
