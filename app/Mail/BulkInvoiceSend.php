@@ -67,7 +67,35 @@ class BulkInvoiceSend extends Mailable
             $html_dav = "Nein";
         }
 
-        $days       = round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400);
+        /* Checking checkin_from, reserve_to and booking date fields are available or not begin */
+        if(!$this->bookingDetails->checkin_from){
+            $checkin_from = __('admin.noResult');
+        }
+        else {
+            $checkin_from = ($this->bookingDetails->checkin_from)->format('d.m.y');
+        }
+
+        if(!$this->bookingDetails->reserve_to){
+            $reserve_to = __('admin.noResult');
+        }
+        else {
+            $reserve_to = ($this->bookingDetails->reserve_to)->format('d.m.y');
+        }
+
+        if(!$this->bookingDetails->bookingdate){
+            $bookingdate = __('admin.noResult');
+        }
+        else {
+            $bookingdate = ($this->bookingDetails->bookingdate)->format('d.m.y');
+        }
+
+        if($this->bookingDetails->checkin_from != '' && $this->bookingDetails->reserve_to != '') {
+            $daysDifference = round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400);
+        }
+        else {
+            $daysDifference = __('admin.noResult');
+        }
+        /* Checking checkin_from, reserve_to and booking date fields are available or not end */
 
         $html       = '<!DOCTYPE html>
                         <html lang="en">
@@ -88,7 +116,7 @@ class BulkInvoiceSend extends Mailable
                        <body>
                        <table style="padding:10px 30px;width:100%;font-family:arial,sans-serif;font-size:13px;">
                        
-                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.date('d.m.Y', strtotime($this->bookingDetails->bookingdate)).'</td></tr> 
+                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.$bookingdate.'</td></tr> 
                             
                             <tr><td colspan="7" style="color:#afca14;font-size:95px;text-align:center;padding-top:40px;padding-bottom:0px;font-family:Amienne;" ><img width="300px" id="logo" src="'.public_path('img/pdf_title1.png').'" alt="Huetten-Holiday.de"></td></tr> 
                             <tr><td colspan="7" style="font-size:25px;font-weight:bold;text-align:center;padding-top:0px;padding-bottom:40px;" >'.$userDetails->usrFirstname.' '.$userDetails->usrLastname.'</td></tr>
@@ -109,17 +137,19 @@ class BulkInvoiceSend extends Mailable
                             <tr>
                             <td>'.$this->bookingDetails->cabinname.'</td>
                             <td>'.$this->bookingDetails->invoice_number.'</td>
-                            <td>'.date('d.m.Y', strtotime($this->bookingDetails->checkin_from)).'</td>
-                            <td>'.date('d.m.Y', strtotime($this->bookingDetails->reserve_to)).'</td> 
+                            <td>'.$checkin_from.'</td>
+                            <td>'.$reserve_to.'</td> 
                             <td>'.$this->bookingDetails->sleeps.'</td>
-                            <td>'.$days.'</td>
+                            <td>'.$daysDifference.'</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
                             </tr>';
-        if($cabin->sleeping_place != 1)
-        {
-            $html.= '<tr>
+        if(count($cabin) > 0) {
+            if($cabin->sleeping_place != 1)
+            {
+                $html.= '<tr>
                                      <td>Gebuchte Plätze:</td>
                                      <td colspan="6">' . $this->bookingDetails->beds. 'Betten, ' . $this->bookingDetails->dormitory . 'Lager</td> </tr>';
+            }
         }
 
         $html.='</table>
@@ -144,8 +174,9 @@ class BulkInvoiceSend extends Mailable
         /* PDF Generation end*/
 
         return $this->view('emails.sendInvoice')
-            ->to($userDetails->usrEmail)
-            ->bcc(env('MAIL_BCC_PAYMENT'))
+            /*->to($userDetails->usrEmail)*/
+            ->to('michael@hofer-werbung.de')
+            /*->bcc(env('MAIL_BCC_PAYMENT'))*/
             ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
             ->attach(public_path('/storage/Huetten-Holiday-AGB.pdf'), [
                 'mime' => 'application/pdf',
