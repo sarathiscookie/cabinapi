@@ -136,7 +136,7 @@ class SendInvoice extends Mailable
                             <td>'.$daysDifference.'</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
                             </tr>';
-                           if(!empty($cabin->sleeping_place)) {
+                           if(count($cabin) > 0) {
                                if($cabin->sleeping_place != 1)
                                {
                                    $html.= '<tr>
