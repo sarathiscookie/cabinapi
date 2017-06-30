@@ -60,6 +60,36 @@ class SendInvoice extends Mailable
             ->where('is_delete', 0)
             ->first();
 
+        /* Checking checkin_from, reserve_to and booking date fields are available or not begin */
+        if(!$this->bookingDetails->checkin_from){
+            $checkin_from = __('admin.noResult');
+        }
+        else {
+            $checkin_from = ($this->bookingDetails->checkin_from)->format('d.m.y');
+        }
+
+        if(!$this->bookingDetails->reserve_to){
+            $reserve_to = __('admin.noResult');
+        }
+        else {
+            $reserve_to = ($this->bookingDetails->reserve_to)->format('d.m.y');
+        }
+
+        if(!$this->bookingDetails->bookingdate){
+            $bookingdate = __('admin.noResult');
+        }
+        else {
+            $bookingdate = ($this->bookingDetails->bookingdate)->format('d.m.y');
+        }
+
+        if($this->bookingDetails->checkin_from != '' && $this->bookingDetails->reserve_to != '') {
+            $daysDifference = round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400);
+        }
+        else {
+            $daysDifference = __('admin.noResult');
+        }
+        /* Checking checkin_from, reserve_to and booking date fields are available or not end */
+
         $html       = '<!DOCTYPE html>
                         <html lang="en">
                          <head>
@@ -79,7 +109,7 @@ class SendInvoice extends Mailable
                        <body>
                        <table style="padding:10px 30px;width:100%;font-family:arial,sans-serif;font-size:13px;">
                        
-                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.($this->bookingDetails->bookingdate)->format('d.m.y').'</td></tr> 
+                            <tr><td colspan="3" style="color:#afca14;font-size:48px;float:right;" ><img  style="margin-top:15px;" width="300px" id="logo" src="'.public_path('img/pdf_title2.png').'" alt="Huetten-Holiday.de"></td><td style="text-align: right;padding-top:10px;" colspan="4"><img style="width: 250px;" id="logo" src="'.public_path('img/logo.png').'" alt="Huetten-Holiday.de"><br>Waltenhofen, den '.$bookingdate.'</td></tr> 
                             
                             <tr><td colspan="7" style="color:#afca14;font-size:95px;text-align:center;padding-top:40px;padding-bottom:0px;font-family:Amienne;" ><img width="300px" id="logo" src="'.public_path('img/pdf_title1.png').'" alt="Huetten-Holiday.de"></td></tr> 
                             <tr><td colspan="7" style="font-size:25px;font-weight:bold;text-align:center;padding-top:0px;padding-bottom:40px;" >'.$userDetails->usrFirstname.' '.$userDetails->usrLastname.'</td></tr>
@@ -100,17 +130,19 @@ class SendInvoice extends Mailable
                             <tr>
                             <td>'.$this->bookingDetails->cabinname.'</td>
                             <td>'.$this->bookingDetails->invoice_number.'</td>
-                            <td>'.($this->bookingDetails->checkin_from)->format('d.m.y').'</td>
-                            <td>'.($this->bookingDetails->reserve_to)->format('d.m.y').'</td> 
+                            <td>'.$checkin_from.'</td>
+                            <td>'.$reserve_to.'</td> 
                             <td>'.$this->bookingDetails->sleeps.'</td>
-                            <td>'.round(abs(strtotime(date_format($this->bookingDetails->checkin_from, 'd.m.Y')) - strtotime(date_format($this->bookingDetails->reserve_to, 'd.m.Y'))) / 86400).'</td>
+                            <td>'.$daysDifference.'</td>
                             <td>'.money_format('%=*^-14#8.2i', $this->bookingDetails->prepayment_amount).' &euro;</td>
                             </tr>';
-                           if($cabin->sleeping_place != 1)
-                           {
-                            $html.= '<tr>
+                           if(!empty($cabin->sleeping_place)) {
+                               if($cabin->sleeping_place != 1)
+                               {
+                                   $html.= '<tr>
                                      <td>Gebuchte Plätze:</td>
                                      <td colspan="6">' . $this->bookingDetails->beds. 'Betten, ' . $this->bookingDetails->dormitory . 'Lager</td> </tr>';
+                               }
                            }
 
         $html.='</table>
@@ -139,10 +171,10 @@ class SendInvoice extends Mailable
             ->to('iamsarath1986@gmail.com')
            /* ->bcc(env('MAIL_BCC_PAYMENT'))*/
             ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
-            ->attach(public_path('/storage/Huetten-Holiday-AGB.pdf'), [
+            ->attach(public_path('storage/Huetten-Holiday-AGB.pdf'), [
                 'mime' => 'application/pdf',
             ])
-            ->attach(public_path("/storage/Gutschein-". $this->bookingDetails->invoice_number . ".pdf"), [
+            ->attach(public_path("storage/Gutschein-". $this->bookingDetails->invoice_number . ".pdf"), [
                 'mime' => 'application/pdf',
             ])
             ->with([
