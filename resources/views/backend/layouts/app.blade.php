@@ -83,7 +83,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    Welcome to dashboard - Admin
+                                    Welcome to dashboard - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
                                     <small>Last login on 06.19.2017 12:30</small>
                                     <small>Last login on 05.19.2017 11:30</small>
                                     <small>Last login on 04.19.2017 10:30</small>
@@ -95,7 +95,17 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+
+                                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                       onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+
                                 </div>
                             </li>
                         </ul>

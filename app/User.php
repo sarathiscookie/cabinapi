@@ -3,11 +3,30 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Authenticatable
+class User extends Eloquent implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
+    use Authenticatable, Authorizable, CanResetPassword;
+
     use Notifiable;
+
+    /**
+     * The collection associated with the model.
+     *
+     * @var string
+     */
+    protected $collection = 'user';
+
+    protected $primaryKey = '_id';
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'usrName', 'usrPassword',
     ];
 
     /**
@@ -24,7 +43,26 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'usrPassword', 'remember_token',
     ];
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->usrPassword;
+    }
+
+    /**
+     * Get usrPasswordSalt
+     * @param string $usrPasswordSalt
+     * @return $usrPasswordSalt
+     */
+    public function getUsrPasswordSalt() {
+        return $this->usrPasswordSalt;
+    }
 
 }

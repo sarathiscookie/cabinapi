@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +28,12 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin/dashboard';
+
+    public function username()
+    {
+        return 'usrName';
+    }
 
     /**
      * Create a new controller instance.
@@ -35,5 +43,47 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required|max:255',
+            'password' => 'required|max:255'
+        ]);
+
+        $authUser = User::where('usrName', $request->username)->first();
+
+        if (isset($authUser)) {
+            $password = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
+            $login    = User::where('usrName', $request->username)
+                ->where('usrPassword', $password)
+                ->where('usrlId', 1)
+                ->where('is_delete', 0)
+                ->first();
+            if (!$login) {
+                return view('auth.login')->withErrors('Error logging in!');
+            }
+            else {
+                Auth::login($login);
+                return redirect()->intended('admin/dashboard');
+            }
+        }
+        else {
+            return redirect()->back();
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+        return redirect('login');
     }
 }
