@@ -68,7 +68,7 @@ class LoginController extends Controller
                 ->where('is_delete', 0)
                 ->first();
             if (!$login) {
-                return redirect('/login')->with('status', 'Login credentials are not matching');
+                return redirect()->back()->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
             }
             else {
                 Auth::login($login);
@@ -76,7 +76,7 @@ class LoginController extends Controller
             }
         }
         else {
-            return redirect()->back();
+            return redirect()->back()->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
         }
     }
 
