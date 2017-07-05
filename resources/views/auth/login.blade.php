@@ -15,11 +15,17 @@
         <div class="login-box-body">
             <p class="login-box-msg">Log in to cabin api</p>
 
+            @if (session('message'))
+                <div class="alert alert-danger">
+                    {{ session('message') }}
+                </div>
+            @endif
+
             <form role="form" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback">
-                    <input id="username" type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" required autofocus>
+                    <input id="username" type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" autofocus>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
 
                     @if ($errors->has('username'))
@@ -29,7 +35,7 @@
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                    <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="Password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
                     @if ($errors->has('password'))

@@ -64,10 +64,11 @@ class LoginController extends Controller
             $login    = User::where('usrName', $request->username)
                 ->where('usrPassword', $password)
                 ->where('usrlId', 1)
+                ->where('usrActive', '1')
                 ->where('is_delete', 0)
                 ->first();
             if (!$login) {
-                return view('auth.login')->withErrors('Error logging in!');
+                return redirect('/login')->with('status', 'Login credentials are not matching');
             }
             else {
                 Auth::login($login);

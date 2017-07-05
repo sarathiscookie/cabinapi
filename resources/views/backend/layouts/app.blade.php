@@ -88,15 +88,18 @@
                                     <small>Last login on 05.19.2017 11:30</small>
                                     <small>Last login on 04.19.2017 10:30</small>
                                     <small>Last login on 03.19.2017 09:30</small>
+                                    <small>Last login on 03.19.2017 09:30</small>
+                                    <small>Last login on 03.19.2017 09:30</small>
+                                    <small>Last login on 03.19.2017 09:30</small>
                                 </p>
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="#" class="btn btn-primary btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
 
-                                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
+                                    <a href="{{ route('logout') }}" class="btn btn-primary btn-flat"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
                                         Logout
@@ -158,7 +161,7 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/admin/bookings" target="_blank"><i class="fa fa-circle-o"></i> Bookings List</a></li>
+                        <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> Bookings List</a></li>
                         <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
                 </li>
