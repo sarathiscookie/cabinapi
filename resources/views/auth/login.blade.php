@@ -61,7 +61,7 @@
                 </div>
             </form>
 
-            <a href="{{ route('password.request') }}"> Forgot password? </a><br>
+            <a href=""> Forgot password? </a><br>
         </div>
         <!-- /.login-box-body -->
     </div>
