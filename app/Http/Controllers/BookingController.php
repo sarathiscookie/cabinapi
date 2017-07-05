@@ -265,13 +265,15 @@ class BookingController extends Controller
                 if($bookings[$key]['usrEmail'] == 'cabinowner') {
                     $bookedBy        = '<span class="label label-info">'.__('admin.bookedByCabinOwner').'</span>';
                     $sendVoucherHtml = '<span class="label label-warning">'.__('admin.bookedByCabinOwner').'</span>';
+                    $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" disabled/>';
                 }
                 else {
                     $bookedBy        = $bookings[$key]['usrEmail'];
                     $sendVoucherHtml = '<button class="btn btn-primary btn-sm sendInvoice" data-loading-text="'.__('admin.sendingProcess').'" autocomplete="off"><i class="fa fa-envelope"></i> Send</button>';
+                    $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 }
 
-                $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
+                $nestedData['hash']                    = $checkbox;
                 $nestedData['invoice_number']          = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
                 $nestedData['usrEmail']                = $bookedBy;
                 $nestedData['checkin_from']            = $checkin_from;
