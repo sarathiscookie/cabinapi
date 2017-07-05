@@ -153,10 +153,8 @@ class SuccessPaymentAttachment extends Mailable
         /* PDF Generation end*/
 
         return $this->view('emails.successPaymentAttachment')
-            /*->to($userDetails->usrEmail)*/
-            /*->to('michael@hofer-werbung.de')*/
-            ->to('iamsarath1986@gmail.com')
-            /*->bcc(env('MAIL_BCC_PAYMENT'))*/
+            ->to($userDetails->usrEmail)
+            ->bcc(env('MAIL_BCC_PAYMENT'))
             ->subject('Ihre Gutschein für Ihre Buchung-'.$this->bookingDetails->cabinname)
             ->attach(public_path('storage/Huetten-Holiday-AGB.pdf'), [
                 'mime' => 'application/pdf',
