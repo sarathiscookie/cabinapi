@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Cabin API: Dashboard')
+@section('title', 'Cabin API - Admin: Dashboard')
 
 @section('css')
     <!-- iCheck -->

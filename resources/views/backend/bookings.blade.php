@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Cabin API: Bookings List')
+@section('title', 'Cabin API - Admin: Bookings List')
 
 @section('css')
     <!-- Date Range Picker -->
