@@ -21,9 +21,16 @@ Route::get('/', function () {
 
 //Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {});
 
+// Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+
+
+// Password Reset Routes...
+/*Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');*/
 
 Route::prefix('admin')->middleware('auth')->group(function () {
 
@@ -211,6 +218,18 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 });
 
+Route::prefix('cabinowner')/*->middleware('auth')*/->group(function () {
+   /*
+   |--------------------------------------------------------------------------
+   | Dashboard Routes
+   |--------------------------------------------------------------------------
+   |
+   | Here we define dashboard routes
+   |
+   */
+
+    Route::get('/dashboard', 'Cabinowner\DashboardController@index')->name('cabinOwnerDashboard');
+});
 
 /* Statistics purpose */
-Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');
+/*Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');*/

@@ -56,13 +56,4 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
         return $this->usrPassword;
     }
 
-    /**
-     * Get usrPasswordSalt
-     * @param string $usrPasswordSalt
-     * @return $usrPasswordSalt
-     */
-    public function getUsrPasswordSalt() {
-        return $this->usrPasswordSalt;
-    }
-
 }
