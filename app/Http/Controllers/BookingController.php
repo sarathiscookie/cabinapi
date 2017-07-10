@@ -211,7 +211,7 @@ class BookingController extends Controller
                     $bookingStatusLabel = '<span class="label label-success">'.__("admin.bookingFix").'</span>';
                 }
                 else if ($booking->status == '2') {
-                    $bookingStatusLabel = '<span class="label label-warning">'.__("admin.cancelled").'</span>';
+                    $bookingStatusLabel = '<span class="label label-danger">'.__("admin.cancelled").'</span>';
                 }
                 else if ($booking->status == '3') {
                     $bookingStatusLabel = '<span class="label label-primary">'.__("admin.completed").'</span>';
@@ -220,7 +220,7 @@ class BookingController extends Controller
                     $bookingStatusLabel = '<span class="label label-info">'.__("admin.request").'</span>';
                 }
                 else if ($booking->status == '5') {
-                    $bookingStatusLabel = '<span class="label label-danger">'.__("admin.failed").'</span>';
+                    $bookingStatusLabel = '<span class="label label-warning">'.__("admin.bookingWaiting").'</span>';
                 }
                 else {
                     $bookingStatusLabel = $noData;
@@ -233,6 +233,9 @@ class BookingController extends Controller
                 }
                 else if ($booking->payment_status == '0') {
                     $paymentStatusLabel = '<span class="label label-danger">'.__("admin.paymentStatusFailed").'</span>';
+                }
+                else if ($booking->payment_status == '3') {
+                    $paymentStatusLabel = '<span class="label label-warning">'.__("admin.waitingForPayment").'</span>'; //3- prepayment
                 }
                 else {
                     $paymentStatusLabel = $noData;

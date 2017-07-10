@@ -34,13 +34,22 @@ return [
     'amount'                                 => 'Amount',
     'txid'                                   => 'TX-Id',
     'action'                                 => 'Action',
+
+    /* Booking status begin */
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Cancelled',
     'completed'                              => 'Completed',
-    'request'                                => 'Request',
+    'request'                                => 'Inquiry',
+    'bookingWaiting'                         => 'Waiting for payment',
+    /* Booking status end */
+
+    /* Payment status begin */
     'failed'                                 => 'Failed',
     'noResult'                               => 'No Result',
-    'paymentStatusDone'                      => 'Done',
+    'waitingForPayment'                      => 'Prepayment',
+    /* Payment status end */
+
+    'paymentStatusDone'                      => 'Success',
     'paymentStatusFailed'                    => 'Failed',
     'bookingDetails'                         => 'Booking Details',
     'moreDetails'                            => 'More Details',

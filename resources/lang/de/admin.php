@@ -34,12 +34,21 @@ return [
     'amount'                                 => 'Betrag-Gesamt',
     'txid'                                   => 'TX-Id',
     'action'                                 => 'Aktionen',
+
+    /* Booking status begin */
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Storniert',
-    'completed'                              => 'Completed', //doubt
-    'request'                                => 'Request',  //doubt
+    'completed'                              => 'Abgeschlossen',
+    'request'                                => 'Anfrage',
+    'bookingWaiting'                         => 'Warten auf Zahlung',
+    /* Booking status end */
+
+    /* Payment status begin */
     'failed'                                 => 'Fehlerhaft',
     'noResult'                               => 'Unbekannt',
+    'waitingForPayment'                      => 'Anzahlung',
+    /* Payment status end */
+
     'paymentStatusDone'                      => 'Erfolgreich',
     'paymentStatusFailed'                    => 'Fehlerhaft',
     'bookingDetails'                         => 'Buchungs Details',
