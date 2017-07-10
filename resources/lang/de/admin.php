@@ -34,7 +34,7 @@ return [
     'payType'                                => 'Zahlart',
     'amount'                                 => 'Betrag-Gesamt',
     'txid'                                   => 'TX-Id',
-    'payupdate'                              => 'Update Pay',
+    'payupdate'                              => 'Bezahlt',
     'action'                                 => 'Aktionen',
 
     'bookingDetails'                         => 'Buchungs Details',

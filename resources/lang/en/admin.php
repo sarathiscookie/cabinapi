@@ -34,7 +34,7 @@ return [
     'payType'                                => 'Pay Type',
     'amount'                                 => 'Amount',
     'txid'                                   => 'TX-Id',
-    'payupdate'                              => 'Update Pay',
+    'payupdate'                              => 'Pay Update',
     'action'                                 => 'Action',
 
     'bookingDetails'                         => 'Booking Details',
