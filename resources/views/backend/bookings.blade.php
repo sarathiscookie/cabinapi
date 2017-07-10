@@ -71,18 +71,34 @@
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
-                                    <th><input type="text" id="2"  class="search-input" placeholder="@lang('admin.SearchEmail')"></th>
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
+                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td>
+                                        <select data-column="1"  class="form-control input-sm" id="8">
+                                            <option value="">(Select a status)</option>
+                                            <option value="1">@lang('admin.bookingFix')</option>
+                                            <option value="2">@lang('admin.cancelled')</option>
+                                            <option value="3">@lang('admin.completed')</option>
+                                            <option value="4">@lang('admin.request')</option>
+                                            <option value="5">@lang('admin.bookingWaiting')</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select data-column="2"  class="form-control input-sm" id="9">
+                                            <option value="">(Select a status)</option>
+                                            <option value="0">@lang('admin.paymentStatusFailed')</option>
+                                            <option value="1">@lang('admin.paymentStatusDone')</option>
+                                            <option value="3">@lang('admin.waitingForPayment')</option>
+                                        </select>
+                                    </td>
+                                    <th><input type="text" id="10"  class="form-control input-sm search-input" placeholder="@lang('admin.searchPaymentType')"></th>
                                     <td></td>
-                                    <td></td>
-                                    <th><input type="text" id="10"  class="search-input" placeholder="@lang('admin.searchPaymentType')"></th>
-                                    <td></td>
-                                    <th><input type="text" id="12"  class="search-input" placeholder="@lang('admin.searchTxID')"></th>
+                                    <th><input type="text" id="12"  class="form-control input-sm search-input" placeholder="@lang('admin.searchTxID')"></th>
                                     <td></td>
                                     <td></td>
                                 </tr>
