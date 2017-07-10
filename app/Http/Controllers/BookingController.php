@@ -11,7 +11,7 @@ use App\Mail\FaultyPayment;
 use App\Mail\SuccessPaymentAttachment;
 use App\Mail\SendInvoice;
 use Yajra\Datatables\Facades\Datatables;
-use DB;
+use Auth;
 
 class BookingController extends Controller
 {
@@ -289,6 +289,7 @@ class BookingController extends Controller
                 $nestedData['payment_type']            = $booking->payment_type;
                 $nestedData['total_prepayment_amount'] = $booking->total_prepayment_amount;
                 $nestedData['txid']                    = $booking->txid;
+                $nestedData['payment_status_update']   = '<input class="pay_status_update"  type="hidden" name="pay_status_update" value="'.$booking->_id.'" data-bookid="'.$booking->_id.'" /><button class="btn btn-primary paymentStatusUpdate" data-toggle="tooltip" data-placement="top" title="'.__("admin.paymentStatusUpdateTooltip").'"><i class="fa fa-euro"></i></button>';
                 $nestedData['action']                  = '<a href="/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("admin.deleteButton").'</a><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("admin.moreDetails").'</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '.__("admin.wellDone").'</h4>'.__("admin.sendVoucherSuccessResponse").'</div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.cabinName").'</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.referenceNumber").'</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.clubMember").'</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.bookingDate").'Booking Date</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">'.__("admin.voucher").'</h4>'.$sendVoucherHtml.'</li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.firstName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.lastName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.address").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.telephone").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.mobile").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                 $data[]                                = $nestedData;
             }
@@ -353,8 +354,6 @@ class BookingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string $id
-     * @param  string $status
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -365,7 +364,7 @@ class BookingController extends Controller
             $bookingDetails->status         = 1;
             $bookingDetails->payment_status = 1;
             $bookingDetails->sent_email     = 1;
-            $bookingDetails->status_admin   = '581831d0d2ae67c303431d5b'; // Replace this id with AUTH:ID
+            $bookingDetails->status_admin   = Auth::user()->_id;
             $bookingDetails->save();
 
             /* Functionality to send attachment email about payment success begin */
@@ -374,6 +373,31 @@ class BookingController extends Controller
         }
 
         $message                            = __('admin.paymentStatusSuccessResponse');
+        return response()->json(['message' => $message], 201);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateIndividual(Request $request)
+    {
+        $bookingDetails                 = Booking::find($request->bookingId);
+        $bookingDetails->status_comment = 'Payment updated via backend';
+        $bookingDetails->status         = 1;
+        $bookingDetails->payment_status = 1;
+        $bookingDetails->sent_email     = 1;
+        $bookingDetails->status_admin   = Auth::user()->_id;
+        $bookingDetails->save();
+
+        /* Functionality to send attachment email about payment success begin */
+        Mail::send(new SuccessPaymentAttachment($bookingDetails));
+        /* Functionality to send attachment email about payment success end */
+
+        $message                        = __('admin.paymentStatusSuccessResponse');
         return response()->json(['message' => $message], 201);
 
     }

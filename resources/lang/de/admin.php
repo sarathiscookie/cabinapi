@@ -21,6 +21,7 @@ return [
     'controlPanel'                           => 'Verwaltungstool',
     'dashboard'                              => 'Übersicht',
     'paymentStatusUpdate'                    => 'Zahlungsstatus aktualisieren',
+
     'bookingNumber'                          => 'Buchungs-Nr.',
     'email'                                  => 'E-Mail',
     'from'                                   => 'Anreise',
@@ -33,22 +34,8 @@ return [
     'payType'                                => 'Zahlart',
     'amount'                                 => 'Betrag-Gesamt',
     'txid'                                   => 'TX-Id',
+    'payupdate'                              => 'Update Pay',
     'action'                                 => 'Aktionen',
-
-    /* Booking status begin */
-    'bookingFix'                             => 'Fix',
-    'cancelled'                              => 'Storniert',
-    'completed'                              => 'Abgeschlossen',
-    'request'                                => 'Anfrage',
-    'bookingWaiting'                         => 'Warten auf Zahlung',
-    /* Booking status end */
-
-    /* Payment status begin */
-    'paymentStatusDone'                      => 'Erfolgreich',
-    'paymentStatusFailed'                    => 'Fehlerhaft',
-    'noResult'                               => 'Unbekannt',
-    'waitingForPayment'                      => 'Anzahlung',
-    /* Payment status end */
 
     'bookingDetails'                         => 'Buchungs Details',
     'moreDetails'                            => 'Mehr Details',
@@ -67,13 +54,32 @@ return [
     'SearchEmail'                            => 'Suche E-Mail',
     'searchPaymentType'                      => 'Suche Zahlart',
     'searchTxID'                             => 'Suche TX-Id',
+    'paymentStatusUpdateTooltip'             => 'Update Payment Status',
+    'deleteButton'                           => 'Löschen',
     'statusUpdating'                         => 'Status aktualisieren...',
     'sendingProcess'                         => 'Sending...',
+
+    /* Booking status begin */
+    'bookingFix'                             => 'Fix',
+    'cancelled'                              => 'Storniert',
+    'completed'                              => 'Abgeschlossen',
+    'request'                                => 'Anfrage',
+    'bookingWaiting'                         => 'Warten auf Zahlung',
+    /* Booking status end */
+
+    /* Payment status begin */
+    'paymentStatusDone'                      => 'Erfolgreich',
+    'paymentStatusFailed'                    => 'Fehlerhaft',
+    'noResult'                               => 'Unbekannt',
+    'waitingForPayment'                      => 'Anzahlung',
+    /* Payment status end */
+
+    /* Alert message begin */
     'bookingStatusUpdateAlert'               => 'Bitte markieren Sie mindestens eine Buchung',
     'deleteBookingAlert'                     => 'Möchten Sie die Buchung wirklich löschen?',
     'wellDone'                               => 'Gut gemacht!',
     'paymentStatusSuccessResponse'           => 'Zahlungsstatus aktualisiert, Voucher erfolgreich versendet.',
     'sendVoucherSuccessResponse'             => 'Voucher versendet!',
     'bookingDeleteSuccessResponse'           => 'Buchung erfolgreich gelöscht!',
-    'deleteButton'                           => 'Löschen'
+    /* Alert message end */
 ];

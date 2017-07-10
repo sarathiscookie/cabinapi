@@ -121,6 +121,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     /* Update payment status */
     Route::put('/bookings/payment/status', 'BookingController@update')->name('bookings.payment.status.update');
 
+    /* Update each booking payment status */
+    Route::put('/bookings/payment/status/individual', 'BookingController@updateIndividual');
+
     /* Send invoice*/
     Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
 

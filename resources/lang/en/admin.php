@@ -21,6 +21,7 @@ return [
     'controlPanel'                           => 'Control Panel',
     'dashboard'                              => 'Dashboard',
     'paymentStatusUpdate'                    => 'Payment Status Update',
+
     'bookingNumber'                          => 'Booking Num',
     'email'                                  => 'Email',
     'from'                                   => 'From',
@@ -33,22 +34,8 @@ return [
     'payType'                                => 'Pay Type',
     'amount'                                 => 'Amount',
     'txid'                                   => 'TX-Id',
+    'payupdate'                              => 'Update Pay',
     'action'                                 => 'Action',
-
-    /* Booking status begin */
-    'bookingFix'                             => 'Fix',
-    'cancelled'                              => 'Cancelled',
-    'completed'                              => 'Completed',
-    'request'                                => 'Inquiry',
-    'bookingWaiting'                         => 'Waiting for payment',
-    /* Booking status end */
-
-    /* Payment status begin */
-    'paymentStatusDone'                      => 'Success',
-    'paymentStatusFailed'                    => 'Failed',
-    'noResult'                               => 'No Result',
-    'waitingForPayment'                      => 'Prepayment',
-    /* Payment status end */
 
     'bookingDetails'                         => 'Booking Details',
     'moreDetails'                            => 'More Details',
@@ -67,13 +54,33 @@ return [
     'SearchEmail'                            => 'Search Email',
     'searchPaymentType'                      => 'Search Pay Type',
     'searchTxID'                             => 'Search TX-Id',
+    'paymentStatusUpdateTooltip'             => 'Update Payment Status',
+    'deleteButton'                           => 'Delete',
     'statusUpdating'                         => 'Status Updating...',
     'sendingProcess'                         => 'Sending...',
+
+    /* Booking status begin */
+    'bookingFix'                             => 'Fix',
+    'cancelled'                              => 'Cancelled',
+    'completed'                              => 'Completed',
+    'request'                                => 'Inquiry',
+    'bookingWaiting'                         => 'Waiting for payment',
+    /* Booking status end */
+
+    /* Payment status begin */
+    'paymentStatusDone'                      => 'Success',
+    'paymentStatusFailed'                    => 'Failed',
+    'noResult'                               => 'No Result',
+    'waitingForPayment'                      => 'Prepayment',
+    /* Payment status end */
+
+    /* Alert message begin */
     'bookingStatusUpdateAlert'               => 'Please select at least one booking',
     'deleteBookingAlert'                     => 'Do you want to delete this booking?',
     'wellDone'                               => 'Well Done!',
     'paymentStatusSuccessResponse'           => 'Payment status updated and email send successfully',
     'sendVoucherSuccessResponse'             => 'Invoice send successfully',
     'bookingDeleteSuccessResponse'           => 'Booking deleted successfully',
-    'deleteButton'                           => 'Delete'
+    /* Alert message end */
+
 ];

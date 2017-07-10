@@ -63,6 +63,7 @@
                                     <th>@lang('admin.payType')</th>
                                     <th>@lang('admin.amount')</th>
                                     <th>@lang('admin.txid')</th>
+                                    <th>@lang('admin.payupdate')</th>
                                     <th>@lang('admin.action')</th>
                                 </tr>
                                 </thead>
@@ -82,6 +83,7 @@
                                     <th><input type="text" id="10"  class="search-input" placeholder="@lang('admin.searchPaymentType')"></th>
                                     <td></td>
                                     <th><input type="text" id="12"  class="search-input" placeholder="@lang('admin.searchTxID')"></th>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 </tfoot>
@@ -129,6 +131,9 @@
                 }
             });
 
+            /* Tooltip */
+            $('[data-toggle="tooltip"]').tooltip();
+
             var booking_data = $('#booking_data').DataTable({
                 "order": [[ 1, "desc" ]],
                 "processing": true,
@@ -153,6 +158,7 @@
                     { "data": "payment_type" },
                     { "data": "total_prepayment_amount" },
                     { "data": "txid" },
+                    { "data": "payment_status_update" },
                     { "data": "action" }
                 ],
                 "columnDefs": [
@@ -222,6 +228,25 @@
                         }
                     });
                 }
+            });
+
+            /* Payment status update individually */
+            $('#booking_data tbody').on( 'click', 'button.paymentStatusUpdate', function(e){
+                e.preventDefault();
+                var bookingId  = $(this).siblings('.pay_status_update').attr('value');
+                $.ajax({
+                    url: '/admin/bookings/payment/status/individual',
+                    data: { "bookingId": bookingId },
+                    dataType: 'JSON',
+                    type: 'PUT',
+                    success: function(result) {
+                        if(result) {
+                            booking_data.ajax.reload();
+                            $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> @lang('admin.wellDone')</h4>'+result.message+'</div>')
+                            $('.responseMessage').show().delay(5000).fadeOut();
+                        }
+                    }
+                });
             });
 
             /* Send invoice functionality */
