@@ -44,13 +44,12 @@ return [
     /* Booking status end */
 
     /* Payment status begin */
-    'failed'                                 => 'Failed',
+    'paymentStatusDone'                      => 'Success',
+    'paymentStatusFailed'                    => 'Failed',
     'noResult'                               => 'No Result',
     'waitingForPayment'                      => 'Prepayment',
     /* Payment status end */
 
-    'paymentStatusDone'                      => 'Success',
-    'paymentStatusFailed'                    => 'Failed',
     'bookingDetails'                         => 'Booking Details',
     'moreDetails'                            => 'More Details',
     'bookedByCabinOwner'                     => 'Booked by cabin owner',

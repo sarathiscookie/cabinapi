@@ -44,13 +44,12 @@ return [
     /* Booking status end */
 
     /* Payment status begin */
-    'failed'                                 => 'Fehlerhaft',
+    'paymentStatusDone'                      => 'Erfolgreich',
+    'paymentStatusFailed'                    => 'Fehlerhaft',
     'noResult'                               => 'Unbekannt',
     'waitingForPayment'                      => 'Anzahlung',
     /* Payment status end */
 
-    'paymentStatusDone'                      => 'Erfolgreich',
-    'paymentStatusFailed'                    => 'Fehlerhaft',
     'bookingDetails'                         => 'Buchungs Details',
     'moreDetails'                            => 'Mehr Details',
     'bookedByCabinOwner'                     => 'von HW gebucht',
