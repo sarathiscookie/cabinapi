@@ -79,7 +79,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select data-column="1"  class="form-control input-sm" id="8">
+                                        <select class="form-control input-sm search-input" id="8">
                                             <option value="">(Select a status)</option>
                                             <option value="1">@lang('admin.bookingFix')</option>
                                             <option value="2">@lang('admin.cancelled')</option>
@@ -89,7 +89,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select data-column="2"  class="form-control input-sm" id="9">
+                                        <select class="form-control input-sm search-input" id="9">
                                             <option value="">(Select a status)</option>
                                             <option value="0">@lang('admin.paymentStatusFailed')</option>
                                             <option value="1">@lang('admin.paymentStatusDone')</option>

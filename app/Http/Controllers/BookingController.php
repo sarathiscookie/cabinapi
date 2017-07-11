@@ -120,11 +120,18 @@ class BookingController extends Controller
         }
 
         /* tfoot search functionality for booking number, email, payment type, txid begin */
-        if( !empty($params['columns'][1]['search']['value']) || !empty($params['columns'][10]['search']['value']) || !empty($params['columns'][12]['search']['value']) ) {
+        if( !empty($params['columns'][1]['search']['value'])
+            || !empty($params['columns'][8]['search']['value'])
+            || isset($params['columns'][9]['search']['value'])
+            || !empty($params['columns'][10]['search']['value'])
+            || !empty($params['columns'][12]['search']['value']) ) {
+
             $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                 ->where('is_delete', 0)
                 ->where(function($query) use ($params) {
                     $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
+                        ->orWhere('status', "{$params['columns'][8]['search']['value']}")
+                        ->orWhere('payment_status', "{$params['columns'][9]['search']['value']}")
                         ->orWhere('payment_type', 'like', "%{$params['columns'][10]['search']['value']}%")
                         ->orWhere('txid', 'like', "%{$params['columns'][12]['search']['value']}%");
                 })
@@ -137,6 +144,8 @@ class BookingController extends Controller
                 ->where('is_delete', 0)
                 ->where(function($query) use ($params) {
                     $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
+                        ->orWhere('status', "{$params['columns'][8]['search']['value']}")
+                        ->orWhere('payment_status', "{$params['columns'][9]['search']['value']}")
                         ->orWhere('payment_type', 'like', "%{$params['columns'][10]['search']['value']}%")
                         ->orWhere('txid', 'like', "%{$params['columns'][12]['search']['value']}%");
                 })
