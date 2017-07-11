@@ -70,6 +70,7 @@ return [
     /* Payment status begin */
     'paymentStatusDone'                      => 'Erfolgreich',
     'paymentStatusFailed'                    => 'Fehlerhaft',
+    'paymentStatusCabinOwner'                => 'Nicht vorhanden',
     'noResult'                               => 'Unbekannt',
     'waitingForPayment'                      => 'Anzahlung',
     /* Payment status end */

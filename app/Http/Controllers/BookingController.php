@@ -237,11 +237,14 @@ class BookingController extends Controller
                 /* Condition for payment status end */
 
                 /* Condition for payment status begin */
-                if($booking->payment_status == '1') {
+                if ($booking->payment_status == '0') {
+                    $paymentStatusLabel = '<span class="label label-danger">'.__("admin.paymentStatusFailed").'</span>';
+                }
+                else if($booking->payment_status == '1') {
                     $paymentStatusLabel = '<span class="label label-success">'.__("admin.paymentStatusDone").'</span>';
                 }
-                else if ($booking->payment_status == '0') {
-                    $paymentStatusLabel = '<span class="label label-danger">'.__("admin.paymentStatusFailed").'</span>';
+                else if($booking->payment_status == '2') {
+                    $paymentStatusLabel = '<span class="label label-info">'.__("admin.paymentStatusCabinOwner").'</span>'; //2- payment status for cabin owner
                 }
                 else if ($booking->payment_status == '3') {
                     $paymentStatusLabel = '<span class="label label-warning">'.__("admin.waitingForPayment").'</span>'; //3- prepayment

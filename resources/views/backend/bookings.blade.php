@@ -93,6 +93,7 @@
                                             <option value="">(Select a status)</option>
                                             <option value="0">@lang('admin.paymentStatusFailed')</option>
                                             <option value="1">@lang('admin.paymentStatusDone')</option>
+                                            <option value="2">@lang('admin.paymentStatusCabinOwner')</option>
                                             <option value="3">@lang('admin.waitingForPayment')</option>
                                         </select>
                                     </td>
