@@ -46,7 +46,7 @@
                             <div class="responseMessage"></div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in daterange...">
+                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in date range">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
                                     </div>
@@ -329,12 +329,6 @@
             /* Date range functionality begin */
             $('.daterange').daterangepicker({
                 autoUpdateInput: false,
-                /*ranges: {
-                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(30, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },*/
                 locale: {
                     format: 'DD.MM.YYYY',
                     cancelLabel: 'Clear'
