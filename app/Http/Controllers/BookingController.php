@@ -72,8 +72,8 @@ class BookingController extends Controller
             {
                 //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
                 $checkin_from           = explode("-", $request->input('daterange'));
-                $dateBegin              = new \MongoDB\BSON\UTCDateTime(new DateTime($checkin_from[0]));
-                $dateEnd                = new \MongoDB\BSON\UTCDateTime(new DateTime($checkin_from[1]));
+                $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
+                $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
 
                 $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
                     ->where('is_delete', 0)
