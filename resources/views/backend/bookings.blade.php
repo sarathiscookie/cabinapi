@@ -44,8 +44,17 @@
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
                             <div class="responseMessage"></div>
-                            <div class="text-right">
-                                <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> @lang('admin.paymentStatusUpdate')</button>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in daterange...">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                        <span></span> <b class="caret"></b>
+                                    </div>
+                                    <!--<input type="text" class="form-control daterange"  value="" readonly aria-describedby="cal-addon" placeholder="Click here to show bookings with in daterange...">-->
+                                </div>
+                                <div class="col-md-9 text-right">
+                                    <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> @lang('admin.paymentStatusUpdate')</button>
+                                </div>
                             </div>
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
@@ -151,72 +160,79 @@
             /* Tooltip */
             $('[data-toggle="tooltip"]').tooltip();
 
-            var booking_data = $('#booking_data').DataTable({
-                "order": [[ 1, "desc" ]],
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": '{{ route('bookings.datatables') }}',
-                    "dataType": "json",
-                    "type": "POST",
-                    "data":{ _token: "{{csrf_token()}}"}
-                },
-                "columns": [
-                    { "data": "hash" },
-                    { "data": "invoice_number" },
-                    { "data": "usrEmail" },
-                    { "data": "checkin_from" },
-                    { "data": "reserve_to" },
-                    { "data": "beds" },
-                    { "data": "dormitory" },
-                    { "data": "sleeps" },
-                    { "data": "status" },
-                    { "data": "payment_status" },
-                    { "data": "payment_type" },
-                    { "data": "total_prepayment_amount" },
-                    { "data": "txid" },
-                    { "data": "payment_status_update" },
-                    { "data": "action" }
-                ],
-                "columnDefs": [
-                    {
-                        "orderable": false,
-                        "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
-                    }
-                ]
-            });
+            var booking_data;
 
-            /* Bottom buttons for datatables */
-            var buttons = new $.fn.dataTable.Buttons(booking_data, {
-                buttons: [
-                    {
-                        extend: 'csv',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
-                        }
+            fetch_data('no');
+
+            function fetch_data(is_date_search, daterange = '')
+            {
+                booking_data = $('#booking_data').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": '{{ route('bookings.datatables') }}',
+                        "dataType": "json",
+                        "type": "POST",
+                        "data":{ _token: "{{csrf_token()}}", is_date_search:is_date_search, daterange:daterange}
                     },
-                    {
-                        extend: 'excel',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                    "columns": [
+                        { "data": "hash" },
+                        { "data": "invoice_number" },
+                        { "data": "usrEmail" },
+                        { "data": "checkin_from" },
+                        { "data": "reserve_to" },
+                        { "data": "beds" },
+                        { "data": "dormitory" },
+                        { "data": "sleeps" },
+                        { "data": "status" },
+                        { "data": "payment_status" },
+                        { "data": "payment_type" },
+                        { "data": "total_prepayment_amount" },
+                        { "data": "txid" },
+                        { "data": "payment_status_update" },
+                        { "data": "action" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "orderable": false,
+                            "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
                         }
-                    },
-                    {
-                        extend: 'pdf',
-                        orientation: 'portrait',
-                        pageSize: 'LEGAL',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
-                        }
-                    },
-                ]
-            }).container().appendTo($('#buttons'));
+                    ]
+                });
+
+                /* Bottom buttons for datatables */
+                var buttons = new $.fn.dataTable.Buttons(booking_data, {
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            orientation: 'portrait',
+                            pageSize: 'LEGAL',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                            }
+                        },
+                    ]
+                }).container().appendTo($('#buttons'));
+            }
 
             /* Payment status change */
             $('.paymentStatusBtn').on('click', function(e){
@@ -310,12 +326,46 @@
                 }
             });
 
-            /* Footer search functionality */
+            /* Date range functionality begin */
+            $('.daterange').daterangepicker({
+                autoUpdateInput: false,
+                /*ranges: {
+                    'Last 7 Days': [moment().subtract(7, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(30, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },*/
+                locale: {
+                    format: 'DD.MM.YYYY',
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('.daterange').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+                var data        = $('.daterange').val();
+                var daterange   = data.replace(/\s/g, '');
+                if(daterange != '')
+                {
+                    booking_data.destroy();
+                    fetch_data('yes', daterange)
+                }
+            });
+
+            $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
+                var data        = $(this).val('');
+                booking_data.destroy();
+                fetch_data('no')
+            });
+
+            /* Date range functionality end */
+
+            /* <tfoot> search functionality */
             $('.search-input').on( 'keyup change', function () {
                 var i =$(this).attr('id');  // getting column index
                 var v =$(this).val();  // getting search input value
                 booking_data.columns(i).search(v).draw();
-            } );
+            });
 
         });
     </script>

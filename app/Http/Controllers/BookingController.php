@@ -12,6 +12,7 @@ use App\Mail\SuccessPaymentAttachment;
 use App\Mail\SendInvoice;
 use Yajra\Datatables\Facades\Datatables;
 use Auth;
+use DateTime;
 
 class BookingController extends Controller
 {
@@ -65,6 +66,45 @@ class BookingController extends Controller
                 ->take($limit)
                 ->orderBy($order, $dir)
                 ->get();
+
+            /* Date range func begin */
+            if($request->input('is_date_search') == 'yes')
+            {
+                //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+                $checkin_from           = explode("-", $request->input('daterange'));
+                $dateBegin              = new \MongoDB\BSON\UTCDateTime(new DateTime($checkin_from[0]));
+                $dateEnd                = new \MongoDB\BSON\UTCDateTime(new DateTime($checkin_from[1]));
+
+                $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                    ->where('is_delete', 0)
+                    ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
+                    ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                        $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
+                    })
+                    ->skip($start)
+                    ->take($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
+
+                $totalFiltered = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                    ->where('is_delete', 0)
+                    ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
+                    ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                        $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
+                    })
+                    ->count();
+            }
+
+            if($request->input('is_date_search') == 'no')
+            {
+                $bookings = Booking::select('_id', 'invoice_number', 'temp_user_id', 'user', 'checkin_from', 'reserve_to', 'beds', 'dormitory', 'sleeps', 'status', 'payment_status', 'payment_type', 'total_prepayment_amount', 'cabinname', 'reference_no', 'clubmember', 'bookingdate', 'txid')
+                    ->where('is_delete', 0)
+                    ->skip($start)
+                    ->take($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
+            }
+            /* Date range func end */
         }
         else {
             $search   = $request->input('search.value');
