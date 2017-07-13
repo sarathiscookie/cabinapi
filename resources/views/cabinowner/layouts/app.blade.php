@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{ asset('css/skins/skin-blue.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/skins/skin-purple-light.min.css') }}">
 
     @yield('css')
 
@@ -34,7 +34,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-purple-light sidebar-mini">
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
@@ -142,8 +142,10 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Users List</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Users Log Details</a></li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-circle-o"></i> Users List <span class="pull-right-container"><span class="label label-primary pull-right">40</span></span></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Users Statistics</a></li>
                     </ul>
                 </li>
 
@@ -155,7 +157,9 @@
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List</a></li>
+                        <li>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">400</span></span></a>
+                        </li>
                         <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
                 </li>
@@ -199,6 +203,6 @@
     <!-- AdminLTE dashboard -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('js/demo.js') }}"></script>
+    {{--<script src="{{ asset('js/demo.js') }}"></script>--}}
 </body>
 </html>
