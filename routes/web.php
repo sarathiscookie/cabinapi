@@ -24,6 +24,7 @@ Route::get('/', function () {
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 
 // Password Reset Routes...
@@ -33,9 +34,6 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');*/
 
 Route::prefix('admin')->middleware('auth')->group(function () {
-
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
     /*
     |--------------------------------------------------------------------------
     | General Routes
@@ -231,7 +229,7 @@ Route::prefix('cabinowner')/*->middleware('auth')*/->group(function () {
    |
    */
 
-    Route::get('/dashboard', 'Cabinowner\DashboardController@index')->name('cabinOwnerDashboard');
+    Route::get('/index', 'Cabinowner\IndexController@index')->name('cabinOwnerIndex');
 });
 
 /* Statistics purpose */
