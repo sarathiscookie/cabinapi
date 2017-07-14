@@ -158,7 +158,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">3025</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">3654</span></span></a>
                         </li>
                         <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
