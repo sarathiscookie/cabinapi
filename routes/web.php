@@ -230,6 +230,20 @@ Route::prefix('cabinowner')/*->middleware('auth')*/->group(function () {
    */
 
     Route::get('/index', 'Cabinowner\IndexController@index')->name('cabinOwnerIndex');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Routes for bookings
+    |--------------------------------------------------------------------------
+    |
+    | Routes for listing bookings
+    */
+
+    /* Listing bookings */
+    Route::get('/bookings', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
+
+    /* Show datatable page */
+    Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
 });
 
 /* Statistics purpose */

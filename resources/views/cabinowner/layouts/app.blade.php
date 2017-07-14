@@ -38,7 +38,7 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="/admin/dashboard" class="logo">
+        <a href="/cabinowner/index" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>PI</span>
             <!-- logo for regular state and mobile devices -->
@@ -95,11 +95,11 @@
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-primary btn-flat">Profile</a>
+                                    <a href="#" class="btn bg-purple btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
 
-                                    <a href="" class="btn btn-primary btn-flat">
+                                    <a href="" class="btn bg-purple btn-flat">
                                         Logout
                                     </a>
 
@@ -158,7 +158,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">400</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">3025</span></span></a>
                         </li>
                         <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
