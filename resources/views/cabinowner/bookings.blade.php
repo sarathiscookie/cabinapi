@@ -197,13 +197,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9 ]
+                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9 ]
+                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
                         }
                     },
                     {
@@ -211,13 +211,13 @@
                         orientation: 'portrait',
                         pageSize: 'LEGAL',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9 ]
+                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 8, 9 ]
+                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
                         }
                     },
                 ]
