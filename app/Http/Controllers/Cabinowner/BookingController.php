@@ -47,7 +47,7 @@ class BookingController extends Controller
         );
 
         $cabins = Cabin::where('is_delete', 0)
-            ->where('cabin_owner', '586b88b4d2ae676a129b0421') // Replace hard-code id with auth id
+            ->where('cabin_owner', '5858c52ed2ae67e15abf40e9') // Replace hard-code id with auth id //5858c52ed2ae67e15abf40e9 //586b88b4d2ae676a129b0421
             ->get();
         if(count($cabins) > 0) {
             foreach ($cabins as $cabin)
@@ -71,6 +71,46 @@ class BookingController extends Controller
                         ->take($limit)
                         ->orderBy($order, $dir)
                         ->get();
+
+                    /* Date range func begin */
+                    if($request->input('is_date_search') == 'yes')
+                    {
+                        //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+                        $checkin_from           = explode("-", $request->input('daterange'));
+                        $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
+                        $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
+
+                        $bookings = Booking::where('is_delete', 0)
+                            ->where('cabinname', $cabin_name)
+                            ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
+                            ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                                $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
+                            })
+                            ->skip($start)
+                            ->take($limit)
+                            ->orderBy($order, $dir)
+                            ->get();
+
+                        $totalFiltered = Booking::where('is_delete', 0)
+                            ->where('cabinname', $cabin_name)
+                            ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
+                            ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                                $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
+                            })
+                            ->count();
+                    }
+
+                    if($request->input('is_date_search') == 'no')
+                    {
+                        $bookings = Booking::where('is_delete', 0)
+                            ->where('cabinname', $cabin_name)
+                            ->skip($start)
+                            ->take($limit)
+                            ->orderBy($order, $dir)
+                            ->get();
+                    }
+                    /* Date range func end */
+
                 }
                 else {
                     $search   = $request->input('search.value');
@@ -87,6 +127,7 @@ class BookingController extends Controller
                         ->take($limit)
                         ->orderBy($order, $dir)
                         ->get();
+
                     if(count($users) > 0) {
                         foreach ($users as $user) {
                             $bookings = Booking::where('is_delete', 0)
@@ -124,7 +165,67 @@ class BookingController extends Controller
                                 $query->where('invoice_number', 'like', "%{$search}%");
                             })
                             ->count();
+                        /*$tempUser    = Tempuser::where('is_delete', 0)
+                            ->where(function($query) use ($search) {
+                                $query->where('usrEmail', 'like', "%{$search}%")
+                                    ->orWhere('usrFirstname', 'like', "%{$search}%")
+                                    ->orWhere('usrLastname', 'like', "%{$search}%");
+                            })
+                            ->skip($start)
+                            ->take($limit)
+                            ->orderBy($order, $dir)
+                            ->get();
+
+                        if(count($tempUser) > 0) {
+                            foreach ($tempUser as $temp) {
+                                $bookings = Booking::where('is_delete', 0)
+                                    ->where('cabinname', $cabin_name)
+                                    ->where('temp_user_id', $temp->_id)
+                                    ->skip($start)
+                                    ->take($limit)
+                                    ->orderBy($order, $dir)
+                                    ->get();
+
+                                $totalFiltered = Booking::where('is_delete', 0)
+                                    ->where('cabinname', $cabin_name)
+                                    ->where('temp_user_id', $temp->_id)
+                                    ->count();
+
+                            }
+                        }*/
                     }
+
+                    /*$tempUser    = Tempuser::where('is_delete', 0)
+                        ->where(function($query) use ($search) {
+                            $query->where('usrEmail', 'like', "%{$search}%")
+                                ->orWhere('usrFirstname', 'like', "%{$search}%")
+                                ->orWhere('usrLastname', 'like', "%{$search}%");
+                        })
+                        ->skip($start)
+                        ->take($limit)
+                        ->orderBy($order, $dir)
+                        ->get();
+
+                    if(count($tempUser) > 0) {
+                        foreach ($tempUser as $user) {
+                            $bookings = Booking::where('is_delete', 0)
+                                ->where('cabinname', $cabin_name)
+                                ->where(function($query) use ($user) {
+                                    $query->where('temp_user_id', $user->_id);
+                                })
+                                ->skip($start)
+                                ->take($limit)
+                                ->orderBy($order, $dir)
+                                ->get();
+
+                            $totalFiltered = Booking::where('is_delete', 0)
+                                ->where('cabinname', $cabin_name)
+                                ->where(function($query) use ($user) {
+                                    $query->where('temp_user_id', $user->_id);
+                                })
+                                ->count();
+                        }
+                    }*/
                 }
 
                 /* thead search functionality for booking number, lastname, firstname, email, fromDate begin */
@@ -159,8 +260,8 @@ class BookingController extends Controller
                         ->where('is_delete', 0)
                         ->where(function($query) use ($params) {
                             $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
-                                ->orWhere('usrFirstname', "{$params['columns'][3]['search']['value']}")
-                                ->orWhere('usrEmail', "{$params['columns'][4]['search']['value']}");
+                                ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
+                                ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                         })
                         ->skip($start)
                         ->take($limit)
@@ -249,6 +350,14 @@ class BookingController extends Controller
                             }
                         }
 
+                        /* Checking booking done by cabin owner */
+                        if($bookings[$key]['bookedBy'] == 'cabinowner') {
+                          $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('admin.bookedByCabinOwner').'">BCO</span>';
+                        }
+                        else {
+                            $bookedBy = '';
+                        }
+
                         /* Condition for booking status begin */
                         if($booking->status == '1') {
                             $bookingStatusLabel = '<span class="label label-success">'.__("admin.bookingFix").'</span>';
@@ -318,7 +427,7 @@ class BookingController extends Controller
 
                         /* Checking comment not empty or not */
                         if( !empty($booking->comments) ) {
-                            $invoiceNumber_comment = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->comments.'"></i>';
+                            $invoiceNumber_comment = '<a class="nounderline">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->comments.'"></i>';
                         }
                         else {
                             $invoiceNumber_comment = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
@@ -328,7 +437,7 @@ class BookingController extends Controller
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
-                        $nestedData['usrEmail']                = $user_email;
+                        $nestedData['usrEmail']                = $user_email .' '. $bookedBy;
                         $nestedData['checkin_from']            = $checkin_from;
                         $nestedData['reserve_to']              = $reserve_to;
                         $nestedData['sleeps']                  = $booking->sleeps;

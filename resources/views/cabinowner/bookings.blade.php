@@ -45,14 +45,15 @@
                         <div class="box-body table-responsive">
                             <div class="responseMessage"></div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    {{--<div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in date range">
+                                <div class="col-md-3" style="margin-bottom: 20px;">
+                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in date range">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
-                                    </div>--}}
+                                    </div>
                                     <!--<input type="text" class="form-control daterange"  value="" readonly aria-describedby="cal-addon" placeholder="Click here to show bookings with in daterange...">-->
                                 </div>
                             </div>
+
 
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
@@ -81,7 +82,7 @@
                                     <td></td>
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td>
-                                        <a type="button" class="btn btn-primary btn-sm daterange" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
+                                        <a type="button" class="btn btn-primary btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
                                             <i class="fa fa-calendar"></i>
                                         </a>
                                     </td>
@@ -150,78 +151,76 @@
             /* Tooltip */
             $('[data-toggle="tooltip"]').tooltip();
 
-            /*var booking_data;
+            var booking_data;
 
             fetch_data('no');
 
             function fetch_data(is_date_search, daterange = '')
             {
+                booking_data = $('#booking_data').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": '{{ route('cabinowner.bookings.datatables') }}',
+                        "dataType": "json",
+                        "type": "POST",
+                        "data":{ _token: "{{csrf_token()}}", is_date_search:is_date_search, daterange:daterange}
+                    },
+                    "columns": [
+                        { "data": "hash" },
+                        { "data": "invoice_number" },
+                        { "data": "usrLastname" },
+                        { "data": "usrFirstname" },
+                        { "data": "usrEmail" },
+                        { "data": "checkin_from" },
+                        { "data": "reserve_to" },
+                        { "data": "sleeps" },
+                        { "data": "status" },
+                        { "data": "prepayment_amount" },
+                        { "data": "answered" },
+                        { "data": "action" }
+                    ],
+                    "columnDefs": [
+                        {
+                            "orderable": false,
+                            "targets": [0, 2, 3, 4, 7, 8, 10, 11]
+                        }
+                    ]
+                });
 
-            }*/
-
-            var booking_data = $('#booking_data').DataTable({
-                "order": [[ 1, "desc" ]],
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": '{{ route('cabinowner.bookings.datatables') }}',
-                    "dataType": "json",
-                    "type": "POST",
-                    "data":{ _token: "{{csrf_token()}}"/*, is_date_search:is_date_search, daterange:daterange*/}
-                },
-                "columns": [
-                    { "data": "hash" },
-                    { "data": "invoice_number" },
-                    { "data": "usrLastname" },
-                    { "data": "usrFirstname" },
-                    { "data": "usrEmail" },
-                    { "data": "checkin_from" },
-                    { "data": "reserve_to" },
-                    { "data": "sleeps" },
-                    { "data": "status" },
-                    { "data": "prepayment_amount" },
-                    { "data": "answered" },
-                    { "data": "action" }
-                ],
-                "columnDefs": [
-                    {
-                        "orderable": false,
-                        "targets": [0, 2, 3, 4, 7, 8, 10, 11]
-                    }
-                ]
-            });
-
-            /* Bottom buttons for datatables */
-            var buttons = new $.fn.dataTable.Buttons(booking_data, {
-                buttons: [
-                    {
-                        extend: 'csv',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
-                        }
-                    },
-                    {
-                        extend: 'excel',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
-                        }
-                    },
-                    {
-                        extend: 'pdf',
-                        orientation: 'portrait',
-                        pageSize: 'LEGAL',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 8, 9 ]
-                        }
-                    },
-                ]
-            }).container().appendTo($('#buttons'));
+                /* Bottom buttons for datatables */
+                var buttons = new $.fn.dataTable.Buttons(booking_data, {
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            orientation: 'portrait',
+                            pageSize: 'LEGAL',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                            }
+                        },
+                    ]
+                }).container().appendTo($('#buttons'));
+            }
 
             /* Date range functionality begin */
             $('.daterange').daterangepicker({
@@ -238,18 +237,46 @@
                 var daterange   = data.replace(/\s/g, '');
                 if(daterange != '')
                 {
+                    booking_data.destroy();
+                    fetch_data('yes', daterange)
+                }
+            });
+
+            $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
+                var data        = $(this).val('');
+                booking_data.destroy();
+                fetch_data('no')
+            });
+
+            /* Date range functionality end */
+
+            /* Date filter functionality begin */
+            $('.datefilter').daterangepicker({
+                autoUpdateInput: false,
+                locale: {
+                    format: 'DD.MM.YYYY',
+                    cancelLabel: 'Clear'
+                }
+            });
+
+            $('.datefilter').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+                var data        = $('.datefilter').val();
+                var datefilter   = data.replace(/\s/g, '');
+                if(datefilter != '')
+                {
                     var i = $(this).attr('id');  // getting column index
                     var v = $(this).val();  // getting search input value
                     booking_data.columns(i).search(v).draw();
                 }
             });
 
-            $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
+            $('.datefilter').on('cancel.daterangepicker', function(ev, picker) {
                 var data        = $(this).val('');
                 location.reload();
             });
 
-            /* Date range functionality end */
+            /* Date filter functionality end */
 
             /* <thead> search functionality */
             $('.search-input').on( 'keyup change', function () {
