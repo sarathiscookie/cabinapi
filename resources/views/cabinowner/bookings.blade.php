@@ -273,7 +273,8 @@
 
             $('.datefilter').on('cancel.daterangepicker', function(ev, picker) {
                 var data        = $(this).val('');
-                location.reload();
+                booking_data.destroy();
+                fetch_data('no')
             });
 
             /* Date filter functionality end */
