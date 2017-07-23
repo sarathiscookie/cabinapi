@@ -56,4 +56,29 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
         return $this->usrPassword;
     }
 
+    /**
+     * Checking admin role
+     */
+    public function isAdmin()
+    {
+        if($this->usrlId === 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Checking cabinowner role
+     */
+    public function isCabinOwner()
+    {
+        if($this->usrlId === 5) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

@@ -47,7 +47,7 @@ class BookingController extends Controller
         );
 
         $cabins = Cabin::where('is_delete', 0)
-            ->where('cabin_owner', '586b88b4d2ae676a129b0421') // Replace hard-code id with auth id //5858c52ed2ae67e15abf40e9 //586b88b4d2ae676a129b0421
+            ->where('cabin_owner', Auth::user()->_id)
             ->get();
         if(count($cabins) > 0) {
             foreach ($cabins as $cabin)
