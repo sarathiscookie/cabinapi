@@ -63,20 +63,26 @@ class LoginController extends Controller
             $password = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
             $login    = User::where('usrName', $request->username)
                 ->where('usrPassword', $password)
-                ->where('usrlId', 1)
                 ->where('usrActive', '1')
                 ->where('is_delete', 0)
                 ->first();
             if (!$login) {
-                return redirect()->back()->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
+                return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
             }
             else {
+
                 Auth::login($login);
-                return redirect()->intended('admin/dashboard');
+
+                if ($login->usrlId === 1){
+                    return redirect('admin/dashboard');
+                }
+                if ($login->usrlId === 5) {
+                    return redirect('cabinowner/dashboard');
+                }
             }
         }
         else {
-            return redirect()->back()->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
+            return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
         }
     }
 

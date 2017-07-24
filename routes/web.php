@@ -33,7 +33,8 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');*/
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->group(function () {
+    Route::group(['middleware' => ['auth','admin']], function () {
     /*
     |--------------------------------------------------------------------------
     | General Routes
@@ -216,34 +217,37 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     /* Delete cabin */
     Route::delete('/cabins/{id}', 'CabinController@destroy');
 
-
+    });
 });
 
-Route::prefix('cabinowner')/*->middleware('auth')*/->group(function () {
-   /*
-   |--------------------------------------------------------------------------
-   | Dashboard Routes
-   |--------------------------------------------------------------------------
-   |
-   | Here we define dashboard routes
-   |
-   */
+Route::prefix('cabinowner')->group(function () {
+    Route::group(['middleware' => ['auth','cabinowner']], function () {
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard Routes
+        |--------------------------------------------------------------------------
+        |
+        | Here we define dashboard routes
+        |
+        */
 
-    Route::get('/index', 'Cabinowner\IndexController@index')->name('cabinOwnerIndex');
+        Route::get('/dashboard', 'Cabinowner\DashboardController@index')->name('cabinOwnerDash');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Routes for bookings
-    |--------------------------------------------------------------------------
-    |
-    | Routes for listing bookings
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for bookings
+        |--------------------------------------------------------------------------
+        |
+        | Routes for listing bookings
+        */
 
-    /* Listing bookings */
-    Route::get('/bookings', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
+        /* Listing bookings */
+        Route::get('/bookings', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
 
-    /* Show datatable page */
-    Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
+        /* Show datatable page */
+        Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
+
+    });
 });
 
 /* Statistics purpose */
