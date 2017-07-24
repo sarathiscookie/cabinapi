@@ -239,6 +239,7 @@ Route::prefix('cabinowner')->group(function () {
         |--------------------------------------------------------------------------
         |
         | Routes for listing bookings
+        | Routes for send message
         */
 
         /* Listing bookings */
@@ -246,6 +247,9 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Show datatable page */
         Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
+
+        /* Send message to guest */
+        Route::post('/message/send', 'Cabinowner\BookingController@send');
 
     });
 });

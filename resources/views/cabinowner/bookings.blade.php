@@ -83,7 +83,7 @@
                                     <td></td>
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td>
-                                        <a type="button" class="btn btn-primary btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
+                                        <a type="button" class="btn bg-purple btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
                                             <i class="fa fa-calendar"></i>
                                         </a>
                                     </td>
@@ -283,6 +283,34 @@
             });
 
             /* Date filter functionality end */
+
+            /* Send Message */
+            $('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
+                e.preventDefault();
+                var $btn       = $(this).button('loading');
+                var bookingId  = $(this).siblings('.message_status_update').attr('value');
+
+                var JSONObject = {
+                    "id": bookingId,
+                    "comment": $('#messageTxt_'+bookingId).val()
+                };
+                var jsonData = JSON.stringify(JSONObject);
+                $.ajax({
+                    url: '/cabinowner/message/send',
+                    data: { "data": jsonData },
+                    dataType: 'JSON',
+                    type: 'POST',
+                    success: function(result) {
+                        if(result) {
+                            $('.alert-message').show().delay(5000).fadeOut();
+                            $btn.button('reset');
+                            $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
+                                booking_data.ajax.reload();
+                            })
+                        }
+                    }
+                });
+            });
 
             /* <thead> search functionality */
             $('.search-input').on( 'keyup change', function () {

@@ -10,6 +10,7 @@ use App\Tempuser;
 use App\Cabin;
 use Illuminate\Support\Facades\Mail;
 use Auth;
+use App\Bmessages;
 
 class BookingController extends Controller
 {
@@ -429,9 +430,31 @@ class BookingController extends Controller
                         /* Checking comment not empty or not */
                         if( !empty($booking->comments) ) {
                             $invoiceNumber_comment = '<a class="nounderline">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->comments.'"></i>';
+
+                            /*Condition to check cabin owner answered*/
+                            $messages    = Bmessages::where('is_delete', 0)
+                                ->where('booking_id', $booking->_id)
+                                ->whereNotNull('comment')
+                                ->first();
+
+                            if (count($messages) > 0) {
+                                if ($messages->comment != '') {
+                                    $messageStatus = '<i class="fa fa-fw fa-check"></i><i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="' . $messages->comment . '"></i>';
+                                }
+                                else {
+                                    $messageStatus = '<span class="label label-warning">Message is empty</span>';
+                                }
+                            }
+                            else {
+                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Send Message</h4></div><div class="alert alert-success alert-dismissible alert-message" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done! </h4>Message send successfully!</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="Enter you message here" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="Sending..." autocomplete="off" class="btn bg-purple messageStatusUpdate">Send</button></div></div></div></div>';
+                            }
+
                         }
                         else {
                             $invoiceNumber_comment = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
+
+                            /*Condition to check cabin owner answered*/
+                            $messageStatus = '<span class="label label-default">Not Asked</span>';
                         }
 
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
@@ -447,7 +470,7 @@ class BookingController extends Controller
                         $nestedData['sleeps']                  = $booking->sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $booking->prepayment_amount;
-                        $nestedData['answered']                = '<button type="button" class="btn btn-default">Answer</button>';
+                        $nestedData['answered']                = $messageStatus;
                         $data[]                                = $nestedData;
                     }
                 }
@@ -464,6 +487,48 @@ class BookingController extends Controller
         }
 
 
+    }
+
+    /**
+     * send message to user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function send(Request $request)
+    {
+        $array      = json_decode($request->data, true);
+        $id         = $array['id'];
+
+        $booking    = Booking::where('is_delete', 0)
+            ->where('_id', $id)
+            ->first();
+
+        if(count($booking) > 0) {
+            if($booking->temp_user_id != ""){
+                $tempUser  = Tempuser::where('_id', $booking->temp_user_id)
+                    ->first();
+                $user_id   = $tempUser->_id;
+            }
+            else{
+                $user      = Userlist::where('_id', $booking->user)
+                    ->first();
+                $user_id   = $user->_id;
+            }
+        }
+
+        /* If already message with same booking id delete old message */
+        Bmessages::where('booking_id', $id)
+            ->delete();
+
+        $messages               = new Bmessages;
+        $messages->booking_id   = $id;
+        $messages->cabinuser    = Auth::user()->_id;
+        $messages->guest        = $user_id;
+        $messages->comment      = $array['comment'];
+        $messages->save();
+
+        return response()->json(['message' => 'Message send successfully'], 201);
     }
 
     /**
