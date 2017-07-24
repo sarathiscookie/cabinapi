@@ -64,6 +64,9 @@
                                     <th>@lang('admin.email')</th>
                                     <th>@lang('admin.from')</th>
                                     <th>@lang('admin.to')</th>
+                                    <th>@lang('admin.beds')</th>
+                                    <th>@lang('admin.dorms')</th>
+                                    <th>Guests</th>
                                     <th>@lang('admin.sleeps')</th>
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.amount')</th>
@@ -84,6 +87,9 @@
                                             <i class="fa fa-calendar"></i>
                                         </a>
                                     </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>
@@ -172,6 +178,9 @@
                         { "data": "usrEmail" },
                         { "data": "checkin_from" },
                         { "data": "reserve_to" },
+                        { "data": "beds" },
+                        { "data": "dormitory" },
+                        { "data": "guests" },
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
@@ -180,7 +189,7 @@
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
                         }
                     ]
                 });
@@ -191,13 +200,13 @@
                         {
                             extend: 'csv',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
                             }
                         },
                         {
@@ -205,13 +214,13 @@
                             orientation: 'portrait',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 8, 9 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
                             }
                         },
                     ]

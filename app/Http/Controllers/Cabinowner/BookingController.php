@@ -441,6 +441,9 @@ class BookingController extends Controller
                         $nestedData['usrEmail']                = $user_email .' '. $bookedBy;
                         $nestedData['checkin_from']            = $checkin_from;
                         $nestedData['reserve_to']              = $reserve_to;
+                        $nestedData['beds']                    = $booking->beds;
+                        $nestedData['dormitory']               = $booking->dormitory;
+                        $nestedData['guests']                  = $booking->guests;
                         $nestedData['sleeps']                  = $booking->sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $booking->prepayment_amount;
