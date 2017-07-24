@@ -9,6 +9,7 @@ use App\Userlist;
 use App\Tempuser;
 use App\Cabin;
 use Illuminate\Support\Facades\Mail;
+use Auth;
 
 class BookingController extends Controller
 {
@@ -42,13 +43,13 @@ class BookingController extends Controller
             7 => 'sleeps',
             8 => 'status',
             9 => 'prepayment_amount',
-            10 => 'answered',
-            11 => 'actions'
+            10 => 'answered'
         );
 
         $cabins = Cabin::where('is_delete', 0)
             ->where('cabin_owner', Auth::user()->_id)
             ->get();
+
         if(count($cabins) > 0) {
             foreach ($cabins as $cabin)
             {
@@ -444,7 +445,6 @@ class BookingController extends Controller
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $booking->prepayment_amount;
                         $nestedData['answered']                = '<button type="button" class="btn btn-default">Answer</button>';
-                        $nestedData['action']                  = '<button type="button" class="btn btn-danger">Cancel</button>';
                         $data[]                                = $nestedData;
                     }
                 }

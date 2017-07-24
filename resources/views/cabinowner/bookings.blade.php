@@ -50,7 +50,6 @@
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
                                     </div>
-                                    <!--<input type="text" class="form-control daterange"  value="" readonly aria-describedby="cal-addon" placeholder="Click here to show bookings with in daterange...">-->
                                 </div>
                             </div>
 
@@ -69,7 +68,6 @@
                                     <th>@lang('admin.status')</th>
                                     <th>@lang('admin.amount')</th>
                                     <th>Answered</th>
-                                    <th>@lang('admin.action')</th>
                                 </tr>
                                 </thead>
                                 <thead>
@@ -98,7 +96,6 @@
                                             <option value="5">@lang('admin.bookingWaiting')</option>
                                         </select>
                                     </td>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -178,13 +175,12 @@
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
-                        { "data": "answered" },
-                        { "data": "action" }
+                        { "data": "answered" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 10, 11]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10]
                         }
                     ]
                 });
