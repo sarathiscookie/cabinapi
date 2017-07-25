@@ -77,10 +77,10 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
-                                    {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="Lastname"></th>
-                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="Firstname"></th>--}}
-                                    <td></td>
-                                    <td></td>
+                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="Lastname"></th>
+                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="Firstname"></th>
+                                    {{--<td></td>
+                                    <td></td>--}}
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td>
                                         <a type="button" class="btn bg-purple btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
