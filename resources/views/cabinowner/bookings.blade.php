@@ -27,7 +27,7 @@
                 <small>@lang('admin.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/index"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
+                <li><a href="/cabinowner/dashboard"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
                 <li class="active">@lang('admin.bookings')</li>
             </ol>
         </section>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Cabinowner;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Cabin;
+use App\Booking;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -81,5 +84,29 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bookingCount()
+    {
+        $totalData = '';
+        $cabins = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->get();
+
+        if(count($cabins) > 0) {
+            foreach ($cabins as $cabin) {
+                $cabin_name = $cabin->name;
+                $totalData  = Booking::where('is_delete', 0)
+                    ->where('cabinname', $cabin_name)
+                    ->count();
+            }
+            return $totalData;
+        }
+        return $totalData;
     }
 }

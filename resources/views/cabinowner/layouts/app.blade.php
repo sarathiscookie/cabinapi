@@ -35,10 +35,11 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-purple-light sidebar-mini">
+@inject('bookingCount', 'App\Http\Controllers\Cabinowner\DashboardController')
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="/cabinowner/index" class="logo">
+        <a href="/cabinowner/dashboard" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>PI</span>
             <!-- logo for regular state and mobile devices -->
@@ -163,7 +164,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">3654</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">{!! $bookingCount->bookingCount() !!}</span></span></a>
                         </li>
                         <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
                     </ul>
