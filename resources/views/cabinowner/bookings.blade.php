@@ -302,8 +302,9 @@
                     type: 'POST',
                     success: function(result) {
                         if(result) {
-                            $('.alert-message').show().delay(5000).fadeOut();
                             $btn.button('reset');
+                            $('.alert-message').show();
+                            setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
                             $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
                                 booking_data.ajax.reload();
                             })

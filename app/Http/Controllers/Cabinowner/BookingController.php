@@ -446,7 +446,7 @@ class BookingController extends Controller
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Send Message</h4></div><div class="alert alert-success alert-dismissible alert-message" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done! </h4>Message send successfully!</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="Enter you message here" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="Sending..." autocomplete="off" class="btn bg-purple messageStatusUpdate">Send</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Send Message</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> Well Done! </h4>Message send successfully!</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="Enter you message here" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="Sending..." autocomplete="off" class="btn bg-purple messageStatusUpdate">Send</button></div></div></div></div>';
                             }
 
                         }
@@ -526,6 +526,7 @@ class BookingController extends Controller
         $messages->cabinuser    = Auth::user()->_id;
         $messages->guest        = $user_id;
         $messages->comment      = $array['comment'];
+        $messages->is_delete    = 0;
         $messages->save();
 
         return response()->json(['message' => 'Message send successfully'], 201);
