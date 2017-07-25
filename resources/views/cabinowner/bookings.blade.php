@@ -94,7 +94,7 @@
                                     <td></td>
                                     <td>
                                         <select class="form-control input-sm search-input" id="8">
-                                            <option value="">(Select a status)</option>
+                                            <option value="">(@lang('cabinowner.SearchStatus'))</option>
                                             <option value="1">@lang('cabinowner.bookingFix')</option>
                                             <option value="2">@lang('cabinowner.cancelled')</option>
                                             <option value="3">@lang('cabinowner.completed')</option>

@@ -48,7 +48,7 @@ return [
     'searchFirstName'                        => 'Search Firstname',
     'searchLastName'                         => 'Search Lastname',
     'SearchEmail'                            => 'Search Email',
-    'SearchStatus'                           => 'Status auswählen',
+    'SearchStatus'                           => 'Select a status',
     /* Booking status begin */
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Cancelled',
