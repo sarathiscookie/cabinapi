@@ -469,7 +469,7 @@ class BookingController extends Controller
                         $nestedData['guests']                  = $booking->guests;
                         $nestedData['sleeps']                  = $booking->sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
-                        $nestedData['prepayment_amount']       = $booking->prepayment_amount;
+                        $nestedData['prepayment_amount']       = number_format($booking->prepayment_amount, 2).'<i class="fa fa-fw fa-eur"></i>';
                         $nestedData['answered']                = $messageStatus;
                         $data[]                                = $nestedData;
                     }
