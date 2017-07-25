@@ -457,6 +457,14 @@ class BookingController extends Controller
                             $messageStatus = '<span class="label label-default">Not Asked</span>';
                         }
 
+                        /* Condition for prepay amount */
+                        if(!$booking->prepayment_amount) {
+                            $amount = '00.00<i class="fa fa-fw fa-eur"></i>';
+                        }
+                        else {
+                            $amount = number_format($booking->prepayment_amount, 2).'<i class="fa fa-fw fa-eur"></i>';
+                        }
+
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
@@ -469,7 +477,7 @@ class BookingController extends Controller
                         $nestedData['guests']                  = $booking->guests;
                         $nestedData['sleeps']                  = $booking->sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
-                        $nestedData['prepayment_amount']       = number_format($booking->prepayment_amount, 2).'<i class="fa fa-fw fa-eur"></i>';
+                        $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
                         $data[]                                = $nestedData;
                     }
