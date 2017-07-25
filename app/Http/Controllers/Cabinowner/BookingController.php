@@ -509,11 +509,17 @@ class BookingController extends Controller
                 $tempUser  = Tempuser::where('_id', $booking->temp_user_id)
                     ->first();
                 $user_id   = $tempUser->_id;
+                $firstName = $tempUser->usrFirstname;
+                $lastName  = $tempUser->usrLastname;
+                $user_email= $tempUser->usrEmail;
             }
             else{
                 $user      = Userlist::where('_id', $booking->user)
                     ->first();
                 $user_id   = $user->_id;
+                $firstName = $user->usrFirstname;
+                $lastName  = $user->usrLastname;
+                $user_email= $user->usrEmail;
             }
         }
 
@@ -528,6 +534,13 @@ class BookingController extends Controller
         $messages->comment      = $array['comment'];
         $messages->is_delete    = 0;
         $messages->save();
+
+        /* Functionality to send message to user begin */
+        //Mail::send(new SuccessPaymentAttachment($messages->cabinuser, $messages->guest, $messages->comment));
+        Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'firstName' => $firstName, 'lastName' => $lastName, 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
+            $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$booking->cabinname);
+        });
+        /* Functionality to send message to user end */
 
         return response()->json(['message' => 'Message send successfully'], 201);
     }
