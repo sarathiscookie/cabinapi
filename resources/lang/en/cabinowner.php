@@ -20,45 +20,35 @@ return [
     'bookings'                               => 'Bookings',
     'controlPanel'                           => 'Control Panel',
     'dashboard'                              => 'Dashboard',
-    'paymentStatusUpdate'                    => 'Payment Status Update',
+    'bookingDetails'                         => 'Booking Details',
+    /* Model begin */
+    'sendMessageHead'                        => 'Send Message',
+    'enterYourMsg'                           => 'Enter your message here',
+    'sendButton'                             => 'Send',
+    'sendingProcess'                         => 'Sending...',
+    'wellDone'                               => 'Well Done!',
+    'sendMessageSuccessResponse'             => 'Message sent successfully!',
+    /* Model end */
 
     'bookingNumber'                          => 'Booking Num',
+    'firstName'                              => 'First Name',
+    'lastName'                               => 'Last Name',
     'email'                                  => 'Email',
     'from'                                   => 'From',
     'to'                                     => 'To',
     'beds'                                   => 'Beds',
     'dorms'                                  => 'Dorms',
+    'guest'                                  => 'Guest',
     'sleeps'                                 => 'Sleeps',
     'status'                                 => 'Status',
-    'payStatus'                              => 'Pay Status',
-    'payType'                                => 'Pay Type',
     'amount'                                 => 'Amount',
-    'txid'                                   => 'TX-Id',
-    'payupdate'                              => 'Pay Update',
-    'action'                                 => 'Action',
-
-    'bookingDetails'                         => 'Booking Details',
-    'moreDetails'                            => 'More Details',
-    'bookedByCabinOwner'                     => 'Booked by cabin owner',
-    'cabinName'                              => 'Cabin Name',
-    'referenceNumber'                        => 'Reference No',
-    'clubMember'                             => 'Club Member',
-    'bookingDate'                            => 'Booking Date',
-    'voucher'                                => 'Voucher',
-    'firstName'                              => 'First Name',
-    'lastName'                               => 'Last Name',
-    'address'                                => 'Address',
-    'telephone'                              => 'Telephone',
-    'mobile'                                 => 'Mobile',
+    'answered'                               => 'Answered',
+    'notAsked'                               => 'Not Asked',
     'searchBoookingNo'                       => 'Search Booking No',
+    'searchFirstName'                        => 'Search Firstname',
+    'searchLastName'                         => 'Search Lastname',
     'SearchEmail'                            => 'Search Email',
-    'searchPaymentType'                      => 'Search Pay Type',
-    'searchTxID'                             => 'Search TX-Id',
-    'paymentStatusUpdateTooltip'             => 'Update Payment Status',
-    'deleteButton'                           => 'Delete',
-    'statusUpdating'                         => 'Status Updating...',
-    'sendingProcess'                         => 'Sending...',
-
+    'SearchStatus'                           => 'Status auswählen',
     /* Booking status begin */
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Cancelled',
@@ -66,22 +56,24 @@ return [
     'request'                                => 'Inquiry',
     'bookingWaiting'                         => 'Waiting for payment',
     /* Booking status end */
-
-    /* Payment status begin */
-    'paymentStatusDone'                      => 'Success',
-    'paymentStatusFailed'                    => 'Failed',
-    'paymentStatusCabinOwner'                => 'Not set',
     'noResult'                               => 'No Result',
-    'waitingForPayment'                      => 'Prepayment',
-    /* Payment status end */
+    'bookedByCabinOwner'                     => 'Booked by cabin owner',
 
-    /* Alert message begin */
-    'bookingStatusUpdateAlert'               => 'Please select at least one booking',
-    'deleteBookingAlert'                     => 'Do you want to delete this booking?',
-    'wellDone'                               => 'Well Done!',
-    'paymentStatusSuccessResponse'           => 'Payment status updated and email send successfully',
-    'sendVoucherSuccessResponse'             => 'Invoice send successfully',
-    'bookingDeleteSuccessResponse'           => 'Booking deleted successfully',
-    /* Alert message end */
+    /* Dashboard messages begin */
+    'welcomeToDashboard'                     => 'Welcome',
+    'cabinOwnerDashboard'                    => 'Cabin Owner',
+    'profileDashboard'                       => 'Profile',
+    'logoutDashboard'                        => 'Logout',
+    /* Dashboard messages end */
 
+    /* Sidebar messages begin */
+    'searchSidebar'                         => 'Search…',
+    'menuSidebar'                           => 'Menu',
+    'userMenu'                              => 'User',
+    'userListMenu'                          => 'User List',
+    'userStatisticsMenu'                    => 'User Statistics',
+    'bookingMenu'                           => 'Booking',
+    'bookingListMenu'                       => 'Booking List',
+    'bookingStatisticsMenu'                 => 'Booking Statistics',
+    /* Sidebar messages end */
 ];

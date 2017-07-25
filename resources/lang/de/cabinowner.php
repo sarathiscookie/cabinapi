@@ -20,45 +20,35 @@ return [
     'bookings'                               => 'Buchungen',
     'controlPanel'                           => 'Verwaltungstool',
     'dashboard'                              => 'Übersicht',
-    'paymentStatusUpdate'                    => 'Zahlungsstatus aktualisieren',
+    'bookingDetails'                         => 'Buchungs Details',
+    /* Model begin */
+    'sendMessageHead'                        => 'Nachricht senden',
+    'enterYourMsg'                           => 'Text hier eingeben',
+    'sendButton'                             => 'Senden',
+    'sendingProcess'                         => 'Sending...',
+    'wellDone'                               => 'Gut gemacht!',
+    'sendMessageSuccessResponse'             => 'Message versendet!',
+    /* Model end */
 
     'bookingNumber'                          => 'Buchungs-Nr.',
+    'firstName'                              => 'Vorname',
+    'lastName'                               => 'Nachname',
     'email'                                  => 'E-Mail',
     'from'                                   => 'Anreise',
     'to'                                     => 'Abreise',
     'beds'                                   => 'Betten',
     'dorms'                                  => 'Lager',
+    'guest'                                  => 'Gäste',
     'sleeps'                                 => 'Schlafplätze',
     'status'                                 => 'Status',
-    'payStatus'                              => 'Zahlung',
-    'payType'                                => 'Zahlart',
     'amount'                                 => 'Betrag-Gesamt',
-    'txid'                                   => 'TX-Id',
-    'payupdate'                              => 'Bezahlt',
-    'action'                                 => 'Aktionen',
-
-    'bookingDetails'                         => 'Buchungs Details',
-    'moreDetails'                            => 'Mehr Details',
-    'bookedByCabinOwner'                     => 'von HW gebucht',
-    'cabinName'                              => 'Hütte Name',
-    'referenceNumber'                        => 'Reference No',
-    'clubMember'                             => 'Vereins-Mitglieder',
-    'bookingDate'                            => 'Buchungs Date',
-    'voucher'                                => 'Voucher',
-    'firstName'                              => 'Vorname',
-    'lastName'                               => 'Nachname',
-    'address'                                => 'Addresse',
-    'telephone'                              => 'Telephone',
-    'mobile'                                 => 'Mobile',
+    'answered'                               => 'Answered',
+    'notAsked'                               => 'ohne Kommentar',
     'searchBoookingNo'                       => 'Suche Buchungs-Nr',
+    'searchFirstName'                        => 'Suche Vorname',
+    'searchLastName'                         => 'Suche Nachname',
     'SearchEmail'                            => 'Suche E-Mail',
-    'searchPaymentType'                      => 'Suche Zahlart',
-    'searchTxID'                             => 'Suche TX-Id',
-    'paymentStatusUpdateTooltip'             => 'Update Payment Status',
-    'deleteButton'                           => 'Löschen',
-    'statusUpdating'                         => 'Status aktualisieren...',
-    'sendingProcess'                         => 'Sending...',
-
+    'SearchStatus'                           => 'Select a status',
     /* Booking status begin */
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Storniert',
@@ -66,21 +56,24 @@ return [
     'request'                                => 'Anfrage',
     'bookingWaiting'                         => 'Warten auf Zahlung',
     /* Booking status end */
-
-    /* Payment status begin */
-    'paymentStatusDone'                      => 'Erfolgreich',
-    'paymentStatusFailed'                    => 'Fehlerhaft',
-    'paymentStatusCabinOwner'                => 'Nicht vorhanden',
     'noResult'                               => 'Unbekannt',
-    'waitingForPayment'                      => 'Anzahlung',
-    /* Payment status end */
+    'bookedByCabinOwner'                     => 'von HW gebucht',
 
-    /* Alert message begin */
-    'bookingStatusUpdateAlert'               => 'Bitte markieren Sie mindestens eine Buchung',
-    'deleteBookingAlert'                     => 'Möchten Sie die Buchung wirklich löschen?',
-    'wellDone'                               => 'Gut gemacht!',
-    'paymentStatusSuccessResponse'           => 'Zahlungsstatus aktualisiert, Voucher erfolgreich versendet.',
-    'sendVoucherSuccessResponse'             => 'Voucher versendet!',
-    'bookingDeleteSuccessResponse'           => 'Buchung erfolgreich gelöscht!',
-    /* Alert message end */
+    /* Dashboard messages begin */
+    'welcomeToDashboard'                     => 'Willkommen',
+    'cabinOwnerDashboard'                    => 'Hüttenwirt/in',
+    'profileDashboard'                       => 'Profil',
+    'logoutDashboard'                        => 'Abmelden',
+    /* Dashboard messages end */
+
+    /* Sidebar messages begin */
+    'searchSidebar'                         => 'Suchen…',
+    'menuSidebar'                           => 'Menü',
+    'userMenu'                              => 'Benutzer',
+    'userListMenu'                          => 'Benutzerliste',
+    'userStatisticsMenu'                    => 'Benutzerstatistiken',
+    'bookingMenu'                           => 'Buchungen',
+    'bookingListMenu'                       => 'Buchungsliste',
+    'bookingStatisticsMenu'                 => 'Buchungsstatistiken',
+    /* Sidebar messages end */
 ];

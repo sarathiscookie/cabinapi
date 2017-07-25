@@ -23,12 +23,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @lang('admin.bookings')
-                <small>@lang('admin.controlPanel')</small>
+                @lang('cabinowner.bookings')
+                <small>@lang('cabinowner.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/dashboard"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
-                <li class="active">@lang('admin.bookings')</li>
+                <li><a href="/cabinowner/dashboard"><i class="fa fa-dashboard"></i> @lang('cabinowner.dashboard')</a></li>
+                <li class="active">@lang('cabinowner.bookings')</li>
             </ol>
         </section>
 
@@ -38,7 +38,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">@lang('admin.bookingDetails')</h3>
+                            <h3 class="box-title">@lang('cabinowner.bookingDetails')</h3>
                         </div>
 
                         <!-- /.box-header -->
@@ -58,30 +58,30 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>@lang('admin.bookingNumber')</th>
-                                    <th>Lastname</th>
-                                    <th>Firstname</th>
-                                    <th>@lang('admin.email')</th>
-                                    <th>@lang('admin.from')</th>
-                                    <th>@lang('admin.to')</th>
-                                    <th>@lang('admin.beds')</th>
-                                    <th>@lang('admin.dorms')</th>
-                                    <th>Guests</th>
-                                    <th>@lang('admin.sleeps')</th>
-                                    <th>@lang('admin.status')</th>
-                                    <th>@lang('admin.amount')</th>
-                                    <th>Answered</th>
+                                    <th>@lang('cabinowner.bookingNumber')</th>
+                                    <th>@lang('cabinowner.lastName')</th>
+                                    <th>@lang('cabinowner.firstName')</th>
+                                    <th>@lang('cabinowner.email')</th>
+                                    <th>@lang('cabinowner.from')</th>
+                                    <th>@lang('cabinowner.to')</th>
+                                    <th>@lang('cabinowner.beds')</th>
+                                    <th>@lang('cabinowner.dorms')</th>
+                                    <th>@lang('cabinowner.guest')</th>
+                                    <th>@lang('cabinowner.sleeps')</th>
+                                    <th>@lang('cabinowner.status')</th>
+                                    <th>@lang('cabinowner.amount')</th>
+                                    <th>@lang('cabinowner.answered')</th>
                                 </tr>
                                 </thead>
                                 <thead>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
-                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="Lastname"></th>
-                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="Firstname"></th>
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
+                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
+                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>
                                     {{--<td></td>
                                     <td></td>--}}
-                                    <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
+                                    <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
                                     <td>
                                         <a type="button" class="btn bg-purple btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
                                             <i class="fa fa-calendar"></i>
@@ -95,11 +95,11 @@
                                     <td>
                                         <select class="form-control input-sm search-input" id="8">
                                             <option value="">(Select a status)</option>
-                                            <option value="1">@lang('admin.bookingFix')</option>
-                                            <option value="2">@lang('admin.cancelled')</option>
-                                            <option value="3">@lang('admin.completed')</option>
-                                            <option value="4">@lang('admin.request')</option>
-                                            <option value="5">@lang('admin.bookingWaiting')</option>
+                                            <option value="1">@lang('cabinowner.bookingFix')</option>
+                                            <option value="2">@lang('cabinowner.cancelled')</option>
+                                            <option value="3">@lang('cabinowner.completed')</option>
+                                            <option value="4">@lang('cabinowner.request')</option>
+                                            <option value="5">@lang('cabinowner.bookingWaiting')</option>
                                         </select>
                                     </td>
                                     <td></td>
@@ -191,7 +191,30 @@
                             "orderable": false,
                             "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
                         }
-                    ]
+                    ],
+                    "language": {
+                        "sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
+                        "sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
+                        "sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
+                        "sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+                        "sInfoPostFix":  	"",
+                        "sInfoThousands":  	".",
+                        "sLengthMenu":   	"_MENU_ Einträge anzeigen",
+                        "sLoadingRecords": 	"Wird geladen...",
+                        "sProcessing":   	"Bitte warten...",
+                        "sSearch":       	"Suchen",
+                        "sZeroRecords":  	"Keine Einträge vorhanden.",
+                        "oPaginate": {
+                            "sFirst":    	"Erste",
+                            "sPrevious": 	"Zurück",
+                            "sNext":     	"Nächste",
+                            "sLast":     	"Letzte"
+                        },
+                        "oAria": {
+                            "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                            "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+                        }
+                    }
                 });
 
                 /* Bottom buttons for datatables */

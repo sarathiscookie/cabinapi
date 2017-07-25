@@ -78,13 +78,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">Cabin Owner</span>
+                            <span class="hidden-xs">@lang('cabinowner.cabinOwnerDashboard')</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    Welcome to dashboard - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
+                                    @lang('cabinowner.welcomeToDashboard') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
                                     <small>Last login on 06.19.2017 12:30</small>
                                     <small>Last login on 05.19.2017 11:30</small>
                                     <small>Last login on 04.19.2017 10:30</small>
@@ -95,14 +95,14 @@
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn bg-purple btn-flat">Profile</a>
+                                    <a href="#" class="btn bg-purple btn-flat">@lang('cabinowner.profileDashboard')</a>
                                 </div>
                                 <div class="pull-right">
 
                                     <a href="{{ route('logout') }}" class="btn bg-purple btn-flat"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                                        Logout
+                                        @lang('cabinowner.logoutDashboard')
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -129,7 +129,7 @@
             <!-- search form -->
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <input type="text" name="q" class="form-control" placeholder="@lang('cabinowner.searchSidebar')">
                     <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -139,34 +139,34 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="header">@lang('cabinowner.menuSidebar')</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>User</span>
+                        <i class="fa fa-dashboard"></i> <span>@lang('cabinowner.userMenu')</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="active">
-                            <a href="#"><i class="fa fa-circle-o"></i> Users List <span class="pull-right-container"><span class="label label-primary pull-right">40</span></span></a>
+                            <a href="#"><i class="fa fa-circle-o"></i> @lang('cabinowner.userListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">40</span></span></a>
                         </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Users Statistics</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> @lang('cabinowner.userStatisticsMenu')</a></li>
                     </ul>
                 </li>
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-table"></i> <span>Booking</span>
+                        <i class="fa fa-table"></i> <span>@lang('cabinowner.bookingMenu')</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> Bookings List <span class="pull-right-container"><span class="label label-primary pull-right">{!! $bookingCount->bookingCount() !!}</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $bookingCount->bookingCount() !!}</span></span></a>
                         </li>
-                        <li><a href=""><i class="fa fa-circle-o"></i> Booking Statistics</a></li>
+                        <li><a href=""><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingStatisticsMenu')</a></li>
                     </ul>
                 </li>
 

@@ -319,7 +319,7 @@ class BookingController extends Controller
 
 
                 $data          = array();
-                $noData        = '<span class="label label-default">'.__("admin.noResult").'</span>';
+                $noData        = '<span class="label label-default">'.__("cabinowner.noResult").'</span>';
                 if(!empty($bookings)) {
                     foreach ($bookings as $key => $booking)
                     {
@@ -354,7 +354,7 @@ class BookingController extends Controller
 
                         /* Checking booking done by cabin owner */
                         if($bookings[$key]['bookedBy'] == 'cabinowner') {
-                          $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('admin.bookedByCabinOwner').'">BCO</span>';
+                          $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
                         }
                         else {
                             $bookedBy = '';
@@ -362,19 +362,19 @@ class BookingController extends Controller
 
                         /* Condition for booking status begin */
                         if($booking->status == '1') {
-                            $bookingStatusLabel = '<span class="label label-success">'.__("admin.bookingFix").'</span>';
+                            $bookingStatusLabel = '<span class="label label-success">'.__("cabinowner.bookingFix").'</span>';
                         }
                         else if ($booking->status == '2') {
-                            $bookingStatusLabel = '<span class="label label-danger">'.__("admin.cancelled").'</span>';
+                            $bookingStatusLabel = '<span class="label label-danger">'.__("cabinowner.cancelled").'</span>';
                         }
                         else if ($booking->status == '3') {
-                            $bookingStatusLabel = '<span class="label label-primary">'.__("admin.completed").'</span>';
+                            $bookingStatusLabel = '<span class="label label-primary">'.__("cabinowner.completed").'</span>';
                         }
                         else if ($booking->status == '4') {
-                            $bookingStatusLabel = '<span class="label label-info">'.__("admin.request").'</span>';
+                            $bookingStatusLabel = '<span class="label label-info">'.__("cabinowner.request").'</span>';
                         }
                         else if ($booking->status == '5') {
-                            $bookingStatusLabel = '<span class="label label-warning">'.__("admin.bookingWaiting").'</span>';
+                            $bookingStatusLabel = '<span class="label label-warning">'.__("cabinowner.bookingWaiting").'</span>';
                         }
                         else {
                             $bookingStatusLabel = $noData;
@@ -446,7 +446,7 @@ class BookingController extends Controller
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Send Message</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> Well Done! </h4>Message send successfully!</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="Enter you message here" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="Sending..." autocomplete="off" class="btn bg-purple messageStatusUpdate">Send</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
                             }
 
                         }
@@ -454,7 +454,7 @@ class BookingController extends Controller
                             $invoiceNumber_comment = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
 
                             /*Condition to check cabin owner answered*/
-                            $messageStatus = '<span class="label label-default">Not Asked</span>';
+                            $messageStatus = '<span class="label label-default">'.__("cabinowner.notAsked").'</span>';
                         }
 
                         /* Condition for prepay amount */
@@ -540,7 +540,6 @@ class BookingController extends Controller
         $messages->save();
 
         /* Functionality to send message to user begin */
-        //Mail::send(new SuccessPaymentAttachment($messages->cabinuser, $messages->guest, $messages->comment));
         Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
             $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$booking->cabinname);
         });
