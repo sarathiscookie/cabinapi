@@ -66,7 +66,6 @@
                                     <th>@lang('cabinowner.to')</th>
                                     <th>@lang('cabinowner.beds')</th>
                                     <th>@lang('cabinowner.dorms')</th>
-                                    <th>@lang('cabinowner.guest')</th>
                                     <th>@lang('cabinowner.sleeps')</th>
                                     <th>@lang('cabinowner.status')</th>
                                     <th>@lang('cabinowner.amount')</th>
@@ -82,7 +81,6 @@
                                     {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
                                     <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>--}}
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -176,7 +174,6 @@
                         { "data": "reserve_to" },
                         { "data": "beds" },
                         { "data": "dormitory" },
-                        { "data": "guests" },
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
@@ -185,7 +182,7 @@
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12]
                         }
                     ],
                     "language": {

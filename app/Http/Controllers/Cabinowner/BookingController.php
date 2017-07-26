@@ -450,7 +450,6 @@ class BookingController extends Controller
                         $nestedData['reserve_to']              = $reserve_to;
                         $nestedData['beds']                    = $booking->beds;
                         $nestedData['dormitory']               = $booking->dormitory;
-                        $nestedData['guests']                  = $booking->guests;
                         $nestedData['sleeps']                  = $booking->sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $amount;
