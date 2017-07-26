@@ -44,6 +44,7 @@ return [
     'amount'                                 => 'Betrag-Gesamt',
     'answered'                               => 'Antworten',
     'notAsked'                               => 'ohne Kommentar',
+    'emptyMessage'                           => 'keine Nachricht',
     'searchBoookingNo'                       => 'Suche Buchungs-Nr',
     'searchFirstName'                        => 'Suche Vorname',
     'searchLastName'                         => 'Suche Nachname',

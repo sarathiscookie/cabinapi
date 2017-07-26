@@ -44,6 +44,7 @@ return [
     'amount'                                 => 'Amount',
     'answered'                               => 'Answered',
     'notAsked'                               => 'Not Asked',
+    'emptyMessage'                           => 'Empty Message',
     'searchBoookingNo'                       => 'Search Booking No',
     'searchFirstName'                        => 'Search Firstname',
     'searchLastName'                         => 'Search Lastname',

@@ -46,7 +46,7 @@
                             <div class="responseMessage"></div>
                             <div class="row">
                                 <div class="col-md-3" style="margin-bottom: 20px;">
-                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in Datums Suche">
+                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Zeitraum Auswahl">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
                                     </div>
