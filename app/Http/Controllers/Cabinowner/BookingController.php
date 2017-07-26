@@ -519,7 +519,7 @@ class BookingController extends Controller
 
             /* Functionality to send message to user begin */
             Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
-                $message->to($user_email)->subject('Nachricht von '.$booking->cabinname);
+                $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$booking->cabinname);
             });
             /* Functionality to send message to user end */
 
