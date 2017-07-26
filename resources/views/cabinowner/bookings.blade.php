@@ -291,12 +291,20 @@
                     type: 'POST',
                     success: function(result) {
                         if(result) {
-                            $btn.button('reset');
-                            $('.alert-message').show();
-                            setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
-                            $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
-                                booking_data.ajax.reload();
-                            })
+                            if(result.message == 'success')
+                            {
+                                $('.alert-message-failed').hide();
+                                $btn.button('reset');
+                                $('.alert-message').show();
+                                setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
+                                $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
+                                    booking_data.ajax.reload();
+                                })
+                            }
+                            else {
+                                $btn.button('reset');
+                                $('.alert-message-failed').show();
+                            }
                         }
                     }
                 });

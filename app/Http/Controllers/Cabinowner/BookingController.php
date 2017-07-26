@@ -422,7 +422,7 @@ class BookingController extends Controller
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn btn-default bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourMsg").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
                             }
 
                         }
@@ -481,6 +481,7 @@ class BookingController extends Controller
      */
     public function send(Request $request)
     {
+        $message    = '';
         $array      = json_decode($request->data, true);
         $id         = $array['id'];
 
@@ -507,21 +508,26 @@ class BookingController extends Controller
         Bmessages::where('booking_id', $id)
             ->delete();
 
-        $messages               = new Bmessages;
-        $messages->booking_id   = $id;
-        $messages->cabinuser    = Auth::user()->_id;
-        $messages->guest        = $user_id;
-        $messages->comment      = $array['comment'];
-        $messages->is_delete    = 0;
-        $messages->save();
+        if(!empty($array['comment']))
+        {
+            $messages               = new Bmessages;
+            $messages->booking_id   = $id;
+            $messages->cabinuser    = Auth::user()->_id;
+            $messages->guest        = $user_id;
+            $messages->comment      = $array['comment'];
+            $messages->is_delete    = 0;
+            $messages->save();
 
-        /* Functionality to send message to user begin */
-        Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
-            $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$booking->cabinname);
-        });
-        /* Functionality to send message to user end */
+            /* Functionality to send message to user begin */
+            Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
+                $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$booking->cabinname);
+            });
+            /* Functionality to send message to user end */
 
-        return response()->json(['message' => 'Message send successfully'], 201);
+            $message = 'success';
+        }
+
+        return response()->json(['message' => $message], 201);
     }
 
     /**
