@@ -118,13 +118,11 @@ class BookingController extends Controller
                     $search   = $request->input('search.value');
 
                     /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is objectid and booking.user is a string */
-                    $users     = Userlist::select('_id', 'usrEmail', 'usrFirstname', 'usrLastname')
-                        ->where('is_delete', 0)
-                        ->where(function($query) use ($search) {
-                            $query->where('usrEmail', 'like', "%{$search}%")
-                                ->orWhere('usrFirstname', 'like', "%{$search}%")
-                                ->orWhere('usrLastname', 'like', "%{$search}%");
-                        })
+                    $users     = Userlist::where(function($query) use ($search) {
+                        $query->where('usrEmail', 'like', "%{$search}%")
+                            ->orWhere('usrFirstname', 'like', "%{$search}%")
+                            ->orWhere('usrLastname', 'like', "%{$search}%");
+                    })
                         ->skip($start)
                         ->take($limit)
                         ->orderBy($order, $dir)
@@ -167,12 +165,13 @@ class BookingController extends Controller
                                 $query->where('invoice_number', 'like', "%{$search}%");
                             })
                             ->count();
-                        /*$tempUser    = Tempuser::where('is_delete', 0)
-                            ->where(function($query) use ($search) {
-                                $query->where('usrEmail', 'like', "%{$search}%")
-                                    ->orWhere('usrFirstname', 'like', "%{$search}%")
-                                    ->orWhere('usrLastname', 'like', "%{$search}%");
-                            })
+
+                        /* Search (lastname firstname email) checking in temp user table begin */
+                        $tempUser    = Tempuser::where(function($query) use ($search) {
+                            $query->where('usrEmail', 'like', "%{$search}%")
+                                ->orWhere('usrFirstname', 'like', "%{$search}%")
+                                ->orWhere('usrLastname', 'like', "%{$search}%");
+                        })
                             ->skip($start)
                             ->take($limit)
                             ->orderBy($order, $dir)
@@ -194,40 +193,9 @@ class BookingController extends Controller
                                     ->count();
 
                             }
-                        }*/
-                    }
-
-                    /*$tempUser    = Tempuser::where('is_delete', 0)
-                        ->where(function($query) use ($search) {
-                            $query->where('usrEmail', 'like', "%{$search}%")
-                                ->orWhere('usrFirstname', 'like', "%{$search}%")
-                                ->orWhere('usrLastname', 'like', "%{$search}%");
-                        })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
-                        ->get();
-
-                    if(count($tempUser) > 0) {
-                        foreach ($tempUser as $user) {
-                            $bookings = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
-                                    $query->where('temp_user_id', $user->_id);
-                                })
-                                ->skip($start)
-                                ->take($limit)
-                                ->orderBy($order, $dir)
-                                ->get();
-
-                            $totalFiltered = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
-                                    $query->where('temp_user_id', $user->_id);
-                                })
-                                ->count();
                         }
-                    }*/
+                        /* Search (lastname firstname email) checking in temp user table end */
+                    }
                 }
 
                 /* thead search functionality for booking number, lastname, firstname, email, fromDate begin */
@@ -258,13 +226,11 @@ class BookingController extends Controller
                     || !empty($params['columns'][3]['search']['value'])
                     || !empty($params['columns'][4]['search']['value']) )
                 {
-                    $users     = Userlist::select('_id', 'usrFirstname', 'usrEmail', 'usrLastname')
-                        ->where('is_delete', 0)
-                        ->where(function($query) use ($params) {
-                            $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
-                                ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
-                                ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
-                        })
+                    $users     = Userlist::where(function($query) use ($params) {
+                        $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
+                            ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
+                            ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                    })
                         ->skip($start)
                         ->take($limit)
                         ->orderBy($order, $dir)
@@ -289,6 +255,40 @@ class BookingController extends Controller
                                 })
                                 ->count();
                         }
+                    }
+                    else {
+                        /* Search (lastname firstname email) checking in temp user table begin */
+                        $tempUser    = Tempuser::where(function($query) use ($params) {
+                            $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
+                                ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
+                                ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                        })
+                            ->skip($start)
+                            ->take($limit)
+                            ->orderBy($order, $dir)
+                            ->get();
+
+                        if(count($tempUser) > 0) {
+                            foreach ($tempUser as $user) {
+                                $bookings = Booking::where('is_delete', 0)
+                                    ->where('cabinname', $cabin_name)
+                                    ->where(function($query) use ($user) {
+                                        $query->where('temp_user_id', $user->_id);
+                                    })
+                                    ->skip($start)
+                                    ->take($limit)
+                                    ->orderBy($order, $dir)
+                                    ->get();
+
+                                $totalFiltered = Booking::where('is_delete', 0)
+                                    ->where('cabinname', $cabin_name)
+                                    ->where(function($query) use ($user) {
+                                        $query->where('temp_user_id', $user->_id);
+                                    })
+                                    ->count();
+                            }
+                        }
+                        /* Search (lastname firstname email) checking in temp user table end */
                     }
                 }
 
@@ -354,7 +354,7 @@ class BookingController extends Controller
 
                         /* Checking booking done by cabin owner */
                         if($bookings[$key]['bookedBy'] == 'cabinowner') {
-                          $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
+                            $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
                         }
                         else {
                             $bookedBy = '';
