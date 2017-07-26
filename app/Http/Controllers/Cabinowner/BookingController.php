@@ -291,30 +291,6 @@ class BookingController extends Controller
                         /* Search (lastname firstname email) checking in temp user table end */
                     }
                 }
-
-                if( !empty($params['columns'][5]['search']['value']) ) {
-
-                    $checkin_from    = explode("-", $params['columns'][5]['search']['value']);
-                    $dateBegin       = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
-                    $dateEnd         = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
-                    $bookings        = Booking::where('is_delete', 0)
-                        ->where('cabinname', $cabin_name)
-                        ->where(function($query) use ($params, $dateBegin, $dateEnd) {
-                            $query->whereBetween('checkin_from', array($dateBegin, $dateEnd));
-                        })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
-                        ->get();
-
-                    $totalFiltered = Booking::where('is_delete', 0)
-                        ->where('cabinname', $cabin_name)
-                        ->where(function($query) use ($params, $dateBegin, $dateEnd) {
-                            $query->whereBetween('checkin_from', array($dateBegin, $dateEnd));
-                        })
-                        ->count();
-
-                }
                 /* thead search functionality for booking number, lastname, firstname, email end */
 
 

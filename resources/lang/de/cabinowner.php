@@ -42,7 +42,7 @@ return [
     'sleeps'                                 => 'Schlafplätze',
     'status'                                 => 'Status',
     'amount'                                 => 'Betrag-Gesamt',
-    'answered'                               => 'Answered',
+    'answered'                               => 'Antworten',
     'notAsked'                               => 'ohne Kommentar',
     'searchBoookingNo'                       => 'Suche Buchungs-Nr',
     'searchFirstName'                        => 'Suche Vorname',

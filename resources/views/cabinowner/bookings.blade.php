@@ -46,7 +46,7 @@
                             <div class="responseMessage"></div>
                             <div class="row">
                                 <div class="col-md-3" style="margin-bottom: 20px;">
-                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in date range">
+                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in Datums Suche">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
                                     </div>
@@ -79,14 +79,8 @@
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
                                     <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
                                     <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>
-                                    {{--<td></td>
-                                    <td></td>--}}
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
-                                    <td>
-                                        <a type="button" class="btn bg-purple btn-sm datefilter" data-toggle="tooltip" title="" data-original-title="Date range" id="5">
-                                            <i class="fa fa-calendar"></i>
-                                        </a>
-                                    </td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -255,7 +249,8 @@
                 autoUpdateInput: false,
                 locale: {
                     format: 'DD.MM.YYYY',
-                    cancelLabel: 'Clear'
+                    cancelLabel: 'Löschen',
+                    applyLabel: 'Bestätigen'
                 }
             });
 
@@ -277,35 +272,6 @@
             });
 
             /* Date range functionality end */
-
-            /* Date filter functionality begin */
-            $('.datefilter').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    format: 'DD.MM.YYYY',
-                    cancelLabel: 'Clear'
-                }
-            });
-
-            $('.datefilter').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
-                var data        = $('.datefilter').val();
-                var datefilter   = data.replace(/\s/g, '');
-                if(datefilter != '')
-                {
-                    var i = $(this).attr('id');  // getting column index
-                    var v = $(this).val();  // getting search input value
-                    booking_data.columns(i).search(v).draw();
-                }
-            });
-
-            $('.datefilter').on('cancel.daterangepicker', function(ev, picker) {
-                var data        = $(this).val('');
-                booking_data.destroy();
-                fetch_data('no')
-            });
-
-            /* Date filter functionality end */
 
             /* Send Message */
             $('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
