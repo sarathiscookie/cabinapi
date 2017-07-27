@@ -441,6 +441,24 @@ class BookingController extends Controller
                             $amount = number_format($booking->prepayment_amount, 2).'<i class="fa fa-fw fa-eur"></i>';
                         }
 
+                        /* Condition for beds, dorms and sleeps */
+                        if(empty($booking->beds) && empty($booking->dormitory))
+                        {
+                            $sleeps    = $booking->sleeps;
+                        }
+                        else {
+                            $beds      = $booking->beds;
+                            $dormitory = $booking->dormitory;
+                            $sleeps    = $noData;
+                        }
+                        if(empty($booking->beds)){
+                            $beds      = $noData;
+                        }
+                        if(empty($booking->dormitory)){
+                            $dormitory = $noData;
+                        }
+
+
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
@@ -448,9 +466,9 @@ class BookingController extends Controller
                         $nestedData['usrEmail']                = $user_email .' '. $bookedBy;
                         $nestedData['checkin_from']            = $checkin_from;
                         $nestedData['reserve_to']              = $reserve_to;
-                        $nestedData['beds']                    = $booking->beds;
-                        $nestedData['dormitory']               = $booking->dormitory;
-                        $nestedData['sleeps']                  = $booking->sleeps;
+                        $nestedData['beds']                    = $beds;
+                        $nestedData['dormitory']               = $dormitory;
+                        $nestedData['sleeps']                  = $sleeps;
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
