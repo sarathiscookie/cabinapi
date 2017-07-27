@@ -43,7 +43,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>PI</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Cabin</b>API</span>
+            <span class="logo-lg"><img src="/img/logo.png" style="max-height: 50px;" alt="Huetten-Holiday.de"></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
