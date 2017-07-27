@@ -449,13 +449,13 @@ class BookingController extends Controller
                         else {
                             $beds      = $booking->beds;
                             $dormitory = $booking->dormitory;
-                            $sleeps    = $noData;
+                            $sleeps    = '-----';
                         }
                         if(empty($booking->beds)){
-                            $beds      = $noData;
+                            $beds      = '-----';
                         }
                         if(empty($booking->dormitory)){
-                            $dormitory = $noData;
+                            $dormitory = '-----';
                         }
 
 
