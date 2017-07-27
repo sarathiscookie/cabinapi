@@ -35,7 +35,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-purple-light sidebar-mini">
-@inject('bookingCount', 'App\Http\Controllers\Cabinowner\DashboardController')
+@inject('miscellaneous', 'App\Http\Controllers\Cabinowner\DashboardController')
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
@@ -78,7 +78,7 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">@lang('cabinowner.cabinOwnerDashboard')</span>
+                            <span class="hidden-xs">{!! $miscellaneous->cabinName() !!}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -164,7 +164,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $bookingCount->bookingCount() !!}</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->bookingCount() !!}</span></span></a>
                         </li>
                         {{--<li><a href=""><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingStatisticsMenu')</a></li>--}}
                     </ul>

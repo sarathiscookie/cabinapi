@@ -109,4 +109,24 @@ class DashboardController extends Controller
         }
         return $totalData;
     }
+
+    /**
+     * Collecting cabin name.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cabinName()
+    {
+        $cabin_name = '';
+
+        $cabin = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            $cabin_name = $cabin->name;
+        }
+
+        return $cabin_name;
+    }
 }

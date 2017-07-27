@@ -216,13 +216,13 @@
                         {
                             extend: 'csv',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 10, 11 ]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 10, 11 ]
                             }
                         },
                         {
@@ -230,13 +230,13 @@
                             orientation: 'portrait',
                             pageSize: 'LEGAL',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 10, 11 ]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 10, 11 ]
                             }
                         },
                     ]
