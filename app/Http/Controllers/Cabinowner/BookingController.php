@@ -427,7 +427,7 @@ class BookingController extends Controller
 
                         }
                         else {
-                            $invoiceNumber_comment = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
+                            $invoiceNumber_comment = '<a class="nounderline">'.$booking->invoice_number.'</a>';
 
                             /*Condition to check cabin owner answered*/
                             $messageStatus = '<span class="label label-default">'.__("cabinowner.notAsked").'</span>';
