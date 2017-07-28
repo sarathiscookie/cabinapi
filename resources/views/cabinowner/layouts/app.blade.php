@@ -39,7 +39,7 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="/cabinowner/dashboard" class="logo" {{--style="background-color: #f9fafc;"--}}>
+        <a href="/cabinowner/bookings" class="logo" {{--style="background-color: #f9fafc;"--}}>
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>H</b>HD</span>
             <!-- logo for regular state and mobile devices -->

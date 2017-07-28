@@ -27,7 +27,7 @@
                 <small>@lang('cabinowner.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/dashboard"><i class="fa fa-dashboard"></i> @lang('cabinowner.dashboard')</a></li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinowner.dashboard')</a></li>
                 <li class="active">@lang('cabinowner.bookings')</li>
             </ol>
         </section>

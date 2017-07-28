@@ -17,7 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('cabinowner.dashboard');
+        return view('cabinowner.bookings');
     }
 
     /**
