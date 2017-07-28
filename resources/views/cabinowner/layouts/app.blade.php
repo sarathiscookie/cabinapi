@@ -39,11 +39,11 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="/cabinowner/dashboard" class="logo" style="background-color: #ffffff;">
+        <a href="/cabinowner/dashboard" class="logo" {{--style="background-color: #f9fafc;"--}}>
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            {{--<span class="logo-mini"><b>A</b>PI</span>--}}
+            <span class="logo-mini"><b>H</b>HD</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><img src="/img/huetten-holiday-logo-sw.jpg" alt="Huetten-Holiday.de"></span>
+            <span class="logo-lg"><img src="/img/huetten-holiday-logo-sw.png" alt="Huetten-Holiday.de" style="max-height: 45px;"></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
