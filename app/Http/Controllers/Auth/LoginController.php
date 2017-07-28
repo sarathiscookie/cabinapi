@@ -95,7 +95,7 @@ class LoginController extends Controller
                     return redirect('admin/dashboard');
                 }
                 if ($login->usrlId === 5) {
-                    return redirect('cabinowner/dashboard');
+                    return redirect('cabinowner/bookings');
                 }
             }
         }
