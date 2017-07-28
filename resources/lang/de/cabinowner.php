@@ -28,6 +28,13 @@ return [
     'sendingProcess'                         => 'Sending...',
     'wellDone'                               => 'Gut gemacht!',
     'sendMessageSuccessResponse'             => 'Message versendet!',
+    'moreDetails'                            => 'Mehr Details',
+    'cabinName'                              => 'Hütte Name',
+    'clubMember'                             => 'Vereins-Mitglieder',
+    'bookingDate'                            => 'Buchungs Date',
+    'address'                                => 'Addresse',
+    'telephone'                              => 'Telephone',
+    'mobile'                                 => 'Mobile',
     /* Model end */
 
     'bookingNumber'                          => 'Buchungs-Nr.',

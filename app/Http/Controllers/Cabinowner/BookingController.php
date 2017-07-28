@@ -401,11 +401,32 @@ class BookingController extends Controller
                         else {
                             $user_email = $bookings[$key]['usrEmail'];
                         }
+
+                        if(empty($bookings[$key]['usrAddress'])) {
+                            $usr_address = $noData;
+                        }
+                        else {
+                            $usr_address = $bookings[$key]['usrAddress'];
+                        }
+
+                        if(empty($bookings[$key]['usrTelephone'])) {
+                            $usr_telephone = $noData;
+                        }
+                        else {
+                            $usr_telephone = $bookings[$key]['usrTelephone'];
+                        }
+
+                        if(empty($bookings[$key]['usrMobile'])) {
+                            $usr_mobile = $noData;
+                        }
+                        else {
+                            $usr_mobile = $bookings[$key]['usrMobile'];
+                        }
                         /* Condition to check user details null or not end */
 
                         /* Checking comment not empty or not */
                         if( !empty($booking->comments) ) {
-                            $invoiceNumber_comment = '<a class="nounderline">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->comments.'"></i>';
+                            $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->comments.'"></i>';
 
                             /*Condition to check cabin owner answered*/
                             $messages    = Bmessages::where('is_delete', 0)
@@ -427,7 +448,7 @@ class BookingController extends Controller
 
                         }
                         else {
-                            $invoiceNumber_comment = '<a class="nounderline">'.$booking->invoice_number.'</a>';
+                            $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
 
                             /*Condition to check cabin owner answered*/
                             $messageStatus = '<span class="label label-default">'.__("cabinowner.notAsked").'</span>';
@@ -459,7 +480,7 @@ class BookingController extends Controller
                         }
 
 
-                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
+                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /> <div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.cabinName").'</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.clubMember").'</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
