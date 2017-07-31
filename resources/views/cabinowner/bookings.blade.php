@@ -72,7 +72,8 @@
                                     <th>@lang('cabinowner.answered')</th>
                                 </tr>
                                 </thead>
-                                <thead>
+                                <tbody></tbody>
+                                <tfoot>
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
@@ -99,8 +100,7 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                </thead>
-                                <tbody></tbody>
+                                </tfoot>
                             </table>
                             <!-- Export buttons are append here -->
                             <div class="panel-body">
@@ -109,57 +109,12 @@
                         </div>
                         <!-- /.box-body -->
 
-                        <!-- modal -->
-                        <div class="modalBookingData"></div>
-                        <!-- /.modal -->
-
                     </div>
                 </div>
             </div>
         </section>
     </div>
     <!-- /.content-wrapper -->
-
-
-    <div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">'.__("admin.moreDetails").'</h4>
-                </div>
-                <div class="alert alert-success alert-dismissible alert-invoice" style="display: none;">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> '.__("admin.wellDone").'</h4>'.__("admin.sendVoucherSuccessResponse").'
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="list-group">
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.cabinName").'</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.referenceNumber").'</h4><p class="list-group-item-text">'.$booking->reference_no.'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.clubMember").'</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li>
-                                <li class="list-group-item" data-invoice="'.$booking->_id.'"><h4 class="list-group-item-heading">'.__("admin.voucher").'</h4>'.$sendVoucherHtml.'</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="list-group">
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.firstName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrFirstname'].'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.lastName").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrLastname'].'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.address").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrAddress'].'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.telephone").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrTelephone'].'</p></li>
-                                <li class="list-group-item"><h4 class="list-group-item-heading">'.__("admin.mobile").'</h4><p class="list-group-item-text">'.$bookings[$key]['usrMobile'].'</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @section('scripts')

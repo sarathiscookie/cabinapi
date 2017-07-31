@@ -304,27 +304,31 @@ class BookingController extends Controller
                             $tempUsers = Tempuser::where('_id', $booking->temp_user_id)
                                 ->get();
                             foreach ($tempUsers as $tempUser){
-                                $usrEmail                       = $tempUser->usrEmail;
-                                $bookings[$key]['bookedBy']     = 'cabinowner';
-                                $bookings[$key]['usrEmail']     = $usrEmail;
-                                $bookings[$key]['usrFirstname'] = $tempUser->usrFirstname;
-                                $bookings[$key]['usrLastname']  = $tempUser->usrLastname;
-                                $bookings[$key]['usrAddress']   = $tempUser->usrAddress;
-                                $bookings[$key]['usrTelephone'] = $tempUser->usrTelephone;
-                                $bookings[$key]['usrMobile']    = $tempUser->usrMobile;
+                                $usrEmail                              = $tempUser->usrEmail;
+                                $bookings[$key]['bookedBy']            = 'cabinowner';
+                                $bookings[$key]['usrEmail']            = $usrEmail;
+                                $bookings[$key]['usrFirstname']        = $tempUser->usrFirstname;
+                                $bookings[$key]['usrLastname']         = $tempUser->usrLastname;
+                                $bookings[$key]['usrCity']             = $tempUser->usrCity;
+                                $bookings[$key]['usrAddress']          = $tempUser->usrAddress;
+                                $bookings[$key]['usrTelephone']        = $tempUser->usrTelephone;
+                                $bookings[$key]['usrMobile']           = $tempUser->usrMobile;
+                                $bookings[$key]['usrZip']              = $tempUser->usrZip;
                             }
                         }
                         else{
                             $users = Userlist::where('_id', $booking->user)
                                 ->get();
                             foreach ($users as $user){
-                                $usrEmail                       = $user->usrEmail;
-                                $bookings[$key]['usrEmail']     = $usrEmail;
-                                $bookings[$key]['usrFirstname'] = $user->usrFirstname;
-                                $bookings[$key]['usrLastname']  = $user->usrLastname;
-                                $bookings[$key]['usrAddress']   = $user->usrAddress;
-                                $bookings[$key]['usrTelephone'] = $user->usrTelephone;
-                                $bookings[$key]['usrMobile']    = $user->usrMobile;
+                                $usrEmail                              = $user->usrEmail;
+                                $bookings[$key]['usrEmail']            = $usrEmail;
+                                $bookings[$key]['usrFirstname']        = $user->usrFirstname;
+                                $bookings[$key]['usrLastname']         = $user->usrLastname;
+                                $bookings[$key]['usrCity']             = $user->usrCity;
+                                $bookings[$key]['usrAddress']          = $user->usrAddress;
+                                $bookings[$key]['usrTelephone']        = $user->usrTelephone;
+                                $bookings[$key]['usrMobile']           = $user->usrMobile;
+                                $bookings[$key]['usrZip']              = $user->usrZip;
                             }
                         }
 
@@ -378,7 +382,6 @@ class BookingController extends Controller
                         else {
                             $bookingdate = ($booking->bookingdate)->format('d.m.y');
                         }
-                        /* Checking checkin_from, reserve_to and booking date fields are available or not end*/
 
                         /* Condition to check user details null or not begin */
                         if(empty($bookings[$key]['usrLastname'])) {
@@ -409,6 +412,13 @@ class BookingController extends Controller
                             $usr_address = $bookings[$key]['usrAddress'];
                         }
 
+                        if(empty($bookings[$key]['usrCity'])) {
+                            $usr_city = $noData;
+                        }
+                        else {
+                            $usr_city = $bookings[$key]['usrCity'];
+                        }
+
                         if(empty($bookings[$key]['usrTelephone'])) {
                             $usr_telephone = $noData;
                         }
@@ -422,6 +432,14 @@ class BookingController extends Controller
                         else {
                             $usr_mobile = $bookings[$key]['usrMobile'];
                         }
+
+                        if(empty($bookings[$key]['usrZip'])) {
+                            $usr_zip = $noData;
+                        }
+                        else {
+                            $usr_zip = $bookings[$key]['usrZip'];
+                        }
+
                         /* Condition to check user details null or not end */
 
                         /* Checking comment not empty or not */
@@ -480,7 +498,7 @@ class BookingController extends Controller
                         }
 
 
-                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /> <div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.cabinName").'</h4><p class="list-group-item-text">'.$booking->cabinname.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.clubMember").'</h4><p class="list-group-item-text">'.$booking->clubmember.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
