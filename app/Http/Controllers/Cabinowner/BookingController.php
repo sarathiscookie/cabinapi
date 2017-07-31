@@ -85,9 +85,9 @@ class BookingController extends Controller
                         $bookings = Booking::where('is_delete', 0)
                             ->where('cabinname', $cabin_name)
                             ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
-                            ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                            /*->where(function($query) use ($params, $dateBegin, $dateEnd) {
                                 $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
-                            })
+                            })*/
                             ->skip($start)
                             ->take($limit)
                             ->orderBy($order, $dir)
@@ -96,9 +96,9 @@ class BookingController extends Controller
                         $totalFiltered = Booking::where('is_delete', 0)
                             ->where('cabinname', $cabin_name)
                             ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
-                            ->where(function($query) use ($params, $dateBegin, $dateEnd) {
+                            /*->where(function($query) use ($params, $dateBegin, $dateEnd) {
                                 $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
-                            })
+                            })*/
                             ->count();
                     }
 
