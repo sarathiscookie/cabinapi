@@ -62,10 +62,13 @@ Route::prefix('admin')->group(function () {
     |--------------------------------------------------------------------------
     |
     | Here we define dashboard routes
-    |
+    | Routes for sales graph
     */
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    /* Show sales graph */
+    Route::post('/dashboard/sales/graph', 'DashboardController@show')->name('dashboard.sales.graph');
 
     /*
     |--------------------------------------------------------------------------

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cabin;
+use App\Booking;
 
 class DashboardController extends Controller
 {
@@ -40,12 +42,26 @@ class DashboardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        if(!empty($request->cabin) && !empty($request->daterange))
+        {
+            $cabinName              = $request->cabin;
+            $daterange              = explode("-", $request->daterange);
+            $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[0])*1000);
+            $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[1])*1000);
+            $bookings               = Booking::where('is_delete', 0)
+                ->where('cabinname', $cabinName)
+                ->whereBetween('bookingdate', [$dateBegin, $dateEnd])
+                ->groupBy('checkin_from')
+                ->count();
+            return response()->json(['incomingCount' => $bookings]);
+        }
+
+
     }
 
     /**
@@ -80,5 +96,20 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Collecting cabins.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cabins()
+    {
+        $cabins = Cabin::select('name')
+            ->where('is_delete', 0)
+            ->where('other_cabin', '0')
+            ->get();
+
+        return $cabins;
     }
 }
