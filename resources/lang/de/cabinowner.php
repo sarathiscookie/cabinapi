@@ -29,12 +29,12 @@ return [
     'wellDone'                               => 'Gut gemacht!',
     'sendMessageSuccessResponse'             => 'Message versendet!',
     'moreDetails'                            => 'Mehr Details',
-    'usrZip'                                 => 'Zipcode',
-    'city'                                   => 'City',
-    'bookingDate'                            => 'Buchungs Date',
+    'usrZip'                                 => 'Postleizahl',
+    'city'                                   => 'Stadt',
+    'bookingDate'                            => 'Buchungsdatum',
     'address'                                => 'Addresse',
-    'telephone'                              => 'Telephone',
-    'mobile'                                 => 'Mobile',
+    'telephone'                              => 'Telefon',
+    'mobile'                                 => 'Handy',
     /* Model end */
 
     'bookingNumber'                          => 'Buchungs-Nr.',
