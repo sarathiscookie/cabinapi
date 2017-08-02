@@ -151,6 +151,7 @@
             function fetch_data(is_date_search, daterange = '')
             {
                 booking_data = $('#booking_data').DataTable({
+                    "lengthMenu": [10, 50, 100, 250, 500],
                     "order": [[ 1, "desc" ]],
                     "processing": true,
                     "serverSide": true,

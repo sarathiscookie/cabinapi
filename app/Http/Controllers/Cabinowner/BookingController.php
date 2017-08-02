@@ -65,56 +65,11 @@ class BookingController extends Controller
                 $order         = $columns[$params['order'][0]['column']]; //contains column index
                 $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-                if(empty($request->input('search.value')))
+                $q             = Booking::where('is_delete', 0)
+                    ->where('cabinname', $cabin_name);
+
+                if(!empty($request->input('search.value')))
                 {
-                    $bookings      = Booking::where('is_delete', 0)
-                        ->where('cabinname', $cabin_name)
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
-                        ->get();
-
-                    /* Date range func begin */
-                    if($request->input('is_date_search') == 'yes')
-                    {
-                        //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
-                        $checkin_from           = explode("-", $request->input('daterange'));
-                        $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
-                        $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
-
-                        $bookings = Booking::where('is_delete', 0)
-                            ->where('cabinname', $cabin_name)
-                            ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
-                            /*->where(function($query) use ($params, $dateBegin, $dateEnd) {
-                                $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
-                            })*/
-                            ->skip($start)
-                            ->take($limit)
-                            ->orderBy($order, $dir)
-                            ->get();
-
-                        $totalFiltered = Booking::where('is_delete', 0)
-                            ->where('cabinname', $cabin_name)
-                            ->whereBetween('checkin_from', array($dateBegin, $dateEnd))
-                            /*->where(function($query) use ($params, $dateBegin, $dateEnd) {
-                                $query->whereBetween('reserve_to', array($dateBegin, $dateEnd));
-                            })*/
-                            ->count();
-                    }
-
-                    if($request->input('is_date_search') == 'no')
-                    {
-                        $bookings = Booking::where('is_delete', 0)
-                            ->where('cabinname', $cabin_name)
-                            ->skip($start)
-                            ->take($limit)
-                            ->orderBy($order, $dir)
-                            ->get();
-                    }
-                    /* Date range func end */
-
-                }
-                else {
                     $search   = $request->input('search.value');
 
                     /* Checking email: Reason for using this method is because mongo $lookup is not working. Reason is user._id is objectid and booking.user is a string */
@@ -130,38 +85,22 @@ class BookingController extends Controller
 
                     if(count($users) > 0) {
                         foreach ($users as $user) {
-                            $bookings = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
+                            $q->where(function($query) use ($user) {
                                     $query->where('user', $user->_id);
-                                })
-                                ->skip($start)
-                                ->take($limit)
-                                ->orderBy($order, $dir)
-                                ->get();
+                                });
 
-                            $totalFiltered = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
+                            $totalFiltered = $q->where(function($query) use ($user) {
                                     $query->where('user', $user->_id);
                                 })
                                 ->count();
                         }
                     }
                     else {
-                        $bookings = Booking::where('is_delete', 0)
-                            ->where('cabinname', $cabin_name)
-                            ->where(function($query) use ($search) {
+                        $q->where(function($query) use ($search) {
                                 $query->where('invoice_number', 'like', "%{$search}%");
-                            })
-                            ->skip($start)
-                            ->take($limit)
-                            ->orderBy($order, $dir)
-                            ->get();
+                            });
 
-                        $totalFiltered = Booking::where('is_delete', 0)
-                            ->where('cabinname', $cabin_name)
-                            ->where(function($query) use ($search) {
+                        $totalFiltered = $q->where(function($query) use ($search) {
                                 $query->where('invoice_number', 'like', "%{$search}%");
                             })
                             ->count();
@@ -179,57 +118,51 @@ class BookingController extends Controller
 
                         if(count($tempUser) > 0) {
                             foreach ($tempUser as $temp) {
-                                $bookings = Booking::where('is_delete', 0)
-                                    ->where('cabinname', $cabin_name)
-                                    ->where('temp_user_id', $temp->_id)
-                                    ->skip($start)
-                                    ->take($limit)
-                                    ->orderBy($order, $dir)
-                                    ->get();
+                                $q->where('temp_user_id', $temp->_id);
 
-                                $totalFiltered = Booking::where('is_delete', 0)
-                                    ->where('cabinname', $cabin_name)
-                                    ->where('temp_user_id', $temp->_id)
+                                $totalFiltered = $q->where('temp_user_id', $temp->_id)
                                     ->count();
-
                             }
                         }
                         /* Search (lastname firstname email) checking in temp user table end */
                     }
                 }
 
-                /* thead search functionality for booking number, lastname, firstname, email, fromDate begin */
+                /* Date range func begin */
+                if($request->input('is_date_search') == 'yes')
+                {
+                    //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
+                    $checkin_from           = explode("-", $request->input('daterange'));
+                    $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
+                    $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
+
+                    $q->whereBetween('checkin_from', [$dateBegin, $dateEnd]);
+
+                    $totalFiltered = $q->whereBetween('checkin_from', [$dateBegin, $dateEnd])
+                        ->count();
+                }
+                /* Date range func end */
+
+                /* thead search functionality for booking number, email, status begin */
                 if( !empty($params['columns'][1]['search']['value'])
                     || isset($params['columns'][8]['search']['value']) )
                 {
-                    $bookings = Booking::where('is_delete', 0)
-                        ->where('cabinname', $cabin_name)
-                        ->where(function($query) use ($params) {
+                    $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
                                 ->orWhere('status', "{$params['columns'][8]['search']['value']}");
-                        })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
-                        ->get();
+                        });
 
-                    $totalFiltered = Booking::where('is_delete', 0)
-                        ->where('cabinname', $cabin_name)
-                        ->where(function($query) use ($params) {
+                    $totalFiltered = $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
                                 ->orWhere('status', "{$params['columns'][8]['search']['value']}");
                         })
                         ->count();
                 }
 
-                if( !empty($params['columns'][2]['search']['value'])
-                    || !empty($params['columns'][3]['search']['value'])
-                    || !empty($params['columns'][4]['search']['value']) )
+                if( !empty($params['columns'][4]['search']['value']) )
                 {
                     $users     = Userlist::where(function($query) use ($params) {
-                        $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
-                            ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
-                            ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                        $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                     })
                         ->skip($start)
                         ->take($limit)
@@ -238,30 +171,20 @@ class BookingController extends Controller
 
                     if(count($users) > 0) {
                         foreach ($users as $user) {
-                            $bookings = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
+                            $q->where(function($query) use ($user) {
                                     $query->where('user', $user->_id);
-                                })
-                                ->skip($start)
-                                ->take($limit)
-                                ->orderBy($order, $dir)
-                                ->get();
+                                });
 
-                            $totalFiltered = Booking::where('is_delete', 0)
-                                ->where('cabinname', $cabin_name)
-                                ->where(function($query) use ($user) {
+                            $totalFiltered = $q->where(function($query) use ($user) {
                                     $query->where('user', $user->_id);
                                 })
                                 ->count();
                         }
                     }
                     else {
-                        /* Search (lastname firstname email) checking in temp user table begin */
+                        /* Search email checking in temp user table begin */
                         $tempUser    = Tempuser::where(function($query) use ($params) {
-                            $query->where('usrLastname', 'like', "%{$params['columns'][2]['search']['value']}%")
-                                ->orWhere('usrFirstname','like', "%{$params['columns'][3]['search']['value']}%")
-                                ->orWhere('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                            $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                         })
                             ->skip($start)
                             ->take($limit)
@@ -270,29 +193,25 @@ class BookingController extends Controller
 
                         if(count($tempUser) > 0) {
                             foreach ($tempUser as $user) {
-                                $bookings = Booking::where('is_delete', 0)
-                                    ->where('cabinname', $cabin_name)
-                                    ->where(function($query) use ($user) {
+                                $q->where(function($query) use ($user) {
                                         $query->where('temp_user_id', $user->_id);
-                                    })
-                                    ->skip($start)
-                                    ->take($limit)
-                                    ->orderBy($order, $dir)
-                                    ->get();
+                                    });
 
-                                $totalFiltered = Booking::where('is_delete', 0)
-                                    ->where('cabinname', $cabin_name)
-                                    ->where(function($query) use ($user) {
+                                $totalFiltered = $q->where(function($query) use ($user) {
                                         $query->where('temp_user_id', $user->_id);
                                     })
                                     ->count();
                             }
                         }
-                        /* Search (lastname firstname email) checking in temp user table end */
+                        /* Search email checking in temp user table end */
                     }
                 }
-                /* thead search functionality for booking number, lastname, firstname, email end */
+                /* thead search functionality for booking number, email, status end */
 
+                $bookings      = $q->skip($start)
+                    ->take($limit)
+                    ->orderBy($order, $dir)
+                    ->get();
 
                 $data          = array();
                 $noData        = '<span class="label label-default">'.__("cabinowner.noResult").'</span>';
