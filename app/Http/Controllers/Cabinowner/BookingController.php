@@ -47,8 +47,7 @@ class BookingController extends Controller
             9 => 'sleeps',
             10 => 'status',
             11 => 'prepayment_amount',
-            12 => 'answered',
-            13 => 'action'
+            12 => 'answered'
         );
 
         $cabins = Cabin::where('is_delete', 0)
@@ -237,7 +236,7 @@ class BookingController extends Controller
                                 $bookings[$key]['usrTelephone']        = $tempUser->usrTelephone;
                                 $bookings[$key]['usrMobile']           = $tempUser->usrMobile;
                                 $bookings[$key]['usrZip']              = $tempUser->usrZip;
-                                $bookings[$key]['cancel']              = '<button type="button" class="btn btn-danger btn-sm cancel"><span data-cancel="'.$booking->_id.'" class="glyphicon glyphicon-ban-circle spanCancel"></span></button>';
+                                $bookings[$key]['cancel']              = '<div class="row cancelDiv"><div class="col-md-12"><ul class="list-group"><li class="list-group-item"><label>'.__("cabinowner.action").'</label> <button type="button" class="btn btn-danger btn-sm cancel"><span data-cancel="'.$booking->_id.'" class="spanCancel"></span>Stornieren</button></li></ul></div></div>';
                             }
                         }
                         else{
@@ -254,7 +253,7 @@ class BookingController extends Controller
                                 $bookings[$key]['usrTelephone']        = $user->usrTelephone;
                                 $bookings[$key]['usrMobile']           = $user->usrMobile;
                                 $bookings[$key]['usrZip']              = $user->usrZip;
-                                $bookings[$key]['cancel']              = '<button type="button" class="btn btn-danger btn-sm" disabled="disabled"><span class="glyphicon glyphicon-off glyphicon-ban-circle"></span></button>';
+                                $bookings[$key]['cancel']              = '';
                             }
                         }
 
@@ -418,11 +417,11 @@ class BookingController extends Controller
                         /* Condition for, When booking status is already cancelled then disable cancel button */
                         if($booking->status == "2")
                         {
-                            $bookings[$key]['cancel']          = '<button type="button" class="btn btn-danger btn-sm" disabled="disabled"><span class="glyphicon glyphicon-ban-circle"></span></button>';
+                            $bookings[$key]['cancel']          = '';
                         }
 
 
-                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div>'.$bookings[$key]['cancel'].'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
@@ -435,7 +434,6 @@ class BookingController extends Controller
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
-                        $nestedData['action']                  = $bookings[$key]['cancel'];
                         $data[]                                = $nestedData;
                     }
                 }
@@ -523,7 +521,7 @@ class BookingController extends Controller
         $booking->status    = '2';
         $booking->save();
 
-        return response()->json(['message' => 'Booking cancelled successfully.'], 201);
+        return response()->json(['message' => __('cabinowner.successfullyCancelled')], 201);
     }
 
     /**

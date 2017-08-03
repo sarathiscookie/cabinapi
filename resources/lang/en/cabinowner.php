@@ -50,7 +50,7 @@ return [
     'status'                                 => 'Status',
     'amount'                                 => 'Amount',
     'answered'                               => 'Answered',
-    'action'                                 => 'Cancel',
+    'action'                                 => 'Click here to cancel this booking',
     'notAsked'                               => 'Not Asked',
     'emptyMessage'                           => 'Empty Message',
     'searchBoookingNo'                       => 'Search Booking No',
@@ -85,4 +85,8 @@ return [
     'bookingListMenu'                       => 'Booking List',
     'bookingStatisticsMenu'                 => 'Booking Statistics',
     /* Sidebar messages end */
+
+    /* Alert messages */
+    'somethingWrong'                        => 'Something went wrong please try again',
+    'successfullyCancelled'                 => 'Booking cancelled successfully',
 ];

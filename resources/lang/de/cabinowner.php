@@ -50,7 +50,7 @@ return [
     'status'                                 => 'Status',
     'amount'                                 => 'Betrag-Gesamt',
     'answered'                               => 'Antworten',
-    'action'                                 => 'Stornieren',
+    'action'                                 => 'Klicken Sie hier, um diese Buchung zu stornieren',
     'notAsked'                               => 'ohne Kommentar',
     'emptyMessage'                           => 'keine Nachricht',
     'searchBoookingNo'                       => 'Suche Buchungs-Nr',
@@ -85,4 +85,8 @@ return [
     'bookingListMenu'                       => 'Buchungsliste',
     'bookingStatisticsMenu'                 => 'Buchungsstatistiken',
     /* Sidebar messages end */
+
+    /* Alert messages */
+    'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
+    'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
 ];

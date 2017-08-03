@@ -53,9 +53,6 @@
                                 </div>
                             </div>
 
-                            <div class="response">
-                            </div>
-
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
@@ -72,7 +69,6 @@
                                     <th>@lang('cabinowner.status')</th>
                                     <th>@lang('cabinowner.amount')</th>
                                     <th>@lang('cabinowner.answered')</th>
-                                    <th>@lang('cabinowner.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -100,7 +96,6 @@
                                             <option value="5">@lang('cabinowner.bookingWaiting')</option>
                                         </select>
                                     </td>
-                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -178,13 +173,12 @@
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
-                        { "data": "answered" },
-                        { "data": "action" }
+                        { "data": "answered" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12]
                         }
                     ],
                     "language": {
@@ -314,24 +308,28 @@
             /* Cancel booking */
             $('#booking_data tbody').on( 'click', 'button.cancel', function(e){
                 e.preventDefault();
-                var r = confirm("You wana cancel this booking");
-                if (r == true)
-                {
-                    var data = $(this).children('.spanCancel').data('cancel');
-                    $.ajax({
-                        url: '/cabinowner/booking/cancel',
-                        data: { data: data },
-                        dataType: 'JSON',
-                        type: 'POST',
-                    })
-                        .done(function( response ) {
+                var data = $(this).children('.spanCancel').data('cancel');
+                $.ajax({
+                    url: '/cabinowner/booking/cancel',
+                    data: { data: data },
+                    dataType: 'JSON',
+                    type: 'POST',
+                })
+                    .done(function( response ) {
+                        $('.response').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.message+'</div>');
+                        $('.cancelDiv').hide();
+                        $('#bookingModal_'+data).on('hidden.bs.modal', function () {
+                            $('#bookingModal_'+data).html("");
                             booking_data.ajax.reload();
-                            $('.response').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.message+'</div>');
                         })
-                        .fail(function() {
-                            $('.response').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> something went wrong please try again.</div>');
-                        });
-                }
+                    })
+                    .fail(function() {
+                        $('.response').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
+                        $('#bookingModal_'+data).on('hidden.bs.modal', function () {
+                            $('#bookingModal_'+data).html("");
+                            booking_data.ajax.reload();
+                        })
+                    });
             });
 
             /* <tfoot> search functionality */
