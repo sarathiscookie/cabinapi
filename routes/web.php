@@ -75,9 +75,7 @@ Route::prefix('admin')->group(function () {
     | Routes for users
     |--------------------------------------------------------------------------
     |
-    | Routes for listing, update, delete users
-    | Routes for add club members
-    | Routes for assign roles.
+    | Routes for listing, update, delete users, add club members, assign roles.
     */
     /* Listing users */
     Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
@@ -106,9 +104,7 @@ Route::prefix('admin')->group(function () {
     | Routes for bookings
     |--------------------------------------------------------------------------
     |
-    | Routes for listing & delete bookings
-    | Routes for update payment
-    | Routes for send vouchers.
+    | Routes for listing, delete bookings, update payment, send vouchers
     */
 
     /* Listing bookings */
@@ -190,11 +186,7 @@ Route::prefix('admin')->group(function () {
     | Routes for cabins
     |--------------------------------------------------------------------------
     |
-    | Routes for list, edit, add & delete cabins
-    | Routes for update cabin price
-    | Routes for update season date
-    | Routes for update cabin type
-    | Routes for assign user to cabin
+    | Routes for list, edit, add & delete cabins, update cabin price, update season date, update cabin type, assign user to cabin
     */
     /* Listing cabins */
     Route::get('/cabins', 'CabinController@index'); //http://cabinapi.app/api/cabins?page=9
@@ -241,8 +233,7 @@ Route::prefix('cabinowner')->group(function () {
         | Routes for bookings
         |--------------------------------------------------------------------------
         |
-        | Routes for listing bookings
-        | Routes for send message
+        | Routes for listing bookings, send message, cancel booking
         */
 
         /* Listing bookings */
@@ -253,6 +244,9 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Send message to guest */
         Route::post('/message/send', 'Cabinowner\BookingController@send');
+
+        /* Cancel booking */
+        Route::post('booking/cancel', 'Cabinowner\BookingController@cancelBooking');
 
     });
 });

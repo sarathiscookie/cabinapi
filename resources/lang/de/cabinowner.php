@@ -50,6 +50,7 @@ return [
     'status'                                 => 'Status',
     'amount'                                 => 'Betrag-Gesamt',
     'answered'                               => 'Antworten',
+    'action'                                 => 'Stornieren',
     'notAsked'                               => 'ohne Kommentar',
     'emptyMessage'                           => 'keine Nachricht',
     'searchBoookingNo'                       => 'Suche Buchungs-Nr',

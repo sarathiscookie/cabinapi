@@ -50,6 +50,7 @@ return [
     'status'                                 => 'Status',
     'amount'                                 => 'Amount',
     'answered'                               => 'Answered',
+    'action'                                 => 'Cancel',
     'notAsked'                               => 'Not Asked',
     'emptyMessage'                           => 'Empty Message',
     'searchBoookingNo'                       => 'Search Booking No',

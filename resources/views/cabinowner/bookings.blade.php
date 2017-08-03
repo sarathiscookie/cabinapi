@@ -53,6 +53,8 @@
                                 </div>
                             </div>
 
+                            <div class="response">
+                            </div>
 
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
@@ -70,6 +72,7 @@
                                     <th>@lang('cabinowner.status')</th>
                                     <th>@lang('cabinowner.amount')</th>
                                     <th>@lang('cabinowner.answered')</th>
+                                    <th>@lang('cabinowner.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -88,7 +91,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input" id="8">
+                                        <select class="form-control input-sm search-input" id="10">
                                             <option value="">(@lang('cabinowner.SearchStatus'))</option>
                                             <option value="1">@lang('cabinowner.bookingFix')</option>
                                             <option value="2">@lang('cabinowner.cancelled')</option>
@@ -97,6 +100,7 @@
                                             <option value="5">@lang('cabinowner.bookingWaiting')</option>
                                         </select>
                                     </td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -174,12 +178,13 @@
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
-                        { "data": "answered" }
+                        { "data": "answered" },
+                        { "data": "action" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
                         }
                     ],
                     "language": {
@@ -306,7 +311,30 @@
                 });
             });
 
-            /* <thead> search functionality */
+            /* Cancel booking */
+            $('#booking_data tbody').on( 'click', 'button.cancel', function(e){
+                e.preventDefault();
+                var r = confirm("You wana cancel this booking");
+                if (r == true)
+                {
+                    var data = $(this).children('.spanCancel').data('cancel');
+                    $.ajax({
+                        url: '/cabinowner/booking/cancel',
+                        data: { data: data },
+                        dataType: 'JSON',
+                        type: 'POST',
+                    })
+                        .done(function( response ) {
+                            booking_data.ajax.reload();
+                            $('.response').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.message+'</div>');
+                        })
+                        .fail(function() {
+                            $('.response').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> something went wrong please try again.</div>');
+                        });
+                }
+            });
+
+            /* <tfoot> search functionality */
             $('.search-input').on( 'keyup change', function () {
                 var i =$(this).attr('id');  // getting column index
                 var v =$(this).val();  // getting search input value

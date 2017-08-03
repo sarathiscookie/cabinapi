@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cabinowner;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CabinownerBookingRequest;
 use App\Booking;
 use App\Userlist;
 use App\Tempuser;
@@ -27,10 +28,10 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function dataTables(Request $request)
+    public function dataTables(CabinownerBookingRequest $request)
     {
         $params        = $request->all();
 
@@ -41,10 +42,13 @@ class BookingController extends Controller
             4 => 'usrEmail',
             5 => 'checkin_from',
             6 => 'reserve_to',
-            7 => 'sleeps',
-            8 => 'status',
-            9 => 'prepayment_amount',
-            10 => 'answered'
+            7 => 'beds',
+            8 => 'dormitory',
+            9 => 'sleeps',
+            10 => 'status',
+            11 => 'prepayment_amount',
+            12 => 'answered',
+            13 => 'action'
         );
 
         $cabins = Cabin::where('is_delete', 0)
@@ -145,16 +149,16 @@ class BookingController extends Controller
 
                 /* thead search functionality for booking number, email, status begin */
                 if( !empty($params['columns'][1]['search']['value'])
-                    || isset($params['columns'][8]['search']['value']) )
+                    || isset($params['columns'][10]['search']['value']) )
                 {
                     $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][8]['search']['value']}");
+                                ->orWhere('status', "{$params['columns'][10]['search']['value']}");
                         });
 
                     $totalFiltered = $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][8]['search']['value']}");
+                                ->orWhere('status', "{$params['columns'][10]['search']['value']}");
                         })
                         ->count();
                 }
@@ -224,7 +228,7 @@ class BookingController extends Controller
                                 ->get();
                             foreach ($tempUsers as $tempUser){
                                 $usrEmail                              = $tempUser->usrEmail;
-                                $bookings[$key]['bookedBy']            = 'cabinowner';
+                                $bookings[$key]['bookedBy']            = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
                                 $bookings[$key]['usrEmail']            = $usrEmail;
                                 $bookings[$key]['usrFirstname']        = $tempUser->usrFirstname;
                                 $bookings[$key]['usrLastname']         = $tempUser->usrLastname;
@@ -233,6 +237,7 @@ class BookingController extends Controller
                                 $bookings[$key]['usrTelephone']        = $tempUser->usrTelephone;
                                 $bookings[$key]['usrMobile']           = $tempUser->usrMobile;
                                 $bookings[$key]['usrZip']              = $tempUser->usrZip;
+                                $bookings[$key]['cancel']              = '<button type="button" class="btn btn-danger btn-sm cancel"><span data-cancel="'.$booking->_id.'" class="glyphicon glyphicon-ban-circle spanCancel"></span></button>';
                             }
                         }
                         else{
@@ -240,6 +245,7 @@ class BookingController extends Controller
                                 ->get();
                             foreach ($users as $user){
                                 $usrEmail                              = $user->usrEmail;
+                                $bookings[$key]['bookedBy']            = '';
                                 $bookings[$key]['usrEmail']            = $usrEmail;
                                 $bookings[$key]['usrFirstname']        = $user->usrFirstname;
                                 $bookings[$key]['usrLastname']         = $user->usrLastname;
@@ -248,15 +254,8 @@ class BookingController extends Controller
                                 $bookings[$key]['usrTelephone']        = $user->usrTelephone;
                                 $bookings[$key]['usrMobile']           = $user->usrMobile;
                                 $bookings[$key]['usrZip']              = $user->usrZip;
+                                $bookings[$key]['cancel']              = '<button type="button" class="btn btn-danger btn-sm" disabled="disabled"><span class="glyphicon glyphicon-off glyphicon-ban-circle"></span></button>';
                             }
-                        }
-
-                        /* Checking booking done by cabin owner */
-                        if($bookings[$key]['bookedBy'] == 'cabinowner') {
-                            $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
-                        }
-                        else {
-                            $bookedBy = '';
                         }
 
                         /* Condition for booking status begin */
@@ -416,12 +415,18 @@ class BookingController extends Controller
                             $dormitory = '-----';
                         }
 
+                        /* Condition for, When booking status is already cancelled then disable cancel button */
+                        if($booking->status == "2")
+                        {
+                            $bookings[$key]['cancel']          = '<button type="button" class="btn btn-danger btn-sm" disabled="disabled"><span class="glyphicon glyphicon-ban-circle"></span></button>';
+                        }
+
 
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
-                        $nestedData['usrEmail']                = $user_email .' '. $bookedBy;
+                        $nestedData['usrEmail']                = $user_email .' '. $bookings[$key]['bookedBy'];
                         $nestedData['checkin_from']            = $checkin_from;
                         $nestedData['reserve_to']              = $reserve_to;
                         $nestedData['beds']                    = $beds;
@@ -430,6 +435,7 @@ class BookingController extends Controller
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
+                        $nestedData['action']                  = $bookings[$key]['cancel'];
                         $data[]                                = $nestedData;
                     }
                 }
@@ -451,10 +457,10 @@ class BookingController extends Controller
     /**
      * send message to user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function send(Request $request)
+    public function send(CabinownerBookingRequest $request)
     {
         $message    = '';
         $array      = json_decode($request->data, true);
@@ -506,6 +512,21 @@ class BookingController extends Controller
     }
 
     /**
+     * Cancel the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\CabinownerBookingRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancelBooking(CabinownerBookingRequest $request)
+    {
+        $booking            = Booking::findOrFail($request->data);
+        $booking->status    = '2';
+        $booking->save();
+
+        return response()->json(['message' => 'Booking cancelled successfully.'], 201);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -518,10 +539,10 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CabinownerBookingRequest $request)
     {
         //
     }
@@ -551,11 +572,11 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CabinownerBookingRequest $request, $id)
     {
         //
     }
@@ -570,4 +591,5 @@ class BookingController extends Controller
     {
         //
     }
+
 }
