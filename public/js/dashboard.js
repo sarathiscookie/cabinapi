@@ -29,13 +29,24 @@ $(function () {
         startDate: start,
         endDate: end,
         ranges: {
-            'Last 7 Days': [moment().subtract(7, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(30, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
+            'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
+            'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
+            'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         },
         locale: {
-            format: 'DD.MM.YYYY'
+            format: 'DD.MM.YYYY',
+            applyLabel: "Bestätigen",
+            cancelLabel: "Löschen",
+            daysOfWeek: [
+                "So",
+                "Mo",
+                "Di",
+                "Mi",
+                "Do",
+                "Fr",
+                "Sa"
+            ],
         }
     });
 
