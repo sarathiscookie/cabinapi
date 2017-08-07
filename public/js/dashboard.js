@@ -50,6 +50,7 @@ $(function () {
         }
     });
 
+    /* Chart generate */
     $('#generate').on('click', function() {
         var $btn      = $(this).button('loading');
         var cabin     = $('.cabins').val();
