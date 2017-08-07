@@ -38,6 +38,7 @@ return [
     /* Model end */
 
     'bookingNumber'                          => 'Buchungs-Nr.',
+    'comment'                                => 'Kommentar',
     'firstName'                              => 'Vorname',
     'lastName'                               => 'Nachname',
     'email'                                  => 'E-Mail',

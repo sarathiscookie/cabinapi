@@ -37,17 +37,18 @@ class BookingController extends Controller
 
         $columns       = array(
             1 => 'invoice_number',
-            2 => 'usrLastname',
-            3 => 'usrFirstname',
-            4 => 'usrEmail',
-            5 => 'checkin_from',
-            6 => 'reserve_to',
-            7 => 'beds',
-            8 => 'dormitory',
-            9 => 'sleeps',
-            10 => 'status',
-            11 => 'prepayment_amount',
-            12 => 'answered'
+            2 => 'comment',
+            3 => 'usrLastname',
+            4 => 'usrFirstname',
+            5 => 'usrEmail',
+            6 => 'checkin_from',
+            7 => 'reserve_to',
+            8 => 'beds',
+            9 => 'dormitory',
+            10 => 'sleeps',
+            11 => 'status',
+            12 => 'prepayment_amount',
+            13 => 'answered'
         );
 
         $cabins = Cabin::where('is_delete', 0)
@@ -148,24 +149,24 @@ class BookingController extends Controller
 
                 /* thead search functionality for booking number, email, status begin */
                 if( !empty($params['columns'][1]['search']['value'])
-                    || isset($params['columns'][10]['search']['value']) )
+                    || isset($params['columns'][11]['search']['value']) )
                 {
                     $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][10]['search']['value']}");
+                                ->orWhere('status', "{$params['columns'][11]['search']['value']}");
                         });
 
                     $totalFiltered = $q->where(function($query) use ($params) {
                             $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][10]['search']['value']}");
+                                ->orWhere('status', "{$params['columns'][11]['search']['value']}");
                         })
                         ->count();
                 }
 
-                if( !empty($params['columns'][4]['search']['value']) )
+                if( !empty($params['columns'][5]['search']['value']) )
                 {
                     $users     = Userlist::where(function($query) use ($params) {
-                        $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                        $query->where('usrEmail', 'like', "%{$params['columns'][5]['search']['value']}%");
                     })
                         ->skip($start)
                         ->take($limit)
@@ -187,7 +188,7 @@ class BookingController extends Controller
                     else {
                         /* Search email checking in temp user table begin */
                         $tempUser    = Tempuser::where(function($query) use ($params) {
-                            $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
+                            $query->where('usrEmail', 'like', "%{$params['columns'][5]['search']['value']}%");
                         })
                             ->skip($start)
                             ->take($limit)
@@ -423,6 +424,7 @@ class BookingController extends Controller
 
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div>'.$bookings[$key]['cancel'].'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
+                        $nestedData['comment']                 = $booking->comments;
                         $nestedData['usrLastname']             = $last_name;
                         $nestedData['usrFirstname']            = $first_name;
                         $nestedData['usrEmail']                = $user_email .' '. $bookings[$key]['bookedBy'];
