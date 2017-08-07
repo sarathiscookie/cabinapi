@@ -106,7 +106,7 @@
                     <div class="box box-primary box-solid">
                         <div class="box-header with-border">
                             <i class="fa fa-th"></i>
-                            <h3 class="box-title">Sales</h3>
+                            <h3 class="box-title">@lang('statisticsAdmin.salesLabel')</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
@@ -119,19 +119,13 @@
                         <div class="box-body">
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>Choose Cabins {{--or Region:--}}</label>
+                                    <label>@lang('statisticsAdmin.chooseCabin'): </label>
                                     <select class="form-control cabins" style="width: 100%;" id="cabin">
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>
                                             @endforeach
                                         </optgroup>
-                                        
-                                        {{--<optgroup label="Region">
-                                            <option>Alabama</option>
-                                            <option>Alaska</option>
-                                            <option>Region</option>
-                                        </optgroup>--}}
                                     </select>
                                 </div>
                                 <!-- /.form-group -->
@@ -140,7 +134,7 @@
                             <!-- Date range -->
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>Date range:</label>
+                                    <label>@lang('statisticsAdmin.dateRange'): </label>
 
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -157,7 +151,7 @@
                                 <div class="form-group">
                                     <label></label>
                                     <div class="input-group">
-                                        <button type="button" class="btn btn-primary" id="generate" data-loading-text="Generating..." autocomplete="off">Generate</button>
+                                        <button type="button" class="btn btn-primary" id="generate" data-loading-text="Generating..." autocomplete="off">@lang('statisticsAdmin.generateButton')</button>
                                     </div>
                                 </div>
                                 <!-- /.form group -->
