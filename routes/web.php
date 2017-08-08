@@ -62,13 +62,24 @@ Route::prefix('admin')->group(function () {
     |--------------------------------------------------------------------------
     |
     | Here we define dashboard routes
-    | Routes for sales graph
+    | Routes for sales chart
     */
-
+    /* Show dashboard page */
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     /* Show sales graph */
     Route::post('/dashboard/sales/graph', 'DashboardController@show')->name('dashboard.sales.graph');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Booking Statistics Routes
+    |--------------------------------------------------------------------------
+    |
+    | Here we define booking statistics routes
+    | Routes for booking status chart
+    */
+    /* Show booking statistics page */
+    Route::get('/booking/statistics', 'BookingStatisticsController@index')->name('bookingStatistics');
 
     /*
     |--------------------------------------------------------------------------
@@ -250,6 +261,3 @@ Route::prefix('cabinowner')->group(function () {
 
     });
 });
-
-/* Statistics purpose */
-/*Route::get('/cabins/name/{bookingCabinName}', 'CabinController@statistics');*/
