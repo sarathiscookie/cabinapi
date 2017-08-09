@@ -413,8 +413,8 @@ class BookingController extends Controller
         foreach ($request->bookingId as $id) {
             $bookingDetails                 = Booking::find($id);
             $bookingDetails->status_comment = 'Payment updated via backend';
-            $bookingDetails->status         = 1;
-            $bookingDetails->payment_status = 1;
+            $bookingDetails->status         = "1";
+            $bookingDetails->payment_status = "1";
             $bookingDetails->sent_email     = 1;
             $bookingDetails->status_admin   = Auth::user()->_id;
             $bookingDetails->save();
@@ -439,8 +439,8 @@ class BookingController extends Controller
     {
         $bookingDetails                 = Booking::find($request->bookingId);
         $bookingDetails->status_comment = 'Payment updated via backend';
-        $bookingDetails->status         = 1;
-        $bookingDetails->payment_status = 1;
+        $bookingDetails->status         = "1";
+        $bookingDetails->payment_status = "1";
         $bookingDetails->sent_email     = 1;
         $bookingDetails->status_admin   = Auth::user()->_id;
         $bookingDetails->save();
