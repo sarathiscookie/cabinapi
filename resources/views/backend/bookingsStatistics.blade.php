@@ -28,7 +28,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
-                <li><i class="fa fa-table"></i> @lang('admin.bookings')</li>
+                <li><a href="/admin/bookings"><i class="fa fa-table"></i> @lang('admin.bookings')</a></li>
                 <li class="active">Statistics</li>
             </ol>
         </section>
@@ -44,10 +44,6 @@
                         <div class="box-header with-border">
                             <i class="fa fa-th"></i>
                             <h3 class="box-title">Booking Statistics</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
                             <!-- /.box-tools -->
                         </div>
                         <!-- /.box-header -->
@@ -94,12 +90,14 @@
                                 <!-- /.form group -->
                             </div>
 
+                            <div class="col-md-4 pull-right alert-graph">
+                            </div>
+
                         </div>
                         <!-- /.box-body -->
 
+                        <!-- Chart JS - Booking Statistics -->
                         <div class="box-footer" id="graph-container">
-                            <!-- Chart JS - Sales -->
-                            <canvas id="lineChartSales" style="height: 400px;"></canvas>
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -123,161 +121,6 @@
     <script type="text/javascript" src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
-    <!-- Statistics JS -->
-    <script>
-        $(function () {
-
-            "use strict";
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            //Initialize Select2 Elements
-            $(".cabins").select2({
-                placeholder: "select a cabin",
-                allowClear: true
-            });
-
-            /* Date range picker */
-            var start = moment().subtract(29, 'days');
-            var end = moment();
-
-            $('#daterange').daterangepicker({
-                startDate: start,
-                endDate: end,
-                ranges: {
-                    'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
-                    'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
-                    'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
-                    'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-                locale: {
-                    format: 'DD.MM.YYYY',
-                    applyLabel: "Bestätigen",
-                    cancelLabel: "Löschen",
-                    daysOfWeek: [
-                        "So",
-                        "Mo",
-                        "Di",
-                        "Mi",
-                        "Do",
-                        "Fr",
-                        "Sa"
-                    ],
-                }
-            });
-
-            /* Chart generate */
-            $('#generate').on('click', function() {
-                var $btn      = $(this).button('loading');
-                var cabin     = $('.cabins').val();
-                var dates     = $('#daterange').val();
-                var daterange = dates.replace(/\s/g, '');
-
-                $.ajax({
-                    url: '/admin/dashboard/sales/graph',
-                    dataType: "json",
-                    type: "POST",
-                    data:{ daterange:daterange, cabin:cabin}
-                })
-                    .done(function( response ) {
-                        $('#lineChartSales').remove();
-                        $('#graph-container').append('<canvas id="lineChartSales" style="height: 400px;"></canvas>');
-
-                        var lineChart = {
-                            labels: ["01-07-17", "02-07-17", "03-07-17", "04-07-17", "05-07-17", "06-07-17"],
-                            datasets: [{
-                                label: 'Fix',
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                borderColor: 'rgba(255,99,132,1)',
-                                borderWidth: 1,
-                                data: ["20", "18", "11", "40", "50", "70"]
-                            },
-                                {
-                                    label: 'Storniert',
-                                    backgroundColor: 'rgba(79, 196, 127, 0.2)',
-                                    borderColor: 'rgba(79, 196, 127, 1)',
-                                    data: ["50", "38", "111", "20", "10", "70"]
-                                },
-                                {
-                                    label: 'Abgeschlossen',
-                                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                                    borderColor: 'rgba(153, 102, 255, 1)',
-                                    data: ["90", "28", "12", "60", "70", "80"]
-                                },
-                                {
-                                    label: 'Anfrage',
-                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    data: ["60", "10", "40", "50", "20", "100"]
-                                },
-                                {
-                                    label: 'Warten auf Zahlung',
-                                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                                    borderColor: 'rgba(255, 159, 64, 1)',
-                                    data: ["75", "35", "85", "25", "95", "10"]
-                                }
-                            ]
-                        };
-
-                        var ctx = document.getElementById('lineChartSales').getContext('2d');
-                        var chart = new Chart(ctx, {
-                            type: 'line',
-                            data: lineChart,
-                            options: {
-                                elements: {
-                                    rectangle: {
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                    }
-                                },
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    xAxes: [{
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: "Dates",
-                                        }
-                                    }],
-                                    yAxes: [{
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: "Count",
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-
-                        $btn.button('reset');
-                    })
-                    .fail(function() {
-                        alert( "error" );
-                        $btn.button('reset');
-                    });
-            });
-
-
-            /* Calender */
-            $("#calendar").datepicker();
-        });
-
-    </script>
+    <!-- Statistics Js -->
+    <script src="{{ asset('js/bookingsStatistics.js') }}"></script>
 @endsection

@@ -79,7 +79,10 @@ Route::prefix('admin')->group(function () {
     | Routes for booking status chart
     */
     /* Show booking statistics page */
-    Route::get('/booking/statistics', 'BookingStatisticsController@index')->name('bookingStatistics');
+    Route::get('/bookings/statistics', 'BookingStatisticsController@index')->name('booking.statistics');
+
+    /* Show booking graph */
+    Route::post('/bookings/statistics', 'BookingStatisticsController@show')->name('booking.statistics.graph');
 
     /*
     |--------------------------------------------------------------------------
