@@ -83,6 +83,14 @@ class BookingStatisticsController extends Controller
             $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[0])*1000);
             $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[1])*1000);
 
+            $labels                 = $this->getDateLabels($request->daterange);
+            /* x- axis labels */
+            $xCoord                 = [];
+            foreach ($labels as $day){
+                $xCoord[] = date('d.m.y', strtotime($day));
+            }
+
+            /* Booking status statistics begin */
             $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
                 return $collection->aggregate([
                     [
@@ -116,15 +124,6 @@ class BookingStatisticsController extends Controller
                     ],
                 ]);
             });
-
-            $labels = $this->getDateLabels($request->daterange);
-
-            /* x- axis labels */
-            $xCoord       = [];
-            foreach ($labels as $day){
-                $xCoord[] = date('d.m.y', strtotime($day));
-            }
-
 
             foreach ($bookings as $row){
                 $checkinFrom          = $row->checkin_from->format('Ymd');
@@ -182,6 +181,7 @@ class BookingStatisticsController extends Controller
             ksort($waiting,1);
             $wait  = array_values($waiting);
 
+
             $chartData[] =[
                 'label'=>'Fix',
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
@@ -213,6 +213,11 @@ class BookingStatisticsController extends Controller
                 'borderWidth'=> 1,
                 'data' => $wait,
             ];
+            /* Booking status statistics end */
+
+            /* Cancelled positive and negative begin */
+
+            /* Cancelled positive and negative end */
 
             return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
         }

@@ -15,7 +15,7 @@ $(function () {
     });
 
     //Initialize Select2 Elements
-    $(".cabins").select2({
+    $(".cabins_book_statistics").select2({
         placeholder: "select a cabin",
         allowClear: true
     });
@@ -24,7 +24,7 @@ $(function () {
     var start = moment().subtract(29, 'days');
     var end = moment();
 
-    $('#daterange').daterangepicker({
+    $('#daterange_book_statistics').daterangepicker({
         startDate: start,
         endDate: end,
         ranges: {
@@ -50,12 +50,12 @@ $(function () {
     });
 
     /* Chart generate */
-    $('#graph-container').hide();
+    $('#graphBookingStatus').hide();
 
-    $('#generate').on('click', function() {
+    $('#generateBookingStat').on('click', function() {
         var $btn      = $(this).button('loading');
-        var cabin     = $('.cabins').val();
-        var dates     = $('#daterange').val();
+        var cabin     = $('.cabins_book_statistics').val();
+        var dates     = $('#daterange_book_statistics').val();
         var daterange = dates.replace(/\s/g, '');
 
         $.ajax({
@@ -65,16 +65,16 @@ $(function () {
             data:{ daterange:daterange, cabin:cabin}
         })
             .done(function( response ) {
-                $('#graph-container').show();
-                $('#lineChartSales').remove();
-                $('#graph-container').append('<canvas id="lineChartSales" style="height: 400px;"></canvas>');
+                $('#graphBookingStatus').show();
+                $('#lineChartBookingStatistics').remove();
+                $('#graphBookingStatus').append('<canvas id="lineChartBookingStatistics" style="height: 400px;"></canvas>');
 
                 var lineChart = {
                     labels: response.chartLabel,
                     datasets: response.chartData
                 };
 
-                var ctx = document.getElementById('lineChartSales').getContext('2d');
+                var ctx = document.getElementById('lineChartBookingStatistics').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'line',
                     data: lineChart,
@@ -120,8 +120,8 @@ $(function () {
                 $btn.button('reset');
             })
             .fail(function() {
-                $('#graph-container').hide();
-                $('.alert-graph').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
+                $('#graphBookingStatus').hide();
+                $('.alertBookingStat').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
                 $btn.button('reset');
             });
     });

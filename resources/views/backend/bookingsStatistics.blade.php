@@ -53,7 +53,7 @@
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
                                     <label>@lang('statisticsAdmin.chooseCabin'): </label>
-                                    <select class="form-control cabins" style="width: 100%;" id="cabin">
+                                    <select class="form-control cabins_book_statistics" style="width: 100%;" id="cabin">
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>
@@ -73,7 +73,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="daterange">
+                                        <input type="text" class="form-control pull-right" id="daterange_book_statistics">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -84,20 +84,20 @@
                                 <div class="form-group">
                                     <label></label>
                                     <div class="input-group">
-                                        <button type="button" class="btn btn-primary" id="generate" data-loading-text="Generating..." autocomplete="off">@lang('statisticsAdmin.generateButton')</button>
+                                        <button type="button" class="btn btn-primary" id="generateBookingStat" data-loading-text="Generating..." autocomplete="off">@lang('statisticsAdmin.generateButton')</button>
                                     </div>
                                 </div>
                                 <!-- /.form group -->
                             </div>
 
-                            <div class="col-md-4 pull-right alert-graph">
+                            <div class="col-md-4 pull-right alertBookingStat">
                             </div>
 
                         </div>
                         <!-- /.box-body -->
 
                         <!-- Chart JS - Booking Statistics -->
-                        <div class="box-footer" id="graph-container">
+                        <div class="box-footer" id="graphBookingStatus">
                         </div>
                         <!-- /.box-footer -->
                     </div>
