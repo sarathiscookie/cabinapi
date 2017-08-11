@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Cabin;
 use App\Booking;
 use DB;
-use Carbon\Carbon;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class DashboardController extends Controller
 {
@@ -42,6 +44,31 @@ class DashboardController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  string  $daterange
+     * @return \Illuminate\Http\Response
+     */
+    protected function getDateLabels($daterange){
+
+        $dateFromTo              = explode("-", $daterange);
+        if($dateFromTo[0]!='' && $dateFromTo[1]!='')
+        {
+            $begin = new DateTime( $dateFromTo[0] );
+            $end = new DateTime( $dateFromTo[1] );
+            $end = $end->modify( '+1 day' );
+
+            $interval = new DateInterval('P1D');
+            $period = new DatePeriod($begin, $interval ,$end);
+        }
+
+        foreach ($period as $date) {
+            $labels[] = $date->format('Ymd');
+        }
+        return $labels;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,6 +82,14 @@ class DashboardController extends Controller
             $daterange              = explode("-", $request->daterange);
             $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[0])*1000);
             $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[1])*1000);
+
+            $labels                 = $this->getDateLabels($request->daterange);
+            /* x- axis labels */
+            $xCoord                 = [];
+            foreach ($labels as $day){
+                $xCoord[] = date('d.m.y', strtotime($day));
+            }
+
             $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
                 return $collection->aggregate([
                     [
@@ -90,23 +125,46 @@ class DashboardController extends Controller
                 ]);
             });
 
-            $totalPrepayAmount       = [];
-            $prepayAmount            = [];
-            $checkinFrom             = [];
-            $serviceFee              = [];
             foreach ($bookings as $booking){
-                $checkinFrom[]       = $booking->checkin_from->format('d.m.y');
-                $totalPrepayAmount[] = $booking->total_prepayment_amount;
-                $prepayAmount[]      = $booking->prepayment_amount;
-                $serviceFee[]        = round($booking->total_prepayment_amount - $booking->prepayment_amount, 2);
+                if(!empty($booking->total_prepayment_amount) && !empty($booking->prepayment_amount)) {
+                    $checkinFrom                     = $booking->checkin_from->format('d.m.y');
+                    $totalPrepayAmount[$checkinFrom] = $booking->total_prepayment_amount;
+                    $prepayAmount[$checkinFrom]      = $booking->prepayment_amount;
+                    $serviceFee[$checkinFrom]        = round($booking->total_prepayment_amount - $booking->prepayment_amount, 2);
+                }
             }
+
+            /* y- axis graph data */
+            foreach ($labels as $xlabel){
+                if(!isset($totalPrepayAmount[$xlabel])){
+                    $totalPrepayAmount[$xlabel] = "0";
+                }
+            }
+            ksort($totalPrepayAmount,1);
+            $totalPrepay = array_values($totalPrepayAmount);
+
+            foreach ($labels as $xlabel){
+                if(!isset($prepayAmount[$xlabel])){
+                    $prepayAmount[$xlabel] = "0";
+                }
+            }
+            ksort($prepayAmount,1);
+            $prepay     = array_values($prepayAmount);
+
+            foreach ($labels as $xlabel){
+                if(!isset($serviceFee[$xlabel])){
+                    $serviceFee[$xlabel] = "0";
+                }
+            }
+            ksort($serviceFee,1);
+            $service    = array_values($serviceFee);
 
             $chartData[] =[
                 'label'=> __("statisticsAdmin.totalPrepayAmount"),
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                 'borderColor'=> 'rgba(255,99,132,1)',
                 'borderWidth'=> 1,
-                'data' => $totalPrepayAmount,
+                'data' => $totalPrepay,
             ];
 
             $chartData[] =[
@@ -114,7 +172,7 @@ class DashboardController extends Controller
                 'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
                 'borderColor'=> 'rgba(153, 102, 255, 1)',
                 'borderWidth'=> 1,
-                'data' => $prepayAmount,
+                'data' => $prepay,
             ];
 
             $chartData[] =[
@@ -122,10 +180,10 @@ class DashboardController extends Controller
                 'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
                 'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
-                'data' => $serviceFee,
+                'data' => $service,
             ];
-            
-            return response()->json(['chartData' => unserialize(str_replace(array('NAN;','INF;'),'0;',serialize($chartData))), 'chartLabel' => $checkinFrom]);
+
+            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
         }
 
 

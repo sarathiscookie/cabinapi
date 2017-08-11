@@ -1,10 +1,9 @@
-/*
- * Author: Abdullah A Almsaeed
- * Date: 4 Jan 2014
- * Description:
- *      This is a demo file used only for the main dashboard (index.html)
- **/
-
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 04-08-2017
+ * Time: 08:06
+ */
 $(function () {
 
   "use strict";
@@ -51,6 +50,8 @@ $(function () {
     });
 
     /* Chart generate */
+    $('#graph-container').hide();
+
     $('#generate').on('click', function() {
         var $btn      = $(this).button('loading');
         var cabin     = $('.cabins').val();
@@ -64,6 +65,7 @@ $(function () {
            data:{ daterange:daterange, cabin:cabin}
        })
            .done(function( response ) {
+               $('#graph-container').show();
                $('#lineChartSales').remove();
                $('#graph-container').append('<canvas id="lineChartSales" style="height: 400px;"></canvas>');
 
@@ -124,7 +126,8 @@ $(function () {
                $btn.button('reset');
            })
            .fail(function() {
-               alert( "error" );
+               $('#graph-container').hide();
+               $('.alert-graph').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
                $btn.button('reset');
            });
     });

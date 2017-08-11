@@ -157,12 +157,14 @@
                                 <!-- /.form group -->
                             </div>
 
+                            <div class="col-md-4 pull-right alert-graph">
+                            </div>
+
                         </div>
                         <!-- /.box-body -->
 
+                        <!-- Chart JS - Sales -->
                         <div class="box-footer" id="graph-container">
-                            <!-- Chart JS - Sales -->
-                            {{--<canvas id="lineChartSales" style="height: 400px;"></canvas>--}}
                         </div>
                         <!-- /.box-footer -->
                     </div>
@@ -306,6 +308,6 @@
     <script type="text/javascript" src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
-    <!-- AdminLTE dashboard -->
+    <!-- Dashboard Js -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection
