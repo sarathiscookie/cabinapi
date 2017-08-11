@@ -125,8 +125,4 @@ $(function () {
                 $btn.button('reset');
             });
     });
-
-
-    /* Calender */
-    $("#calendar").datepicker();
 });

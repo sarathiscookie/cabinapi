@@ -45,8 +45,7 @@ class BookingStatisticsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param  string  $daterange
      * @return \Illuminate\Http\Response
      */
     protected function getDateLabels($daterange){
@@ -135,14 +134,14 @@ class BookingStatisticsController extends Controller
                 {
                     $cancelled[$checkinFrom] = $row->count;
                 }
-                if($row->status == "3")
-                {
-                    $completed[$checkinFrom] = $row->count;
-                }
                 if($row->status == "5")
                 {
                     $waiting[$checkinFrom] = $row->count;
                 }
+                /*if($row->status == "3")
+                {
+                    $completed[$checkinFrom] = $row->count;
+                }*/
             }
 
             /* y- axis graph data */
@@ -159,51 +158,40 @@ class BookingStatisticsController extends Controller
                     $cancelled[$xlabel] = "0";
                 }
             }
-
             ksort($cancelled,1);
             $canc   = array_values($cancelled);
-
-            foreach ($labels as $xlabel){
-                if(!isset($completed[$xlabel])){
-                    $completed[$xlabel] = "0";
-                }
-            }
-
-            ksort($completed,1);
-            $compl  = array_values($completed);
 
             foreach ($labels as $xlabel){
                 if(!isset($waiting[$xlabel])){
                     $waiting[$xlabel] = "0";
                 }
             }
-
             ksort($waiting,1);
             $wait  = array_values($waiting);
 
+            /*foreach ($labels as $xlabel){
+                if(!isset($completed[$xlabel])){
+                    $completed[$xlabel] = "0";
+                }
+            }
+
+            ksort($completed,1);
+            $compl  = array_values($completed);*/
 
             $chartData[] =[
                 'label'=>'Fix',
-                'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                'borderColor'=> 'rgba(255,99,132,1)',
+                'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
+                'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
                 'data' => $fix,
             ];
 
             $chartData[] =[
                 'label'=> 'Storniert',
-                'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
-                'borderColor'=> 'rgba(79, 196, 127, 1)',
+                'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                'borderColor'=> 'rgba(255, 99, 132, 1)',
                 'borderWidth'=> 1,
                 'data' => $canc,
-            ];
-
-            $chartData[] =[
-                'label'=> 'Abgeschlossen',
-                'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
-                'borderColor'=> 'rgba(153, 102, 255, 1)',
-                'borderWidth'=> 1,
-                'data' => $compl,
             ];
 
             $chartData[] =[
@@ -213,6 +201,14 @@ class BookingStatisticsController extends Controller
                 'borderWidth'=> 1,
                 'data' => $wait,
             ];
+
+            /*$chartData[] =[
+                'label'=> 'Abgeschlossen',
+                'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                'borderColor'=> 'rgba(153, 102, 255, 1)',
+                'borderWidth'=> 1,
+                'data' => $compl,
+            ];*/
             /* Booking status statistics end */
 
             /* Cancelled positive and negative begin */
