@@ -179,7 +179,7 @@ class BookingStatisticsController extends Controller
             $compl  = array_values($completed);*/
 
             $chartData[] =[
-                'label'=>'Fix',
+                'label'=>__('bookingStatistics.graphFixLabel'),
                 'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
                 'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
@@ -187,7 +187,7 @@ class BookingStatisticsController extends Controller
             ];
 
             $chartData[] =[
-                'label'=> 'Storniert',
+                'label'=> __('bookingStatistics.graphCancelLabel'),
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                 'borderColor'=> 'rgba(255, 99, 132, 1)',
                 'borderWidth'=> 1,
@@ -195,7 +195,7 @@ class BookingStatisticsController extends Controller
             ];
 
             $chartData[] =[
-                'label'=> 'Warten auf Zahlung',
+                'label'=> __('bookingStatistics.graphWaitingLabel'),
                 'backgroundColor' => 'rgba(255, 159, 64, 0.2)',
                 'borderColor'=> 'rgba(255, 159, 64, 1)',
                 'borderWidth'=> 1,
@@ -278,7 +278,7 @@ class BookingStatisticsController extends Controller
             $notGet = array_values($notGetMoney);
 
             $chartData[] =[
-                'label'=> 'User Got Money',
+                'label'=>  __('bookingStatistics.graphGotMoneyLabel'),
                 'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
                 'borderColor'=> 'rgba(54, 162, 235, 1)',
                 'borderWidth'=> 1,
@@ -286,7 +286,7 @@ class BookingStatisticsController extends Controller
             ];
 
             $chartData[] =[
-                'label'=> 'User didnt get money',
+                'label'=>  __('bookingStatistics.graphNotGetMoneyLabel'),
                 'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
                 'borderColor'=> 'rgba(153, 102, 255, 1)',
                 'borderWidth'=> 1,

@@ -23,13 +23,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @lang('admin.bookings')
-                <small>@lang('admin.controlPanel')</small>
+                @lang('bookingStatistics.bookingsHeading')
+                <small>@lang('bookingStatistics.controlPanelHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('admin.dashboard')</a></li>
-                <li><a href="/admin/bookings"><i class="fa fa-table"></i> @lang('admin.bookings')</a></li>
-                <li class="active">Statistics</li>
+                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('bookingStatistics.dashboardLabel')</a></li>
+                <li><a href="/admin/bookings"><i class="fa fa-table"></i> @lang('bookingStatistics.bookingBreadcrumb')</a></li>
+                <li class="active">@lang('bookingStatistics.statisticsBreadcrumb')</li>
             </ol>
         </section>
 
@@ -43,7 +43,7 @@
                     <div class="box box-primary box-solid">
                         <div class="box-header with-border">
                             <i class="fa fa-th"></i>
-                            <h3 class="box-title">Booking Statistics</h3>
+                            <h3 class="box-title">@lang('bookingStatistics.panelHeading')</h3>
                             <!-- /.box-tools -->
                         </div>
                         <!-- /.box-header -->
@@ -52,7 +52,7 @@
                         <div class="box-body">
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('statisticsAdmin.chooseCabin'): </label>
+                                    <label>@lang('bookingStatistics.panelLabelCabin'): </label>
                                     <select class="form-control cabins_book_statistics" style="width: 100%;" id="cabin">
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
@@ -67,7 +67,7 @@
                             <!-- Date range -->
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('statisticsAdmin.dateRange'): </label>
+                                    <label>@lang('bookingStatistics.panelLabelDateRange'): </label>
 
                                     <div class="input-group">
                                         <div class="input-group-addon">
