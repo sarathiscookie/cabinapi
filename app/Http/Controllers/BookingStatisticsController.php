@@ -212,7 +212,86 @@ class BookingStatisticsController extends Controller
             /* Booking status statistics end */
 
             /* Cancelled positive and negative begin */
+            $bookings_negative_positive  = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'is_delete' => 0,
+                            'cabinname' => $cabinName,
+                            'status' => '2',
+                            'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+                        ],
+                    ],
+                    [
+                        '$group' =>
+                            [
+                                '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','cancel_status' => '$cancel_status'],
+                                'count' => ['$sum' => 1]
+                            ],
+                    ],
+                    [
+                        '$project' =>
+                            [
+                                'checkin_from' => '$_id.checkin_from',
+                                'cabinname' => '$_id.cabinname',
+                                'status' => '$_id.status',
+                                'cancel_status' => '$_id.cancel_status',
+                                'count' => 1,
+                            ],
+                    ],
+                    [
+                        '$sort' =>
+                            [
+                                'checkin_from' => 1
+                            ],
+                    ],
+                ]);
+            });
 
+            foreach ($bookings_negative_positive as $row_negative_positive){
+                $checkin_cancel_status = $row_negative_positive->checkin_from->format('Ymd');
+                if($row_negative_positive->cancel_status == 1)
+                {
+                    $gotMoney[$checkin_cancel_status]    = $row_negative_positive->count;
+                }
+                if($row_negative_positive->cancel_status == 0)
+                {
+                    $notGetMoney[$checkin_cancel_status] = $row_negative_positive->count;
+                }
+            }
+
+            /* y- axis graph data */
+            foreach ($labels as $xlabel){
+                if(!isset($gotMoney[$xlabel])){
+                    $gotMoney[$xlabel] = "0";
+                }
+            }
+            ksort($gotMoney,1);
+            $get    = array_values($gotMoney);
+
+            foreach ($labels as $xlabel){
+                if(!isset($notGetMoney[$xlabel])){
+                    $notGetMoney[$xlabel] = "0";
+                }
+            }
+            ksort($notGetMoney,1);
+            $notGet = array_values($notGetMoney);
+
+            $chartData[] =[
+                'label'=> 'User Got Money',
+                'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                'borderColor'=> 'rgba(54, 162, 235, 1)',
+                'borderWidth'=> 1,
+                'data' => $get,
+            ];
+
+            $chartData[] =[
+                'label'=> 'User didnt get money',
+                'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                'borderColor'=> 'rgba(153, 102, 255, 1)',
+                'borderWidth'=> 1,
+                'data' => $notGet,
+            ];
             /* Cancelled positive and negative end */
 
             return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
