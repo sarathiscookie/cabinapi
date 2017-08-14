@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Cabin;
 use App\Booking;
 use Auth;
+use App\MountSchoolBooking;
 
 class DashboardController extends Controller
 {
@@ -103,6 +104,30 @@ class DashboardController extends Controller
                 $cabin_name = $cabin->name;
                 $totalData  = Booking::where('is_delete', 0)
                     ->where('cabinname', $cabin_name)
+                    ->count();
+            }
+            return $totalData;
+        }
+        return $totalData;
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mSchoolBookingCount()
+    {
+        $totalData = '';
+        $cabins = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->get();
+
+        if(count($cabins) > 0) {
+            foreach ($cabins as $cabin) {
+                $cabin_name = $cabin->name;
+                $totalData  = MountSchoolBooking::where('is_delete', 0)
+                    ->where('cabin_name', $cabin_name)
                     ->count();
             }
             return $totalData;

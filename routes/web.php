@@ -262,5 +262,19 @@ Route::prefix('cabinowner')->group(function () {
         /* Cancel booking */
         Route::post('booking/cancel', 'Cabinowner\BookingController@cancelBooking');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for mountain school bookings
+        |--------------------------------------------------------------------------
+        |
+        | Routes for listing, send message
+        */
+
+        /* Listing bookings */
+        Route::get('/mschool/bookings', 'Cabinowner\MountSchoolBookingsController@index');
+
+        /* Show datatable page */
+        Route::post('/mschool/bookings', 'Cabinowner\MountSchoolBookingsController@dataTables')->name('mschool.bookings.datatables');
+
     });
 });
