@@ -23,12 +23,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @lang('cabinowner.bookings')
+                Mountain School Bookings
                 <small>@lang('cabinowner.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinowner.dashboard')</a></li>
-                <li class="active">@lang('cabinowner.bookings')</li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-table"></i> @lang('cabinowner.bookings')</a></li>
+                <li class="active">Mountain School Bookings</li>
             </ol>
         </section>
 
@@ -38,7 +39,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">@lang('cabinowner.bookingDetails')</h3>
+                            <h3 class="box-title">Mountain School Bookings Details</h3>
                         </div>
 
                         <!-- /.box-header -->
