@@ -134,7 +134,7 @@ $(function () {
     /* Date range functionality end */
 
     /* Send Message */
-    /*$('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
+    $('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
         e.preventDefault();
         var $btn       = $(this).button('loading');
         var bookingId  = $(this).siblings('.message_status_update').attr('value');
@@ -145,7 +145,7 @@ $(function () {
         };
         var jsonData = JSON.stringify(JSONObject);
         $.ajax({
-            url: '/cabinowner/message/send',
+            url: '/cabinowner/mschool/message/send',
             data: { "data": jsonData },
             dataType: 'JSON',
             type: 'POST',
@@ -168,7 +168,7 @@ $(function () {
                 }
             }
         });
-    });*/
+    });
 
     /* <tfoot> search functionality */
     $('.search-input').on( 'keyup change', function () {

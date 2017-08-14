@@ -10,6 +10,7 @@ use App\Userlist;
 use App\Bmessages;
 use App\Cabin;
 use Auth;
+use Mail;
 
 class MountSchoolBookingsController extends Controller
 {
@@ -84,11 +85,11 @@ class MountSchoolBookingsController extends Controller
                     if(count($users) > 0) {
                         foreach ($users as $user) {
                             $q->where(function($query) use ($user) {
-                                $query->where('user', $user->_id);
+                                $query->where('user_id', $user->_id);
                             });
 
                             $totalFiltered = $q->where(function($query) use ($user) {
-                                $query->where('user', $user->_id);
+                                $query->where('user_id', $user->_id);
                             })
                                 ->count();
                         }
@@ -158,11 +159,11 @@ class MountSchoolBookingsController extends Controller
                     if(count($users) > 0) {
                         foreach ($users as $user) {
                             $q->where(function($query) use ($user) {
-                                $query->where('user', $user->_id);
+                                $query->where('user_id', $user->_id);
                             });
 
                             $totalFiltered = $q->where(function($query) use ($user) {
-                                $query->where('user', $user->_id);
+                                $query->where('user_id', $user->_id);
                             })
                                 ->count();
                         }
@@ -179,7 +180,7 @@ class MountSchoolBookingsController extends Controller
                 $noData        = '<span class="label label-default">'.__("cabinowner.noResult").'</span>';
                 if(!empty($bookings)) {
                     foreach ($bookings as $key => $booking) {
-                        $users = Userlist::where('_id', $booking->user)
+                        $users = Userlist::where('_id', $booking->user_id)
                             ->get();
                         foreach ($users as $user){
                             $usrEmail                              = $user->usrEmail;
@@ -309,7 +310,7 @@ class MountSchoolBookingsController extends Controller
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourMsg").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">Check user email address is not empty. Please check comment is filled.  </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
                             }
 
                         }
@@ -363,6 +364,57 @@ class MountSchoolBookingsController extends Controller
 
             return response()->json($json_data);
         }
+    }
+
+    /**
+     * send message to user.
+     *
+     * @param  \App\Http\Requests\MountSchoolBookingsRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function send(MountSchoolBookingsRequest $request)
+    {
+        $array      = json_decode($request->data, true);
+        $id         = $array['id'];
+
+        $booking    = MountSchoolBooking::where('is_delete', 0)
+            ->where('_id', $id)
+            ->first();
+
+        if(count($booking) > 0) {
+            $user      = Userlist::where('_id', $booking->user_id)
+                ->first();
+            $user_id   = $user->_id;
+            $user_email= $user->usrEmail;
+        }
+
+        /* If already message with same booking id delete old message */
+        Bmessages::where('booking_id', $id)
+            ->delete();
+
+        if(!empty($array['comment']) && !empty($user_email))
+        {
+            $messages               = new Bmessages;
+            $messages->booking_id   = $id;
+            $messages->cabinuser    = Auth::user()->_id;
+            $messages->guest        = $user_id;
+            $messages->comment      = $array['comment'];
+            $messages->is_delete    = 0;
+            $messages->save();
+
+            /* Functionality to send message to user begin */
+            Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
+                //$message->to($user_email)->subject('Nachricht von '.$booking->cabinname);
+                $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$booking->cabinname);
+            });
+            /* Functionality to send message to user end */
+            $message = 'success';
+        }
+        else {
+            $message = '';
+        }
+
+        return response()->json(['message' => $message], 201);
     }
 
     /**

@@ -276,5 +276,8 @@ Route::prefix('cabinowner')->group(function () {
         /* Show datatable page */
         Route::post('/mschool/bookings', 'Cabinowner\MountSchoolBookingsController@dataTables')->name('mschool.bookings.datatables');
 
+        /* Send message to guest */
+        Route::post('/mschool/message/send', 'Cabinowner\MountSchoolBookingsController@send');
+
     });
 });
