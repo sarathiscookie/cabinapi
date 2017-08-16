@@ -24,6 +24,7 @@ return [
     /* Model begin */
     'sendMessageHead'                        => 'Nachricht senden',
     'enterYourMsg'                           => 'Text hier eingeben',
+    'enterYourMsgAlert'                      => 'Prüfen Sie bitte die E-Mail Adresse und das Kommentarfeld erneut',
     'sendButton'                             => 'Senden',
     'sendingProcess'                         => 'Sending...',
     'wellDone'                               => 'Gut gemacht!',

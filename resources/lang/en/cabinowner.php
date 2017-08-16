@@ -24,6 +24,7 @@ return [
     /* Model begin */
     'sendMessageHead'                        => 'Send Message',
     'enterYourMsg'                           => 'Enter your message here',
+    'enterYourMsgAlert'                      => 'Please check the e-mail address and the comment field again',
     'sendButton'                             => 'Send',
     'sendingProcess'                         => 'Sending...',
     'wellDone'                               => 'Well Done!',

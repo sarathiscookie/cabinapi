@@ -148,18 +148,27 @@ class BookingController extends Controller
                 /* Date range func end */
 
                 /* thead search functionality for booking number, email, status begin */
-                if( !empty($params['columns'][1]['search']['value'])
-                    || isset($params['columns'][11]['search']['value']) )
+                if( !empty($params['columns'][1]['search']['value']) )
                 {
                     $q->where(function($query) use ($params) {
-                            $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][11]['search']['value']}");
+                            $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
                         });
 
                     $totalFiltered = $q->where(function($query) use ($params) {
-                            $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%")
-                                ->orWhere('status', "{$params['columns'][11]['search']['value']}");
+                            $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
                         })
+                        ->count();
+                }
+
+                if( isset($params['columns'][11]['search']['value']) )
+                {
+                    $q->where(function($query) use ($params) {
+                        $query->where('status', "{$params['columns'][11]['search']['value']}");
+                    });
+
+                    $totalFiltered = $q->where(function($query) use ($params) {
+                        $query->where('status', "{$params['columns'][11]['search']['value']}");
+                    })
                         ->count();
                 }
 
@@ -379,7 +388,7 @@ class BookingController extends Controller
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourMsg").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourMsgAlert").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
                             }
 
                         }
@@ -489,7 +498,7 @@ class BookingController extends Controller
         Bmessages::where('booking_id', $id)
             ->delete();
 
-        if(!empty($array['comment']))
+        if( !empty($array['comment']) && !empty($user_email))
         {
             $messages               = new Bmessages;
             $messages->booking_id   = $id;
@@ -506,6 +515,9 @@ class BookingController extends Controller
             /* Functionality to send message to user end */
 
             $message = 'success';
+        }
+        else {
+            $message = '';
         }
 
         return response()->json(['message' => $message], 201);
