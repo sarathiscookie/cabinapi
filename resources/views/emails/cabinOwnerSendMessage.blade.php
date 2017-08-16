@@ -235,7 +235,7 @@
 
                                                             <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                                                                <h1>{{$subject}}.{{$cabinName}}</h1>
+                                                                <h1>{{$subject}} {{$cabinName}}</h1>
 
                                                                 <p>Sehr geehrter Gast, <br>
                                                                     <br>

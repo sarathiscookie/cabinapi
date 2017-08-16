@@ -382,36 +382,45 @@ class MountSchoolBookingsController extends Controller
             ->first();
 
         if(count($booking) > 0) {
+
             $user      = Userlist::where('_id', $booking->user_id)
                 ->first();
-            $user_id   = $user->_id;
-            $user_email= $user->usrEmail;
+
+            if(count($user) > 0) {
+                $user_id    = $user->_id;
+                $user_email = $user->usrEmail;
+                $cabin_name = $booking->cabin_name;
+
+                /* If already message with same booking id delete old message */
+                Bmessages::where('booking_id', $id)
+                    ->delete();
+
+                if(!empty($array['comment']))
+                {
+                    $messages               = new Bmessages;
+                    $messages->booking_id   = $id;
+                    $messages->cabinuser    = Auth::user()->_id;
+                    $messages->guest        = $user_id;
+                    $messages->comment      = $array['comment'];
+                    $messages->is_delete    = 0;
+                    $messages->save();
+
+                    /* Functionality to send message to user begin */
+                    Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $cabin_name, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $cabin_name) {
+                        //$message->to($user_email)->subject('Nachricht von '.$cabin_name);
+                        $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$cabin_name);
+                    });
+                    /* Functionality to send message to user end */
+                    $message = 'success';
+                }
+                else {
+                    $message = '';
+                }
+
+            }
         }
 
-        /* If already message with same booking id delete old message */
-        Bmessages::where('booking_id', $id)
-            ->delete();
 
-        if(!empty($array['comment']) && !empty($user_email))
-        {
-            $messages               = new Bmessages;
-            $messages->booking_id   = $id;
-            $messages->cabinuser    = Auth::user()->_id;
-            $messages->guest        = $user_id;
-            $messages->comment      = $array['comment'];
-            $messages->is_delete    = 0;
-            $messages->save();
-
-            /* Functionality to send message to user begin */
-            Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
-                $message->to($user_email)->subject('Nachricht von '.$booking->cabinname);
-            });
-            /* Functionality to send message to user end */
-            $message = 'success';
-        }
-        else {
-            $message = '';
-        }
 
         return response()->json(['message' => $message], 201);
     }
