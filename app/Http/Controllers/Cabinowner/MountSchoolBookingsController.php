@@ -169,7 +169,7 @@ class MountSchoolBookingsController extends Controller
                         }
                     }
                 }
-                /* thead search functionality for booking number, email, status end */
+                /* tfoot search functionality for booking number, email, status end */
 
                 $bookings      = $q->skip($start)
                     ->take($limit)
@@ -177,7 +177,7 @@ class MountSchoolBookingsController extends Controller
                     ->get();
 
                 $data          = array();
-                $noData        = '<span class="label label-default">'.__("cabinowner.noResult").'</span>';
+                $noData        = '<span class="label label-default">'.__("cabinownerMountainSchoolBooking.noResult").'</span>';
                 if(!empty($bookings)) {
                     foreach ($bookings as $key => $booking) {
                         $users = Userlist::where('_id', $booking->user_id)
@@ -195,19 +195,19 @@ class MountSchoolBookingsController extends Controller
                         }
                         /* Condition for booking status */
                         if($booking->status == '1') {
-                            $bookingStatusLabel = '<span class="label label-success">'.__("cabinowner.bookingFix").'</span>';
+                            $bookingStatusLabel = '<span class="label label-success">'.__("cabinownerMountainSchoolBooking.bookingFix").'</span>';
                         }
                         else if ($booking->status == '2') {
-                            $bookingStatusLabel = '<span class="label label-danger">'.__("cabinowner.cancelled").'</span>';
+                            $bookingStatusLabel = '<span class="label label-danger">'.__("cabinownerMountainSchoolBooking.cancelled").'</span>';
                         }
                         else if ($booking->status == '3') {
-                            $bookingStatusLabel = '<span class="label label-primary">'.__("cabinowner.completed").'</span>';
+                            $bookingStatusLabel = '<span class="label label-primary">'.__("cabinownerMountainSchoolBooking.completed").'</span>';
                         }
                         else if ($booking->status == '4') {
-                            $bookingStatusLabel = '<span class="label label-info">'.__("cabinowner.request").'</span>';
+                            $bookingStatusLabel = '<span class="label label-info">'.__("cabinownerMountainSchoolBooking.request").'</span>';
                         }
                         else if ($booking->status == '5') {
-                            $bookingStatusLabel = '<span class="label label-warning">'.__("cabinowner.bookingWaiting").'</span>';
+                            $bookingStatusLabel = '<span class="label label-warning">'.__("cabinownerMountainSchoolBooking.bookingWaiting").'</span>';
                         }
                         else {
                             $bookingStatusLabel = $noData;
@@ -306,11 +306,11 @@ class MountSchoolBookingsController extends Controller
                                     $messageStatus = '<i class="fa fa-fw fa-check"></i><i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="' . $messages->comment . '"></i>';
                                 }
                                 else {
-                                    $messageStatus = '<span class="label label-warning">'.__("cabinowner.emptyMessage").'</span>';
+                                    $messageStatus = '<span class="label label-warning">'.__("cabinownerMountainSchoolBooking.emptyMessage").'</span>';
                                 }
                             }
                             else {
-                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">Check user email address is not empty. Please check comment is filled.  </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinowner.sendButton").'</button></div></div></div></div>';
+                                $messageStatus = '<a class="btn bg-purple" data-toggle="modal" data-target="#messageModal_'.$booking->_id.'"><i class="fa fa-envelope"></i></a><div class="modal fade" id="messageModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinownerMountainSchoolBooking.sendMessageHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinownerMountainSchoolBooking.wellDone").' </h4>'.__("cabinownerMountainSchoolBooking.sendMessageSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinownerMountainSchoolBooking.enterYourMsgAlert").'  </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinownerMountainSchoolBooking.enterYourMsg").'" id="messageTxt_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="message_status_update"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinownerMountainSchoolBooking.sendingProcess").'" autocomplete="off" class="btn bg-purple messageStatusUpdate">'.__("cabinownerMountainSchoolBooking.sendButton").'</button></div></div></div></div>';
                             }
 
                         }
@@ -318,7 +318,7 @@ class MountSchoolBookingsController extends Controller
                             $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
 
                             /*Condition to check cabin owner answered*/
-                            $messageStatus = '<span class="label label-default">'.__("cabinowner.notAsked").'</span>';
+                            $messageStatus = '<span class="label label-default">'.__("cabinownerMountainSchoolBooking.notAsked").'</span>';
                         }
 
                         /* Condition for beds, dorms and sleeps */
@@ -338,7 +338,7 @@ class MountSchoolBookingsController extends Controller
                             $dormitory = '-----';
                         }
 
-                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinowner.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
+                        $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinownerMountainSchoolBooking.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.__("cabinownerMountainSchoolBooking.close").'</button></div></div></div></div>';
                         $nestedData['invoice_number']          = $invoiceNumber_comment;
                         $nestedData['ind_notice']              = $booking->ind_notice;
                         $nestedData['usrLastname']             = $last_name;
@@ -404,8 +404,7 @@ class MountSchoolBookingsController extends Controller
 
             /* Functionality to send message to user begin */
             Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $booking->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $booking) {
-                //$message->to($user_email)->subject('Nachricht von '.$booking->cabinname);
-                $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$booking->cabinname);
+                $message->to($user_email)->subject('Nachricht von '.$booking->cabinname);
             });
             /* Functionality to send message to user end */
             $message = 'success';

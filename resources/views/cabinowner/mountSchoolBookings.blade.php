@@ -1,6 +1,6 @@
 @extends('cabinowner.layouts.app')
 
-@section('title', 'Cabin API - Cabin Owner: Mountain School List')
+@section('title', 'Cabin API - Cabin Owner: Mountain School Booking List')
 
 @section('css')
     <!-- Date Range Picker -->
@@ -23,13 +23,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Mountain School Bookings
-                <small>@lang('cabinowner.controlPanel')</small>
+                @lang('cabinownerMountainSchoolBooking.heading')
+                <small>@lang('cabinownerMountainSchoolBooking.subHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinowner.dashboard')</a></li>
-                <li><a href="/cabinowner/bookings"><i class="fa fa-table"></i> @lang('cabinowner.bookings')</a></li>
-                <li class="active">Mountain School Bookings</li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbDashboard')</a></li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-table"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbBooking')</a></li>
+                <li class="active">@lang('cabinownerMountainSchoolBooking.breadcrumbMountainSchool')</li>
             </ol>
         </section>
 
@@ -39,7 +39,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Mountain School Bookings Details</h3>
+                            <h3 class="box-title">@lang('cabinownerMountainSchoolBooking.detailsHeading')</h3>
                         </div>
 
                         <!-- /.box-header -->
@@ -58,29 +58,29 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>@lang('cabinowner.bookingNumber')</th>
-                                    <th>@lang('cabinowner.comment')</th>
-                                    <th>@lang('cabinowner.lastName')</th>
-                                    <th>@lang('cabinowner.firstName')</th>
-                                    <th>@lang('cabinowner.email')</th>
-                                    <th>@lang('cabinowner.from')</th>
-                                    <th>@lang('cabinowner.to')</th>
-                                    <th>@lang('cabinowner.beds')</th>
-                                    <th>@lang('cabinowner.dorms')</th>
-                                    <th>@lang('cabinowner.sleeps')</th>
-                                    <th>@lang('cabinowner.status')</th>
-                                    <th>@lang('cabinowner.answered')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.bookingNumber')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.ind_notice')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.lastName')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.firstName')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.email')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.from')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.to')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.beds')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.dorms')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.sleeps')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.status')</th>
+                                    <th>@lang('cabinownerMountainSchoolBooking.answered')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinownerMountainSchoolBooking.searchBoookingNo')"></th>
                                     <th id="2"></th>
                                     <td></td>
                                     <td></td>
-                                    <th><input type="text" id="5"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
+                                    <th><input type="text" id="5"  class="form-control input-sm search-input" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -88,12 +88,12 @@
                                     <td></td>
                                     <td>
                                         <select class="form-control input-sm search-input" id="11">
-                                            <option value="">(@lang('cabinowner.SearchStatus'))</option>
-                                            <option value="1">@lang('cabinowner.bookingFix')</option>
-                                            <option value="2">@lang('cabinowner.cancelled')</option>
-                                            <option value="3">@lang('cabinowner.completed')</option>
-                                            <option value="4">@lang('cabinowner.request')</option>
-                                            <option value="5">@lang('cabinowner.bookingWaiting')</option>
+                                            <option value="">(@lang('cabinownerMountainSchoolBooking.SearchStatus'))</option>
+                                            <option value="1">@lang('cabinownerMountainSchoolBooking.bookingFix')</option>
+                                            <option value="2">@lang('cabinownerMountainSchoolBooking.cancelled')</option>
+                                            <option value="3">@lang('cabinownerMountainSchoolBooking.completed')</option>
+                                            <option value="4">@lang('cabinownerMountainSchoolBooking.request')</option>
+                                            <option value="5">@lang('cabinownerMountainSchoolBooking.bookingWaiting')</option>
                                         </select>
                                     </td>
                                     <td></td>
@@ -131,5 +131,7 @@
     <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
+
+    <!-- Mountain School Booking Js -->
     <script src="{{ asset('js/mountSchoolBookings.js') }}"></script>
 @endsection
