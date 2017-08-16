@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'bookingsHeading'              => 'Buchungen Statistics',
+    'bookingsHeading'              => 'Buchungen Statistik',
     'controlPanelHeading'          => 'Verwaltungstool',
     'dashboardLabel'               => 'Übersicht',
     'bookingBreadcrumb'            => 'Buchungen',
@@ -28,7 +28,7 @@ return [
     'graphFixLabel'                => 'Fix',
     'graphCancelLabel'             => 'Storniert',
     'graphWaitingLabel'            => 'Warten auf Zahlung',
-    'graphGotMoneyLabel'           => 'User got money',
-    'graphNotGetMoneyLabel'        => 'User not get money',
+    'graphGotMoneyLabel'           => 'Negative Storno',
+    'graphNotGetMoneyLabel'        => 'Positive Storno',
 
 ];

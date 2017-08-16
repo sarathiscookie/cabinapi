@@ -104,13 +104,13 @@ $(function () {
                             xAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Dates",
+                                    labelString: "Datum",
                                 }
                             }],
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Count",
+                                    labelString: "Anzahl",
                                 }
                             }]
                         }
