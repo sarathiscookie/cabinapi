@@ -16,12 +16,13 @@ return [
     | table headings, breadcrumbs etc
     |
     */
-    'heading'             => 'Bergschulenliste',
-    'subHeading'          => 'Verwaltungstool',
-    'breadcrumbDashboard' => 'Übersicht',
-    'breadcrumbBooking'   => 'Buchungen',
-    'breadcrumbMountainSchool' => 'Bergschulenliste',
-    'detailsHeading' => 'Bergschulen Buchung Details',
+    'heading'                                => 'Bergschulenliste',
+    'subHeading'                             => 'Verwaltungstool',
+    'breadcrumbDashboard'                    => 'Übersicht',
+    'breadcrumbBooking'                      => 'Buchungen',
+    'breadcrumbMountainSchool'               => 'Bergschulenliste',
+    'detailsHeading'                         => 'Bergschulen Buchung Details',
+    'bookingListMenu'                        => 'Bergschulenliste',
 
     /* Model begin */
     'sendMessageHead'                        => 'Nachricht senden',

@@ -16,12 +16,13 @@ return [
     | table headings, breadcrumbs etc
     |
     */
-    'heading'             => 'Mountain School Bookings',
-    'subHeading'          => 'Control Panel',
-    'breadcrumbDashboard' => 'Dashboard',
-    'breadcrumbBooking'   => 'Booking',
-    'breadcrumbMountainSchool'   => 'Mountain School Bookings',
-    'detailsHeading' => 'Mountain School Booking Details',
+    'heading'                                => 'Mountain School Bookings',
+    'subHeading'                             => 'Control Panel',
+    'breadcrumbDashboard'                    => 'Dashboard',
+    'breadcrumbBooking'                      => 'Booking',
+    'breadcrumbMountainSchool'               => 'Mountain School Bookings',
+    'detailsHeading'                         => 'Mountain School Booking Details',
+    'bookingListMenu'                        => 'Mschool Booking List',
 
     /* Model begin */
     'sendMessageHead'                        => 'Send Message',

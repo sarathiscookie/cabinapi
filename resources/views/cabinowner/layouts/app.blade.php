@@ -167,7 +167,7 @@
                             <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->bookingCount() !!}</span></span></a>
                         </li>
                         <li>
-                            <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> MSchool Booking List <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
+                            <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('cabinownerMountainSchoolBooking.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
                         </li>
                     </ul>
                 </li>
