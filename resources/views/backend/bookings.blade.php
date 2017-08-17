@@ -161,10 +161,11 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             var booking_data;
+            var daterange = '';
 
             fetch_data('no');
 
-            function fetch_data(is_date_search, daterange = '')
+            function fetch_data(is_date_search, daterange)
             {
                 booking_data = $('#booking_data').DataTable({
                     "order": [[ 1, "desc" ]],
@@ -253,7 +254,7 @@
                         type: 'PUT',
                         success: function(result) {
                             if(result) {
-                                booking_data.ajax.reload();
+                                booking_data.ajax.reload(null, false);
                                 $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> @lang('admin.wellDone')</h4>'+result.message+'</div>')
                                 $('.responseMessage').show().delay(5000).fadeOut();
                                 $btn.button('reset');
@@ -274,7 +275,7 @@
                     type: 'PUT',
                     success: function(result) {
                         if(result) {
-                            booking_data.ajax.reload();
+                            booking_data.ajax.reload(null, false);
                             $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> @lang('admin.wellDone')</h4>'+result.message+'</div>')
                             $('.responseMessage').show().delay(5000).fadeOut();
                         }
