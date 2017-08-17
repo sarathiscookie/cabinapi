@@ -146,10 +146,11 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             var booking_data;
+            var daterange = '';
 
             fetch_data('no');
 
-            function fetch_data(is_date_search, daterange = '')
+            function fetch_data(is_date_search, daterange)
             {
                 booking_data = $('#booking_data').DataTable({
                     "lengthMenu": [10, 50, 100, 250, 500],
@@ -298,7 +299,7 @@
                                 $('.alert-message').show();
                                 setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
                                 $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
-                                    booking_data.ajax.reload();
+                                    booking_data.ajax.reload(null, false);
                                 })
                             }
                             else {
@@ -325,14 +326,14 @@
                         $('.cancelDiv').hide();
                         $('#bookingModal_'+data).on('hidden.bs.modal', function () {
                             $('#bookingModal_'+data).html("");
-                            booking_data.ajax.reload();
+                            booking_data.ajax.reload(null, false);
                         })
                     })
                     .fail(function() {
                         $('.response').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
                         $('#bookingModal_'+data).on('hidden.bs.modal', function () {
                             $('#bookingModal_'+data).html("");
-                            booking_data.ajax.reload();
+                            booking_data.ajax.reload(null, false);
                         })
                     });
             });
