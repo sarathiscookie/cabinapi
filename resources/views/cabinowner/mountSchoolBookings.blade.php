@@ -47,14 +47,14 @@
                             <div class="responseMessage"></div>
                             <div class="row">
                                 <div class="col-md-3" style="margin-bottom: 20px;">
-                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Zeitraum Auswahl">
+                                    <div class="pull-left daterange_Mschool" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Zeitraum Auswahl">
                                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                         <span></span> <b class="caret"></b>
                                     </div>
                                 </div>
                             </div>
 
-                            <table id="booking_data" class="table table-bordered table-striped table-hover">
+                            <table id="booking_data_mschool" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -76,18 +76,18 @@
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinownerMountainSchoolBooking.searchBoookingNo')"></th>
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.searchBoookingNo')"></th>
                                     <th id="2"></th>
                                     <td></td>
                                     <td></td>
-                                    <th><input type="text" id="5"  class="form-control input-sm search-input" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
+                                    <th><input type="text" id="5"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input" id="11">
+                                        <select class="form-control input-sm search-input-mschool" id="11">
                                             <option value="">(@lang('cabinownerMountainSchoolBooking.SearchStatus'))</option>
                                             <option value="1">@lang('cabinownerMountainSchoolBooking.bookingFix')</option>
                                             <option value="2">@lang('cabinownerMountainSchoolBooking.cancelled')</option>

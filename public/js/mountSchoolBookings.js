@@ -105,7 +105,7 @@ $(function () {
 
 
     /* Date range functionality begin */
-    $('.daterange').daterangepicker({
+    $('.daterange_Mschool').daterangepicker({
         autoUpdateInput: false,
         locale: {
             format: 'DD.MM.YYYY',
@@ -114,9 +114,9 @@ $(function () {
         }
     });
 
-    $('.daterange').on('apply.daterangepicker', function(ev, picker) {
+    $('.daterange_Mschool').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
-        var data        = $('.daterange').val();
+        var data        = $('.daterange_Mschool').val();
         var daterange   = data.replace(/\s/g, '');
         if(daterange != '')
         {
@@ -125,7 +125,7 @@ $(function () {
         }
     });
 
-    $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
+    $('.daterange_Mschool').on('cancel.daterangepicker', function(ev, picker) {
         var data        = $(this).val('');
         booking_data.destroy();
         fetch_data('no')
@@ -134,14 +134,14 @@ $(function () {
     /* Date range functionality end */
 
     /* Send Message */
-    $('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
+    $('#booking_data_mschool tbody').on( 'click', 'button.messageStatusUpdateMschool', function(e){
         e.preventDefault();
         var $btn       = $(this).button('loading');
-        var bookingId  = $(this).siblings('.message_status_update').attr('value');
+        var bookingId  = $(this).siblings('.message_status_update_mschool').attr('value');
 
         var JSONObject = {
             "id": bookingId,
-            "comment": $('#messageTxt_'+bookingId).val()
+            "comment": $('#messageMschoolTxt_'+bookingId).val()
         };
         var jsonData = JSON.stringify(JSONObject);
         $.ajax({
@@ -153,17 +153,17 @@ $(function () {
                 if(result) {
                     if(result.message == 'success')
                     {
-                        $('.alert-message-failed').hide();
+                        $('.alert-message-failed-mschool').hide();
                         $btn.button('reset');
-                        $('.alert-message').show();
-                        setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
-                        $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
-                            booking_data.ajax.reload();
+                        $('.alert-message-mschool').show();
+                        setTimeout(function() { $('#messageMschoolModal_'+bookingId).modal('hide'); }, 3000);
+                        $('#messageMschoolModal_'+bookingId).on('hidden.bs.modal', function () {
+                            booking_data.ajax.reload(null, false);
                         })
                     }
                     else {
                         $btn.button('reset');
-                        $('.alert-message-failed').show();
+                        $('.alert-message-failed-mschool').show();
                     }
                 }
             }
@@ -171,7 +171,7 @@ $(function () {
     });
 
     /* <tfoot> search functionality */
-    $('.search-input').on( 'keyup change', function () {
+    $('.search-input-mschool').on( 'keyup change', function () {
         var i =$(this).attr('id');  // getting column index
         var v =$(this).val();  // getting search input value
         booking_data.columns(i).search(v).draw();
