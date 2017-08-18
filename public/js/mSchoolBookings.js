@@ -20,6 +20,13 @@ $(function () {
         placeholder: "Select a cabin"
     });
 
+    /* Helping object for translation */
+    var translations = {
+        bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
+        wellDone: window.translations.wellDone,
+        deleteBookingAlert: window.translations.deleteBookingAlert,
+    };
+
     var booking_data;
     var daterange = '';
     var cabin = '';
@@ -51,12 +58,13 @@ $(function () {
                 { "data": "beds" },
                 { "data": "dormitory" },
                 { "data": "sleeps" },
-                { "data": "status" }
+                { "data": "status" },
+                { "data": "action" }
             ],
             "columnDefs": [
                 {
                     "orderable": false,
-                    "targets": [0, 2, 3, 4, 7, 8, 9, 10]
+                    "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11]
                 }
             ],
             "language": {
@@ -90,19 +98,19 @@ $(function () {
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 1, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 1, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 1, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 },
             ]
@@ -161,6 +169,30 @@ $(function () {
     });
 
     /* Date range functionality end */
+
+    /* Delete functionality */
+    $('#booking_data_mschool tbody').on( 'click', 'a.deleteEvent', function (e) {
+        e.preventDefault();
+        var bookingId = $(this).data('id');
+        var r = confirm(translations.deleteBookingAlert);
+        if (r == true) {
+            $.ajax({
+                url: '/admin/mschool/bookings/' + bookingId,
+                dataType: 'JSON',
+                type: 'DELETE',
+                success: function(result) {
+                    if(result) {
+                        booking_data
+                            .row( $(this).parents('tr') )
+                            .remove()
+                            .draw();
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Deleted Successfully!!! </div>');
+                        $('.responseMessage').show().delay(5000).fadeOut();
+                    }
+                }
+            });
+        }
+    });
 
     /* <tfoot> search functionality */
     $('.search-input-mschool').on( 'keyup change', function () {

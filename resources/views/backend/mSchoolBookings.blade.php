@@ -107,7 +107,7 @@
                                     <th>@lang('cabinownerMountainSchoolBooking.dorms')</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.sleeps')</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.status')</th>
-                                    {{--<th>@lang('cabinownerMountainSchoolBooking.answered')</th>--}}
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -134,7 +134,7 @@
                                             <option value="5">@lang('cabinownerMountainSchoolBooking.bookingWaiting')</option>
                                         </select>
                                     </td>
-                                    {{--<td></td>--}}
+                                    <td></td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -172,6 +172,15 @@
 
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
+
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            bookingStatusUpdateAlert: '{{ trans('admin.bookingStatusUpdateAlert') }}',
+            wellDone: '{{ trans('admin.wellDone') }}',
+            deleteBookingAlert: '{{ trans('admin.deleteBookingAlert') }}',
+        };
+    </script>
 
     <!-- Mountain School Booking Js -->
     <script src="{{ asset('js/mSchoolBookings.js') }}"></script>

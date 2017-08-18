@@ -240,6 +240,9 @@ Route::prefix('admin')->group(function () {
     /* Show datatable page */
     Route::post('/mschool/bookings', 'MschoolBookingsController@dataTables')->name('admin.mschool.bookings.datatables');
 
+    /* Delete bookings */
+    Route::delete('/mschool/bookings/{id}', 'MschoolBookingsController@destroy')->name('admin.mschool.bookings.delete');
+
     });
 });
 

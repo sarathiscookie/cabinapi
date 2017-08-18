@@ -312,6 +312,7 @@ class MschoolBookingsController extends Controller
                 $nestedData['dormitory']               = $dormitory;
                 $nestedData['sleeps']                  = $sleeps;
                 $nestedData['status']                  = $bookingStatusLabel;
+                $nestedData['action']                  = '<a href="/admin/mschool/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("admin.deleteButton").'</a>';
                 $data[]                                = $nestedData;
             }
             $json_data     = array(
@@ -383,11 +384,15 @@ class MschoolBookingsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $booking            = MountSchoolBooking::findOrFail($id);
+        $booking->is_delete = 1;
+        $booking->save();
+
+        return response()->json(['message' => __('admin.bookingDeleteSuccessResponse')], 201);
     }
 }
