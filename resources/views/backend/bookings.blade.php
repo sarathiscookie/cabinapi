@@ -48,6 +48,7 @@
 
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
+                            <div class="responseMessage"></div>
 
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
@@ -97,8 +98,6 @@
                                 </div>
                                 <!-- /.form group -->
                             </div>
-
-                            <div class="responseMessage"></div>
 
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
