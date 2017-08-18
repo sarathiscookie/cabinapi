@@ -460,9 +460,9 @@ class BookingController extends Controller
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function sendInvoice($id)
+    public function sendInvoice(Request $request)
     {
-        $bookingDetails                 = Booking::find($id);
+        $bookingDetails                 = Booking::find($request->bookingId);
 
         /* Functionality to send invoice begin */
         Mail::send(new SendInvoice($bookingDetails));

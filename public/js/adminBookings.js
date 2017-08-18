@@ -132,7 +132,7 @@ $(function () {
         var bookingId  = $(this).siblings('.pay_status_update').attr('value');
         $.ajax({
             url: '/admin/bookings/payment/status/individual',
-            data: { "bookingId": bookingId },
+            data: { bookingId: bookingId },
             dataType: 'JSON',
             type: 'PUT',
             success: function(result) {
@@ -151,8 +151,8 @@ $(function () {
         var bookingId = $(this).closest('li').data('invoice');
         var $btn      = $(this).button('loading');
         $.ajax({
-            url: '/admin/bookings/voucher/' + bookingId,
-            data: { "_token": "{{ csrf_token() }}" },
+            url: '/admin/bookings/voucher/',
+            data: { bookingId: bookingId },
             dataType: 'JSON',
             type: 'POST',
             success: function(result) {
@@ -172,7 +172,6 @@ $(function () {
         if (r == true) {
             $.ajax({
                 url: '/admin/bookings/' + bookingId,
-                data: { "_token": "{{ csrf_token() }}" },
                 dataType: 'JSON',
                 type: 'DELETE',
                 success: function(result) {

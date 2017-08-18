@@ -137,7 +137,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/bookings/payment/status/individual', 'BookingController@updateIndividual');
 
     /* Send invoice*/
-    Route::post('/bookings/voucher/{id}', 'BookingController@sendInvoice');
+    Route::post('/bookings/voucher', 'BookingController@sendInvoice');
 
     /* Delete bookings */
     Route::delete('/bookings/{id}', 'BookingController@destroy')->name('bookings.delete');
