@@ -12,11 +12,17 @@ $(function () {
         }
     });
 
+    //Initialize Select2 Elements
+    $(".admin_cabins_list").select2({
+        placeholder: "Select a cabin"
+    });
+
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
     var booking_data;
     var daterange = '';
+    var cabin = '';
 
     /* Helping object for translation */
     var translations = {
@@ -27,7 +33,7 @@ $(function () {
 
     fetch_data('no');
 
-    function fetch_data(is_date_search, daterange)
+    function fetch_data(is_date_search, daterange, cabin)
     {
         booking_data = $('#booking_data').DataTable({
                 "order": [[ 1, "desc" ]],
@@ -37,7 +43,7 @@ $(function () {
                     "url": '/admin/bookings/datatables',
                 "dataType": "json",
                 "type": "POST",
-                "data":{is_date_search:is_date_search, daterange:daterange}
+                "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin}
             },
             "columns": [
         { "data": "hash" },
@@ -188,30 +194,57 @@ $(function () {
     });
 
     /* Date range functionality begin */
-    $('.daterange').daterangepicker({
+
+    $('#adminBookingsDaterange').daterangepicker({
         autoUpdateInput: false,
+        ranges: {
+            'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
+            'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
+            'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
+            'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
         locale: {
             format: 'DD.MM.YYYY',
-            cancelLabel: 'Clear'
+            applyLabel: "Bestätigen",
+            cancelLabel: "Löschen",
+            daysOfWeek: [
+                "So",
+                "Mo",
+                "Di",
+                "Mi",
+                "Do",
+                "Fr",
+                "Sa"
+            ],
         }
     });
 
-    $('.daterange').on('apply.daterangepicker', function(ev, picker) {
+    $('#adminBookingsDaterange').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
-        var data        = $('.daterange').val();
-        var daterange   = data.replace(/\s/g, '');
-        if(daterange != '')
-        {
-            booking_data.destroy();
-            fetch_data('yes', daterange)
-        }
     });
 
-    $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
+    $('#adminBookingsDaterange').on('cancel.daterangepicker', function(ev, picker) {
         var data        = $(this).val('');
         booking_data.destroy();
         fetch_data('no')
     });
+
+    $('#generateAdminBookings').on('click', function() {
+        var cabin     = $('.admin_cabins_list').val();
+        var dates     = $('#adminBookingsDaterange').val();
+        var daterange = dates.replace(/\s/g, '');
+        if(daterange !== '' && cabin !== '')
+        {
+            console.log(daterange+'------'+cabin);
+            booking_data.destroy();
+            fetch_data('yes', daterange, cabin)
+        }
+        else {
+            console.log('error');
+        }
+    });
+
+
 
     /* Date range functionality end */
 

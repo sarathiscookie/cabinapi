@@ -20,6 +20,8 @@
     </style>
 @endsection
 
+@inject('dashboard', 'App\Http\Controllers\DashboardController')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -46,19 +48,58 @@
 
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <div class="responseMessage"></div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Click here to show bookings with in date range">
-                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                        <span></span> <b class="caret"></b>
-                                    </div>
-                                    <!--<input type="text" class="form-control daterange"  value="" readonly aria-describedby="cal-addon" placeholder="Click here to show bookings with in daterange...">-->
+
+                            <div class="col-md-3 pull-left">
+                                <div class="form-group">
+                                    <label>@lang('bookingStatistics.panelLabelCabin'): </label>
+                                    <select class="form-control admin_cabins_list" style="width: 100%;" id="cabin">
+                                        <option></option>
+                                        @foreach($dashboard->cabins() as $cabin )
+                                            <option>{{$cabin->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="col-md-9 text-right">
-                                    <button class="btn btn-app text-right paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> @lang('admin.paymentStatusUpdate')</button>
-                                </div>
+                                <!-- /.form-group -->
                             </div>
+
+                            <!-- Date range -->
+                            <div class="col-md-3 pull-left">
+                                <div class="form-group">
+                                    <label>@lang('bookingStatistics.panelLabelDateRange'): </label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="adminBookingsDaterange" placeholder="Select a date range">
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                                <!-- /.form group -->
+                            </div>
+
+                            <div class="col-md-3 pull-left">
+                                <div class="form-group">
+                                    <label></label>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-primary" id="generateAdminBookings" data-loading-text="Generating..." autocomplete="off">@lang('statisticsAdmin.generateButton')</button>
+                                    </div>
+                                </div>
+                                <!-- /.form group -->
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group pull-right">
+                                    <label></label>
+                                    <div class="input-group">
+                                        <button class="btn btn-app paymentStatusBtn" data-loading-text="@lang('admin.statusUpdating')" autocomplete="off"><i class="fa fa-euro"></i> @lang('admin.paymentStatusUpdate')</button>
+                                    </div>
+                                </div>
+                                <!-- /.form group -->
+                            </div>
+
+                            <div class="responseMessage"></div>
+
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
