@@ -235,12 +235,11 @@ $(function () {
         var daterange = dates.replace(/\s/g, '');
         if(daterange !== '' && cabin !== '')
         {
-            console.log(daterange+'------'+cabin);
             booking_data.destroy();
             fetch_data('yes', daterange, cabin)
         }
         else {
-            console.log('error');
+            console.log('error'); // write error message
         }
     });
 
