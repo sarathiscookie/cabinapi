@@ -226,6 +226,20 @@ Route::prefix('admin')->group(function () {
     /* Delete cabin */
     Route::delete('/cabins/{id}', 'CabinController@destroy');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Routes for mountain school bookings
+    |--------------------------------------------------------------------------
+    |
+    | Routes for listing, delete
+    */
+
+    /* Listing bookings */
+    Route::get('/mschool/bookings', 'MschoolBookingsController@index')->name('admin.mschool.bookings');
+
+    /* Show datatable page */
+    Route::post('/mschool/bookings', 'MschoolBookingsController@dataTables')->name('admin.mschool.bookings.datatables');
+
     });
 });
 
