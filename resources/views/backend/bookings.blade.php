@@ -204,5 +204,5 @@
         };
     </script>
     <!-- Admin Bookings Js -->
-    <script src="{{ asset('js/adminBookings.js') }}"></script>
+    <script src="{{ asset('js/bookings.js') }}"></script>
 @endsection

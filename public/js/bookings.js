@@ -1,8 +1,10 @@
 /**
- * Created by user on 21-06-2017.
+ * Created by PhpStorm.
+ * User: user
+ * Date: 18-08-2017
+ * Time: 10:01
  */
 $(function () {
-
     /* Checking for the CSRF token */
     $.ajaxSetup({
         headers: {
@@ -10,178 +12,153 @@ $(function () {
         }
     });
 
-    /* Functionality for data table begin */
-    var table = $('#dataTable').DataTable({
-        /*"processing": true,
-        "serverSide": true,*/
-        "ajax": {
-            "type": "POST",
-            "url": '/admin/bookings/datatables',
-            "contentType": 'application/json; charset=utf-8',
-            "data": { "_token": "" }
-        },
-        /*"ajax": '/bookings/datatables',*/
-        "dataType": "jsonp",
-        "columns": [
-        {"data": function(data){
-            return '<input type="checkbox" name="id[]" value="'+ data._id +'" />';
-        }, "orderable": false, "searchable": false, "name":"_id" },
-        {"data": function ( data ) {
-            if(!data.invoice_number){
-                return '<span class="label label-default">No data</span>'
-            }
-            else {
-                return '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'+ data._id +'" data-modalID="'+ data._id +'">'+data.invoice_number+'</a><div class="modal fade" id="bookingModal_'+ data._id +'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Booking Details</h4></div><div class="alert alert-success alert-dismissible alert-invoice" style="display: none;"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>voucher send successfully</div><div class="modal-body"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">Cabin Name</h4><p class="list-group-item-text">'+ data.cabinname +'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">Reference no</h4><p class="list-group-item-text">'+ data.reference_no +'</p></a><li class="list-group-item"><h4 class="list-group-item-heading">Club Member</h4><p class="list-group-item-text">'+ data.clubmember +'</p></li><li class="list-group-item" data-invoice="'+ data._id +'"><h4 class="list-group-item-heading">Voucher</h4><button class="btn btn-primary btn-sm sendInvoice" data-loading-text="Sending..." autocomplete="off"><i class="fa fa-envelope"></i> Send</button></li></ul></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
-            }
-        }, "name": "invoice_number"},
-        {"data": "usrEmail", "name": "usrEmail", "render": function ( data, type, full, meta ) {
-            if( data === 'cabinowner' ){
-                return '<span class="label label-info">Booked by cabin owner</span>';
-            }
-            else{
-                return data;
-            }
-        }},
-        {"data": "checkin_from", "name": "checkin_from", "render": function ( data, type, full, meta ) {
-            if (!data) {
-                return '<span class="label label-default">No data</span>'
-            }
-            else {
-                var date       = new Date(data);
-                var dd         = date.getDate();
-                var mm         = date.getMonth()+1; //January is 0!
-                var yyyy       = date.getFullYear();
-                if( dd < 10 ){
-                    dd='0'+dd;
-                }
-                if( mm < 10 ){
-                    mm='0'+mm;
-                }
-                var dateformat = dd+'.'+mm+'.'+yyyy;
-                return dateformat;
-            }
-        }},
-        {"data": "reserve_to", "name": "reserve_to", "render": function ( data, type, full, meta ) {
-            if (!data) {
-                return '<span class="label label-default">No data</span>'
-            }
-            else {
-                var date       = new Date(data);
-                var dd         = date.getDate();
-                var mm         = date.getMonth()+1; //January is 0!
-                var yyyy       = date.getFullYear();
-                if( dd < 10 ){
-                    dd='0'+dd;
-                }
-                if( mm < 10 ){
-                    mm='0'+mm;
-                }
-                var dateformat = dd+'.'+mm+'.'+yyyy;
-                return dateformat;
-            }
-        }},
-        {"data": "beds", "name": "beds"},
-        {"data": "dormitory", "name": "dormitory"},
-        {"data": "sleeps", "name": "sleeps"},
-        {"data": "status", "name": "status", "render": function ( data, type, full, meta ) {
-            if( data === '1' ){
-                return '<span class="label label-primary">New</span>';
-            }
-            else if( data === '2' ){
-                return '<span class="label label-warning">Cancelled</span>';
-            }
-            else if( data === '3' ){
-                return '<span class="label label-success">Completed</span>';
-            }
-            else if( data === '4' ){
-                return '<span class="label label-info">Request</span>';
-            }
-            else if( data === '5' ){
-                return '<span class="label label-danger">Failed</span>';
-            }
-            else{
-                return '<span class="label label-default">No data</span>';
-            }
-        }},
-        {"data": "payment_status", "name": "payment_status", "render": function ( data, type, full, meta ) {
-            if( data === '1' ){
-                return '<span class="label label-success">Done</span>';
-            }
-            else if( data === '0' ){
-                return '<span class="label label-danger">Failed</span>';
-            }
-            else{
-                return '<span class="label label-default">No data</span>';
-            }
-        }},
-        {"data": "payment_type", "name": "payment_type"},
-        {"data": "total_prepayment_amount", "name": "total_prepayment_amount"},
-        {"data": "txid", "name": "txid"},
-        {"data": "action", "name": "action", "orderable": false, "searchable": false}
-    ],
-        "columnDefs": [{
-        "defaultContent": "-",
-        "targets": "_all"
-    }],
-});
-
-    $('#dataTable tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search ' + title + '"/>' );
+    //Initialize Select2 Elements
+    $(".admin_cabins_list").select2({
+        placeholder: "Select a cabin"
     });
 
-    var buttons = new $.fn.dataTable.Buttons(table, {
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 2, 3, 4, 7, 8, 9, 10 ]
-                }
-            },
-            {
-                extend: 'excel',
-                exportOptions: {
-                    columns: [ 2, 3, 4, 7, 8, 9, 10 ]
-                }
-            },
-            {
-                extend: 'pdf',
-                orientation: 'portrait',
-                pageSize: 'LEGAL',
-                exportOptions: {
-                    columns: [ 2, 3, 4, 7, 8, 9, 10 ]
-                }
-            },
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: [ 2, 3, 4, 7, 8, 9, 10 ]
-                }
-            },
-        ]
-    }).container().appendTo($('#buttons'));
+    /* Tooltip */
+    $('[data-toggle="tooltip"]').tooltip();
 
-    // Apply the search
-    table.columns().every( function () {
-        var that = this;
+    var booking_data;
+    var daterange = '';
+    var cabin = '';
 
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
+    /* Helping object for translation */
+    var translations = {
+        bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
+        wellDone: window.translations.wellDone,
+        deleteBookingAlert: window.translations.deleteBookingAlert,
+    };
+
+    fetch_data('no');
+
+    function fetch_data(is_date_search, daterange, cabin)
+    {
+        booking_data = $('#booking_data').DataTable({
+                "order": [[ 1, "desc" ]],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": '/admin/bookings/datatables',
+                "dataType": "json",
+                "type": "POST",
+                "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin}
+            },
+            "columns": [
+        { "data": "hash" },
+        { "data": "invoice_number" },
+        { "data": "usrEmail" },
+        { "data": "checkin_from" },
+        { "data": "reserve_to" },
+        { "data": "beds" },
+        { "data": "dormitory" },
+        { "data": "sleeps" },
+        { "data": "status" },
+        { "data": "payment_status" },
+        { "data": "payment_type" },
+        { "data": "total_prepayment_amount" },
+        { "data": "txid" },
+        { "data": "payment_status_update" },
+        { "data": "action" }
+    ],
+        "columnDefs": [
+        {
+            "orderable": false,
+            "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
+        }
+    ]
+    });
+
+        /* Bottom buttons for datatables */
+        var buttons = new $.fn.dataTable.Buttons(booking_data, {
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    orientation: 'portrait',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
+                    }
+                },
+            ]
+        }).container().appendTo($('#buttons'));
+    }
+
+    /* Payment status change */
+    $('.paymentStatusBtn').on('click', function(e){
+        e.preventDefault();
+        if(!$('.checked').is(':checked')) {
+            confirm(translations.bookingStatusUpdateAlert);
+        }
+        else {
+            var bookingId = new Array();
+            var $btn      = $(this).button('loading');
+            $("input:checked").each(function() {
+                bookingId.push($(this).val());
+            });
+            $.ajax({
+                url: '/admin/bookings/payment/status',
+                data: { "bookingId": bookingId },
+                dataType: 'JSON',
+                type: 'PUT',
+                success: function(result) {
+                    if(result) {
+                        booking_data.ajax.reload(null, false);
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>')
+                        $('.responseMessage').show().delay(5000).fadeOut();
+                        $btn.button('reset');
+                    }
+                }
+            });
+        }
+    });
+
+    /* Payment status update individually */
+    $('#booking_data tbody').on( 'click', 'button.paymentStatusUpdate', function(e){
+        e.preventDefault();
+        var bookingId  = $(this).siblings('.pay_status_update').attr('value');
+        $.ajax({
+            url: '/admin/bookings/payment/status/individual',
+            data: { "bookingId": bookingId },
+            dataType: 'JSON',
+            type: 'PUT',
+            success: function(result) {
+                if(result) {
+                    booking_data.ajax.reload(null, false);
+                    $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>')
+                    $('.responseMessage').show().delay(5000).fadeOut();
+                }
             }
         });
     });
-    /* Data table functionality end */
 
-    /* Send invoice */
-    $('#dataTable tbody').on( 'click', 'button.sendInvoice', function (e) {
+    /* Send invoice functionality */
+    $('#booking_data tbody').on( 'click', 'button.sendInvoice', function (e) {
+        e.preventDefault();
         var bookingId = $(this).closest('li').data('invoice');
         var $btn      = $(this).button('loading');
         $.ajax({
             url: '/admin/bookings/voucher/' + bookingId,
-            data: { "_token": "" },
+            dataType: 'JSON',
             type: 'POST',
             success: function(result) {
                 if(result){
@@ -192,28 +169,90 @@ $(function () {
         });
     });
 
-    /* Delete function */
-    $('#dataTable tbody').on( 'click', 'a.deleteEvent', function (e) {
+    /* Delete functionality */
+    $('#booking_data tbody').on( 'click', 'a.deleteEvent', function (e) {
+        e.preventDefault();
         var bookingId = $(this).data('id');
-        var r = confirm("Do you want to delete this booking?");
+        var r = confirm(translations.deleteBookingAlert);
         if (r == true) {
             $.ajax({
                 url: '/admin/bookings/' + bookingId,
-                data: { "_token": "{{ csrf_token() }}" },
+                dataType: 'JSON',
                 type: 'DELETE',
                 success: function(result) {
                     if(result) {
-                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Well Done</h4>'+result.message+'</div>')
+                        booking_data
+                            .row( $(this).parents('tr') )
+                            .remove()
+                            .draw();
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>')
                         $('.responseMessage').show().delay(5000).fadeOut();
                     }
                 }
             });
-            table
-                .row( $(this).parents('tr') )
-                .remove()
-                .draw();
         }
-        e.preventDefault();
+    });
+
+    /* Date range functionality begin */
+
+    $('#adminBookingsDaterange').daterangepicker({
+        autoUpdateInput: false,
+        ranges: {
+            'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
+            'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
+            'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
+            'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale: {
+            format: 'DD.MM.YYYY',
+            applyLabel: "Bestätigen",
+            cancelLabel: "Löschen",
+            daysOfWeek: [
+                "So",
+                "Mo",
+                "Di",
+                "Mi",
+                "Do",
+                "Fr",
+                "Sa"
+            ],
+        }
+    });
+
+    $('#adminBookingsDaterange').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+    });
+
+    $('#adminBookingsDaterange').on('cancel.daterangepicker', function(ev, picker) {
+        var data        = $(this).val('');
+        booking_data.destroy();
+        fetch_data('no')
+    });
+
+    $('#generateAdminBookings').on('click', function() {
+        var cabin     = $('.admin_cabins_list').val();
+        var dates     = $('#adminBookingsDaterange').val();
+        var daterange = dates.replace(/\s/g, '');
+        if(daterange !== '' && cabin !== '')
+        {
+            console.log(daterange+'------'+cabin);
+            booking_data.destroy();
+            fetch_data('yes', daterange, cabin)
+        }
+        else {
+            console.log('error');
+        }
+    });
+
+
+
+    /* Date range functionality end */
+
+    /* <tfoot> search functionality */
+    $('.search-input').on( 'keyup change', function () {
+        var i =$(this).attr('id');  // getting column index
+        var v =$(this).val();  // getting search input value
+        booking_data.columns(i).search(v).draw();
     });
 
 });
