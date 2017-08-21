@@ -407,7 +407,7 @@ class MountSchoolBookingsController extends Controller
 
                     /* Functionality to send message to user begin */
                     Mail::send('emails.cabinOwnerSendMessage', ['comment' => $array['comment'], 'cabinName' => $cabin_name, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $cabin_name) {
-                        $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$cabin_name);
+                        $message->to($user_email)->subject('Nachricht von '.$cabin_name);
                     });
                     /* Functionality to send message to user end */
                     $message = 'success';
