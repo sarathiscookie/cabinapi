@@ -230,7 +230,6 @@ $(function () {
     });
 
     $('#generateAdminBookings').on('click', function() {
-        var $btn      = $(this).button('loading');
         var cabin     = $('.admin_cabins_list').val();
         var dates     = $('#adminBookingsDaterange').val();
         var daterange = dates.replace(/\s/g, '');
@@ -238,11 +237,9 @@ $(function () {
         {
             booking_data.destroy();
             fetch_data('yes', daterange, cabin);
-            $btn.button('reset');
         }
         else {
             $('.alertMsg').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Leere Felder bitte ausfüllen</div>');
-            $btn.button('reset');
         }
     });
 
