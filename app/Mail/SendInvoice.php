@@ -167,10 +167,9 @@ class SendInvoice extends Mailable
         /* PDF Generation end*/
 
         return $this->view('emails.sendInvoice')
-            ->to('iamsarath1986@gmail.com')
-            /*->bcc(env('MAIL_BCC_PAYMENT'))*/
-            /*->to($userDetails->usrEmail)*/
-            /*->bcc(env('MAIL_BCC_PAYMENT'))*/
+            /*->to('iamsarath1986@gmail.com')*/
+            ->bcc(env('MAIL_BCC_PAYMENT'))
+            ->to($userDetails->usrEmail)
             ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
             ->attach(public_path('storage/Huetten-Holiday-AGB.pdf'), [
                 'mime' => 'application/pdf',
