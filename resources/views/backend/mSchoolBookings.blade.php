@@ -179,8 +179,7 @@
             bookingStatusUpdateAlert: '{{ trans('adminMschoolBooking.bookingStatusUpdateAlert') }}',
             wellDone: '{{ trans('adminMschoolBooking.wellDone') }}',
             deleteBookingAlert: '{{ trans('adminMschoolBooking.deleteBookingAlert') }}',
-            panelLabelCabin: '{{ trans('adminMschoolBooking.panelLabelCabin') }}',
-            bookingDeleteSuccessResponse: '{{ trans('adminMschoolBooking.bookingDeleteSuccessResponse') }}'
+            panelLabelCabin: '{{ trans('adminMschoolBooking.panelLabelCabin') }}'
         };
     </script>
 

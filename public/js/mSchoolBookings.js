@@ -20,8 +20,7 @@ $(function () {
         bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
         wellDone: window.translations.wellDone,
         deleteBookingAlert: window.translations.deleteBookingAlert,
-        panelLabelCabin: window.translations.panelLabelCabin,
-        bookingDeleteSuccessResponse: window.translations.bookingDeleteSuccessResponse,
+        panelLabelCabin: window.translations.panelLabelCabin
     };
 
     //Initialize Select2 Elements
@@ -188,7 +187,7 @@ $(function () {
                             .row( $(this).parents('tr') )
                             .remove()
                             .draw();
-                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.bookingDeleteSuccessResponse+' </div>');
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+result.message+' </div>');
                         $('.responseMessage').show().delay(5000).fadeOut();
                     }
                 }
