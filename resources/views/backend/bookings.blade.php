@@ -55,6 +55,7 @@
                                     <label>@lang('bookingStatistics.panelLabelCabin'): </label>
                                     <select class="form-control admin_cabins_list" style="width: 100%;" id="admin_cabins_list">
                                         <option></option>
+                                        <option value="allCabins">All Cabins</option>
                                         @foreach($dashboard->cabins() as $cabin )
                                             <option>{{$cabin->name}}</option>
                                         @endforeach
