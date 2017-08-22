@@ -55,6 +55,7 @@
                                         <label>@lang('adminMschoolBooking.panelLabelCabin'): </label>
                                         <select class="form-control admin_cabins_list" style="width: 100%;" id="cabin">
                                             <option></option>
+                                            <option value="allCabins">All Cabins</option>
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>
                                             @endforeach

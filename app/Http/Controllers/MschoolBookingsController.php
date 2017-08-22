@@ -99,16 +99,28 @@ class MschoolBookingsController extends Controller
             $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
             $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
 
-            $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
-                $query->whereBetween('check_in', [$dateBegin, $dateEnd])
-                    ->where('cabin_name', $request->cabin);
-            });
+            if($request->cabin == 'allCabins'){
+                $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
+                    $query->whereBetween('check_in', [$dateBegin, $dateEnd]);
+                });
 
-            $totalFiltered          =  $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
-                $query->whereBetween('check_in', [$dateBegin, $dateEnd])
-                    ->where('cabin_name', $request->cabin);
-            })
-                ->count();
+                $totalFiltered          =  $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
+                    $query->whereBetween('check_in', [$dateBegin, $dateEnd]);
+                })
+                    ->count();
+            }
+            else {
+                $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
+                    $query->whereBetween('check_in', [$dateBegin, $dateEnd])
+                        ->where('cabin_name', $request->cabin);
+                });
+
+                $totalFiltered          =  $q->where(function($query) use ($dateBegin,$dateEnd,$request) {
+                    $query->whereBetween('check_in', [$dateBegin, $dateEnd])
+                        ->where('cabin_name', $request->cabin);
+                })
+                    ->count();
+            }
         }
         /* Date range func end */
 
