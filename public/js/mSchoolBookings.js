@@ -15,17 +15,19 @@ $(function () {
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
-    //Initialize Select2 Elements
-    $(".admin_cabins_list").select2({
-        placeholder: "Select a cabin"
-    });
-
     /* Helping object for translation */
     var translations = {
         bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
         wellDone: window.translations.wellDone,
         deleteBookingAlert: window.translations.deleteBookingAlert,
+        panelLabelCabin: window.translations.panelLabelCabin,
+        bookingDeleteSuccessResponse: window.translations.bookingDeleteSuccessResponse,
     };
+
+    //Initialize Select2 Elements
+    $(".admin_cabins_list").select2({
+        placeholder: translations.panelLabelCabin
+    });
 
     var booking_data;
     var daterange = '';
@@ -33,7 +35,7 @@ $(function () {
 
     fetch_data('no');
 
-
+    /*Function for data table begin*/
     function fetch_data(is_date_search, daterange, cabin)
     {
         booking_data = $('#booking_data_mschool').DataTable({
@@ -116,8 +118,7 @@ $(function () {
             ]
         }).container().appendTo($('#buttons'));
     }
-
-
+    /*Function for data table end*/
 
     /* Date range functionality begin */
     $('#daterange_Mschool').daterangepicker({
@@ -155,6 +156,7 @@ $(function () {
     });
 
     $('#generateAdminBookings').on('click', function() {
+        var $btn      = $(this).button('loading');
         var cabin     = $('.admin_cabins_list').val();
         var dates     = $('#daterange_Mschool').val();
         var daterange = dates.replace(/\s/g, '');
@@ -164,10 +166,10 @@ $(function () {
             fetch_data('yes', daterange, cabin)
         }
         else {
-            console.log('error'); // write error message
+            $('.alertMessage').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Leere Felder bitte ausfüllen</div>');
+            $btn.button('reset');
         }
     });
-
     /* Date range functionality end */
 
     /* Delete functionality */
@@ -186,7 +188,7 @@ $(function () {
                             .row( $(this).parents('tr') )
                             .remove()
                             .draw();
-                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> Deleted Successfully!!! </div>');
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.bookingDeleteSuccessResponse+' </div>');
                         $('.responseMessage').show().delay(5000).fadeOut();
                     }
                 }

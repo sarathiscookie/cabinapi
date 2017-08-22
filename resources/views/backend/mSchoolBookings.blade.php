@@ -28,13 +28,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @lang('cabinownerMountainSchoolBooking.heading')
-                <small>@lang('cabinownerMountainSchoolBooking.subHeading')</small>
+                @lang('adminMschoolBooking.heading')
+                <small>@lang('adminMschoolBooking.subHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbDashboard')</a></li>
-                <li><a href="/cabinowner/bookings"><i class="fa fa-table"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbBooking')</a></li>
-                <li class="active">@lang('cabinownerMountainSchoolBooking.breadcrumbMountainSchool')</li>
+                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('adminMschoolBooking.breadcrumbDashboard')</a></li>
+                <li class="active">@lang('adminMschoolBooking.breadcrumbMountainSchool')</li>
             </ol>
         </section>
 
@@ -44,7 +43,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">@lang('cabinownerMountainSchoolBooking.detailsHeading')</h3>
+                            <h3 class="box-title">@lang('adminMschoolBooking.detailsHeading')</h3>
                         </div>
 
                         <!-- /.box-header -->
@@ -53,7 +52,7 @@
                             <div class="row">
                                 <div class="col-md-3 pull-left">
                                     <div class="form-group">
-                                        <label>@lang('bookingStatistics.panelLabelCabin'): </label>
+                                        <label>@lang('adminMschoolBooking.panelLabelCabin'): </label>
                                         <select class="form-control admin_cabins_list" style="width: 100%;" id="cabin">
                                             <option></option>
                                             @foreach($dashboard->cabins() as $cabin )
@@ -67,7 +66,7 @@
                                 <!-- Date range -->
                                 <div class="col-md-3 pull-left">
                                     <div class="form-group">
-                                        <label>@lang('bookingStatistics.panelLabelDateRange'): </label>
+                                        <label>@lang('adminMschoolBooking.panelLabelDateRange'): </label>
 
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -89,6 +88,9 @@
                                     </div>
                                     <!-- /.form group -->
                                 </div>
+
+                                <div class="col-md-2 pull-left alertMessage">
+                                </div>
                             </div>
 
 
@@ -96,42 +98,40 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.bookingNumber')</th>
-                                    {{--<th>@lang('cabinownerMountainSchoolBooking.ind_notice')</th>--}}
-                                    <th>@lang('cabinownerMountainSchoolBooking.lastName')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.firstName')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.email')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.from')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.to')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.beds')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.dorms')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.sleeps')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.status')</th>
-                                    <th>Action</th>
+                                    <th>@lang('adminMschoolBooking.bookingNumber')</th>
+                                    <th>@lang('adminMschoolBooking.lastName')</th>
+                                    <th>@lang('adminMschoolBooking.firstName')</th>
+                                    <th>@lang('adminMschoolBooking.email')</th>
+                                    <th>@lang('adminMschoolBooking.from')</th>
+                                    <th>@lang('adminMschoolBooking.to')</th>
+                                    <th>@lang('adminMschoolBooking.beds')</th>
+                                    <th>@lang('adminMschoolBooking.dorms')</th>
+                                    <th>@lang('adminMschoolBooking.sleeps')</th>
+                                    <th>@lang('adminMschoolBooking.status')</th>
+                                    <th>@lang('adminMschoolBooking.action')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.searchBoookingNo')"></th>
-                                    {{--<th id="2"></th>--}}
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input-mschool" placeholder="@lang('adminMschoolBooking.searchBoookingNo')"></th>
                                     <td></td>
                                     <td></td>
-                                    <th><input type="text" id="5"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
+                                    <th><input type="text" id="4"  class="form-control input-sm search-input-mschool" placeholder="@lang('adminMschoolBooking.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input-mschool" id="11">
-                                            <option value="">(@lang('cabinownerMountainSchoolBooking.SearchStatus'))</option>
-                                            <option value="1">@lang('cabinownerMountainSchoolBooking.bookingFix')</option>
-                                            <option value="2">@lang('cabinownerMountainSchoolBooking.cancelled')</option>
-                                            <option value="3">@lang('cabinownerMountainSchoolBooking.completed')</option>
-                                            <option value="4">@lang('cabinownerMountainSchoolBooking.request')</option>
-                                            <option value="5">@lang('cabinownerMountainSchoolBooking.bookingWaiting')</option>
+                                        <select class="form-control input-sm search-input-mschool" id="10">
+                                            <option value="">(@lang('adminMschoolBooking.SearchStatus'))</option>
+                                            <option value="1">@lang('adminMschoolBooking.bookingFix')</option>
+                                            <option value="2">@lang('adminMschoolBooking.cancelled')</option>
+                                            <option value="3">@lang('adminMschoolBooking.completed')</option>
+                                            <option value="4">@lang('adminMschoolBooking.request')</option>
+                                            <option value="5">@lang('adminMschoolBooking.bookingWaiting')</option>
                                         </select>
                                     </td>
                                     <td></td>
@@ -176,9 +176,11 @@
     <!-- Helping object for translation -->
     <script>
         window.translations = {
-            bookingStatusUpdateAlert: '{{ trans('admin.bookingStatusUpdateAlert') }}',
-            wellDone: '{{ trans('admin.wellDone') }}',
-            deleteBookingAlert: '{{ trans('admin.deleteBookingAlert') }}',
+            bookingStatusUpdateAlert: '{{ trans('adminMschoolBooking.bookingStatusUpdateAlert') }}',
+            wellDone: '{{ trans('adminMschoolBooking.wellDone') }}',
+            deleteBookingAlert: '{{ trans('adminMschoolBooking.deleteBookingAlert') }}',
+            panelLabelCabin: '{{ trans('adminMschoolBooking.panelLabelCabin') }}',
+            bookingDeleteSuccessResponse: '{{ trans('adminMschoolBooking.bookingDeleteSuccessResponse') }}'
         };
     </script>
 

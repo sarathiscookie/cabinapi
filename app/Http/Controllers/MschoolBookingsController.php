@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MountSchoolBooking;
 use App\Userlist;
-use App\Cabin;
 use Auth;
 use Mail;
 
@@ -32,15 +31,15 @@ class MschoolBookingsController extends Controller
         $params        = $request->all();
         $columns       = array(
             1 => 'invoice_number',
-            3 => 'usrLastname',
-            4 => 'usrFirstname',
-            5 => 'usrEmail',
-            6 => 'check_in',
-            7 => 'reserve_to',
-            8 => 'beds',
-            9 => 'dormitory',
-            10 => 'sleeps',
-            11 => 'status',
+            2 => 'usrLastname',
+            3 => 'usrFirstname',
+            4 => 'usrEmail',
+            5 => 'check_in',
+            6 => 'reserve_to',
+            7 => 'beds',
+            8 => 'dormitory',
+            9 => 'sleeps',
+            10 => 'status',
         );
 
         $totalData     = MountSchoolBooking::where('is_delete', 0)
@@ -126,22 +125,22 @@ class MschoolBookingsController extends Controller
                 ->count();
         }
 
-        if( isset($params['columns'][11]['search']['value']) )
+        if( isset($params['columns'][10]['search']['value']) )
         {
             $q->where(function($query) use ($params) {
-                $query->where('status', "{$params['columns'][11]['search']['value']}");
+                $query->where('status', "{$params['columns'][10]['search']['value']}");
             });
 
             $totalFiltered = $q->where(function($query) use ($params) {
-                $query->where('status', "{$params['columns'][11]['search']['value']}");
+                $query->where('status', "{$params['columns'][10]['search']['value']}");
             })
                 ->count();
         }
 
-        if( !empty($params['columns'][5]['search']['value']) )
+        if( !empty($params['columns'][4]['search']['value']) )
         {
             $users     = Userlist::where(function($query) use ($params) {
-                $query->where('usrEmail', 'like', "%{$params['columns'][5]['search']['value']}%");
+                $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
             })
                 ->skip($start)
                 ->take($limit)
@@ -169,7 +168,7 @@ class MschoolBookingsController extends Controller
             ->get();
 
         $data          = array();
-        $noData        = '<span class="label label-default">'.__("cabinownerMountainSchoolBooking.noResult").'</span>';
+        $noData        = '<span class="label label-default">'.__("adminMschoolBooking.noResult").'</span>';
         if(!empty($bookings)) {
             foreach ($bookings as $key => $booking) {
                 $users = Userlist::where('_id', $booking->user_id)
@@ -187,19 +186,19 @@ class MschoolBookingsController extends Controller
                 }
                 /* Condition for booking status */
                 if($booking->status == '1') {
-                    $bookingStatusLabel = '<span class="label label-success">'.__("cabinownerMountainSchoolBooking.bookingFix").'</span>';
+                    $bookingStatusLabel = '<span class="label label-success">'.__("adminMschoolBooking.bookingFix").'</span>';
                 }
                 else if ($booking->status == '2') {
-                    $bookingStatusLabel = '<span class="label label-danger">'.__("cabinownerMountainSchoolBooking.cancelled").'</span>';
+                    $bookingStatusLabel = '<span class="label label-danger">'.__("adminMschoolBooking.cancelled").'</span>';
                 }
                 else if ($booking->status == '3') {
-                    $bookingStatusLabel = '<span class="label label-primary">'.__("cabinownerMountainSchoolBooking.completed").'</span>';
+                    $bookingStatusLabel = '<span class="label label-primary">'.__("adminMschoolBooking.completed").'</span>';
                 }
                 else if ($booking->status == '4') {
-                    $bookingStatusLabel = '<span class="label label-info">'.__("cabinownerMountainSchoolBooking.request").'</span>';
+                    $bookingStatusLabel = '<span class="label label-info">'.__("adminMschoolBooking.request").'</span>';
                 }
                 else if ($booking->status == '5') {
-                    $bookingStatusLabel = '<span class="label label-warning">'.__("cabinownerMountainSchoolBooking.bookingWaiting").'</span>';
+                    $bookingStatusLabel = '<span class="label label-warning">'.__("adminMschoolBooking.bookingWaiting").'</span>';
                 }
                 else {
                     $bookingStatusLabel = $noData;
@@ -292,16 +291,16 @@ class MschoolBookingsController extends Controller
                 else {
                     $beds      = $booking->beds;
                     $dormitory = $booking->dormitory;
-                    $sleeps    = '-----';
+                    $sleeps    = '----';
                 }
                 if(empty($booking->beds)){
-                    $beds      = '-----';
+                    $beds      = '----';
                 }
                 if(empty($booking->dormitory)){
-                    $dormitory = '-----';
+                    $dormitory = '----';
                 }
 
-                $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinownerMountainSchoolBooking.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.__("cabinownerMountainSchoolBooking.close").'</button></div></div></div></div>';
+                $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("adminMschoolBooking.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("adminMschoolBooking.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.__("adminMschoolBooking.close").'</button></div></div></div></div>';
                 $nestedData['invoice_number']          = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
                 $nestedData['usrLastname']             = $last_name;
                 $nestedData['usrFirstname']            = $first_name;
@@ -312,7 +311,7 @@ class MschoolBookingsController extends Controller
                 $nestedData['dormitory']               = $dormitory;
                 $nestedData['sleeps']                  = $sleeps;
                 $nestedData['status']                  = $bookingStatusLabel;
-                $nestedData['action']                  = '<a href="/admin/mschool/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("admin.deleteButton").'</a>';
+                $nestedData['action']                  = '<a href="/admin/mschool/bookings/'.$booking->_id.'" class="btn btn-xs btn-danger deleteEvent" data-id="'.$booking->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("adminMschoolBooking.deleteButton").'</a>';
                 $data[]                                = $nestedData;
             }
             $json_data     = array(
@@ -393,6 +392,6 @@ class MschoolBookingsController extends Controller
         $booking->is_delete = 1;
         $booking->save();
 
-        return response()->json(['message' => __('admin.bookingDeleteSuccessResponse')], 201);
+        return response()->json(['message' => __('adminMschoolBooking.bookingDeleteSuccessResponse')], 201);
     }
 }
