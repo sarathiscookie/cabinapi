@@ -53,7 +53,7 @@
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
                                     <label>@lang('bookingStatistics.panelLabelCabin'): </label>
-                                    <select class="form-control admin_cabins_list" style="width: 100%;" id="cabin">
+                                    <select class="form-control admin_cabins_list" style="width: 100%;" id="admin_cabins_list">
                                         <option></option>
                                         @foreach($dashboard->cabins() as $cabin )
                                             <option>{{$cabin->name}}</option>
@@ -79,7 +79,7 @@
                                 <!-- /.form group -->
                             </div>
 
-                            <div class="col-md-3 pull-left">
+                            <div class="col-md-2 pull-left">
                                 <div class="form-group">
                                     <label></label>
                                     <div class="input-group">
@@ -89,7 +89,10 @@
                                 <!-- /.form group -->
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2 pull-left alertMsg">
+                            </div>
+
+                            <div class="col-md-2">
                                 <div class="form-group pull-right">
                                     <label></label>
                                     <div class="input-group">

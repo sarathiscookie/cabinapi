@@ -103,7 +103,7 @@ class BookingController extends Controller
 
         }
 
-        /* Date range func begin */
+        /* Date range func and cabin name filter func begin */
         if($request->input('is_date_search') == 'yes')
         {
             //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
@@ -348,7 +348,7 @@ class BookingController extends Controller
             'data'            => $data
         );
 
-        echo json_encode($json_data);
+        return response()->json($json_data);
     }
 
     /**
