@@ -156,27 +156,27 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-table"></i> <span>Booking</span>
+                        <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> Bookings List</a></li>
-                        <li><a href="/admin/bookings/statistics"><i class="fa fa-circle-o"></i> Bookings Statistics</a></li>
+                        <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu')</a></li>
+                        <li><a href="/admin/bookings/statistics"><i class="fa fa-circle-o"></i> @lang('menu.bookingStatisticsMenu')</a></li>
                     </ul>
                 </li>
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-table"></i> <span>Mschool Booking</span>
+                        <i class="fa fa-table"></i> <span>@lang('menu.bookingMschoolMenu')</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/admin/mschool/bookings"><i class="fa fa-circle-o"></i>Mschool Bookings List</a></li>
-                        <li><a href="/admin/mschool/bookings/statistics"><i class="fa fa-circle-o"></i>Mschool Bookings Statistics</a></li>
+                        <li><a href="/admin/mschool/bookings"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolMenu')</a></li>
+                        <li><a href="/admin/mschool/bookings/statistics"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolStatMenu')</a></li>
                     </ul>
                 </li>
 

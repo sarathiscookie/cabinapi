@@ -36,39 +36,63 @@ $(function () {
     function fetch_data(is_date_search, daterange, cabin)
     {
         booking_data = $('#booking_data').DataTable({
-                "order": [[ 1, "desc" ]],
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                    "url": '/admin/bookings/datatables',
+            "lengthMenu": [10, 50, 100, 250, 500],
+            "order": [[ 1, "desc" ]],
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": '/admin/bookings/datatables',
                 "dataType": "json",
                 "type": "POST",
                 "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin}
             },
             "columns": [
-        { "data": "hash" },
-        { "data": "invoice_number" },
-        { "data": "usrEmail" },
-        { "data": "checkin_from" },
-        { "data": "reserve_to" },
-        { "data": "beds" },
-        { "data": "dormitory" },
-        { "data": "sleeps" },
-        { "data": "status" },
-        { "data": "payment_status" },
-        { "data": "payment_type" },
-        { "data": "total_prepayment_amount" },
-        { "data": "txid" },
-        { "data": "payment_status_update" },
-        { "data": "action" }
-    ],
-        "columnDefs": [
-        {
-            "orderable": false,
-            "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
-        }
-    ]
-    });
+                { "data": "hash" },
+                { "data": "invoice_number" },
+                { "data": "usrEmail" },
+                { "data": "checkin_from" },
+                { "data": "reserve_to" },
+                { "data": "beds" },
+                { "data": "dormitory" },
+                { "data": "sleeps" },
+                { "data": "status" },
+                { "data": "payment_status" },
+                { "data": "payment_type" },
+                { "data": "total_prepayment_amount" },
+                { "data": "txid" },
+                { "data": "payment_status_update" },
+                { "data": "action" }
+                ],
+            "columnDefs": [
+                {
+                    "orderable": false,
+                    "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
+                }
+            ],
+            "language": {
+                "sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
+                "sInfo":         	"_START_ bis _END_ von _TOTAL_ Einträgen",
+                "sInfoEmpty":    	"0 bis 0 von 0 Einträgen",
+                "sInfoFiltered": 	"(gefiltert von _MAX_ Einträgen)",
+                "sInfoPostFix":  	"",
+                "sInfoThousands":  	".",
+                "sLengthMenu":   	"_MENU_ Einträge anzeigen",
+                "sLoadingRecords": 	"Wird geladen...",
+                "sProcessing":   	"Bitte warten...",
+                "sSearch":       	"Suchen",
+                "sZeroRecords":  	"Keine Einträge vorhanden.",
+                "oPaginate": {
+                    "sFirst":    	"Erste",
+                    "sPrevious": 	"Zurück",
+                    "sNext":     	"Nächste",
+                    "sLast":     	"Letzte"
+                },
+                "oAria": {
+                    "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                    "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+                }
+            }
+        });
 
         /* Bottom buttons for datatables */
         var buttons = new $.fn.dataTable.Buttons(booking_data, {

@@ -157,17 +157,17 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-table"></i> <span>@lang('cabinowner.bookingMenu')</span>
+                        <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('cabinowner.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->bookingCount() !!}</span></span></a>
+                            <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->bookingCount() !!}</span></span></a>
                         </li>
                         <li>
-                            <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('cabinownerMountainSchoolBooking.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
+                            <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMschoolMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
                         </li>
                     </ul>
                 </li>
