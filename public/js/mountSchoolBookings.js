@@ -14,7 +14,7 @@ $(function () {
 
     fetch_data('no');
 
-
+    /* Function fo data table begin */
     function fetch_data(is_date_search, daterange)
     {
         booking_data = $('#booking_data_mschool').DataTable({
@@ -120,8 +120,7 @@ $(function () {
             ]
         }).container().appendTo($('#buttons'));
     }
-
-
+    /* Function fo data table end */
 
     /* Date range functionality begin */
     $('.daterange_Mschool').daterangepicker({
