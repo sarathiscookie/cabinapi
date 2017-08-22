@@ -18,7 +18,7 @@ return [
    |
    */
 
-    'chooseCabin'                              => 'Hütte/Region Auswahl',
+    'chooseCabin'                              => 'Hütte Auswahl',
     'dateRange'                                => 'Zeitraum Auswahl',
     'generateButton'                           => 'Bestätigen',
     'salesLabel'                               => 'Umsätze',

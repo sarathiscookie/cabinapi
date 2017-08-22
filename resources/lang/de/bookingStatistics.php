@@ -23,7 +23,7 @@ return [
     'bookingBreadcrumb'            => 'Buchungen',
     'statisticsBreadcrumb'         => 'Statistics',
     'panelHeading'                 => 'Buchungen Statistics',
-    'panelLabelCabin'              => 'Hütte/Region Auswahl',
+    'panelLabelCabin'              => 'Hütte Auswahl',
     'panelLabelDateRange'          => 'Zeitraum Auswahl',
     'graphFixLabel'                => 'Fix',
     'graphCancelLabel'             => 'Storniert',
