@@ -328,13 +328,13 @@ class MountSchoolBookingsController extends Controller
                         else {
                             $beds      = $booking->beds;
                             $dormitory = $booking->dormitory;
-                            $sleeps    = '-----';
+                            $sleeps    = '----';
                         }
                         if(empty($booking->beds)){
-                            $beds      = '-----';
+                            $beds      = '----';
                         }
                         if(empty($booking->dormitory)){
-                            $dormitory = '-----';
+                            $dormitory = '----';
                         }
 
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinownerMountainSchoolBooking.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("cabinownerMountainSchoolBooking.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">'.__("cabinownerMountainSchoolBooking.close").'</button></div></div></div></div>';
