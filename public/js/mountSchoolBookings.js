@@ -95,9 +95,11 @@ $(function () {
                         $(col[1]).attr('width', 15);
                         $(col[2]).attr('width', 15);
                         $(col[3]).attr('width', 25);
-                        $(col[6]).attr('width', 3);
-                        $(col[7]).attr('width', 3);
-                        $(col[8]).attr('width', 3);
+                        $(col[4]).attr('width', 8);
+                        $(col[5]).attr('width', 8);
+                        $(col[6]).attr('width', 5);
+                        $(col[7]).attr('width', 5);
+                        $(col[8]).attr('width', 5);
                         $(col[9]).attr('width', 10);
                         $('row c[r^="B"]', sheet).attr( 's', '55' );
                         $('row c[r^="C"]', sheet).attr( 's', '55' );
