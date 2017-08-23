@@ -58,7 +58,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('cabinowner.bookingNumber')</th>
-                                    <th>@lang('cabinowner.comment')</th>
                                     <th>@lang('cabinowner.lastName')</th>
                                     <th>@lang('cabinowner.firstName')</th>
                                     <th>@lang('cabinowner.email')</th>
@@ -77,19 +76,18 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
-                                    <th id="2"></th>
                                     <td></td>
                                     <td></td>
-                                    {{--<th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
-                                    <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>--}}
-                                    <th><input type="text" id="5"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
+                                    {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
+                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>--}}
+                                    <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input" id="11">
+                                        <select class="form-control input-sm search-input" id="10">
                                             <option value="">(@lang('cabinowner.SearchStatus'))</option>
                                             <option value="1">@lang('cabinowner.bookingFix')</option>
                                             <option value="2">@lang('cabinowner.cancelled')</option>
@@ -166,7 +164,6 @@
                     "columns": [
                         { "data": "hash" },
                         { "data": "invoice_number" },
-                        { "data": "comment" },
                         { "data": "usrLastname" },
                         { "data": "usrFirstname" },
                         { "data": "usrEmail" },
@@ -182,7 +179,7 @@
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12]
                         }
                     ],
                     "language": {
@@ -211,7 +208,7 @@
                 });
 
                 /* Visiblity disabled of "comment" column */
-                booking_data.column(2).visible( false );
+                /*booking_data.column(2).visible( false );*/
 
                 /* Bottom buttons for datatables */
                 var buttons = new $.fn.dataTable.Buttons(booking_data, {
@@ -219,39 +216,19 @@
                         {
                             extend: 'csv',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                            },
-                            customize: function( xlsx ) {
-                                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                                var col   = $('col', sheet);
-                                $(col[0]).attr('width', 15);
-                                $(col[1]).attr('width', 15);
-                                $(col[2]).attr('width', 10);
-                                $(col[3]).attr('width', 10);
-                                $(col[4]).attr('width', 10);
-                                $(col[5]).attr('width', 8);
-                                $(col[6]).attr('width', 8);
-                                $(col[7]).attr('width', 5);
-                                $(col[8]).attr('width', 5);
-                                $(col[9]).attr('width', 6);
-                                $(col[10]).attr('width', 6);
-                                $(col[11]).attr('width', 10);
-                                $('row c[r^="B"]', sheet).attr( 's', '55' );
-                                $('row c[r^="C"]', sheet).attr( 's', '55' );
-                                $('row c[r^="D"]', sheet).attr( 's', '55' );
-                                $('row c[r^="E"]', sheet).attr( 's', '55' );
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                             }
                         },
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                             }
                         },
                     ]
