@@ -20,12 +20,12 @@ $(function () {
         bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
         wellDone: window.translations.wellDone,
         deleteBookingAlert: window.translations.deleteBookingAlert,
-        panelLabelCabin: window.translations.panelLabelCabin
+        cabinPlaceholder: window.translations.cabinPlaceholder
     };
 
     //Initialize Select2 Elements
     $(".admin_cabins_list").select2({
-        placeholder: translations.panelLabelCabin
+        placeholder: translations.cabinPlaceholder
     });
 
     var booking_data;

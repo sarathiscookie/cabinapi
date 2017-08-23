@@ -52,7 +52,7 @@
                             <div class="row">
                                 <div class="col-md-3 pull-left">
                                     <div class="form-group">
-                                        <label>@lang('adminMschoolBooking.panelLabelCabin'): </label>
+                                        <label>@lang('adminMschoolBooking.cabinLabel'): </label>
                                         <select class="form-control admin_cabins_list" style="width: 100%;" id="cabin">
                                             <option></option>
                                             <option value="allCabins">All Cabins</option>
@@ -67,13 +67,13 @@
                                 <!-- Date range -->
                                 <div class="col-md-3 pull-left">
                                     <div class="form-group">
-                                        <label>@lang('adminMschoolBooking.panelLabelDateRange'): </label>
+                                        <label>@lang('adminMschoolBooking.daterangeLabel'): </label>
 
                                         <div class="input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" class="form-control pull-right" id="daterange_Mschool" placeholder="Zeitraum Auswahl">
+                                            <input type="text" class="form-control pull-right" id="daterange_Mschool" placeholder="@lang('adminMschoolBooking.dateRangePlaceholder')">
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -180,7 +180,7 @@
             bookingStatusUpdateAlert: '{{ trans('adminMschoolBooking.bookingStatusUpdateAlert') }}',
             wellDone: '{{ trans('adminMschoolBooking.wellDone') }}',
             deleteBookingAlert: '{{ trans('adminMschoolBooking.deleteBookingAlert') }}',
-            panelLabelCabin: '{{ trans('adminMschoolBooking.panelLabelCabin') }}'
+            cabinPlaceholder: '{{ trans('adminMschoolBooking.cabinPlaceholder') }}'
         };
     </script>
 

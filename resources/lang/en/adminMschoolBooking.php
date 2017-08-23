@@ -23,8 +23,10 @@ return [
     'breadcrumbMountainSchool'               => 'Mountain School Bookings',
     'detailsHeading'                         => 'Mountain School Booking Details',
     'bookingListMenu'                        => 'Mschool Booking List',
-    'panelLabelCabin'                        => 'Choose Cabin',
-    'panelLabelDateRange'                    => 'Date Range',
+    'cabinLabel'                             => 'Cabin',
+    'cabinPlaceholder'                       => 'Select cabin',
+    'daterangeLabel'                         => 'Date Range',
+    'dateRangePlaceholder'                   => 'Select date range',
 
     /* Model begin */
     'sendMessageHead'                        => 'Send Message',

@@ -24,8 +24,10 @@ return [
     'breadcrumbMountainSchool'               => 'Bergschulenliste',
     'detailsHeading'                         => 'Bergschulen Buchung Details',
     'bookingListMenu'                        => 'Bergschulenliste',
-    'panelLabelCabin'                        => 'Hütte Auswahl',
-    'panelLabelDateRange'                    => 'Zeitraum Auswahl',
+    'cabinLabel'                             => 'Hütte',
+    'cabinPlaceholder'                       => 'Hütte auswählen',
+    'daterangeLabel'                         => 'Zeitraum',
+    'dateRangePlaceholder'                   => 'Zeitraum auswählen',
 
     /* Model begin */
     'sendMessageHead'                        => 'Nachricht senden',
