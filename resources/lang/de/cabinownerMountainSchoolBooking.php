@@ -52,7 +52,7 @@ return [
     'beds'                                   => 'Betten',
     'dorms'                                  => 'Lager',
     'guest'                                  => 'Gäste',
-    'sleeps'                                 => 'Schlafplätze',
+    'sleeps'                                 => 'Plätze',
     'status'                                 => 'Status',
     'answered'                               => 'Antworten',
     'notAsked'                               => 'ohne Kommentar',
