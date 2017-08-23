@@ -59,7 +59,6 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.bookingNumber')</th>
-                                    <th>@lang('cabinownerMountainSchoolBooking.ind_notice')</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.lastName')</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.firstName')</th>
                                     <th>@lang('cabinownerMountainSchoolBooking.email')</th>
@@ -77,17 +76,16 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.searchBoookingNo')"></th>
-                                    <th id="2"></th>
                                     <td></td>
                                     <td></td>
-                                    <th><input type="text" id="5"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
+                                    <th><input type="text" id="4"  class="form-control input-sm search-input-mschool" placeholder="@lang('cabinownerMountainSchoolBooking.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input-mschool" id="11">
+                                        <select class="form-control input-sm search-input-mschool" id="10">
                                             <option value="">(@lang('cabinownerMountainSchoolBooking.SearchStatus'))</option>
                                             <option value="1">@lang('cabinownerMountainSchoolBooking.bookingFix')</option>
                                             <option value="2">@lang('cabinownerMountainSchoolBooking.cancelled')</option>
