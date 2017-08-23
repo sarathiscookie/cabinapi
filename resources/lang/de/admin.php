@@ -21,6 +21,10 @@ return [
     'controlPanel'                           => 'Verwaltungstool',
     'dashboard'                              => 'Übersicht',
     'paymentStatusUpdate'                    => 'Zahlungsstatus aktualisieren',
+    'cabinLabel'                             => 'Hütte',
+    'cabinPlaceholder'                       => 'Hütte auswählen',
+    'daterangeLabel'                         => 'Zeitraum',
+    'dateRangePlaceholder'                   => 'Zeitraum auswählen',
 
     'bookingNumber'                          => 'Buchungs-Nr.',
     'email'                                  => 'E-Mail',

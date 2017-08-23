@@ -52,7 +52,7 @@
 
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('bookingStatistics.panelLabelCabin'): </label>
+                                    <label>@lang('admin.cabinLabel'): </label>
                                     <select class="form-control admin_cabins_list" style="width: 100%;" id="admin_cabins_list">
                                         <option></option>
                                         <option value="allCabins">All Cabins</option>
@@ -67,13 +67,13 @@
                             <!-- Date range -->
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('bookingStatistics.panelLabelDateRange'): </label>
+                                    <label>@lang('admin.daterangeLabel'): </label>
 
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="adminBookingsDaterange" placeholder="Select a date range">
+                                        <input type="text" class="form-control pull-right" id="adminBookingsDaterange" placeholder="@lang('admin.dateRangePlaceholder')">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -204,6 +204,7 @@
             bookingStatusUpdateAlert: '{{ trans('admin.bookingStatusUpdateAlert') }}',
             wellDone: '{{ trans('admin.wellDone') }}',
             deleteBookingAlert: '{{ trans('admin.deleteBookingAlert') }}',
+            cabinPlaceholder: '{{ trans('admin.cabinPlaceholder') }}'
         };
     </script>
     <!-- Admin Bookings Js -->

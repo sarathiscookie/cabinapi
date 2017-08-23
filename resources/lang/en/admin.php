@@ -21,6 +21,10 @@ return [
     'controlPanel'                           => 'Control Panel',
     'dashboard'                              => 'Dashboard',
     'paymentStatusUpdate'                    => 'Payment Status Update',
+    'cabinLabel'                             => 'Cabin',
+    'cabinPlaceholder'                       => 'Select cabin',
+    'daterangeLabel'                         => 'Date Range',
+    'dateRangePlaceholder'                   => 'Select date range',
 
     'bookingNumber'                          => 'Booking Num',
     'email'                                  => 'Email',

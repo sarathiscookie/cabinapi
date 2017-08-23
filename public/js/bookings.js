@@ -12,24 +12,25 @@ $(function () {
         }
     });
 
-    //Initialize Select2 Elements
-    $(".admin_cabins_list").select2({
-        placeholder: "Select a cabin"
-    });
-
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
-
-    var booking_data;
-    var daterange = '';
-    var cabin = '';
 
     /* Helping object for translation */
     var translations = {
         bookingStatusUpdateAlert: window.translations.bookingStatusUpdateAlert,
         wellDone: window.translations.wellDone,
         deleteBookingAlert: window.translations.deleteBookingAlert,
+        cabinPlaceholder: window.translations.cabinPlaceholder
     };
+
+    //Initialize Select2 Elements
+    $(".admin_cabins_list").select2({
+        placeholder: translations.cabinPlaceholder
+    });
+
+    var booking_data;
+    var daterange = '';
+    var cabin = '';
 
     fetch_data('no');
 
