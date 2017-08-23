@@ -176,7 +176,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/admin/mschool/bookings"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolMenu')</a></li>
-                        <li><a href="/admin/mschool/bookings/statistics"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolStatMenu')</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolStatMenu')</a></li>
                     </ul>
                 </li>
 
