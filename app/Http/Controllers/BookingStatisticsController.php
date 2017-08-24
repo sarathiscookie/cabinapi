@@ -249,7 +249,7 @@ class BookingStatisticsController extends Controller
 
             /* Cancelled positive and negative begin */
             if($cabinName == 'allCabins'){
-                $bookings_negative_positive  = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                $bookings_negative_positive  = Booking::raw(function ($collection) use ($dateBegin, $dateEnd) {
                     return $collection->aggregate([
                         [
                             '$match' => [
