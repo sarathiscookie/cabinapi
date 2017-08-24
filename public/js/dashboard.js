@@ -14,19 +14,19 @@ $(function () {
         }
     });
 
+    /* Helping object for translation */
+    var translations = {
+        cabinPlaceholder: window.translations.cabinPlaceholder
+    };
+
     //Initialize Select2 Elements
     $(".cabins").select2({
-        placeholder: "select a cabin",
-        allowClear: true
+        placeholder: translations.cabinPlaceholder
     });
 
-    /* Date range picker */
-    var start = moment().subtract(29, 'days');
-    var end = moment();
-
+    /* Date range functionality begin */
     $('#daterange').daterangepicker({
-        startDate: start,
-        endDate: end,
+        autoUpdateInput: false,
         ranges: {
             'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
             'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
@@ -45,9 +45,14 @@ $(function () {
                 "Do",
                 "Fr",
                 "Sa"
-            ],
+            ]
         }
     });
+
+    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+    });
+    /* Date range functionality end */
 
     /* Chart generate */
     $('#graph-container').hide();

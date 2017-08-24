@@ -90,44 +90,80 @@ class DashboardController extends Controller
                 $xCoord[] = date('d.m.y', strtotime($day));
             }
 
-            $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'is_delete' => 0,
-                            'cabinname' => $cabinName,
-                            'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+            if($cabinName == 'allCabins'){
+                $bookings               = Booking::raw(function ($collection) use ($dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+                            ],
                         ],
-                    ],
-                    [
-                        '$group' =>
-                            [
-                                '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname'],
-                                'total_prepayment_amount' => ['$sum' => '$total_prepayment_amount'],
-                                'prepayment_amount' => ['$sum' => '$prepayment_amount'],
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from'],
+                                    'total_prepayment_amount' => ['$sum' => '$total_prepayment_amount'],
+                                    'prepayment_amount' => ['$sum' => '$prepayment_amount'],
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'total_prepayment_amount' => 1,
+                                    'prepayment_amount' => 1
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
+            else {
+                $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'cabinname' => $cabinName,
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
                             ],
-                    ],
-                    [
-                        '$project' =>
-                            [
-                                'checkin_from' => '$_id.checkin_from',
-                                'cabinname' => '$_id.cabinname',
-                                'total_prepayment_amount' => 1,
-                                'prepayment_amount' => 1
-                            ],
-                    ],
-                    [
-                        '$sort' =>
-                            [
-                                'checkin_from' => 1
-                            ],
-                    ],
-                ]);
-            });
+                        ],
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname'],
+                                    'total_prepayment_amount' => ['$sum' => '$total_prepayment_amount'],
+                                    'prepayment_amount' => ['$sum' => '$prepayment_amount'],
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'cabinname' => '$_id.cabinname',
+                                    'total_prepayment_amount' => 1,
+                                    'prepayment_amount' => 1
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
 
             foreach ($bookings as $booking){
                 if(!empty($booking->total_prepayment_amount) && !empty($booking->prepayment_amount)) {
-                    $checkinFrom                     = $booking->checkin_from->format('d.m.y');
+                    $checkinFrom                     = $booking->checkin_from->format('Ymd');
                     $totalPrepayAmount[$checkinFrom] = $booking->total_prepayment_amount;
                     $prepayAmount[$checkinFrom]      = $booking->prepayment_amount;
                     $serviceFee[$checkinFrom]        = round($booking->total_prepayment_amount - $booking->prepayment_amount, 2);

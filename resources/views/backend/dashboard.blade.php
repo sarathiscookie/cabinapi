@@ -119,8 +119,10 @@
                         <div class="box-body">
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('statisticsAdmin.chooseCabin'): </label>
+                                    <label>@lang('bookingStatistics.cabinLabel'): </label>
                                     <select class="form-control cabins" style="width: 100%;" id="cabin">
+                                        <option></option>
+                                        <option value="allCabins">All Cabins</option>
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>
@@ -134,13 +136,13 @@
                             <!-- Date range -->
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('statisticsAdmin.dateRange'): </label>
+                                    <label>@lang('bookingStatistics.daterangeLabel'): </label>
 
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="daterange">
+                                        <input type="text" class="form-control pull-right" id="daterange" placeholder="@lang('bookingStatistics.dateRangePlaceholder')">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -308,6 +310,14 @@
     <script type="text/javascript" src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
+
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}'
+        };
+    </script>
+
     <!-- Dashboard Js -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection
