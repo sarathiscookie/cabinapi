@@ -90,39 +90,75 @@ class BookingStatisticsController extends Controller
             }
 
             /* Booking status statistics begin */
-            $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'is_delete' => 0,
-                            'cabinname' => $cabinName,
-                            'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+            if($cabinName == 'allCabins'){
+                $bookings               = Booking::raw(function ($collection) use ($dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+                            ],
                         ],
-                    ],
-                    [
-                        '$group' =>
-                            [
-                                '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','status' => '$status'],
-                                'count' => ['$sum' => 1]
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from','status' => '$status'],
+                                    'count' => ['$sum' => 1]
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'status' => '$_id.status',
+                                    'count' => 1,
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
+            else {
+                $bookings               = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'cabinname' => $cabinName,
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
                             ],
-                    ],
-                    [
-                        '$project' =>
-                            [
-                                'checkin_from' => '$_id.checkin_from',
-                                'cabinname' => '$_id.cabinname',
-                                'status' => '$_id.status',
-                                'count' => 1,
-                            ],
-                    ],
-                    [
-                        '$sort' =>
-                            [
-                                'checkin_from' => 1
-                            ],
-                    ],
-                ]);
-            });
+                        ],
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','status' => '$status'],
+                                    'count' => ['$sum' => 1]
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'cabinname' => '$_id.cabinname',
+                                    'status' => '$_id.status',
+                                    'count' => 1,
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
+
 
             foreach ($bookings as $row){
                 $checkinFrom          = $row->checkin_from->format('Ymd');
@@ -212,41 +248,79 @@ class BookingStatisticsController extends Controller
             /* Booking status statistics end */
 
             /* Cancelled positive and negative begin */
-            $bookings_negative_positive  = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'is_delete' => 0,
-                            'cabinname' => $cabinName,
-                            'status' => '2',
-                            'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+            if($cabinName == 'allCabins'){
+                $bookings_negative_positive  = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'status' => '2',
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
+                            ],
                         ],
-                    ],
-                    [
-                        '$group' =>
-                            [
-                                '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','cancel_status' => '$cancel_status'],
-                                'count' => ['$sum' => 1]
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from','cancel_status' => '$cancel_status'],
+                                    'count' => ['$sum' => 1]
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'status' => '$_id.status',
+                                    'cancel_status' => '$_id.cancel_status',
+                                    'count' => 1,
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
+            else {
+                $bookings_negative_positive  = Booking::raw(function ($collection) use ($cabinName, $dateBegin, $dateEnd) {
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'is_delete' => 0,
+                                'cabinname' => $cabinName,
+                                'status' => '2',
+                                'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
                             ],
-                    ],
-                    [
-                        '$project' =>
-                            [
-                                'checkin_from' => '$_id.checkin_from',
-                                'cabinname' => '$_id.cabinname',
-                                'status' => '$_id.status',
-                                'cancel_status' => '$_id.cancel_status',
-                                'count' => 1,
-                            ],
-                    ],
-                    [
-                        '$sort' =>
-                            [
-                                'checkin_from' => 1
-                            ],
-                    ],
-                ]);
-            });
+                        ],
+                        [
+                            '$group' =>
+                                [
+                                    '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','cancel_status' => '$cancel_status'],
+                                    'count' => ['$sum' => 1]
+                                ],
+                        ],
+                        [
+                            '$project' =>
+                                [
+                                    'checkin_from' => '$_id.checkin_from',
+                                    'cabinname' => '$_id.cabinname',
+                                    'status' => '$_id.status',
+                                    'cancel_status' => '$_id.cancel_status',
+                                    'count' => 1,
+                                ],
+                        ],
+                        [
+                            '$sort' =>
+                                [
+                                    'checkin_from' => 1
+                                ],
+                        ],
+                    ]);
+                });
+            }
+
 
             foreach ($bookings_negative_positive as $row_negative_positive){
                 $checkin_cancel_status = $row_negative_positive->checkin_from->format('Ymd');

@@ -30,5 +30,9 @@ return [
     'graphWaitingLabel'            => 'Warten auf Zahlung',
     'graphGotMoneyLabel'           => 'Negative Storno',
     'graphNotGetMoneyLabel'        => 'Positive Storno',
+    'cabinLabel'                   => 'Hütte',
+    'cabinPlaceholder'             => 'Hütte auswählen',
+    'daterangeLabel'               => 'Zeitraum',
+    'dateRangePlaceholder'         => 'Zeitraum auswählen',
 
 ];

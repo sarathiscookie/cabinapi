@@ -52,8 +52,10 @@
                         <div class="box-body">
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('bookingStatistics.panelLabelCabin'): </label>
+                                    <label>@lang('bookingStatistics.cabinLabel'): </label>
                                     <select class="form-control cabins_book_statistics" style="width: 100%;" id="cabin">
+                                        <option></option>
+                                        <option value="allCabins">All Cabins</option>
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>
@@ -67,13 +69,13 @@
                             <!-- Date range -->
                             <div class="col-md-3 pull-left">
                                 <div class="form-group">
-                                    <label>@lang('bookingStatistics.panelLabelDateRange'): </label>
+                                    <label>@lang('bookingStatistics.daterangeLabel'): </label>
 
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" class="form-control pull-right" id="daterange_book_statistics">
+                                        <input type="text" class="form-control pull-right" id="daterange_book_statistics" placeholder="@lang('bookingStatistics.dateRangePlaceholder')">
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -121,6 +123,14 @@
     <script type="text/javascript" src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
+
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}'
+        };
+    </script>
+
     <!-- Statistics Js -->
     <script src="{{ asset('js/bookingsStatistics.js') }}"></script>
 @endsection

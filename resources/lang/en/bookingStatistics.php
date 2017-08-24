@@ -30,5 +30,9 @@ return [
     'graphWaitingLabel'            => 'Waiting For Paymenr',
     'graphGotMoneyLabel'           => 'User got money',
     'graphNotGetMoneyLabel'        => 'User not get money',
+    'cabinLabel'                   => 'Cabin',
+    'cabinPlaceholder'             => 'Select cabin',
+    'daterangeLabel'               => 'Date Range',
+    'dateRangePlaceholder'         => 'Select date range',
 
 ];
