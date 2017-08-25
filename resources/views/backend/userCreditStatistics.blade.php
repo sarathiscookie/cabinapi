@@ -37,7 +37,7 @@
 
                     <div class="box box-primary box-solid">
                         <div class="box-header with-border">
-                            <i class="fa fa-th"></i>
+                            <i class="fa fa-pie-chart"></i>
                             <h3 class="box-title">@lang('userCreditStatistics.panelHeading')</h3>
                             <!-- /.box-tools -->
                         </div>
@@ -45,7 +45,7 @@
 
                         <div class="box-body">
                             <!-- Date range -->
-                            <div class="col-md-3 pull-left">
+                            <div class="col-md-4 pull-left">
                                 <div class="form-group">
                                     <label>@lang('userCreditStatistics.panelLabelDateRange'): </label>
 

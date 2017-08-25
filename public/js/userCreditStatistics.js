@@ -15,7 +15,7 @@ $(function () {
     });
 
     /* Date range functionality begin */
-    $('#daterange_book_statistics').daterangepicker({
+    $('#date_user_status_stat').daterangepicker({
         autoUpdateInput: false,
         ranges: {
             'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
@@ -39,76 +39,61 @@ $(function () {
         }
     });
 
-    $('#daterange_book_statistics').on('apply.daterangepicker', function(ev, picker) {
+    $('#date_user_status_stat').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
     });
 
     /* Date range functionality end */
 
     /* Chart generate */
-    $('#graphBookingStatus').hide();
+    $('#graphUserStatusStat').hide();
 
-    $('#generateBookingStat').on('click', function() {
+    $('#generateUserStatusStat').on('click', function() {
         var $btn      = $(this).button('loading');
-        var cabin     = $('.cabins_book_statistics').val();
-        var dates     = $('#daterange_book_statistics').val();
+        var dates     = $('#date_user_status_stat').val();
         var daterange = dates.replace(/\s/g, '');
 
         $.ajax({
-            url: '/admin/bookings/statistics',
+            url: '/admin/bookings/user/credit/statistics',
             dataType: "json",
             type: "POST",
-            data:{ daterange:daterange, cabin:cabin}
+            data:{ daterange:daterange }
         })
             .done(function( response ) {
-                $('#graphBookingStatus').show();
-                $('#lineChartBookingStatistics').remove();
-                $('#graphBookingStatus').append('<canvas id="lineChartBookingStatistics" style="height: 400px;"></canvas>');
+                $('#graphUserStatusStat').show();
+                $('#pieChartBookingStatistics').remove();
+                $('#graphUserStatusStat').append('<canvas id="pieChartBookingStatistics" style="height: 400px;"></canvas>');
 
-                var lineChart = {
+                var pieChart = {
                     labels: response.chartLabel,
                     datasets: response.chartData
                 };
 
-                var ctx = document.getElementById('lineChartBookingStatistics').getContext('2d');
+                var ctx = document.getElementById('pieChartBookingStatistics').getContext('2d');
                 var chart = new Chart(ctx, {
-                    type: 'line',
-                    data: lineChart,
+                    type: 'doughnut',
+                    data: pieChart,
                     options: {
-                        elements: {
-                            rectangle: {
-                                fill: false,
-                                lineTension: 0.1,
-                                borderCapStyle: 'butt',
-                                borderDash: [],
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "rgba(75,192,192,1)",
-                                pointBackgroundColor: "#fff",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                pointHoverBorderColor: "rgba(220,220,220,1)",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 1,
-                                pointHitRadius: 10,
-                            }
-                        },
                         responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            xAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: "Datum",
+                        legend: {
+                            position: 'bottom'
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                                        return previousValue + currentValue;
+                                    });
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    var precentage = Math.floor(((currentValue/total) * 100)+0.5);
+                                    return precentage + "%";
                                 }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: "Anzahl",
-                                }
-                            }]
+                            }
                         }
                     }
                 });
@@ -116,8 +101,8 @@ $(function () {
                 $btn.button('reset');
             })
             .fail(function() {
-                $('#graphBookingStatus').hide();
-                $('.alertBookingStat').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
+                $('#graphUserStatusStat').hide();
+                $('.alertUserStatusStat').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
                 $btn.button('reset');
             });
     });
