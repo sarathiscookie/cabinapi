@@ -145,8 +145,8 @@
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>User</span>
                         <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Users List</a></li>
@@ -158,12 +158,11 @@
                     <a href="#">
                         <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
                         <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/admin/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu')</a></li>
-                        <li><a href="/admin/bookings/statistics"><i class="fa fa-circle-o"></i> @lang('menu.bookingStatisticsMenu')</a></li>
                     </ul>
                 </li>
 
@@ -171,12 +170,24 @@
                     <a href="#">
                         <i class="fa fa-table"></i> <span>@lang('menu.bookingMschoolMenu')</span>
                         <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/admin/mschool/bookings"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolMenu')</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i>@lang('menu.bookingListMschoolStatMenu')</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i> <span>@lang('menu.statisticsMenu')</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/admin/bookings/statistics"><i class="fa fa-circle-o"></i> @lang('menu.bookingStatisticsMenu')</a></li>
+                        <li><a href="/admin/bookings/user/credit/statistics"><i class="fa fa-circle-o"></i> @lang('menu.userCreditStatisticsMenu')</a></li>
                     </ul>
                 </li>
 

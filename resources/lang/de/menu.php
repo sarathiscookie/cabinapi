@@ -19,7 +19,11 @@ return [
     'bookingMenu'                           => 'Buchungen',
     'bookingListMenu'                       => 'Buchungsliste',
     'bookingStatisticsMenu'                 => 'Buchungsstatistiken',
+
     'bookingMschoolMenu'                    => 'Bergschulen',
     'bookingListMschoolMenu'                => 'Bergschulenliste',
     'bookingListMschoolStatMenu'            => 'Bergschulenstatistiken',
+
+    'statisticsMenu'                        => 'Statistiken',
+    'userCreditStatisticsMenu'              => 'User Credit Statistics',
 ];

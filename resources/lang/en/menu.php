@@ -20,7 +20,11 @@ return [
     'bookingMenu'                           => 'Booking',
     'bookingListMenu'                       => 'Booking List',
     'bookingStatisticsMenu'                 => 'Booking Statistics',
+
     'bookingMschoolMenu'                    => 'Mschool Booking',
     'bookingListMschoolMenu'                => 'Mschool Booking List',
     'bookingListMschoolStatMenu'            => 'Mschool Booking Statistics',
+
+    'statisticsMenu'                        => 'Statistics',
+    'userCreditStatisticsMenu'              => 'User Credit Statistics',
 ];
