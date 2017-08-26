@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Userlist;
+use App\Usercreditchart;
 use Illuminate\Http\Request;
 use App\Booking;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class UserCreditStatisticsController extends Controller
 {
@@ -40,6 +43,31 @@ class UserCreditStatisticsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  string  $daterange
+     * @return \Illuminate\Http\Response
+     */
+    protected function getDateLabels($daterange){
+
+        $dateFromTo              = explode("-", $daterange);
+        if($dateFromTo[0]!='' && $dateFromTo[1]!='')
+        {
+            $begin = new DateTime( $dateFromTo[0] );
+            $end = new DateTime( $dateFromTo[1] );
+            $end = $end->modify( '+1 day' );
+
+            $interval = new DateInterval('P1D');
+            $period = new DatePeriod($begin, $interval ,$end);
+        }
+
+        foreach ($period as $date) {
+            $labels[] = $date->format('Ymd');
+        }
+        return $labels;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -53,6 +81,13 @@ class UserCreditStatisticsController extends Controller
             $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[0])*1000);
             $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[1])*1000);
 
+            $labels                 = $this->getDateLabels($request->daterange);
+            /* x- axis labels */
+            $xCoord                 = [];
+            foreach ($labels as $day){
+                $xCoord[] = date('d.m.y', strtotime($day));
+            }
+
             /* Functionality for generating money balance used from user credit for another booking begin*/
             $balance_used_query = Booking::raw(function ($collection) use ($dateBegin, $dateEnd) {
                 return $collection->aggregate([
@@ -64,35 +99,53 @@ class UserCreditStatisticsController extends Controller
                     ],
                     [
                         '$group' => [
-                            '_id' => null,
+                            '_id' => ['checkin_from' => '$checkin_from'],
                             'moneybalance_used' => ['$sum' => '$moneybalance_used'],
                             'count' => ['$sum' => 1]
                         ],
                     ],
                     [
                         '$project' => [
+                            'checkin_from' => '$_id.checkin_from',
                             'moneybalance_used' => 1,
                             'count' => 1
                         ],
+                    ],
+                    [
+                        '$sort' =>
+                            [
+                                'checkin_from' => 1
+                            ],
                     ]
                 ]);
             });
 
-            $balance_used = [];
             foreach ($balance_used_query as $balance_used_array){
-                $balance_used[] = $balance_used_array->moneybalance_used;
-                $label[]        = 'How much money balance used: €'.$balance_used_array->moneybalance_used;
+                $checkinFrom                = $balance_used_array->checkin_from->format('Ymd');
+                $balance_used[$checkinFrom] = $balance_used_array->moneybalance_used;
             }
 
+            /* y- axis graph data */
+            foreach ($labels as $xlabel){
+                if(!isset($balance_used[$xlabel])){
+                    $balance_used[$xlabel] = "0";
+                }
+            }
+            ksort($balance_used,1);
+            $totalBalanceUsed = array_values($balance_used);
+
             $chartData[] =[
-                'label'=> "How much money balance used",
+                'label'=> 'Balance Used',
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                'data' => $balance_used,
+                'borderColor'=> 'rgba(255,99,132,1)',
+                'borderWidth'=> 1,
+                'data' => $totalBalanceUsed,
             ];
             /* Functionality for generating chart of money balance used from user credit for another booking end*/
 
             /* Functionality for generating chart of how much money balance user have in their credit begin*/
-            $money_balance_query = Userlist::raw(function ($collection) use ($dateBegin, $dateEnd) {
+
+            $money_balance_query = Usercreditchart::raw(function ($collection) use ($dateBegin, $dateEnd) {
                 return $collection->aggregate([
                     [
                         '$match' => [
@@ -102,34 +155,53 @@ class UserCreditStatisticsController extends Controller
                     ],
                     [
                         '$group' => [
-                            '_id' => null,
+                            '_id' => ['usrRegistrationDate' => '$usrRegistrationDate'],
                             'money_balance' => ['$sum' => '$money_balance'],
                             'count' => ['$sum' => 1]
                         ],
                     ],
                     [
                         '$project' => [
+                            'usrRegistrationDate' => '$_id.usrRegistrationDate',
                             'money_balance' => 1,
                             'count' => 1
                         ],
+                    ],
+                    [
+                        '$sort' =>
+                            [
+                                'usrRegistrationDate' => 1
+                            ],
                     ]
                 ]);
             });
 
-            $money_balance = [];
+            //dd($money_balance_query);
             foreach ($money_balance_query as $balance_array){
-                $money_balance[] = $balance_array->money_balance;
-                $label[]         = 'How much money balance user have: €'.$balance_array->money_balance;
+                //$toDateTime                          = $balance_array->usrRegistrationDate->toDateTime();
+                $usrRegistrationDate                 = $balance_array->usrRegistrationDate->format('Ymd');
+                $money_balance[$usrRegistrationDate] = $balance_array->money_balance;
             }
 
+            /* y- axis graph data */
+            foreach ($labels as $xlabel){
+                if(!isset($money_balance[$xlabel])){
+                    $money_balance[$xlabel] = "0";
+                }
+            }
+            ksort($money_balance,1);
+            $totalMoneyBalance = array_values($money_balance);
+
             $chartData[] =[
-                'label'=> "How much money balance user have",
-                'backgroundColor' => 'rgba(255, 159, 64, 0.2)',
-                'data' => $money_balance,
+                'label'=> 'Money Balance',
+                'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
+                'borderColor'=> 'rgba(153, 102, 255, 1)',
+                'borderWidth'=> 1,
+                'data' => $totalMoneyBalance,
             ];
             /* Functionality for generating chart of how much money balance user have in their credit */
 
-            return response()->json(['chartData' => $chartData, 'chartLabel' => $label]);
+            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
         }
     }
 

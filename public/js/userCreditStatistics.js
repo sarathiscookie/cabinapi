@@ -61,39 +61,59 @@ $(function () {
         })
             .done(function( response ) {
                 $('#graphUserStatusStat').show();
-                $('#pieChartBookingStatistics').remove();
-                $('#graphUserStatusStat').append('<canvas id="pieChartBookingStatistics" style="height: 400px;"></canvas>');
+                $('#chartBookingStatistics').remove();
+                $('#graphUserStatusStat').append('<canvas id="chartBookingStatistics" style="height: 400px;"></canvas>');
 
-                var pieChart = {
+                var lineChart = {
                     labels: response.chartLabel,
                     datasets: response.chartData
                 };
 
-                var ctx = document.getElementById('pieChartBookingStatistics').getContext('2d');
+                var ctx = document.getElementById('chartBookingStatistics').getContext('2d');
                 var chart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: pieChart,
+                    type: 'line',
+                    data: lineChart,
                     options: {
-                        responsive: true,
-                        legend: {
-                            position: 'bottom'
-                        },
-                        animation: {
-                            animateScale: true,
-                            animateRotate: true
-                        },
-                        tooltips: {
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    var dataset = data.datasets[tooltipItem.datasetIndex];
-                                    var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                                        return previousValue + currentValue;
-                                    });
-                                    var currentValue = dataset.data[tooltipItem.index];
-                                    var precentage = Math.floor(((currentValue/total) * 100)+0.5);
-                                    return precentage + "%";
-                                }
+                        elements: {
+                            rectangle: {
+                                fill: false,
+                                lineTension: 0.1,
+                                borderCapStyle: 'butt',
+                                borderDash: [],
+                                borderDashOffset: 0.0,
+                                borderJoinStyle: 'miter',
+                                pointBorderColor: "rgba(75,192,192,1)",
+                                pointBackgroundColor: "#fff",
+                                pointBorderWidth: 1,
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                                pointHoverBorderColor: "rgba(220,220,220,1)",
+                                pointHoverBorderWidth: 2,
+                                pointRadius: 1,
+                                pointHitRadius: 10
                             }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Dates"
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    callback: function(labels) {
+                                        return '€' + labels;
+                                    }
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Total Amount"
+                                }
+                            }]
                         }
                     }
                 });
