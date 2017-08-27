@@ -136,8 +136,8 @@ class UserCreditStatisticsController extends Controller
 
             $chartData[] =[
                 'label'=> 'Balance Used',
-                'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                'borderColor'=> 'rgba(255,99,132,1)',
+                'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
+                'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
                 'data' => $totalBalanceUsed,
             ];
@@ -155,14 +155,16 @@ class UserCreditStatisticsController extends Controller
                     ],
                     [
                         '$group' => [
-                            '_id' => ['usrRegistrationDate' => '$usrRegistrationDate'],
+                            '_id' => ['year' => ['$year' => '$usrRegistrationDate'], 'month' => ['$month' => '$usrRegistrationDate'], 'day' => ['$dayOfMonth' => '$usrRegistrationDate']],
                             'money_balance' => ['$sum' => '$money_balance'],
                             'count' => ['$sum' => 1]
                         ],
                     ],
                     [
                         '$project' => [
-                            'usrRegistrationDate' => '$_id.usrRegistrationDate',
+                            'year' => '$_id.year',
+                            'month' => '$_id.month',
+                            'day' => '$_id.day',
                             'money_balance' => 1,
                             'count' => 1
                         ],
@@ -178,8 +180,8 @@ class UserCreditStatisticsController extends Controller
 
             //dd($money_balance_query);
             foreach ($money_balance_query as $balance_array){
-                //$toDateTime                          = $balance_array->usrRegistrationDate->toDateTime();
-                $usrRegistrationDate                 = $balance_array->usrRegistrationDate->format('Ymd');
+                $yearMonthDate                       = $balance_array->year.$balance_array->month.$balance_array->day;
+                $usrRegistrationDate                 = $yearMonthDate;
                 $money_balance[$usrRegistrationDate] = $balance_array->money_balance;
             }
 
@@ -200,6 +202,65 @@ class UserCreditStatisticsController extends Controller
                 'data' => $totalMoneyBalance,
             ];
             /* Functionality for generating chart of how much money balance user have in their credit */
+
+
+            /* Functionality for generating chart of how much money deleted from user credit begin*/
+            $money_deleted_query = Usercreditchart::raw(function ($collection) use ($dateBegin, $dateEnd) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'is_delete' => 0,
+                            'usrRegistrationDate' => ['$gte' => $dateBegin, '$lte' => $dateEnd],
+                            'money_balance' => 0
+                        ],
+                    ],
+                    [
+                        '$group' => [
+                            '_id' => ['year' => ['$year' => '$usrRegistrationDate'], 'month' => ['$month' => '$usrRegistrationDate'], 'day' => ['$dayOfMonth' => '$usrRegistrationDate']],
+                            'count' => ['$sum' => 1]
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'year' => '$_id.year',
+                            'month' => '$_id.month',
+                            'day' => '$_id.day',
+                            'count' => 1
+                        ],
+                    ],
+                    [
+                        '$sort' =>
+                            [
+                                'usrRegistrationDate' => 1
+                            ],
+                    ]
+                ]);
+            });
+
+            //dd($money_deleted_query);
+            foreach ($money_deleted_query as $deleted_array){
+                $yearMonthDate                       = $deleted_array->year.$deleted_array->month.$deleted_array->day;
+                $usrRegistrationDate                 = $yearMonthDate;
+                $money_deleted[$usrRegistrationDate] = $deleted_array->count;
+            }
+
+            /* y- axis graph data */
+            foreach ($labels as $xlabel){
+                if(!isset($money_deleted[$xlabel])){
+                    $money_deleted[$xlabel] = "0";
+                }
+            }
+            ksort($money_deleted,1);
+            $totalMoneyDeleted = array_values($money_deleted);
+
+            $chartData[] =[
+                'label'=> 'Money Deleted',
+                'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                'borderColor'=> 'rgba(255,99,132,1)',
+                'borderWidth'=> 1,
+                'data' => $totalMoneyDeleted,
+            ];
+            /* Functionality for generating chart of how much money deleted from user credit end */
 
             return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
         }
