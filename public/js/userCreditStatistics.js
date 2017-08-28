@@ -120,7 +120,7 @@ $(function () {
                     }
                 });
 
-                $('.response_array_sum').append('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">Money balance used <span class="badge">'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">Money balance <span class="badge">'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">Deleted balance <span class="badge">'+response.total_money_deleted_array_sum+'</span></span></div></div>');
+                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">Money balance used <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">Money balance <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">Deleted balance <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
 
                 $btn.button('reset');
             })
