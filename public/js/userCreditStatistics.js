@@ -49,6 +49,7 @@ $(function () {
     $('#graphUserStatusStat').hide();
 
     $('#generateUserStatusStat').on('click', function() {
+
         var $btn      = $(this).button('loading');
         var dates     = $('#date_user_status_stat').val();
         var daterange = dates.replace(/\s/g, '');
@@ -60,6 +61,7 @@ $(function () {
             data:{ daterange:daterange }
         })
             .done(function( response ) {
+                $('.alertUserStatusStat').hide();
                 $('#graphUserStatusStat').show();
                 $('#chartBookingStatistics').remove();
                 $('#graphUserStatusStat').append('<canvas id="chartBookingStatistics" style="height: 400px;"></canvas>');
@@ -117,6 +119,8 @@ $(function () {
                         }
                     }
                 });
+
+                $('.response_array_sum').append('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">Money balance used <span class="badge">'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">Money balance <span class="badge">'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">Deleted balance <span class="badge">'+response.total_money_deleted_array_sum+'</span></span></div></div>');
 
                 $btn.button('reset');
             })

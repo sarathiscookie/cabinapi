@@ -70,7 +70,13 @@
                                 <!-- /.form group -->
                             </div>
 
-                            <div class="col-md-4 pull-right alertUserStatusStat">
+                            <div class="col-md-3 pull-left alertUserStatusStat">
+                            </div>
+
+                            <div class="col-md-3 pull-right">
+                                <div class="form-group pull-right response_array_sum">
+                                </div>
+                                <!-- /.form group -->
                             </div>
 
                         </div>

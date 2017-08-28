@@ -120,10 +120,13 @@ class UserCreditStatisticsController extends Controller
                 ]);
             });
 
+            $total_balance_used = [];
             foreach ($balance_used_query as $balance_used_array){
                 $checkinFrom                = $balance_used_array->checkin_from->format('Ymd');
                 $balance_used[$checkinFrom] = $balance_used_array->moneybalance_used;
+                $total_balance_used[]       = $balance_used_array->moneybalance_used;
             }
+            $total_balance_used_array_sum   = array_sum($total_balance_used);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){
@@ -178,12 +181,14 @@ class UserCreditStatisticsController extends Controller
                 ]);
             });
 
-            //dd($money_balance_query);
+            $total_money_balance_array_sum = [];
             foreach ($money_balance_query as $balance_array){
                 $yearMonthDate                       = $balance_array->year.$balance_array->month.$balance_array->day;
                 $usrRegistrationDate                 = $yearMonthDate;
                 $money_balance[$usrRegistrationDate] = $balance_array->money_balance;
+                $total_money_balance[]               = $balance_array->money_balance;
             }
+            $total_money_balance_array_sum           = array_sum($total_money_balance);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){
@@ -237,12 +242,14 @@ class UserCreditStatisticsController extends Controller
                 ]);
             });
 
-            //dd($money_deleted_query);
+            $total_money_deleted_array_sum = [];
             foreach ($money_deleted_query as $deleted_array){
                 $yearMonthDate                       = $deleted_array->year.$deleted_array->month.$deleted_array->day;
                 $usrRegistrationDate                 = $yearMonthDate;
                 $money_deleted[$usrRegistrationDate] = $deleted_array->count;
+                $total_money_deleted[]               = $deleted_array->count;
             }
+            $total_money_deleted_array_sum           = array_sum($total_money_balance);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){
@@ -262,7 +269,7 @@ class UserCreditStatisticsController extends Controller
             ];
             /* Functionality for generating chart of how much money deleted from user credit end */
 
-            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
+            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'total_balance_used_array_sum' => $total_balance_used_array_sum, 'total_money_balance_array_sum' => $total_money_balance_array_sum, 'total_money_deleted_array_sum' => $total_money_deleted_array_sum]);
         }
     }
 
