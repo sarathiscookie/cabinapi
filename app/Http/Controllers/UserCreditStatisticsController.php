@@ -249,7 +249,7 @@ class UserCreditStatisticsController extends Controller
                 $money_deleted[$usrRegistrationDate] = $deleted_array->count;
                 $total_money_deleted[]               = $deleted_array->count;
             }
-            $total_money_deleted_array_sum           = array_sum($total_money_balance);
+            $total_money_deleted_array_sum           = array_sum($total_money_deleted);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){
