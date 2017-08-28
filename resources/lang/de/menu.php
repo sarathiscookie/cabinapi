@@ -25,5 +25,5 @@ return [
     'bookingListMschoolStatMenu'            => 'Bergschulenstatistiken',
 
     'statisticsMenu'                        => 'Statistiken',
-    'userCreditStatisticsMenu'              => 'User Credit Statistics',
+    'userCreditStatisticsMenu'              => 'Guthaben Statistik',
 ];
