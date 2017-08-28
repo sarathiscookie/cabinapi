@@ -14,6 +14,13 @@ $(function () {
         }
     });
 
+    /* Helping object for translation */
+    var translations = {
+        labelOne: window.translations.labelOne,
+        labelTwo: window.translations.labelTwo,
+        labelThree: window.translations.labelThree
+    };
+
     /* Date range functionality begin */
     $('#date_user_status_stat').daterangepicker({
         autoUpdateInput: false,
@@ -101,7 +108,7 @@ $(function () {
                             xAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Dates"
+                                    labelString: "Date"
                                 }
                             }],
                             yAxes: [{
@@ -113,14 +120,14 @@ $(function () {
                                 },
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Total Amount"
+                                    labelString: "Amount"
                                 }
                             }]
                         }
                     }
                 });
 
-                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">Money balance used <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">Money balance <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">Deleted balance <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
+                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">'+labelOne+' <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">'+labelTwo+' <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">'+labelThree+' <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
 
                 $btn.button('reset');
             })

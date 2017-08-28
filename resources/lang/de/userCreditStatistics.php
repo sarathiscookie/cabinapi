@@ -18,18 +18,17 @@ return [
     |
     */
 
-    'heading'                      => 'User credit Statistics',
+    'heading'                      => 'Guthaben Statistik',
     'subHeading'                   => 'Verwaltungstool',
     'breadcrumbOne'                => 'Übersicht',
-    'breadcrumbTwo'                => 'User Credit Statistics',
-    'panelHeading'                 => 'Credit Statistics',
+    'breadcrumbTwo'                => 'Guthaben Statistik',
+    'panelHeading'                 => 'Guthaben Statistik',
     'panelLabelDateRange'          => 'Zeitraum Auswahl',
-    'daterangeLabel'               => 'Date Range',
-    'dateRangePlaceholder'         => 'Select date range',
+    'dateRangePlaceholder'         => 'Zeitraum auswählen',
 
-    'LabelOne'                     => 'How much amount user have',
-    'LabelTwo'                     => 'How much amount deleted from user account',
-    'LabelThree'                   => 'How much amount user used from credit for new booking',
+    'labelOne'                     => 'Guthaben wiederverwendet',
+    'labelTwo'                     => 'Guthaben vorhanden',
+    'labelThree'                   => 'Guthaben ausgezahlt',
 
     'generateButton'               => 'Bestätigen',
 ];

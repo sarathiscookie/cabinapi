@@ -24,12 +24,11 @@ return [
     'breadcrumbTwo'                => 'User Credit Statistics',
     'panelHeading'                 => 'Credit Statistics',
     'panelLabelDateRange'          => 'Date Range',
-    'daterangeLabel'               => 'Date Range',
     'dateRangePlaceholder'         => 'Select date range',
 
-    'LabelOne'                     => 'How much amount user have',
-    'LabelTwo'                     => 'How much amount deleted from user account',
-    'LabelThree'                   => 'How much amount user used from credit for new booking',
+    'labelOne'                     => 'Balance Used',
+    'labelTwo'                     => 'Money Balance',
+    'labelThree'                   => 'Deleted Amount',
 
     'generateButton'               => 'Generate',
 ];

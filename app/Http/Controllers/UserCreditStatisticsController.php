@@ -138,7 +138,7 @@ class UserCreditStatisticsController extends Controller
             $totalBalanceUsed = array_values($balance_used);
 
             $chartData[] =[
-                'label'=> 'Balance Used',
+                'label'=> __('admin.labelOne'),
                 'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
                 'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
@@ -181,7 +181,7 @@ class UserCreditStatisticsController extends Controller
                 ]);
             });
 
-            $total_money_balance_array_sum = [];
+            $total_money_balance = [];
             foreach ($money_balance_query as $balance_array){
                 $yearMonthDate                       = $balance_array->year.$balance_array->month.$balance_array->day;
                 $usrRegistrationDate                 = $yearMonthDate;
@@ -200,7 +200,7 @@ class UserCreditStatisticsController extends Controller
             $totalMoneyBalance = array_values($money_balance);
 
             $chartData[] =[
-                'label'=> 'Money Balance',
+                'label'=> __('admin.labelTwo'),
                 'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
                 'borderColor'=> 'rgba(153, 102, 255, 1)',
                 'borderWidth'=> 1,
@@ -242,7 +242,7 @@ class UserCreditStatisticsController extends Controller
                 ]);
             });
 
-            $total_money_deleted_array_sum = [];
+            $total_money_deleted = [];
             foreach ($money_deleted_query as $deleted_array){
                 $yearMonthDate                       = $deleted_array->year.$deleted_array->month.$deleted_array->day;
                 $usrRegistrationDate                 = $yearMonthDate;
@@ -261,7 +261,7 @@ class UserCreditStatisticsController extends Controller
             $totalMoneyDeleted = array_values($money_deleted);
 
             $chartData[] =[
-                'label'=> 'Money Deleted',
+                'label'=> __('admin.labelThree'),
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                 'borderColor'=> 'rgba(255,99,132,1)',
                 'borderWidth'=> 1,

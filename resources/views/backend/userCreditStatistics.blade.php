@@ -106,6 +106,15 @@
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
 
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            labelOne: '{{ trans('admin.labelOne') }}',
+            labelTwo: '{{ trans('admin.labelTwo') }}',
+            labelThree: '{{ trans('admin.labelThree') }}'
+        };
+    </script>
+
     <!-- Statistics Js -->
     <script src="{{ asset('js/userCreditStatistics.js') }}"></script>
 @endsection
