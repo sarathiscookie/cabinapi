@@ -127,7 +127,7 @@ $(function () {
                     }
                 });
 
-                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">'+labelOne+' <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">'+labelTwo+' <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">'+labelThree+' <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
+                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">'+translations.labelOne+' <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">'+translations.labelTwo+' <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">'+translations.labelThree+' <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
 
                 $btn.button('reset');
             })

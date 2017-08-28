@@ -109,9 +109,9 @@
     <!-- Helping object for translation -->
     <script>
         window.translations = {
-            labelOne: '{{ trans('admin.labelOne') }}',
-            labelTwo: '{{ trans('admin.labelTwo') }}',
-            labelThree: '{{ trans('admin.labelThree') }}'
+            labelOne: '{{ trans('userCreditStatistics.labelOne') }}',
+            labelTwo: '{{ trans('userCreditStatistics.labelTwo') }}',
+            labelThree: '{{ trans('userCreditStatistics.labelThree') }}'
         };
     </script>
 

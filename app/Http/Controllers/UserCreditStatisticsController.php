@@ -138,7 +138,7 @@ class UserCreditStatisticsController extends Controller
             $totalBalanceUsed = array_values($balance_used);
 
             $chartData[] =[
-                'label'=> __('admin.labelOne'),
+                'label'=> __('userCreditStatistics.labelOne'),
                 'backgroundColor' => 'rgba(79, 196, 127, 0.2)',
                 'borderColor'=> 'rgba(79, 196, 127, 1)',
                 'borderWidth'=> 1,
@@ -200,7 +200,7 @@ class UserCreditStatisticsController extends Controller
             $totalMoneyBalance = array_values($money_balance);
 
             $chartData[] =[
-                'label'=> __('admin.labelTwo'),
+                'label'=> __('userCreditStatistics.labelTwo'),
                 'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
                 'borderColor'=> 'rgba(153, 102, 255, 1)',
                 'borderWidth'=> 1,
@@ -261,7 +261,7 @@ class UserCreditStatisticsController extends Controller
             $totalMoneyDeleted = array_values($money_deleted);
 
             $chartData[] =[
-                'label'=> __('admin.labelThree'),
+                'label'=> __('userCreditStatistics.labelThree'),
                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                 'borderColor'=> 'rgba(255,99,132,1)',
                 'borderWidth'=> 1,
