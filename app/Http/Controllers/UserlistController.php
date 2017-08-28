@@ -26,9 +26,90 @@ class UserlistController extends Controller
      */
     public function dataTables(Request $request)
     {
-        /*$userList = Userlist::where('is_delete', 0)
-            ->paginate(15);
-        return response()->json(['userlists' => $userList], 200);*/
+        $params  = $request->all();
+
+        $columns = array(
+            1 => 'firstname',
+            2 => 'lastname',
+            3 => 'username',
+            4 => 'email',
+            5 => 'balance',
+            6 => 'bookings',
+            7 => 'jumpto',
+            8 => 'lastlogin',
+            9 => 'rights',
+            10 => 'actionone',
+            11 => 'actiontwo'
+        );
+
+        $totalData     = Userlist::where('is_delete', 0)->count();
+        $totalFiltered = $totalData;
+        $limit         = (int)$request->input('length');
+        $start         = (int)$request->input('start');
+        $order         = $columns[$params['order'][0]['column']]; //contains column index
+        $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
+
+        $q             = Userlist::where('is_delete', 0);
+        if(!empty($request->input('search.value')))
+        {
+            $search   = $request->input('search.value');
+            $q->where(function($query) use ($search) {
+                $query->where('usrEmail', 'like', "%{$search}%");
+            });
+            $totalFiltered = $q->where(function($query) use ($search) {
+                $query->where('usrEmail', 'like', "%{$search}%");
+            })
+                ->count();
+        }
+
+        /* tfoot search functionality for email begin */
+        if( isset($params['columns'][4]['search']['value']) )
+        {
+            $q->where(function($query) use ($params) {
+                $query->where('usrEmail', "{$params['columns'][4]['search']['value']}");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('usrEmail', "{$params['columns'][4]['search']['value']}");
+            })
+                ->count();
+        }
+        /* tfoot search functionality for email end */
+
+        $userLists      = $q->skip($start)
+            ->take($limit)
+            ->orderBy($order, $dir)
+            ->get();
+        $data          = array();
+
+        if(!empty($userLists))
+        {
+            foreach ($userLists as $key=> $userList)
+            {
+                $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
+                $nestedData['firstname']      = $userList->usrFirstname;
+                $nestedData['lastname']       = $userList->usrLastname;
+                $nestedData['username']       = $userList->usrName;
+                $nestedData['email']          = $userList->usrEmail;
+                $nestedData['balance']        = $userList->money_balance;
+                $nestedData['bookings']       = 0;
+                $nestedData['jumpto']         = 'Jump To';
+                $nestedData['lastlogin']      = 'No field';
+                $nestedData['rights']         = $userList->usrlId;
+                $nestedData['actionone']      = 'Button';
+                $nestedData['actiontwo']      = 'Button';
+                $data[]                       = $nestedData;
+            }
+        }
+        $json_data = array(
+            'draw'            => (int)$params['draw'],
+            'recordsTotal'    => (int)$totalData,
+            'recordsFiltered' => (int)$totalFiltered,
+            'data'            => $data
+        );
+
+        return response()->json($json_data);
+
     }
     /**
      * Show the form for creating a new resource.

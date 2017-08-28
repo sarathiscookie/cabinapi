@@ -28,7 +28,7 @@ return [
     'firstName'                              => 'First Name',
     'userName'                               => 'Username',
     'email'                                  => 'E-mail',
-    'amount'                                 => 'Money Balance',
+    'amount'                                 => 'Amount',
     'bookingCount'                           => 'Bookings',
     'jumTo'                                  => 'Jump To',
     'lastLogin'                              => 'Last Login',

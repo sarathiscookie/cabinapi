@@ -26,6 +26,7 @@ $(function () {
             "type": "POST"
         },
         "columns": [
+            { "data": "hash" },
             { "data": "firstname" },
             { "data": "lastname" },
             { "data": "username" },
