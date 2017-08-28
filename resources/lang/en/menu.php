@@ -17,6 +17,8 @@ return [
     */
 
 
+    'userList'                              => 'User List',
+
     'bookingMenu'                           => 'Booking',
     'bookingListMenu'                       => 'Booking List',
     'bookingStatisticsMenu'                 => 'Booking Statistics',

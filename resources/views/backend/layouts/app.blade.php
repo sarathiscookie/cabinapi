@@ -149,8 +149,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> Users List</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Users Log Details</a></li>
+                        <li class="active"><a href="/admin/users"><i class="fa fa-circle-o"></i> @lang('menu.userList')</a></li>
                     </ul>
                 </li>
 

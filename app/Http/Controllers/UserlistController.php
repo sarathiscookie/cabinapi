@@ -15,11 +15,21 @@ class UserlistController extends Controller
      */
     public function index()
     {
-        $userList = Userlist::where('is_delete', 0)
-            ->paginate(15);
-        return response()->json(['userlists' => $userList], 200);
+        return view('backend.userList');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function dataTables(Request $request)
+    {
+        /*$userList = Userlist::where('is_delete', 0)
+            ->paginate(15);
+        return response()->json(['userlists' => $userList], 200);*/
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -106,7 +106,10 @@ Route::prefix('admin')->group(function () {
     | Routes for listing, update, delete users, add club members, assign roles.
     */
     /* Listing users */
-    Route::get('/users', 'UserlistController@index'); //http://cabinapi.app/api/users?page=9
+    Route::get('/users', 'UserlistController@index');
+
+    /* Show datatable page */
+    Route::post('/users/datatables', 'UserlistController@dataTables')->name('users.datatables');
 
     /* Get information from user */
     Route::get('/users/{id}', 'UserlistController@show');
