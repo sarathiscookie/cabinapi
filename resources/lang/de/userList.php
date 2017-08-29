@@ -42,5 +42,6 @@ return [
     'noResult'                               => 'Unbekannt',
 
     'userStatusResponseSuccessMsg'           => 'User status updated successfully',
-    'userStatusResponseFailMsg'              => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut'
+    'userStatusResponseFailMsg'              => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
+    'deleteResponseMsg'                      => 'User deleted successfully'
 ];

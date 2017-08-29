@@ -43,6 +43,7 @@ return [
     'noResult'                               => 'No Result',
 
     'userStatusResponseSuccessMsg'           => 'User status updated successfully',
-    'userStatusResponseFailMsg'              => 'Something went wrong please try again'
+    'userStatusResponseFailMsg'              => 'Something went wrong please try again',
+    'deleteResponseMsg'                      => 'User deleted successfully'
 
     ];

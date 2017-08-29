@@ -127,7 +127,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
 
     /* Delete user */
-    Route::delete('/users/{id}', 'UserlistController@destroy');
+    Route::delete('/users/destroy', 'UserlistController@destroy');
 
 
     /*

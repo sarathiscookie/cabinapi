@@ -135,10 +135,10 @@ class UserlistController extends Controller
 
                 /* Condition for activate and deactivate button begin */
                 if($userList->usrActive == '1') {
-                   $actionone = '<a class="btn btn-sm btn-danger userStatus" data-id="'.$userList->_id.'" data-status="0">'.__("userList.deactivateButton").'</a>';
+                   $actionone = '<a class="btn btn-xs btn-danger userStatus" data-id="'.$userList->_id.'" data-status="0">'.__("userList.deactivateButton").'</a>';
                 }
                 else {
-                    $actionone = '<a class="btn btn-sm btn-success userStatus" data-id="'.$userList->_id.'" data-status="1">'.__("userList.activateButton").'</a>';
+                    $actionone = '<a class="btn btn-xs btn-success userStatus" data-id="'.$userList->_id.'" data-status="1">'.__("userList.activateButton").'</a>';
                 }
                 /* Condition for activate and deactivate button end */
 
@@ -153,7 +153,7 @@ class UserlistController extends Controller
                 $nestedData['lastlogin']      = 'No field';
                 $nestedData['rights']         = $userList->usrlId;
                 $nestedData['actionone']      = $actionone;
-                $nestedData['actiontwo']      = '<a href="" class="btn btn-xs btn-danger deleteEvent"><i class="glyphicon glyphicon-trash"></i> '.__("userList.deleteButton").'</a>';
+                $nestedData['actiontwo']      = '<a href="" class="btn btn-xs btn-danger deleteUserList" data-id="'.$userList->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("userList.deleteButton").'</a>';
                 $nestedData['usrRegistrationDate'] = ($userList->usrRegistrationDate)->format('d.m.y');
                 $data[]                       = $nestedData;
             }
@@ -294,15 +294,15 @@ class UserlistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $userList            = Userlist::findOrFail($id);
+        $userList            = Userlist::findOrFail($request->data_id);
         $userList->is_delete = 1;
         $userList->save();
 
-        return response()->json(['message' => 'User deleted'], 201);
+        return response()->json(['deleteResponseMsg' => __('userList.deleteResponseMsg')], 201);
     }
 }
