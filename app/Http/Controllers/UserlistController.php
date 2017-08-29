@@ -164,7 +164,7 @@ class UserlistController extends Controller
                 $roles      = $this->roles();
 
                 if(count($roles)) {
-                    $roleColumn = '<select class="form-control">';
+                    $roleColumn = '<select class="form-control roleChange" data-id="'.$userList->_id.'">';
                     foreach ($roles as $role) {
                         if ($role->role_id == $userList->usrlId)
                             $roleSelected = 'selected = selected';
@@ -314,17 +314,15 @@ class UserlistController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string $roleId
-     * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function roleUpdate(Request $request, $roleId, $id)
+    public function roleUpdate(Request $request)
     {
-        $userList            = Userlist::findOrFail($id);
-        $userList->usrlId    = $roleId;
+        $userList            = Userlist::findOrFail($request->data_id);
+        $userList->usrlId    = $request->role;
         $userList->save();
 
-        return response()->json(['message' => 'Role updated successfully'], 201);
+        return response()->json(['roleResponseMsg' => __('userList.roleResponseMsg')], 201);
     }
 
     /**

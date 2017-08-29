@@ -43,5 +43,6 @@ return [
 
     'userStatusResponseSuccessMsg'           => 'User status updated successfully',
     'userStatusResponseFailMsg'              => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
-    'deleteResponseMsg'                      => 'User deleted successfully'
+    'deleteResponseMsg'                      => 'User deleted successfully',
+    'roleResponseMsg'                        => 'Role updated successfully'
 ];

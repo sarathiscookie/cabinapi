@@ -164,4 +164,29 @@ $(function () {
     });
     /* Delete user functionality end*/
 
+    /* Functionality for update user role begin */
+    $('#user_data tbody').on('change', '.roleChange', function (e) {
+        e.preventDefault();
+        var r = confirm('Do you want to update user role?');
+        if (r == true) {
+            var role     = +$(this).val();
+            var data_id  = $(this).data('id');
+            $.ajax({
+                url: '/admin/users/role',
+                data: { data_id: data_id, role: role },
+                dataType: 'JSON',
+                type: 'PUT'
+            })
+                .done(function( response ) {
+                    $('.responseStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.roleResponseMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                })
+                .fail(function() {
+                    $('.responseStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                });
+        }
+    });
+    /* Functionality for update user role end */
+
 });
