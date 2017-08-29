@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserlistRequest;
 use App\Userlist;
 use App\Booking;
+use App\Role;
 use Illuminate\Http\Request;
 
 class UserlistController extends Controller
@@ -17,6 +18,19 @@ class UserlistController extends Controller
     public function index()
     {
         return view('backend.userList');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function roles()
+    {
+        $roles = Role::where('is_delete', 0)
+            ->get();
+
+        return $roles;
     }
 
     /**
@@ -146,6 +160,25 @@ class UserlistController extends Controller
                 }
                 /* Condition for activate and deactivate button end */
 
+                /* Functionality for roles begin */
+                $roles      = $this->roles();
+
+                if(count($roles)) {
+                    $roleColumn = '<select class="form-control">';
+                    foreach ($roles as $role) {
+                        if ($role->role_id == $userList->usrlId)
+                            $roleSelected = 'selected = selected';
+                        else
+                            $roleSelected = '';
+                        $roleColumn.= '<option value="'.$role->role_id.'" '.$roleSelected.' >'.$role->role_name.'</option>';
+                    }
+                    $roleColumn.= '</select>';
+                }
+                else {
+                    $roleColumn = $noData;
+                }
+                /* Functionality for roles end */
+
                 $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
                 $nestedData['usrLastname']    = $last_name;
                 $nestedData['usrFirstname']   = $first_name;
@@ -154,8 +187,8 @@ class UserlistController extends Controller
                 $nestedData['money_balance']  = $balance;
                 $nestedData['bookings']       = '<a class="nounderline modalBooking">'.$bookingCount.'</a>';
                 $nestedData['jumpto']         = '<i class="fa fa-fw fa-user"></i>';
-                $nestedData['lastlogin']      = 'No field';
-                $nestedData['rights']         = $userList->usrlId;
+                $nestedData['lastlogin']      = 'No Field';
+                $nestedData['rights']         = $roleColumn;
                 $nestedData['actionone']      = $actionone;
                 $nestedData['actiontwo']      = '<a href="" class="btn btn-xs btn-danger deleteUserList" data-id="'.$userList->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("userList.deleteButton").'</a>';
                 $nestedData['usrRegistrationDate'] = ($userList->usrRegistrationDate)->format('d.m.y');
@@ -217,6 +250,7 @@ class UserlistController extends Controller
         //
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -265,8 +299,6 @@ class UserlistController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string $statusId
-     * @param  string $id
      * @return \Illuminate\Http\Response
      */
     public function statusUpdate(Request $request)
