@@ -56,10 +56,14 @@ class UserlistController extends Controller
         {
             $search   = $request->input('search.value');
             $q->where(function($query) use ($search) {
-                $query->where('usrEmail', 'like', "%{$search}%");
+                $query->where('usrEmail', 'like', "%{$search}%")
+                    ->orWhere('usrFirstname', 'like', "%{$search}%")
+                    ->orWhere('usrLastname', 'like', "%{$search}%");
             });
             $totalFiltered = $q->where(function($query) use ($search) {
-                $query->where('usrEmail', 'like', "%{$search}%");
+                $query->where('usrEmail', 'like', "%{$search}%")
+                    ->orWhere('usrFirstname', 'like', "%{$search}%")
+                    ->orWhere('usrLastname', 'like', "%{$search}%");
             })
                 ->count();
         }
