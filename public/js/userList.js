@@ -15,9 +15,15 @@ $(function () {
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
-    var booking_data = $('#booking_data').DataTable({
+    /* Helping object for translation */
+    var translations = {
+        userStatusResponseFailMsg: window.translations.userStatusResponseFailMsg
+    };
+
+    /* Data table functionality begin */
+    var user_data = $('#user_data').DataTable({
         "lengthMenu": [10, 50, 100, 250, 500],
-        "order": [[ 1, "desc" ]],
+        "order": [[ 12, "desc" ]],
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -27,22 +33,23 @@ $(function () {
         },
         "columns": [
             { "data": "hash" },
-            { "data": "firstname" },
-            { "data": "lastname" },
-            { "data": "username" },
-            { "data": "email" },
-            { "data": "balance" },
+            { "data": "usrLastname" },
+            { "data": "usrFirstname" },
+            { "data": "usrName" },
+            { "data": "usrEmail" },
+            { "data": "money_balance" },
             { "data": "bookings" },
             { "data": "jumpto" },
             { "data": "lastlogin" },
             { "data": "rights" },
             { "data": "actionone" },
-            { "data": "actiontwo" }
+            { "data": "actiontwo" },
+            { "data": "usrRegistrationDate" }
         ],
         "columnDefs": [
             {
                 "orderable": false,
-                "targets": [0, 1, 2, 3, 4, 7, 8, 9, 10, 11]
+                "targets": [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12]
             }
         ],
         "language": {
@@ -70,8 +77,11 @@ $(function () {
         }
     });
 
+    /* Visiblity disabled of "usrRegistrationDate" column */
+    user_data.column(12).visible( false );
+
     /* Bottom buttons for datatables */
-    var buttons = new $.fn.dataTable.Buttons(booking_data, {
+    var buttons = new $.fn.dataTable.Buttons(user_data, {
         buttons: [
             {
                 extend: 'csv',
@@ -101,5 +111,36 @@ $(function () {
             }
         ]
     }).container().appendTo($('#buttons'));
+
+    /* <tfoot> search functionality */
+    $('.search-input').on( 'keyup change', function () {
+        var i =$(this).attr('id');  // getting column index
+        var v =$(this).val();  // getting search input value
+        user_data.columns(i).search(v).draw();
+    });
+
+    /* Data table functionality end */
+
+    /* Activate & Deactivate user begin */
+    $('#user_data tbody').on( 'click', 'a.userStatus', function (e) {
+        e.preventDefault();
+        var data_id     = $(this).data('id');
+        var data_status = $(this).data('status');
+        $.ajax({
+            url: '/admin/users/status',
+            data: { data_id: data_id, data_status: data_status },
+            dataType: 'JSON',
+            type: 'PUT'
+        })
+            .done(function( response ) {
+                $('.responseStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.statusMessage+'</div>');
+                user_data.ajax.reload(null, false);
+            })
+            .fail(function() {
+                $('.responseStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                user_data.ajax.reload(null, false);
+            });
+    });
+    /* Activate & Deactivate user end */
 
 });

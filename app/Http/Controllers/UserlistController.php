@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserlistRequest;
 use App\Userlist;
+use App\Booking;
 use Illuminate\Http\Request;
 
 class UserlistController extends Controller
@@ -29,17 +30,18 @@ class UserlistController extends Controller
         $params  = $request->all();
 
         $columns = array(
-            1 => 'firstname',
-            2 => 'lastname',
-            3 => 'username',
-            4 => 'email',
-            5 => 'balance',
+            1 => 'usrLastname',
+            2 => 'usrFirstname',
+            3 => 'usrName',
+            4 => 'usrEmail',
+            5 => 'money_balance',
             6 => 'bookings',
             7 => 'jumpto',
             8 => 'lastlogin',
             9 => 'rights',
             10 => 'actionone',
-            11 => 'actiontwo'
+            11 => 'actiontwo',
+            12 => 'usrRegistrationDate'
         );
 
         $totalData     = Userlist::where('is_delete', 0)->count();
@@ -81,23 +83,78 @@ class UserlistController extends Controller
             ->orderBy($order, $dir)
             ->get();
         $data          = array();
+        $noData        = '<span class="label label-default">'.__("userList.noResult").'</span>';
+
 
         if(!empty($userLists))
         {
             foreach ($userLists as $key=> $userList)
             {
+                /* Functionality for booking count begins */
+                $bookingCount  = Booking::where('is_delete', 0)
+                    ->where('user', $userList->_id)
+                    ->count();
+                /* Functionality for booking count end */
+
+                /* Condition to check user details null or not begin */
+                if(empty($userList->usrFirstname)) {
+                    $first_name = $noData;
+                }
+                else {
+                    $first_name = $userList->usrFirstname;
+                }
+
+                if(empty($userList->usrLastname)) {
+                    $last_name = $noData;
+                }
+                else {
+                    $last_name = $userList->usrLastname;
+                }
+
+                if(empty($userList->usrName)) {
+                    $username = $noData;
+                }
+                else {
+                    $username = $userList->usrName;
+                }
+
+                if(empty($userList->usrEmail)) {
+                    $user_email = $noData;
+                }
+                else {
+                    $user_email = $userList->usrEmail;
+                }
+
+                if(empty($userList->money_balance)) {
+                    $balance = $noData;
+                }
+                else {
+                    $balance = $userList->money_balance;
+                }
+                /* Condition to check user details null or not end */
+
+                /* Condition for activate and deactivate button begin */
+                if($userList->usrActive == '1') {
+                   $actionone = '<a class="btn btn-sm btn-danger userStatus" data-id="'.$userList->_id.'" data-status="0">'.__("userList.deactivateButton").'</a>';
+                }
+                else {
+                    $actionone = '<a class="btn btn-sm btn-success userStatus" data-id="'.$userList->_id.'" data-status="1">'.__("userList.activateButton").'</a>';
+                }
+                /* Condition for activate and deactivate button end */
+
                 $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
-                $nestedData['firstname']      = $userList->usrFirstname;
-                $nestedData['lastname']       = $userList->usrLastname;
-                $nestedData['username']       = $userList->usrName;
-                $nestedData['email']          = $userList->usrEmail;
-                $nestedData['balance']        = $userList->money_balance;
-                $nestedData['bookings']       = 0;
-                $nestedData['jumpto']         = 'Jump To';
+                $nestedData['usrLastname']    = $last_name;
+                $nestedData['usrFirstname']   = $first_name;
+                $nestedData['usrName']        = '<a class="nounderline modalBooking">'.$username.'</a>';
+                $nestedData['usrEmail']       = $user_email;
+                $nestedData['money_balance']  = $balance;
+                $nestedData['bookings']       = '<a class="nounderline modalBooking">'.$bookingCount.'</a>';
+                $nestedData['jumpto']         = '<i class="fa fa-fw fa-user"></i>';
                 $nestedData['lastlogin']      = 'No field';
                 $nestedData['rights']         = $userList->usrlId;
-                $nestedData['actionone']      = 'Button';
-                $nestedData['actiontwo']      = 'Button';
+                $nestedData['actionone']      = $actionone;
+                $nestedData['actiontwo']      = '<a href="" class="btn btn-xs btn-danger deleteEvent"><i class="glyphicon glyphicon-trash"></i> '.__("userList.deleteButton").'</a>';
+                $nestedData['usrRegistrationDate'] = ($userList->usrRegistrationDate)->format('d.m.y');
                 $data[]                       = $nestedData;
             }
         }
@@ -208,13 +265,13 @@ class UserlistController extends Controller
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function statusUpdate(Request $request, $statusId, $id)
+    public function statusUpdate(Request $request)
     {
-        $userList            = Userlist::findOrFail($id);
-        $userList->usrActive = $statusId;
+        $userList            = Userlist::findOrFail($request->data_id);
+        $userList->usrActive = $request->data_status;
         $userList->save();
 
-        return response()->json(['message' => 'Status updated successfully'], 201);
+        return response()->json(['statusMessage' => __('userList.userStatusResponseSuccessMsg')], 201);
     }
 
     /**

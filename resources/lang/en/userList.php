@@ -36,7 +36,13 @@ return [
     'actionOne'                              => 'De/Activate',
     'actionTwo'                              => 'Action',
     'searchEmail'                            => 'Search email',
+    'deleteButton'                           => 'Delete',
+    'deactivateButton'                       => 'Deactivate',
+    'activateButton'                         => 'Activate',
 
+    'noResult'                               => 'No Result',
 
+    'userStatusResponseSuccessMsg'           => 'User status updated successfully',
+    'userStatusResponseFailMsg'              => 'Something went wrong please try again'
 
     ];

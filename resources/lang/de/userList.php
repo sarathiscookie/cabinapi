@@ -35,6 +35,12 @@ return [
     'actionOne'                              => 'De/Aktivieren',
     'actionTwo'                              => 'Aktionen',
     'searchEmail'                            => 'Search email',
+    'deleteButton'                           => 'Löschen',
+    'deactivateButton'                       => 'Deactivate',
+    'activateButton'                         => 'Activate',
 
+    'noResult'                               => 'Unbekannt',
 
+    'userStatusResponseSuccessMsg'           => 'User status updated successfully',
+    'userStatusResponseFailMsg'              => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut'
 ];

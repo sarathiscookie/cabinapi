@@ -115,7 +115,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/users/{id}', 'UserlistController@show');
 
     /* Update user status to activate and deactivate */
-    Route::put('/users/status/{statusId}/{id}', 'UserlistController@statusUpdate');
+    Route::put('/users/status', 'UserlistController@statusUpdate');
 
     /* Update user status to activate and deactivate */
     Route::put('/users/role/{roleId}/{id}', 'UserlistController@roleUpdate');

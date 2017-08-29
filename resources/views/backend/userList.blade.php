@@ -42,8 +42,8 @@
                         <!-- /.box-header -->
 
                         <div class="box-body table-responsive">
-                            <div class="userListResponseMessage"></div>
-                            <table id="booking_data" class="table table-bordered table-striped table-hover">
+                            <div class="responseStatusMessage"></div>
+                            <table id="user_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -58,6 +58,7 @@
                                     <th>@lang('userList.rights')</th>
                                     <th>@lang('userList.actionOne')</th>
                                     <th>@lang('userList.actionTwo')</th>
+                                    <th>Date</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -68,6 +69,7 @@
                                     <td></td>
                                     <td></td>
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('userList.searchEmail')"></th>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -110,6 +112,13 @@
     <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
+
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            userStatusResponseFailMsg: '{{ trans('userList.userStatusResponseFailMsg') }}'
+        };
+    </script>
 
     <!-- User details Js -->
     <script src="{{ asset('js/userList.js') }}"></script>
