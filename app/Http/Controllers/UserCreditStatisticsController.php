@@ -215,13 +215,13 @@ class UserCreditStatisticsController extends Controller
                     [
                         '$match' => [
                             'is_delete' => 0,
-                            'usrRegistrationDate' => ['$gte' => $dateBegin, '$lte' => $dateEnd],
-                            'money_balance' => 0
+                            'usrRegistrationDate' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
                         ],
                     ],
                     [
                         '$group' => [
                             '_id' => ['year' => ['$year' => '$usrRegistrationDate'], 'month' => ['$month' => '$usrRegistrationDate'], 'day' => ['$dayOfMonth' => '$usrRegistrationDate']],
+                            'money_balance_deleted' => ['$sum' => '$money_balance_deleted'],
                             'count' => ['$sum' => 1]
                         ],
                     ],
@@ -230,6 +230,7 @@ class UserCreditStatisticsController extends Controller
                             'year' => '$_id.year',
                             'month' => '$_id.month',
                             'day' => '$_id.day',
+                            'money_balance_deleted' => 1,
                             'count' => 1
                         ],
                     ],
@@ -246,8 +247,8 @@ class UserCreditStatisticsController extends Controller
             foreach ($money_deleted_query as $deleted_array){
                 $yearMonthDate                       = $deleted_array->year.$deleted_array->month.$deleted_array->day;
                 $usrRegistrationDate                 = $yearMonthDate;
-                $money_deleted[$usrRegistrationDate] = $deleted_array->count;
-                $total_money_deleted[]               = $deleted_array->count;
+                $money_deleted[$usrRegistrationDate] = $deleted_array->money_balance_deleted;
+                $total_money_deleted[]               = $deleted_array->money_balance_deleted;
             }
             $total_money_deleted_array_sum           = array_sum($total_money_deleted);
 
