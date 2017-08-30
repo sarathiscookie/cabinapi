@@ -318,8 +318,9 @@ class UserlistController extends Controller
      */
     public function roleUpdate(Request $request)
     {
+        // cast to integer to avoid malicious values
         $userList            = Userlist::findOrFail($request->data_id);
-        $userList->usrlId    = $request->role;
+        $userList->usrlId    = (int)$request->role;
         $userList->save();
 
         return response()->json(['roleResponseMsg' => __('userList.roleResponseMsg')], 201);

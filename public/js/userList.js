@@ -169,7 +169,7 @@ $(function () {
         e.preventDefault();
         var r = confirm('Do you want to update user role?');
         if (r == true) {
-            var role     = +$(this).val();
+            var role     = $(this).val();
             var data_id  = $(this).data('id');
             $.ajax({
                 url: '/admin/users/role',
