@@ -84,19 +84,32 @@ class LoginController extends Controller
             }
             else {
                 Auth::login($login);
-                /* Functionality to generate date format as mongo begin */
-                $date_now    = date("Y-m-d H:i:s");
-                $orig_date   = new DateTime($date_now);
-                $orig_date   = $orig_date->getTimestamp();
-                $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
-                /* Functionality to generate date format as mongo end */
-                User::where('_id', $login->_id)
-                    ->update(['lastlogin' => $utcdatetime]);
                 if ($login->usrlId === 1){
+                    /* Functionality to generate date format as mongo begin */
+                    $date_now    = date("Y-m-d H:i:s");
+                    $orig_date   = new DateTime($date_now);
+                    $orig_date   = $orig_date->getTimestamp();
+                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+                    /* Functionality to generate date format as mongo end */
+                    User::where('_id', $login->_id)
+                        ->update(['lastlogin' => $utcdatetime]);
                     return redirect('admin/dashboard');
                 }
-                if ($login->usrlId === 5) {
+                else if ($login->usrlId === 5) {
+                    /* Functionality to generate date format as mongo begin */
+                    $date_now    = date("Y-m-d H:i:s");
+                    $orig_date   = new DateTime($date_now);
+                    $orig_date   = $orig_date->getTimestamp();
+                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+                    /* Functionality to generate date format as mongo end */
+                    User::where('_id', $login->_id)
+                        ->update(['lastlogin' => $utcdatetime]);
                     return redirect('cabinowner/bookings');
+                }
+                else {
+                    $request->session()->flush();
+                    $request->session()->regenerate();
+                    return redirect('login');
                 }
             }
         }
