@@ -6,6 +6,7 @@ use App\Http\Requests\UserlistRequest;
 use App\Userlist;
 use App\Booking;
 use App\Role;
+use DateTime;
 use Illuminate\Http\Request;
 
 class UserlistController extends Controller
@@ -147,7 +148,7 @@ class UserlistController extends Controller
                     $balance = $noData;
                 }
                 else {
-                    $balance = $userList->money_balance;
+                    $balance = '<a class="nounderline modalBooking">'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a>';
                 }
                 /* Condition to check user details null or not end */
 
@@ -212,6 +213,26 @@ class UserlistController extends Controller
         );
 
         return response()->json($json_data);
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function balanceDelete(Request $request)
+    {
+        $date_now    = date("Y-m-d H:i:s");
+        $orig_date   = new DateTime($date_now);
+        $orig_date   = $orig_date->getTimestamp();
+        $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+
+        $deleteBalance = Userlist::where('_id', $request->data_id)
+            ->update(['money_balance' => 0, 'money_balance_deleted' => (float)$request->data_money, 'delete_date' => $utcdatetime]);
+
+        return response()->json(['deleteBalanceResponseMsg' => 'Deleted balance successfully'], 200);
 
     }
     /**

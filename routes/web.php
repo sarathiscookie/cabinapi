@@ -120,6 +120,9 @@ Route::prefix('admin')->group(function () {
     /* Update user status to activate and deactivate */
     Route::put('/users/role', 'UserlistController@roleUpdate');
 
+    /* Delete money balance and store deleted money */
+    Route::put('/users/balance/delete', 'UserlistController@balanceDelete');
+
     /* Update user details */
     Route::put('/users/edit/{id}', 'UserlistController@update');
 

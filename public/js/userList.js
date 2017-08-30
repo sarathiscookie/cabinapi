@@ -189,4 +189,29 @@ $(function () {
     });
     /* Functionality for update user role end */
 
+    /* Delete money balance begin */
+    $('#user_data tbody').on('click', '.deleteMoneyBalance', function (e) {
+        e.preventDefault();
+        var r = confirm('Do you want to delete money balance?');
+        if (r == true) {
+            var data_id    = $(this).data('id');
+            var data_money = $(this).data('money');
+            $.ajax({
+                url: '/admin/users/balance/delete',
+                data: { data_id: data_id, data_money: data_money },
+                dataType: 'JSON',
+                type: 'PUT'
+            })
+                .done(function( response ) {
+                    $('.responseStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.deleteBalanceResponseMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                })
+                .fail(function() {
+                    $('.responseStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                });
+        }
+    });
+    /* Delete money balance end */
+
 });
