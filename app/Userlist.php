@@ -34,5 +34,5 @@ class Userlist extends Eloquent
      * Internally, these dates will be converted to MongoDate objects when saved to the database.
      */
 
-    protected $dates = ['usrRegistrationDate', 'lastlogin'];
+    protected $dates = ['usrRegistrationDate', 'lastlogin', 'money_balance_deleted_date'];
 }

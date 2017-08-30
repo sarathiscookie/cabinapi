@@ -103,7 +103,7 @@ class UserlistController extends Controller
             ->get();
         $data          = array();
         $noData        = '<span class="label label-default">'.__("userList.noResult").'</span>';
-
+        $balanceNull   = '<i class="fa fa-fw fa-eur"></i>00.00';
 
         if(!empty($userLists))
         {
@@ -143,14 +143,20 @@ class UserlistController extends Controller
                 else {
                     $user_email = $userList->usrEmail;
                 }
+                /* Condition to check user details null or not end */
 
+                /* Condition for money balance begin */
                 if(empty($userList->money_balance)) {
-                    $balance = $noData;
+                    $balance = $balanceNull;
                 }
                 else {
-                    $balance = '<a class="nounderline modalBooking">'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a>';
+                    $balance = '<a class="nounderline modalBooking"><i class="fa fa-fw fa-eur"></i>'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a>';
                 }
-                /* Condition to check user details null or not end */
+
+                if(!empty($userList->money_balance_deleted_date)) {
+                    $balance = $balanceNull. '<span class="badge">Deleted On: '.$userList->money_balance_deleted_date->format('d.m.y').'</span>';
+                }
+                /* Condition for money balance end */
 
                 /* Condition for activate and deactivate button begin */
                 if($userList->usrActive == '1') {
@@ -230,7 +236,7 @@ class UserlistController extends Controller
         $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
 
         $deleteBalance = Userlist::where('_id', $request->data_id)
-            ->update(['money_balance' => 0, 'money_balance_deleted' => (float)$request->data_money, 'delete_date' => $utcdatetime]);
+            ->update(['money_balance' => 00.00, 'money_balance_deleted' => (float)$request->data_money, 'money_balance_deleted_date' => $utcdatetime]);
 
         return response()->json(['deleteBalanceResponseMsg' => 'Deleted balance successfully'], 200);
 
