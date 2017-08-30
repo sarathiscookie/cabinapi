@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use DateTime;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -78,19 +79,19 @@ class LoginController extends Controller
                     ->first();
             }
 
-
-            /*$login    = User::where('usrName', $request->username)
-                ->where('usrPassword', $password)
-                ->where('usrActive', '1')
-                ->where('is_delete', 0)
-                ->first();*/
             if (!$login) {
                 return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
             }
             else {
-
                 Auth::login($login);
-
+                /* Functionality to generate date format as mongo begin */
+                $date_now    = date("Y-m-d H:i:s");
+                $orig_date   = new DateTime($date_now);
+                $orig_date   = $orig_date->getTimestamp();
+                $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+                /* Functionality to generate date format as mongo end */
+                User::where('_id', $login->_id)
+                    ->update(['lastlogin' => $utcdatetime]);
                 if ($login->usrlId === 1){
                     return redirect('admin/dashboard');
                 }

@@ -6,6 +6,8 @@ use App\Http\Requests\UserlistRequest;
 use App\Userlist;
 use App\Booking;
 use App\Role;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 
 class UserlistController extends Controller
@@ -179,6 +181,15 @@ class UserlistController extends Controller
                 }
                 /* Functionality for roles end */
 
+                /* Condition for last login begin */
+                if(empty($userList->lastlogin)) {
+                    $lastlogin = $noData;
+                }
+                else {
+                    $lastlogin= ($userList->lastlogin)->format('d.m.y H:i');
+                }
+                /* Condition for last login end */
+
                 $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
                 $nestedData['usrLastname']    = $last_name;
                 $nestedData['usrFirstname']   = $first_name;
@@ -187,7 +198,7 @@ class UserlistController extends Controller
                 $nestedData['money_balance']  = $balance;
                 $nestedData['bookings']       = '<a class="nounderline modalBooking">'.$bookingCount.'</a>';
                 $nestedData['jumpto']         = '<i class="fa fa-fw fa-user"></i>';
-                $nestedData['lastlogin']      = 'No Field';
+                $nestedData['lastlogin']      = $lastlogin;
                 $nestedData['rights']         = $roleColumn;
                 $nestedData['actionone']      = $actionone;
                 $nestedData['actiontwo']      = '<a href="" class="btn btn-xs btn-danger deleteUserList" data-id="'.$userList->_id.'"><i class="glyphicon glyphicon-trash"></i> '.__("userList.deleteButton").'</a>';
