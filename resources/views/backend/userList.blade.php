@@ -73,8 +73,23 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <th>
+                                        <select class="form-control search-input" id="9">
+                                            <option value="">@lang('userList.selectrole')</option>
+                                            <option value="1">@lang('userList.adminuser')</option>
+                                            <option value="2">@lang('userList.guest')</option>
+                                            <option value="5">@lang('userList.cabinowner')</option>
+                                            <option value="6">@lang('userList.mschool')</option>
+                                            <option value="8">@lang('userList.public')</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <select class="form-control search-input" id="10">
+                                            <option value="">@lang('userList.selectstatus')</option>
+                                            <option value="1">@lang('userList.active')</option>
+                                            <option value="0">@lang('userList.deactive')</option>
+                                        </select>
+                                    </th>
                                     <td></td>
                                     <td></td>
                                 </tr>

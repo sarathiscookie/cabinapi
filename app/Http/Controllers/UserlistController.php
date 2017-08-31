@@ -83,19 +83,44 @@ class UserlistController extends Controller
                 ->count();
         }
 
-        /* tfoot search functionality for email begin */
+        /* tfoot search functionality for email, user status and user role begin */
         if( isset($params['columns'][4]['search']['value']) )
         {
             $q->where(function($query) use ($params) {
-                $query->where('usrEmail', "{$params['columns'][4]['search']['value']}");
+                $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
             });
 
             $totalFiltered = $q->where(function($query) use ($params) {
-                $query->where('usrEmail', "{$params['columns'][4]['search']['value']}");
+                $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
             })
                 ->count();
         }
-        /* tfoot search functionality for email end */
+
+        if( isset($params['columns'][9]['search']['value']) )
+        {
+            $paramater = (int)$params['columns'][9]['search']['value'];
+            $q->where(function($query) use ($paramater) {
+                $query->where('usrlId', $paramater);
+            });
+
+            $totalFiltered = $q->where(function($query) use ($paramater) {
+                $query->where('usrlId', $paramater);
+            })
+                ->count();
+        }
+
+        if( isset($params['columns'][10]['search']['value']) )
+        {
+            $q->where(function($query) use ($params) {
+                $query->where('usrActive', "{$params['columns'][10]['search']['value']}");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('usrActive', "{$params['columns'][10]['search']['value']}");
+            })
+                ->count();
+        }
+        /* tfoot search functionality for email, user status and user role end */
 
         $userLists      = $q->skip($start)
             ->take($limit)

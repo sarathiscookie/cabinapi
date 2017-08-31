@@ -39,6 +39,17 @@ return [
     'deactivateButton'                       => 'Deactivate',
     'activateButton'                         => 'Activate',
 
+    'selectrole'                             => 'Select role',
+    'adminuser'                              => 'Admin User',
+    'guest'                                  => 'Guest',
+    'cabinowner'                             => 'Hüttenwirt',
+    'mschool'                                => 'Bergschule',
+    'public'                                 => 'Öffentliche Einrichtung',
+
+    'selectstatus'                           => 'Select Status',
+    'active'                                 => 'Active',
+    'deactive'                               => 'Not Active',
+
     'noResult'                               => 'Unbekannt',
 
     /* Modal for balance update */

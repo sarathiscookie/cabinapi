@@ -86,15 +86,9 @@ $(function () {
     var buttons = new $.fn.dataTable.Buttons(user_data, {
         buttons: [
             {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 1, 2, 3, 4, 5, 6, 8, 9 ]
-                }
-            },
-            {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 1, 2, 3, 4, 5, 6, 8, 9 ]
+                    columns: [ 1, 2, 4, 5, 6, 8, 9 ]
                 }
             },
             {
@@ -102,13 +96,13 @@ $(function () {
                 orientation: 'portrait',
                 pageSize: 'LEGAL',
                 exportOptions: {
-                    columns: [ 1, 2, 3, 4, 5, 6, 8, 9 ]
+                    columns: [ 1, 2, 4, 5, 6, 8, 9 ]
                 }
             },
             {
                 extend: 'print',
                 exportOptions: {
-                    columns: [ 1, 2, 3, 4, 5, 6, 8, 9 ]
+                    columns: [ 1, 2, 4, 5, 6, 8, 9 ]
                 }
             }
         ]
@@ -166,7 +160,7 @@ $(function () {
     });
 
 
-    /* Functionality for update user role */
+    /* Update user role functionality */
     $('#user_data tbody').on('change', '.roleChange', function (e) {
         e.preventDefault();
         var r = confirm(translations.confirmRoleChange);
