@@ -123,6 +123,9 @@ Route::prefix('admin')->group(function () {
     /* Delete money balance and store deleted money */
     Route::put('/users/balance/delete', 'UserlistController@balanceDelete');
 
+    /* Update money balance */
+    Route::put('/users/balance/update', 'UserlistController@balanceUpdate');
+
     /* Update user details */
     Route::put('/users/edit/{id}', 'UserlistController@update');
 

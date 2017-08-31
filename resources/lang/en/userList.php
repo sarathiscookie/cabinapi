@@ -42,9 +42,19 @@ return [
 
     'noResult'                               => 'No Result',
 
+    /* Modal for balance update */
+    'balanceUpdateHeading'                   => 'Update Balance',
+    'balanceUpdateButton'                    => 'Update',
+    'balanceUpdateCloseButton'               => 'Close',
+    'sendingProcess'                         => 'Sending...',
+
     'userStatusResponseSuccessMsg'           => 'User status updated successfully',
     'userStatusResponseFailMsg'              => 'Something went wrong please try again',
     'deleteResponseMsg'                      => 'User deleted successfully',
-    'roleResponseMsg'                        => 'Role updated successfully'
+    'roleResponseMsg'                        => 'Role updated successfully',
+    'confirmDelete'                          => 'Do you want to delete balance?',
+    'confirmRoleChange'                      => 'Do you want to update role?',
+    'deleteBalanceResponseMsg'               => 'Deleted balance successfully',
+    'updateBalanceResponseMsg'               => 'Updated balance successfully',
 
     ];

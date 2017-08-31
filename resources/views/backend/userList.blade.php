@@ -116,10 +116,35 @@
     <!-- Helping object for translation -->
     <script>
         window.translations = {
-            userStatusResponseFailMsg: '{{ trans('userList.userStatusResponseFailMsg') }}'
+            userStatusResponseFailMsg: '{{ trans('userList.userStatusResponseFailMsg') }}',
+            confirmDelete: '{{ trans('userList.confirmDelete') }}',
+            confirmRoleChange: '{{ trans('userList.confirmRoleChange') }}'
         };
     </script>
 
     <!-- User details Js -->
     <script src="{{ asset('js/userList.js') }}"></script>
 @endsection
+
+
+{{--
+<div class="modal fade updateBalanceModel_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="updateBalanceSmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.balanceUpdateHeading").'</h4></div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input class="form-control input-sm" type="text" value="'.$userList->money_balance.'">
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-primary btn-sm" type="button">'.__("userList.balanceUpdateButton").'</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">'.__("userList.balanceUpdateCloseButton").'</button>
+            </div>
+        </div>
+    </div>
+</div>--}}

@@ -17,7 +17,9 @@ $(function () {
 
     /* Helping object for translation */
     var translations = {
-        userStatusResponseFailMsg: window.translations.userStatusResponseFailMsg
+        userStatusResponseFailMsg: window.translations.userStatusResponseFailMsg,
+        confirmDelete: window.translations.confirmDelete,
+        confirmRoleChange: window.translations.confirmRoleChange
     };
 
     /* Data table functionality begin */
@@ -121,7 +123,7 @@ $(function () {
 
     /* Data table functionality end */
 
-    /* Activate & Deactivate user functionality begin */
+    /* Activate & Deactivate user functionality */
     $('#user_data tbody').on( 'click', 'a.userStatus', function (e) {
         e.preventDefault();
         var data_id     = $(this).data('id');
@@ -141,9 +143,9 @@ $(function () {
                 user_data.ajax.reload(null, false);
             });
     });
-    /* Activate & Deactivate user functionality end */
 
-    /* Delete user functionality begin*/
+
+    /* Delete user functionality */
     $('#user_data tbody').on( 'click', 'a.deleteUserList', function (e) {
         e.preventDefault();
         var data_id     = $(this).data('id');
@@ -162,12 +164,12 @@ $(function () {
                 user_data.ajax.reload(null, false);
             });
     });
-    /* Delete user functionality end*/
 
-    /* Functionality for update user role begin */
+
+    /* Functionality for update user role */
     $('#user_data tbody').on('change', '.roleChange', function (e) {
         e.preventDefault();
-        var r = confirm('Do you want to update user role?');
+        var r = confirm(translations.confirmRoleChange);
         if (r == true) {
             var role     = $(this).val();
             var data_id  = $(this).data('id');
@@ -187,12 +189,12 @@ $(function () {
                 });
         }
     });
-    /* Functionality for update user role end */
 
-    /* Delete money balance begin */
+
+    /* Delete money balance */
     $('#user_data tbody').on('click', '.deleteMoneyBalance', function (e) {
         e.preventDefault();
-        var r = confirm('Do you want to delete money balance?');
+        var r = confirm(translations.confirmDelete);
         if (r == true) {
             var data_id    = $(this).data('id');
             var data_money = $(this).data('money');
@@ -212,6 +214,31 @@ $(function () {
                 });
         }
     });
-    /* Delete money balance end */
+
+
+    /* Update balance functionality */
+    $('#user_data tbody').on( 'click', 'a.balanceUpdateButton', function (e) {
+        e.preventDefault();
+        var data_id       = $(this).data('id');
+        var data_money    = $('#money_balance_updated_'+data_id).val();
+        $.ajax({
+            url: '/admin/users/balance/update',
+            data: { data_id: data_id, data_money: data_money },
+            dataType: 'JSON',
+            type: 'PUT'
+        })
+            .done(function( response ) {
+                $('.responseBalanceStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.updateBalanceResponseMsg+'</div>');
+                $('.updateBalanceModel_'+data_id).on('hidden.bs.modal', function () {
+                    user_data.ajax.reload(null, false);
+                })
+            })
+            .fail(function() {
+                $('.responseBalanceStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                $('.updateBalanceModel_'+data_id).on('hidden.bs.modal', function () {
+                    user_data.ajax.reload(null, false);
+                })
+            });
+    });
 
 });

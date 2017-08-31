@@ -150,7 +150,7 @@ class UserlistController extends Controller
                     $balance = $balanceNull;
                 }
                 else {
-                    $balance = '<a class="nounderline modalBooking"><i class="fa fa-fw fa-eur"></i>'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a>';
+                    $balance = '<a class="nounderline" data-toggle="modal" data-target=".updateBalanceModel_'.$userList->_id.'"><i class="fa fa-fw fa-eur"></i>'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a><div class="modal fade updateBalanceModel_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="updateBalanceSmallModalLabel"><div class="modal-dialog modal-sm" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.balanceUpdateHeading").'</h4></div><div class="responseBalanceStatusMessage"></div><div class="modal-body"><div class="row"><div class="col-md-6"><input class="form-control input-sm" id="money_balance_updated_'.$userList->_id.'" type="text" value="'.$userList->money_balance.'"></div><div class="col-md-6"><a class="btn btn-primary btn-sm balanceUpdateButton" data-id="'.$userList->_id.'">'.__("userList.balanceUpdateButton").'</a></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default btn-sm" data-dismiss="modal">'.__("userList.balanceUpdateCloseButton").'</button></div></div></div></div>';
                 }
 
                 if(!empty($userList->money_balance_deleted_date)) {
@@ -198,10 +198,10 @@ class UserlistController extends Controller
                 $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
                 $nestedData['usrLastname']    = $last_name;
                 $nestedData['usrFirstname']   = $first_name;
-                $nestedData['usrName']        = '<a class="nounderline modalBooking">'.$username.'</a>';
+                $nestedData['usrName']        = '<a class="nounderline">'.$username.'</a>';
                 $nestedData['usrEmail']       = $user_email;
                 $nestedData['money_balance']  = $balance;
-                $nestedData['bookings']       = '<a class="nounderline modalBooking">'.$bookingCount.'</a>';
+                $nestedData['bookings']       = '<a class="nounderline">'.$bookingCount.'</a>';
                 $nestedData['jumpto']         = '<i class="fa fa-fw fa-user"></i>';
                 $nestedData['lastlogin']      = $lastlogin;
                 $nestedData['rights']         = $roleColumn;
@@ -238,9 +238,26 @@ class UserlistController extends Controller
         $deleteBalance = Userlist::where('_id', $request->data_id)
             ->update(['money_balance' => 00.00, 'money_balance_deleted' => (float)$request->data_money, 'money_balance_deleted_date' => $utcdatetime]);
 
-        return response()->json(['deleteBalanceResponseMsg' => 'Deleted balance successfully'], 200);
+        return response()->json(['deleteBalanceResponseMsg' => __('userList.deleteBalanceResponseMsg')], 200);
 
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function balanceUpdate(Request $request)
+    {
+        if($request->data_money != '') {
+            Userlist::where('_id', $request->data_id)
+                ->update(['money_balance' => (float)$request->data_money]);
+
+            return response()->json(['updateBalanceResponseMsg' => __('userList.updateBalanceResponseMsg')], 200);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
