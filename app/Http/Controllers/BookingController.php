@@ -21,8 +21,11 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($userId = null, $count = null)
     {
+        if($userId != null && $count != null){
+            return view('backend.bookings', ['userID' => $userId, 'count' => $count]);
+        }
         return view('backend.bookings');
     }
 
@@ -58,7 +61,14 @@ class BookingController extends Controller
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        $q             = Booking::where('is_delete', 0);
+        if($request->parameterId)
+        {
+            $q         = Booking::where('is_delete', 0)
+                ->where('user', $request->parameterId);
+        }
+        else {
+            $q         = Booking::where('is_delete', 0);
+        }
 
         if(!empty($request->input('search.value')))
         {

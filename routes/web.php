@@ -145,7 +145,7 @@ Route::prefix('admin')->group(function () {
     */
 
     /* Listing bookings */
-    Route::get('/bookings', 'BookingController@index');
+    Route::get('/bookings/{userId?}/{count?}', 'BookingController@index');
 
     /* Show datatable page */
     Route::post('/bookings/datatables', 'BookingController@dataTables')->name('bookings.datatables');

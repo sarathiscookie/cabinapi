@@ -31,10 +31,15 @@ $(function () {
     var booking_data;
     var daterange = '';
     var cabin = '';
+    var parameterId = '';
 
-    fetch_data('no');
+    if($('#parameterId').val() != '') {
+        var parameterId    = $('#parameterId').val();
+    }
 
-    function fetch_data(is_date_search, daterange, cabin)
+    fetch_data('no', null, null, parameterId);
+
+    function fetch_data(is_date_search, daterange, cabin, parameterId)
     {
         booking_data = $('#booking_data').DataTable({
             "lengthMenu": [10, 50, 100, 250, 500],
@@ -45,7 +50,7 @@ $(function () {
                 "url": '/admin/bookings/datatables',
                 "dataType": "json",
                 "type": "POST",
-                "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin}
+                "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin, parameterId:parameterId}
             },
             "columns": [
                 { "data": "hash" },
@@ -251,7 +256,7 @@ $(function () {
     $('#adminBookingsDaterange').on('cancel.daterangepicker', function(ev, picker) {
         var data        = $(this).val('');
         booking_data.destroy();
-        fetch_data('no');
+        fetch_data('no', null, null, parameterId);
     });
 
     $('#generateAdminBookings').on('click', function() {
@@ -261,7 +266,7 @@ $(function () {
         if(daterange !== '' && cabin !== '')
         {
             booking_data.destroy();
-            fetch_data('yes', daterange, cabin);
+            fetch_data('yes', daterange, cabin, parameterId);
         }
         else {
             $('.alertMsg').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Leere Felder bitte ausfüllen</div>');

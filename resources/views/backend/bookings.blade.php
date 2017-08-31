@@ -158,6 +158,12 @@
                                     <th><input type="text" id="12"  class="form-control input-sm search-input" placeholder="@lang('admin.searchTxID')"></th>
                                     <td></td>
                                     <td></td>
+                                    @if(isset($userID))
+                                        <input type="hidden" name="parameterId" id="parameterId" value="{{$userID}}">
+                                    @endif
+                                    @if(isset($count))
+                                        <input type="hidden" name="parameterCount" id="parameterCount" value="{{$count}}">
+                                    @endif
                                 </tr>
                                 </tfoot>
                             </table>
