@@ -311,7 +311,7 @@ class UserlistController extends Controller
      */
     public function balanceUpdate(Request $request)
     {
-        if($request->data_money != '' & $request->data_msg != '') {
+        if($request->data_money != '' && $request->data_msg != '') {
             Userlist::where('_id', $request->data_id)
                 ->update(['money_balance' => (float)$request->data_money, 'money_balance_update_message' => $request->data_msg]);
 
