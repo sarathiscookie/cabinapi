@@ -211,7 +211,7 @@ class UserlistController extends Controller
                     $balance = $balanceNull;
                 }
                 else {
-                    $balance = '<a class="nounderline" data-toggle="modal" data-target=".updateBalanceModel_'.$userList->_id.'"><i class="fa fa-fw fa-eur"></i>'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a><div class="modal fade updateBalanceModel_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="updateBalanceSmallModalLabel"><div class="modal-dialog modal-sm" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.balanceUpdateHeading").'</h4></div><div class="responseBalanceStatusMessage"></div><div class="modal-body"><div class="row"><div class="col-md-6"><input class="form-control input-sm" id="money_balance_updated_'.$userList->_id.'" type="text" value="'.$userList->money_balance.'"></div><div class="col-md-6"><a class="btn btn-primary btn-sm balanceUpdateButton" data-id="'.$userList->_id.'">'.__("userList.balanceUpdateButton").'</a></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default btn-sm" data-dismiss="modal">'.__("userList.balanceUpdateCloseButton").'</button></div></div></div></div>';
+                    $balance = '<a class="nounderline" data-toggle="modal" data-target=".updateBalanceModel_'.$userList->_id.'"><i class="fa fa-fw fa-eur"></i>'.$userList->money_balance.'</a> <a class="btn btn-xs btn-danger deleteMoneyBalance" data-id="'.$userList->_id.'" data-money="'.$userList->money_balance.'"><i class="glyphicon glyphicon-trash"></i></a><div class="modal fade updateBalanceModel_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="updateBalanceSmallModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.balanceUpdateHeading").'</h4></div><div class="responseBalanceStatusMessage"></div><div class="modal-body"><div class="row"><div class="col-md-3 pull-left"><input class="form-control input-sm" id="money_balance_updated_'.$userList->_id.'" type="text" value="'.$userList->money_balance.'"></div><div class="col-md-6"><textarea class="form-control" id="money_balance_message_'.$userList->_id.'" placeholder="Reason to update balance"></textarea></div><div class="col-md-3 pull-right"><a class="btn btn-primary btn-sm balanceUpdateButton" data-id="'.$userList->_id.'">'.__("userList.balanceUpdateButton").'</a></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default btn-sm" data-dismiss="modal">'.__("userList.balanceUpdateCloseButton").'</button></div></div></div></div>';
                 }
 
                 if(!empty($userList->money_balance_deleted_date)) {
@@ -311,9 +311,9 @@ class UserlistController extends Controller
      */
     public function balanceUpdate(Request $request)
     {
-        if($request->data_money != '') {
+        if($request->data_money != '' & $request->data_msg != '') {
             Userlist::where('_id', $request->data_id)
-                ->update(['money_balance' => (float)$request->data_money]);
+                ->update(['money_balance' => (float)$request->data_money, 'money_balance_update_message' => $request->data_msg]);
 
             return response()->json(['updateBalanceResponseMsg' => __('userList.updateBalanceResponseMsg')], 200);
         }

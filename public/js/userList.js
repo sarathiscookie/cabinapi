@@ -215,9 +215,10 @@ $(function () {
         e.preventDefault();
         var data_id       = $(this).data('id');
         var data_money    = $('#money_balance_updated_'+data_id).val();
+        var data_msg      = $('#money_balance_message_'+data_id).val();
         $.ajax({
             url: '/admin/users/balance/update',
-            data: { data_id: data_id, data_money: data_money },
+            data: { data_id: data_id, data_money: data_money, data_msg: data_msg },
             dataType: 'JSON',
             type: 'PUT'
         })
