@@ -241,4 +241,36 @@ $(function () {
             });
     });
 
+    /* Update user details functionality */
+    $('#user_data tbody').on( 'click', 'button.updateUserDetails', function (e) {
+        e.preventDefault();
+        var data_id            = $(this).data('button');
+        var user_firstname     = $('#user_firstname_'+data_id).val();
+        var user_lastname      = $('#user_lastname_'+data_id).val();
+        var user_email         = $('#user_email_'+data_id).val();
+        var user_telephone     = $('#user_telephone_'+data_id).val();
+        var user_mobile        = $('#user_mobile_'+data_id).val();
+        var user_address       = $('#user_address_'+data_id).val();
+        var user_zip           = $('#user_zip_'+data_id).val();
+        var user_city          = $('#user_city_'+data_id).val();
+        $.ajax({
+            url: '/admin/users/edit',
+            data: { data_id: data_id, user_firstname: user_firstname, user_lastname: user_lastname, user_email: user_email, user_telephone: user_telephone, user_mobile: user_mobile, user_address: user_address, user_zip: user_zip, user_city: user_city },
+            dataType: 'JSON',
+            type: 'PUT'
+        })
+            .done(function( response ) {
+                $('.responseUpdateUserMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.updateUserResponseMsg+'</div>');
+                $('#userUpdate_'+data_id).on('hidden.bs.modal', function () {
+                    user_data.ajax.reload(null, false);
+                })
+            })
+            .fail(function() {
+                $('.responseUpdateUserMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                $('#userUpdate_'+data_id).on('hidden.bs.modal', function () {
+                    user_data.ajax.reload(null, false);
+                })
+            });
+    });
+
 });

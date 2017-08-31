@@ -143,6 +143,42 @@ class UserlistController extends Controller
                 else {
                     $user_email = $userList->usrEmail;
                 }
+
+                if(empty($userList->usrTelephone)) {
+                    $user_tel = $noData;
+                }
+                else {
+                    $user_tel = $userList->usrTelephone;
+                }
+
+                if(empty($userList->usrMobile)) {
+                    $user_mob = $noData;
+                }
+                else {
+                    $user_mob = $userList->usrMobile;
+                }
+
+                if(empty($userList->usrCity)) {
+                    $user_city = $noData;
+                }
+                else {
+                    $user_city = $userList->usrCity;
+                }
+
+                if(empty($userList->usrZip)) {
+                    $user_zip = $noData;
+                }
+                else {
+                    $user_zip = $userList->usrZip;
+                }
+
+                if(empty($userList->usrAddress)) {
+                    $user_addr = $noData;
+                }
+                else {
+                    $user_addr = $userList->usrAddress;
+                }
+
                 /* Condition to check user details null or not end */
 
                 /* Condition for money balance begin */
@@ -198,7 +234,7 @@ class UserlistController extends Controller
                 $nestedData['hash']           = '<input class="checked" type="checkbox" name="id[]"/>';
                 $nestedData['usrLastname']    = $last_name;
                 $nestedData['usrFirstname']   = $first_name;
-                $nestedData['usrName']        = '<a class="nounderline">'.$username.'</a>';
+                $nestedData['usrName']        = '<a class="nounderline" data-toggle="modal" data-target="#userUpdate_'.$userList->_id.'">'.$username.'</a><div class="modal fade" id="userUpdate_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.userUpdateModalHeading").'</h4></div><div class="responseUpdateUserMessage"></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalFirstName").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_firstname_'.$userList->_id.'" type="text" value="'.$userList->usrFirstname.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalLastName").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_lastname_'.$userList->_id.'" type="text" value="'.$userList->usrLastname.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalEmail").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_email_'.$userList->_id.'" type="text" value="'.$userList->usrEmail.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalTelephone").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_telephone_'.$userList->_id.'" type="text" value="'.$userList->usrTelephone.'"></p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalMobile").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_mobile_'.$userList->_id.'" type="text" value="'.$userList->usrMobile.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalStreet").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_address_'.$userList->_id.'" type="text" value="'.$userList->usrAddress.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalZipcode").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_zip_'.$userList->_id.'" type="text" value="'.$userList->usrZip.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalCity").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_city_'.$userList->_id.'" type="text" value="'.$userList->usrCity.'"></p></li></ul></div><div class="col-md-12"><button type="button" class="btn btn-block btn-primary updateUserDetails" data-button="'.$userList->_id.'">'.__("userList.userUpdateModalButton").'</button></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                 $nestedData['usrEmail']       = $user_email;
                 $nestedData['money_balance']  = $balance;
                 $nestedData['bookings']       = '<a class="nounderline">'.$bookingCount.'</a>';
@@ -325,27 +361,23 @@ class UserlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UserlistRequest  $request
-     * @param  string $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(UserlistRequest $request, $id)
+    public function update(Request $request)
     {
-        $userDetails                = Userlist::findOrFail($id);
-        $userDetails->usrFirstname  = $request->input('usrFirstname');
-        $userDetails->usrLastname   = $request->input('usrLastname');
-        $userDetails->usrTelephone  = $request->input('usrTelephone');
-        $userDetails->usrEmail      = $request->input('usrEmail');
-        $userDetails->usrMobile     = $request->input('usrMobile');
-        $userDetails->usrCountry    = $request->input('usrCountry');
-        $userDetails->usrAddress    = $request->input('usrAddress');
-        $userDetails->usrCity       = $request->input('usrCity');
-        $userDetails->usrZip        = $request->input('usrZip');
-        $userDetails->usrBirthday   = $request->input('usrBirthday'); //here format is date so not save as character.
-        $userDetails->usrNewsletter = $request->input('usrNewsletter');
+        $userDetails                = Userlist::findOrFail($request->data_id);
+        $userDetails->usrFirstname  = $request->user_firstname;
+        $userDetails->usrLastname   = $request->user_lastname;
+        $userDetails->usrTelephone  = $request->user_telephone;
+        $userDetails->usrEmail      = $request->user_email;
+        $userDetails->usrMobile     = $request->user_mobile;
+        $userDetails->usrAddress    = $request->user_address;
+        $userDetails->usrCity       = $request->user_city;
+        $userDetails->usrZip        = $request->user_zip;
         $userDetails->save();
 
-        return response()->json(['userDetails' => $userDetails], 201);
+        return response()->json(['updateUserResponseMsg' => __('userList.userUpdateResponseMsg')], 201);
     }
 
     /**

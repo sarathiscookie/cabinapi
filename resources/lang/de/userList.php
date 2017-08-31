@@ -45,8 +45,22 @@ return [
     'balanceUpdateHeading'                   => 'Update Balance',
     'balanceUpdateButton'                    => 'Update',
     'balanceUpdateCloseButton'               => 'Close',
-    'sendingProcess'                         => 'Sending...',
 
+    /* Modal for user details update */
+    'userUpdateModalHeading'                 => 'User Details',
+    'userUpdateModalFirstName'               => 'First Name',
+    'userUpdateModalLastName'                => 'Last Name',
+    'userUpdateModalEmail'                   => 'Email',
+    'userUpdateModalTelephone'               => 'Telephone',
+    'userUpdateModalMobile'                  => 'Mobile',
+    'userUpdateModalDOB'                     => 'DOB',
+    'userUpdateModalStreet'                  => 'Street',
+    'userUpdateModalZipcode'                 => 'Zipcode',
+    'userUpdateModalCity'                    => 'City',
+    'userUpdateModalCountry'                 => 'Country',
+    'userUpdateModalButton'                  => 'Update User Details',
+
+    /* Error response messages */
     'userStatusResponseSuccessMsg'           => 'User status updated successfully',
     'userStatusResponseFailMsg'              => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'deleteResponseMsg'                      => 'User deleted successfully',
@@ -55,5 +69,6 @@ return [
     'confirmRoleChange'                      => 'Do you want to update role?',
     'deleteBalanceResponseMsg'               => 'Deleted balance successfully',
     'updateBalanceResponseMsg'               => 'Updated balance successfully',
+    'userUpdateResponseMsg'                  => 'Updated user details successfully',
 
 ];

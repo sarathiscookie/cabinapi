@@ -127,7 +127,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/users/balance/update', 'UserlistController@balanceUpdate');
 
     /* Update user details */
-    Route::put('/users/edit/{id}', 'UserlistController@update');
+    Route::put('/users/edit', 'UserlistController@update');
 
     /* Add or Update club */
     Route::put('/users/club/{id}', 'UserlistController@clubUpdate');
