@@ -86,7 +86,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Cabin API
+                    <div class="login-logo">
+                        <img src="/img/logo-huetten-holiday.png" alt="Huetten-Holiday.de">
+                    </div>
                 </div>
             </div>
         </div>

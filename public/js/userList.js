@@ -142,21 +142,24 @@ $(function () {
     /* Delete user functionality */
     $('#user_data tbody').on( 'click', 'a.deleteUserList', function (e) {
         e.preventDefault();
-        var data_id     = $(this).data('id');
-        $.ajax({
-            url: '/admin/users/destroy',
-            data: { data_id: data_id },
-            dataType: 'JSON',
-            type: 'DELETE'
-        })
-            .done(function( response ) {
-                $('.responseStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.deleteResponseMsg+'</div>');
-                user_data.ajax.reload(null, false);
+        var r = confirm('');
+        if (r == true) {
+            var data_id     = $(this).data('id');
+            $.ajax({
+                url: '/admin/users/destroy',
+                data: { data_id: data_id },
+                dataType: 'JSON',
+                type: 'DELETE'
             })
-            .fail(function() {
-                $('.responseStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
-                user_data.ajax.reload(null, false);
-            });
+                .done(function( response ) {
+                    $('.responseStatusMessage').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.deleteResponseMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                })
+                .fail(function() {
+                    $('.responseStatusMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>'+translations.userStatusResponseFailMsg+'</div>');
+                    user_data.ajax.reload(null, false);
+                });
+        }
     });
 
 

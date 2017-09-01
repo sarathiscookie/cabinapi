@@ -39,6 +39,7 @@ return [
     'deleteButton'                           => 'Delete',
     'deactivateButton'                       => 'Deactivate',
     'activateButton'                         => 'Activate',
+    'deletedOn'                              => 'Deleted On',
 
     'selectrole'                             => 'Select role',
     'adminuser'                              => 'Admin',
@@ -78,6 +79,7 @@ return [
     'deleteResponseMsg'                      => 'User deleted successfully',
     'roleResponseMsg'                        => 'Role updated successfully',
     'confirmDelete'                          => 'Do you want to delete balance?',
+    'confirmDeleteUser'                      => 'Do you want to delete this user?',
     'confirmRoleChange'                      => 'Do you want to update role?',
     'deleteBalanceResponseMsg'               => 'Deleted balance successfully',
     'updateBalanceResponseMsg'               => 'Updated balance successfully',

@@ -38,17 +38,18 @@ return [
     'deleteButton'                           => 'Löschen',
     'deactivateButton'                       => 'Deaktivieren',
     'activateButton'                         => 'Aktivieren',
+    'deletedOn'                              => 'Gelöscht am',
 
-    'selectrole'                             => 'Select role',
+    'selectrole'                             => 'Berechtigung auswählen',
     'adminuser'                              => 'Admin User',
     'guest'                                  => 'Guest',
     'cabinowner'                             => 'Hüttenwirt',
     'mschool'                                => 'Bergschule',
     'public'                                 => 'Öffentliche Einrichtung',
 
-    'selectstatus'                           => 'Select Status',
-    'active'                                 => 'Active',
-    'deactive'                               => 'Inactive',
+    'selectstatus'                           => 'Status auswählen',
+    'active'                                 => 'Aktiviert',
+    'deactive'                               => 'Deaktiviert',
 
     'noResult'                               => 'Unbekannt',
 
@@ -77,6 +78,7 @@ return [
     'deleteResponseMsg'                      => 'Benutzer wurde gelöscht',
     'roleResponseMsg'                        => 'Berechtigung wurde bestätigt',
     'confirmDelete'                          => 'Möchten Sie das Guthaben wirklich löschen?',
+    'confirmDeleteUser'                      => 'Wollen Sie den Account wirklich löschen?',
     'confirmRoleChange'                      => 'Möchten Sie die Berechtigung wirklich ändern?',
     'deleteBalanceResponseMsg'               => 'Guthaben wurde gelöscht',
     'updateBalanceResponseMsg'               => 'Guthaben wurde geändert',

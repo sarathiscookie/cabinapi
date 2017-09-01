@@ -9,11 +9,11 @@
 
     <div class="login-box">
         <div class="login-logo">
-            <b>Cabin</b> API
+            <img src="/img/logo-huetten-holiday.png" alt="Huetten-Holiday.de">
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Log in to cabin api</p>
+            <p class="login-box-msg">Bei Huetten-Holiday.de Anmelden</p>
 
             @if (session('message'))
                 <div class="alert alert-danger alert-dismissible" role="alert">
@@ -49,13 +49,13 @@
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Anmeldung speichern
                             </label>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Anmelden</button>
                     </div>
                     <!-- /.col -->
                 </div>
