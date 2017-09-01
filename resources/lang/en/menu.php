@@ -16,8 +16,8 @@ return [
     |
     */
 
-
-    'userList'                              => 'User List',
+    'userMenu'                              => 'User',
+    'userListMenu'                          => 'User List',
 
     'bookingMenu'                           => 'Booking',
     'bookingListMenu'                       => 'Booking List',

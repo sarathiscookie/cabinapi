@@ -143,13 +143,13 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>User</span>
+                        <i class="fa fa-dashboard"></i> <span>@lang('menu.userMenu')</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="/admin/users"><i class="fa fa-circle-o"></i> @lang('menu.userList')</a></li>
+                        <li class="active"><a href="/admin/users"><i class="fa fa-circle-o"></i> @lang('menu.userListMenu')</a></li>
                     </ul>
                 </li>
 
