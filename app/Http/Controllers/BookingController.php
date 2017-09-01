@@ -53,22 +53,24 @@ class BookingController extends Controller
             12 => 'txid'
         );
 
-        $totalData     = Booking::where('is_delete', 0)->count();
+        if($request->parameterId)
+        {
+            $totalData = Booking::where('is_delete', 0)
+                ->where('user', $request->parameterId)
+                ->count();
+            $q         = Booking::where('is_delete', 0)
+                ->where('user', $request->parameterId);
+        }
+        else {
+            $totalData = Booking::where('is_delete', 0)->count();
+            $q         = Booking::where('is_delete', 0);
+        }
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
         $start         = (int)$request->input('start');
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
-
-        if($request->parameterId)
-        {
-            $q         = Booking::where('is_delete', 0)
-                ->where('user', $request->parameterId);
-        }
-        else {
-            $q         = Booking::where('is_delete', 0);
-        }
 
         if(!empty($request->input('search.value')))
         {
