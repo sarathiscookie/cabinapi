@@ -49,7 +49,7 @@ return [
 
     'selectstatus'                           => 'Select Status',
     'active'                                 => 'Active',
-    'deactive'                               => 'Not Active',
+    'deactive'                               => 'Inactive',
 
     'noResult'                               => 'No Result',
 
