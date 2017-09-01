@@ -221,7 +221,7 @@ class UserlistController extends Controller
                 }
 
                 if(!empty($userList->money_balance_deleted_date)) {
-                    $balance = $balanceNull. '<span class="badge">Deleted On: '.$userList->money_balance_deleted_date->format('d.m.y').'</span>';
+                    $balance = $balanceNull. '<span class="badge">'.__("userList.deletedOn").': '.$userList->money_balance_deleted_date->format('d.m.y').'</span>';
                 }
                 /* Condition for money balance end */
 
