@@ -19,7 +19,8 @@ $(function () {
     var translations = {
         userStatusResponseFailMsg: window.translations.userStatusResponseFailMsg,
         confirmDelete: window.translations.confirmDelete,
-        confirmRoleChange: window.translations.confirmRoleChange
+        confirmRoleChange: window.translations.confirmRoleChange,
+        confirmDeleteUser: window.translations.confirmDeleteUser
     };
 
     /* Data table functionality begin */
@@ -142,7 +143,7 @@ $(function () {
     /* Delete user functionality */
     $('#user_data tbody').on( 'click', 'a.deleteUserList', function (e) {
         e.preventDefault();
-        var r = confirm('');
+        var r = confirm(translations.confirmDeleteUser);
         if (r == true) {
             var data_id     = $(this).data('id');
             $.ajax({

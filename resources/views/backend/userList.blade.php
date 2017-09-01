@@ -133,7 +133,8 @@
         window.translations = {
             userStatusResponseFailMsg: '{{ trans('userList.userStatusResponseFailMsg') }}',
             confirmDelete: '{{ trans('userList.confirmDelete') }}',
-            confirmRoleChange: '{{ trans('userList.confirmRoleChange') }}'
+            confirmRoleChange: '{{ trans('userList.confirmRoleChange') }}',
+            confirmDeleteUser: '{{ trans('userList.confirmDeleteUser') }}'
         };
     </script>
 
