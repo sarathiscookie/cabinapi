@@ -89,11 +89,11 @@ class BookingController extends Controller
                     if(count($users) > 0) {
                         foreach ($users as $user) {
                             $q->where(function($query) use ($user) {
-                                    $query->where('user', $user->_id);
+                                    $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                                 });
 
                             $totalFiltered = $q->where(function($query) use ($user) {
-                                    $query->where('user', $user->_id);
+                                    $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                                 })
                                 ->count();
                         }
@@ -184,11 +184,11 @@ class BookingController extends Controller
                     if(count($users) > 0) {
                         foreach ($users as $user) {
                             $q->where(function($query) use ($user) {
-                                    $query->where('user', $user->_id);
+                                    $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                                 });
 
                             $totalFiltered = $q->where(function($query) use ($user) {
-                                    $query->where('user', $user->_id);
+                                    $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                                 })
                                 ->count();
                         }
