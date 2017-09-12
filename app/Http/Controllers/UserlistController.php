@@ -136,7 +136,7 @@ class UserlistController extends Controller
             {
                 /* Functionality for booking count begins */
                 $bookingCount  = Booking::where('is_delete', 0)
-                    ->where('user', new \MongoId($userList->_id))
+                    ->where('user', new \MongoDB\BSON\ObjectID($userList->_id))
                     ->count();
                 if($bookingCount > 0) {
                     $bookCount = '<a href="/admin/bookings/'.$userList->_id.'/'.$bookingCount.'" class="nounderline">'.$bookingCount.'</a>';
