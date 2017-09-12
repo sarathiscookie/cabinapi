@@ -56,10 +56,10 @@ class BookingController extends Controller
         if($request->parameterId)
         {
             $totalData = Booking::where('is_delete', 0)
-                ->where('user', $request->parameterId)
+                ->where('user', new \MongoDB\BSON\ObjectID($request->parameterId))
                 ->count();
             $q         = Booking::where('is_delete', 0)
-                ->where('user', $request->parameterId);
+                ->where('user', new \MongoDB\BSON\ObjectID($request->parameterId));
         }
         else {
             $totalData = Booking::where('is_delete', 0)->count();
@@ -89,11 +89,11 @@ class BookingController extends Controller
             if(count($users) > 0) {
                 foreach ($users as $user) {
                     $q->where(function($query) use ($user) {
-                        $query->where('user', $user->_id);
+                        $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                     });
 
                     $totalFiltered = $q->where(function($query) use ($user) {
-                        $query->where('user', $user->_id);
+                        $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                     })
                         ->count();
                 }
@@ -223,11 +223,11 @@ class BookingController extends Controller
             if(count($users) > 0) {
                 foreach ($users as $user) {
                     $q->where(function($query) use ($user) {
-                        $query->where('user', $user->_id);
+                        $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                     });
 
                     $totalFiltered = $q->where(function($query) use ($user) {
-                        $query->where('user', $user->_id);
+                        $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
                     })
                         ->count();
                 }
