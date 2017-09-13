@@ -76,9 +76,6 @@ class MountSchoolBookingsController extends Controller
                             ->orWhere('usrFirstname', 'like', "%{$search}%")
                             ->orWhere('usrLastname', 'like', "%{$search}%");
                     })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
                         ->get();
 
                     if(count($users) > 0) {
@@ -150,9 +147,6 @@ class MountSchoolBookingsController extends Controller
                     $users     = Userlist::where(function($query) use ($params) {
                         $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                     })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
                         ->get();
 
                     if(count($users) > 0) {
