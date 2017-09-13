@@ -81,9 +81,6 @@ class BookingController extends Controller
                 ->where(function($query) use ($search) {
                     $query->where('usrEmail', 'like', "%{$search}%");
                 })
-                ->skip($start)
-                ->take($limit)
-                ->orderBy($order, $dir)
                 ->get();
 
             if(count($users) > 0) {
@@ -215,9 +212,6 @@ class BookingController extends Controller
                 ->where(function($query) use ($params) {
                     $query->where('usrEmail', 'like', "%{$params['columns'][2]['search']['value']}%");
                 })
-                ->skip($start)
-                ->take($limit)
-                ->orderBy($order, $dir)
                 ->get();
 
             if(count($users) > 0) {
