@@ -81,9 +81,6 @@ class BookingController extends Controller
                             ->orWhere('usrFirstname', 'like', "%{$search}%")
                             ->orWhere('usrLastname', 'like', "%{$search}%");
                     })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
                         ->get();
 
                     if(count($users) > 0) {
@@ -114,9 +111,6 @@ class BookingController extends Controller
                                 ->orWhere('usrFirstname', 'like', "%{$search}%")
                                 ->orWhere('usrLastname', 'like', "%{$search}%");
                         })
-                            ->skip($start)
-                            ->take($limit)
-                            ->orderBy($order, $dir)
                             ->get();
 
                         if(count($tempUser) > 0) {
@@ -176,9 +170,6 @@ class BookingController extends Controller
                     $users     = Userlist::where(function($query) use ($params) {
                         $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                     })
-                        ->skip($start)
-                        ->take($limit)
-                        ->orderBy($order, $dir)
                         ->get();
 
                     if(count($users) > 0) {
@@ -198,9 +189,6 @@ class BookingController extends Controller
                         $tempUser    = Tempuser::where(function($query) use ($params) {
                             $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                         })
-                            ->skip($start)
-                            ->take($limit)
-                            ->orderBy($order, $dir)
                             ->get();
 
                         if(count($tempUser) > 0) {
