@@ -64,7 +64,7 @@ return [
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Cancelled',
     'completed'                              => 'Completed',
-    'request'                                => 'Inquiry',
+    'request'                                => 'Request',
     'bookingWaiting'                         => 'Waiting for payment',
     /* Booking status end */
     'noResult'                               => 'No Result',
