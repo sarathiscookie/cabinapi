@@ -146,7 +146,7 @@
                                     </td>
                                     <td>
                                         <select class="form-control input-sm search-input" id="9">
-                                            <option value="">(Select a status)</option>
+                                            <option value="">(Select a pay status)</option>
                                             <option value="0">@lang('admin.paymentStatusFailed')</option>
                                             <option value="1">@lang('admin.paymentStatusDone')</option>
                                             <option value="2">@lang('admin.paymentStatusCabinOwner')</option>
