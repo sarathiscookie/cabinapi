@@ -21,6 +21,7 @@ $(function () {
             "order": [[ 1, "desc" ]],
             "processing": true,
             "serverSide": true,
+            "searchDelay": 350,
             "ajax": {
                 "url": '/cabinowner/inquiry/bookings',
                 "dataType": "json",
@@ -38,9 +39,9 @@ $(function () {
                 { "data": "beds" },
                 { "data": "dormitory" },
                 { "data": "sleeps" },
-                { "data": "status" },
                 { "data": "prepayment_amount" },
-                { "data": "answered" }
+                { "data": "answered" },
+                { "data": "inquirystatus" }
             ],
             "columnDefs": [
                 {
@@ -73,22 +74,19 @@ $(function () {
             }
         });
 
-        /* Visiblity disabled of "comment" column */
-        /*booking_data.column(2).visible( false );*/
-
         /* Bottom buttons for datatables */
         var buttons = new $.fn.dataTable.Buttons(booking_data, {
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 },
                 {
                     extend: 'excel',
                     exportOptions: {
-                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     },
                     customize: function( xlsx ) {
                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
@@ -111,9 +109,9 @@ $(function () {
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
-                },
+                }
             ]
         }).container().appendTo($('#buttons'));
     }
@@ -194,7 +192,7 @@ $(function () {
             url: '/cabinowner/booking/cancel',
             data: { data: data },
             dataType: 'JSON',
-            type: 'POST',
+            type: 'POST'
         })
             .done(function( response ) {
                 $('.response').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.message+'</div>');

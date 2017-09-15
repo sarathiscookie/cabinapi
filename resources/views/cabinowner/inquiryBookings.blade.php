@@ -67,9 +67,9 @@
                                     <th>@lang('inquiry.beds')</th>
                                     <th>@lang('inquiry.dorms')</th>
                                     <th>@lang('inquiry.sleeps')</th>
-                                    <th>@lang('inquiry.status')</th>
                                     <th>@lang('inquiry.amount')</th>
                                     <th>@lang('inquiry.answered')</th>
+                                    <th>@lang('inquiry.inquiryStatus')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -79,24 +79,13 @@
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('inquiry.searchBoookingNo')"></th>
                                     <td></td>
                                     <td></td>
-                                    {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('inquiry.lastName')"></th>
-                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('inquiry.firstName')"></th>--}}
                                     <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('inquiry.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td>
-                                        <select class="form-control input-sm search-input" id="10">
-                                            <option value="">(@lang('inquiry.SearchStatus'))</option>
-                                            <option value="1">@lang('inquiry.bookingFix')</option>
-                                            <option value="2">@lang('inquiry.cancelled')</option>
-                                            <option value="3">@lang('inquiry.completed')</option>
-                                            <option value="4">@lang('inquiry.request')</option>
-                                            <option value="5">@lang('inquiry.bookingWaiting')</option>
-                                        </select>
-                                    </td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>

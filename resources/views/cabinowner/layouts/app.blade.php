@@ -140,35 +140,34 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">@lang('cabinowner.menuSidebar')</li>
-                {{--<li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>@lang('cabinowner.userMenu')</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="active">
-                            <a href="#"><i class="fa fa-circle-o"></i> @lang('cabinowner.userListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">40</span></span></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> @lang('cabinowner.userStatisticsMenu')</a></li>
-                    </ul>
-                </li>--}}
-
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
-                        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                     <ul class="treeview-menu">
                         <li>
                             <a href="/cabinowner/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->bookingCount() !!}</span></span></a>
                         </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i> <span>@lang('menu.bookingMschoolMenu')</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
                         <li>
                             <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMschoolMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
                         </li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-table"></i> <span>@lang('menu.inquiryMenu')</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
                         <li>
                             <a href="/cabinowner/inquiry/bookings"><i class="fa fa-circle-o"></i> @lang('menu.inquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->inquiryListCount() !!}</span></span></a>
                         </li>

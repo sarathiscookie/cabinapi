@@ -30,6 +30,7 @@ return [
     'statisticsMenu'                        => 'Statistiken',
     'userCreditStatisticsMenu'              => 'Guthaben Statistik',
 
+    'inquiryMenu'                           => 'Anfrage',
     'inquiryList'                           => 'Anfrageliste'
 
 ];

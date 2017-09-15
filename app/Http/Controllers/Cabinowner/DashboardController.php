@@ -152,7 +152,8 @@ class DashboardController extends Controller
                 $cabin_name = $cabin->name;
                 $totalData  = Booking::where('is_delete', 0)
                     ->where('cabinname', $cabin_name)
-                    ->where('status', '7')
+                    ->where('typeofbooking', 1)
+                    ->where('status', "7")
                     ->count();
             }
             return $totalData;

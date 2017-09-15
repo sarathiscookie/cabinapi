@@ -9,7 +9,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | All user menus
+    | All menus
     |--------------------------------------------------------------------------
     |
     | All side bar menus
@@ -30,5 +30,6 @@ return [
     'statisticsMenu'                        => 'Statistics',
     'userCreditStatisticsMenu'              => 'User Credit Statistics',
 
+    'inquiryMenu'                           => 'Inquiry',
     'inquiryList'                           => 'Inquiry List'
 ];
