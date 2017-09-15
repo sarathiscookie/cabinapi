@@ -169,6 +169,9 @@
                         <li>
                             <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMschoolMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
                         </li>
+                        <li>
+                            <a href="/cabinowner/inquiry/bookings"><i class="fa fa-circle-o"></i> @lang('menu.inquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->inquiryListCount() !!}</span></span></a>
+                        </li>
                     </ul>
                 </li>
 

@@ -29,4 +29,6 @@ return [
 
     'statisticsMenu'                        => 'Statistics',
     'userCreditStatisticsMenu'              => 'User Credit Statistics',
+
+    'inquiryList'                           => 'Inquiry List'
 ];

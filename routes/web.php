@@ -319,5 +319,19 @@ Route::prefix('cabinowner')->group(function () {
         /* Send message to guest */
         Route::post('/mschool/message/send', 'Cabinowner\MountSchoolBookingsController@send');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for inquiry bookings
+        |--------------------------------------------------------------------------
+        |
+        | Routes for listing, approve or reject inquiry, delete, send message
+        */
+
+        /* Listing bookings */
+        Route::get('/inquiry/bookings', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry.bookings');
+
+        /* Show datatable page */
+        Route::post('/inquiry/bookings', 'Cabinowner\InquiryBookingsController@dataTables')->name('cabinowner.inquiry.bookings.datatables');
+
     });
 });
