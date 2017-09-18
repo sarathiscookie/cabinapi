@@ -391,8 +391,8 @@ class InquiryBookingsController extends Controller
 
         /* Functionality to send inquiry status approval message to guest begin*/
         $comment                = 'Congratulations! Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been approved. Please login to website for more details.';
-        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
-            $message->to($user_email)->subject('Nachricht von '.$inquiry->cabinname);
+        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => 'iamsarath1986@gmail.com'], function ($message) use ($user_email, $inquiry) {
+            $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$inquiry->cabinname);
         });
         /* Functionality to send inquiry status approval message to guest end */
 
@@ -417,8 +417,8 @@ class InquiryBookingsController extends Controller
 
         /* Functionality to send inquiry status approval message to guest begin*/
         $comment                = 'Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been rejected. Please login to website for more details.';
-        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
-            $message->to($user_email)->subject('Nachricht von '.$inquiry->cabinname);
+        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => 'iamsarath1986@gmail.com'], function ($message) use ($user_email, $inquiry) {
+            $message->to('iamsarath1986@gmail.com')->subject('Nachricht von '.$inquiry->cabinname);
         });
         /* Functionality to send inquiry status approval message to guest end */
         return response()->json(['statusInquiry' => __("inquiry.inquiryStatusRejected")], 201);
