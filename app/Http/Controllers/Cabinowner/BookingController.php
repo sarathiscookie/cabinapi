@@ -20,8 +20,11 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($bookId = null)
     {
+        if($bookId != null){
+            return view('cabinowner.bookings', ['bookId' => $bookId]);
+        }
         return view('cabinowner.bookings');
     }
 
@@ -58,18 +61,36 @@ class BookingController extends Controller
             foreach ($cabins as $cabin)
             {
                 $cabin_name = $cabin->name;
-                $totalData  = Booking::where('is_delete', 0)
-                    ->where('cabinname', $cabin_name)
-                    ->count();
+
+                if($request->parameterId)
+                {
+                    $totalData = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "5")
+                        ->where('inquirystatus', 1)
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->parameterId))
+                        ->count();
+                    $q         = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "5")
+                        ->where('inquirystatus', 1)
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->parameterId));
+                }
+                else {
+                    $totalData = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name)
+                        ->count();
+                    $q         = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name);
+                }
 
                 $totalFiltered = $totalData;
                 $limit         = (int)$request->input('length');
                 $start         = (int)$request->input('start');
                 $order         = $columns[$params['order'][0]['column']]; //contains column index
                 $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
-
-                $q             = Booking::where('is_delete', 0)
-                    ->where('cabinname', $cabin_name);
 
                 if(!empty($request->input('search.value')))
                 {

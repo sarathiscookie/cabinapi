@@ -98,6 +98,9 @@
                                     </td>
                                     <td></td>
                                     <td></td>
+                                    @if(isset($bookId))
+                                        <input type="hidden" name="parameterId" id="parameterId" value="{{$bookId}}">
+                                    @endif
                                 </tr>
                                 </tfoot>
                             </table>
@@ -145,10 +148,15 @@
 
             var booking_data;
             var daterange = '';
+            var parameterId = '';
 
-            fetch_data('no');
+            if($('#parameterId').val() != '') {
+                var parameterId    = $('#parameterId').val();
+            }
 
-            function fetch_data(is_date_search, daterange)
+            fetch_data('no', null, parameterId);
+
+            function fetch_data(is_date_search, daterange, parameterId)
             {
                 booking_data = $('#booking_data').DataTable({
                     "lengthMenu": [10, 50, 100, 250, 500],
@@ -159,7 +167,7 @@
                         "url": '{{ route('cabinowner.bookings.datatables') }}',
                         "dataType": "json",
                         "type": "POST",
-                        "data":{ _token: "{{csrf_token()}}", is_date_search:is_date_search, daterange:daterange}
+                        "data":{ _token: "{{csrf_token()}}", is_date_search:is_date_search, daterange:daterange, parameterId:parameterId}
                     },
                     "columns": [
                         { "data": "hash" },
@@ -271,14 +279,14 @@
                 if(daterange != '')
                 {
                     booking_data.destroy();
-                    fetch_data('yes', daterange)
+                    fetch_data('yes', daterange, parameterId)
                 }
             });
 
             $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
                 var data        = $(this).val('');
                 booking_data.destroy();
-                fetch_data('no')
+                fetch_data('no', null, parameterId)
             });
 
             /* Date range functionality end */
