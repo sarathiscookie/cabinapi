@@ -8,8 +8,8 @@ use App\Http\Requests\InquiryBookingRequest;
 use App\Cabin;
 use App\Booking;
 use App\Userlist;
-use App\Bmessages;
 use Auth;
+use Mail;
 
 class InquiryBookingsController extends Controller
 {
@@ -288,10 +288,13 @@ class InquiryBookingsController extends Controller
 
                         /* Condition for inquiry status */
                         if($booking->inquirystatus == 0){
-                            $inquiryStatus = '<button type="button" class="btn btn-success btn-xs"><i class="fa fa-fw fa-check"></i></button> <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-fw fa-close"></i></button>';
+                            $inquiryStatus = '<button type="button" class="btn btn-success btn-xs approve" data-approve="'.$booking->_id.'"><i class="fa fa-fw fa-check"></i></button> <button type="button" class="btn btn-danger btn-xs reject" data-reject="'.$booking->_id.'"><i class="fa fa-fw fa-close"></i></button>';
                         }
                         else if($booking->inquirystatus == 2){
                             $inquiryStatus = '<span class="label label-danger">'.__("inquiry.rejected").'</span>';
+                        }
+                        else{
+                            $inquiryStatus = '<span class="label label-default">'.__("inquiry.noResult").'</span>';
                         }
 
 
@@ -372,13 +375,53 @@ class InquiryBookingsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     *  @param  \App\Http\Requests\InquiryBookingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function approveStatus(InquiryBookingRequest $request)
     {
-        //
+        $inquiry                = Booking::findOrFail($request->data);
+        $inquiry->inquirystatus = 1; //0 = waiting, 1 = Approved, 2 = Rejected
+        $inquiry->status        = '5';
+        $inquiry->save();
+
+        $user                   = Userlist::where('_id', $inquiry->user)
+            ->first();
+        $user_email             = $user->usrEmail;
+
+        /* Functionality to send inquiry status approval message to guest begin*/
+        $comment                = 'Congratulations! Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been approved. Please login to website for more details.';
+        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
+            $message->to($user_email)->subject('Nachricht von '.$inquiry->cabinname);
+        });
+        /* Functionality to send inquiry status approval message to guest end */
+
+        return response()->json(['statusInquiry' => __("inquiry.inquiryStatusApproved"), 'inquiryStatusApprovedSec' => __("inquiry.inquiryStatusApprovedSec"), 'dataId' => $request->data], 201);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     *  @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function rejectStatus(InquiryBookingRequest $request)
+    {
+        $inquiry                = Booking::findOrFail($request->data);
+        $inquiry->inquirystatus = 2; //0 = waiting, 1 = Approved, 2 = Rejected
+        $inquiry->save();
+
+        $user                   = Userlist::where('_id', $inquiry->user)
+            ->first();
+        $user_email             = $user->usrEmail;
+
+        /* Functionality to send inquiry status approval message to guest begin*/
+        $comment                = 'Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been rejected. Please login to website for more details.';
+        Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
+            $message->to($user_email)->subject('Nachricht von '.$inquiry->cabinname);
+        });
+        /* Functionality to send inquiry status approval message to guest end */
+        return response()->json(['statusInquiry' => __("inquiry.inquiryStatusRejected")], 201);
     }
 
     /**

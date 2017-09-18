@@ -9,21 +9,21 @@ $(function () {
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
-    var booking_data;
+    var inquiry_data;
     var daterange = '';
 
     fetch_data('no');
 
     function fetch_data(is_date_search, daterange)
     {
-        booking_data = $('#booking_data').DataTable({
+        inquiry_data = $('#inquiry_data').DataTable({
             "lengthMenu": [10, 50, 100, 250, 500],
             "order": [[ 1, "desc" ]],
             "processing": true,
             "serverSide": true,
             "searchDelay": 350,
             "ajax": {
-                "url": '/cabinowner/inquiry/bookings',
+                "url": '/cabinowner/inquiry',
                 "dataType": "json",
                 "type": "POST",
                 "data":{ is_date_search:is_date_search, daterange:daterange}
@@ -75,7 +75,7 @@ $(function () {
         });
 
         /* Bottom buttons for datatables */
-        var buttons = new $.fn.dataTable.Buttons(booking_data, {
+        var buttons = new $.fn.dataTable.Buttons(inquiry_data, {
             buttons: [
                 {
                     extend: 'csv',
@@ -134,80 +134,54 @@ $(function () {
         var daterange   = data.replace(/\s/g, '');
         if(daterange != '')
         {
-            booking_data.destroy();
+            inquiry_data.destroy();
             fetch_data('yes', daterange)
         }
     });
 
     $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
         var data        = $(this).val('');
-        booking_data.destroy();
+        inquiry_data.destroy();
         fetch_data('no')
     });
 
     /* Date range functionality end */
 
-    /* Send Message */
-    $('#booking_data tbody').on( 'click', 'button.messageStatusUpdate', function(e){
+    /* Approve inquiry */
+    $('#inquiry_data tbody').on( 'click', 'button.approve', function(e){
         e.preventDefault();
-        var $btn       = $(this).button('loading');
-        var bookingId  = $(this).siblings('.message_status_update').attr('value');
-
-        var JSONObject = {
-            "id": bookingId,
-            "comment": $('#messageTxt_'+bookingId).val()
-        };
-        var jsonData = JSON.stringify(JSONObject);
+        var data = $(this).data('approve');
         $.ajax({
-            url: '/cabinowner/message/send',
-            data: { "data": jsonData },
-            dataType: 'JSON',
-            type: 'POST',
-            success: function(result) {
-                if(result) {
-                    if(result.message == 'success')
-                    {
-                        $('.alert-message-failed').hide();
-                        $btn.button('reset');
-                        $('.alert-message').show();
-                        setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
-                        $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
-                            booking_data.ajax.reload(null, false);
-                        })
-                    }
-                    else {
-                        $btn.button('reset');
-                        $('.alert-message-failed').show();
-                    }
-                }
-            }
-        });
-    });
-
-    /* Cancel booking */
-    $('#booking_data tbody').on( 'click', 'button.cancel', function(e){
-        e.preventDefault();
-        var data = $(this).children('.spanCancel').data('cancel');
-        $.ajax({
-            url: '/cabinowner/booking/cancel',
+            url: '/cabinowner/inquiry/approve',
             data: { data: data },
             dataType: 'JSON',
-            type: 'POST'
+            type: 'PUT'
         })
             .done(function( response ) {
-                $('.response').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.message+'</div>');
-                $('.cancelDiv').hide();
-                $('#bookingModal_'+data).on('hidden.bs.modal', function () {
-                    $('#bookingModal_'+data).html("");
-                    booking_data.ajax.reload(null, false);
-                })
+                $('.inquiryStatusResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.statusInquiry+'<a href="/cabinowner/bookings/'+response.dataId+'"> click here </a> for quick view</div>');
+                inquiry_data.ajax.reload(null, false);
             })
             .fail(function() {
-                $('.response').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
-                $('#bookingModal_'+data).on('hidden.bs.modal', function () {
-                    $('#bookingModal_'+data).html("");
-                    booking_data.ajax.reload(null, false);
-                })
+                $('.inquiryStatusResponse').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
+            });
+    });
+
+    /* Reject inquiry */
+    $('#inquiry_data tbody').on( 'click', 'button.reject', function(e){
+        e.preventDefault();
+        var data = $(this).data('reject');
+        $.ajax({
+            url: '/cabinowner/inquiry/reject',
+            data: { data: data },
+            dataType: 'JSON',
+            type: 'PUT'
+        })
+            .done(function( response ) {
+                $('.inquiryStatusResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.statusInquiry+'</div>');
+                inquiry_data.ajax.reload(null, false);
+            })
+            .fail(function() {
+                $('.inquiryStatusResponse').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
             });
     });
 
@@ -215,7 +189,7 @@ $(function () {
     $('.search-input').on( 'keyup change', function () {
         var i =$(this).attr('id');  // getting column index
         var v =$(this).val();  // getting search input value
-        booking_data.columns(i).search(v).draw();
+        inquiry_data.columns(i).search(v).draw();
     });
 
 });

@@ -291,7 +291,7 @@ Route::prefix('cabinowner')->group(function () {
         */
 
         /* Listing bookings */
-        Route::get('/bookings', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
+        Route::get('/bookings/{bookId?}', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
 
         /* Show datatable page */
         Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
@@ -321,17 +321,23 @@ Route::prefix('cabinowner')->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Routes for inquiry bookings
+        | Routes for inquiry
         |--------------------------------------------------------------------------
         |
         | Routes for listing, approve or reject inquiry, delete, send message
         */
 
-        /* Listing bookings */
-        Route::get('/inquiry/bookings', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry.bookings');
+        /* Listing inquiry */
+        Route::get('/inquiry', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
 
         /* Show datatable page */
-        Route::post('/inquiry/bookings', 'Cabinowner\InquiryBookingsController@dataTables')->name('cabinowner.inquiry.bookings.datatables');
+        Route::post('/inquiry', 'Cabinowner\InquiryBookingsController@dataTables')->name('cabinowner.inquiry.datatables');
+
+        /* Update inquiry status approve */
+        Route::put('/inquiry/approve', 'Cabinowner\InquiryBookingsController@approveStatus')->name('cabinowner.inquiry.status.approve');
+
+        /* Update inquiry status reject */
+        Route::put('/inquiry/reject', 'Cabinowner\InquiryBookingsController@rejectStatus')->name('cabinowner.inquiry.status.reject');
 
     });
 });

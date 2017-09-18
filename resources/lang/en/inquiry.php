@@ -90,6 +90,9 @@ return [
     /* Sidebar messages end */
 
     /* Alert messages */
+    'inquiryStatusApproved'                 => 'Inquiry status updated to waiting for payment. You can find in bookings list. Please ',
+    'inquiryStatusApprovedSec'              => 'for quick view.',
+    'inquiryStatusRejected'                 => 'Inquiry status rejected',
     'somethingWrong'                        => 'Something went wrong please try again',
     'successfullyCancelled'                 => 'Booking cancelled successfully',
 ];

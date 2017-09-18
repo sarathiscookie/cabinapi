@@ -44,7 +44,7 @@
 
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <div class="responseMessage"></div>
+                            <div class="inquiryStatusResponse"></div>
                             <div class="row">
                                 <div class="col-md-3" style="margin-bottom: 20px;">
                                     <div class="pull-left daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;" data-toggle="tooltip" data-placement="right" title="Zeitraum Auswahl">
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
 
-                            <table id="booking_data" class="table table-bordered table-striped table-hover">
+                            <table id="inquiry_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>
