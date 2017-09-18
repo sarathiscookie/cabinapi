@@ -81,8 +81,10 @@ class BookingController extends Controller
                 else {
                     $totalData = Booking::where('is_delete', 0)
                         ->where('cabinname', $cabin_name)
+                        ->where('status', '!=', '7')
                         ->count();
                     $q         = Booking::where('is_delete', 0)
+                        ->where('status', '!=', '7')
                         ->where('cabinname', $cabin_name);
                 }
 
