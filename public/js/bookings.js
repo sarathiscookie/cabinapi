@@ -28,6 +28,7 @@ $(function () {
         placeholder: translations.cabinPlaceholder
     });
 
+    /* Datatable functionality begins */
     var booking_data;
     var daterange = '';
     var cabin = '';
@@ -134,22 +135,20 @@ $(function () {
         }).container().appendTo($('#buttons'));
     }
 
-
-// Grab the datatables input box and alter how it is bound to events
-    $("#booking_data input")
-        .unbind() // Unbind previous default bindings
+    // Datatable search min 3 char length needed
+    $('input[type=search]') .unbind() // Unbind previous default bindings
         .bind("input", function(e) { // Bind our desired behavior
             // If the length is 3 or more characters, or the user pressed ENTER, search
             if(this.value.length >= 3 || e.keyCode == 13) {
-                // Call the API search function
                 booking_data.search(this.value).draw();
             }
-            // Ensure we clear the search if they backspace far enough
+
             if(this.value == "") {
                 booking_data.search("").draw();
             }
             return;
         });
+    /* Datatable functionality ends */
 
     /* Payment status change */
     $('.paymentStatusBtn').on('click', function(e){
@@ -171,7 +170,7 @@ $(function () {
                 success: function(result) {
                     if(result) {
                         booking_data.ajax.reload(null, false);
-                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>')
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>');
                         $('.responseMessage').show().delay(5000).fadeOut();
                         $btn.button('reset');
                     }
@@ -294,8 +293,6 @@ $(function () {
             $('.alertMsg').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Leere Felder bitte ausfüllen</div>');
         }
     });
-
-
 
     /* Date range functionality end */
 
