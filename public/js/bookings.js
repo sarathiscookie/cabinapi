@@ -52,6 +52,7 @@ $(function () {
                 "type": "POST",
                 "data":{is_date_search:is_date_search, daterange:daterange, cabin:cabin, parameterId:parameterId}
             },
+            "deferRender": true,
             "columns": [
                 { "data": "hash" },
                 { "data": "invoice_number" },
@@ -128,10 +129,27 @@ $(function () {
                     exportOptions: {
                         columns: [ 1, 2, 3, 4, 8, 9, 10, 11 ]
                     }
-                },
+                }
             ]
         }).container().appendTo($('#buttons'));
     }
+
+
+// Grab the datatables input box and alter how it is bound to events
+    $("#booking_data input")
+        .unbind() // Unbind previous default bindings
+        .bind("input", function(e) { // Bind our desired behavior
+            // If the length is 3 or more characters, or the user pressed ENTER, search
+            if(this.value.length >= 3 || e.keyCode == 13) {
+                // Call the API search function
+                booking_data.search(this.value).draw();
+            }
+            // Ensure we clear the search if they backspace far enough
+            if(this.value == "") {
+                booking_data.search("").draw();
+            }
+            return;
+        });
 
     /* Payment status change */
     $('.paymentStatusBtn').on('click', function(e){
@@ -166,19 +184,23 @@ $(function () {
     $('#booking_data tbody').on( 'click', 'button.paymentStatusUpdate', function(e){
         e.preventDefault();
         var bookingId  = $(this).siblings('.pay_status_update').attr('value');
+        var $btn       = $(this).button('loading');
+
         $.ajax({
             url: '/admin/bookings/payment/status/individual',
             data: { "bookingId": bookingId },
             dataType: 'JSON',
-            type: 'PUT',
-            success: function(result) {
-                if(result) {
-                    booking_data.ajax.reload(null, false);
-                    $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>')
-                    $('.responseMessage').show().delay(5000).fadeOut();
-                }
-            }
-        });
+            type: 'PUT'
+        })
+            .done(function( result ) {
+                $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>');
+                $btn.button('reset');
+                booking_data.ajax.reload(null, false);
+            })
+            .fail(function() {
+                $('.responseMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS! </strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
+                booking_data.ajax.reload(null, false);
+            });
     });
 
     /* Send invoice functionality */
