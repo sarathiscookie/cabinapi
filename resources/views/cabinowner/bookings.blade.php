@@ -146,6 +146,7 @@
             /* Tooltip */
             $('[data-toggle="tooltip"]').tooltip();
 
+            /* Datatable functionality begins */
             var booking_data;
             var daterange = '';
             var parameterId = '';
@@ -215,9 +216,6 @@
                     }
                 });
 
-                /* Visiblity disabled of "comment" column */
-                /*booking_data.column(2).visible( false );*/
-
                 /* Bottom buttons for datatables */
                 var buttons = new $.fn.dataTable.Buttons(booking_data, {
                     buttons: [
@@ -260,7 +258,20 @@
                 }).container().appendTo($('#buttons'));
             }
 
+            // Datatable search min 3 char length needed
+            $('input[type=search]') .unbind() // Unbind previous default bindings
+                .bind("input", function(e) { // Bind our desired behavior
+                    // If the length is 3 or more characters, or the user pressed ENTER, search
+                    if(this.value.length >= 3 || e.keyCode == 13) {
+                        booking_data.search(this.value).draw();
+                    }
 
+                    if(this.value == "") {
+                        booking_data.search("").draw();
+                    }
+                    return;
+                });
+            /* Datatable functionality ends */
 
             /* Date range functionality begin */
             $('.daterange').daterangepicker({
