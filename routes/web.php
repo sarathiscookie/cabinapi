@@ -328,7 +328,7 @@ Route::prefix('cabinowner')->group(function () {
         */
 
         /* Listing inquiry */
-        Route::get('/inquiry', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
+        Route::get('/inquiry/{bookId?}', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
 
         /* Show datatable page */
         Route::post('/inquiry', 'Cabinowner\InquiryBookingsController@dataTables')->name('cabinowner.inquiry.datatables');
@@ -339,12 +339,14 @@ Route::prefix('cabinowner')->group(function () {
         /* Update inquiry status reject */
         Route::put('/inquiry/reject', 'Cabinowner\InquiryBookingsController@rejectStatus')->name('cabinowner.inquiry.status.reject');
 
+
+
         /* Private message urls */
-        Route::post('get/private/message/notifications', 'Cabinowner\InquiryBookingsController@getUserNotifications');
+        /*Route::post('get/private/message/notifications', 'Cabinowner\InquiryBookingsController@getUserNotifications');
         Route::post('get/private/messages', 'Cabinowner\InquiryBookingsController@getPrivateMessages');
         Route::post('get/private/message', 'Cabinowner\InquiryBookingsController@getPrivateMessageById');
         Route::post('get/private/message/sent', 'Cabinowner\InquiryBookingsController@getPrivateMessageSent');
-        Route::post('send/private/message', 'Cabinowner\InquiryBookingsController@sendPrivateMessage');
+        Route::post('send/private/message', 'Cabinowner\InquiryBookingsController@sendPrivateMessage');*/
 
 
 

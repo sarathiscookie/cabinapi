@@ -18,8 +18,11 @@ class InquiryBookingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($bookId = null)
     {
+        if($bookId != null){
+            return view('cabinowner.inquiryBookings', ['bookId' => $bookId]);
+        }
         return view('cabinowner.inquiryBookings');
     }
 
@@ -56,22 +59,39 @@ class InquiryBookingsController extends Controller
             foreach ($cabins as $cabin)
             {
                 $cabin_name = $cabin->name;
-                $totalData  = Booking::where('is_delete', 0)
-                    ->where('cabinname', $cabin_name)
-                    ->where('typeofbooking', 1)
-                    ->where('status', "7")
-                    ->count();
+
+                if($request->parameterId) {
+                    $totalData  = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "7")
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->parameterId))
+                        ->count();
+
+                    $q          = Booking::where('is_delete', 0)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "7")
+                        ->where('cabinname', $cabin_name)
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->parameterId));
+                }
+                else {
+                    $totalData  = Booking::where('is_delete', 0)
+                        ->where('cabinname', $cabin_name)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "7")
+                        ->count();
+
+                    $q          = Booking::where('is_delete', 0)
+                        ->where('typeofbooking', 1)
+                        ->where('status', "7")
+                        ->where('cabinname', $cabin_name);
+                }
 
                 $totalFiltered = $totalData;
                 $limit         = (int)$request->input('length');
                 $start         = (int)$request->input('start');
                 $order         = $columns[$params['order'][0]['column']]; //contains column index
                 $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
-
-                $q             = Booking::where('is_delete', 0)
-                    ->where('typeofbooking', 1)
-                    ->where('status', "7")
-                    ->where('cabinname', $cabin_name);
 
                 if(!empty($request->input('search.value')))
                 {
@@ -431,51 +451,6 @@ class InquiryBookingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * @param  \App\Http\Requests\InquiryBookingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getUserNotifications(InquiryBookingRequest $request)
-    {
-        //
-    }
-
-    /**
-     * @param  \App\Http\Requests\InquiryBookingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getPrivateMessages(InquiryBookingRequest $request)
-    {
-        //
-    }
-
-    /**
-     * @param  \App\Http\Requests\InquiryBookingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getPrivateMessageById(InquiryBookingRequest $request)
-    {
-        //
-    }
-
-    /**
-     * @param  \App\Http\Requests\InquiryBookingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function getPrivateMessageSent(InquiryBookingRequest $request)
-    {
-        //
-    }
-
-    /**
-     * @param  \App\Http\Requests\InquiryBookingRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function sendPrivateMessage(InquiryBookingRequest $request)
     {
         //
     }

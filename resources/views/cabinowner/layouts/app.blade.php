@@ -70,7 +70,7 @@
                             <ul class="products-list product-list-in-box">
                                 @foreach($miscellaneous->privateMessageList() as $privateMessage)
                                     <li class="list-group-item">
-                                        <a href="" class="product-title">{{$privateMessage->subject}}
+                                        <a href="/cabinowner/inquiry/{{$privateMessage->booking_id}}" class="product-title">{{$privateMessage->subject}}
                                             <span class="label label-info pull-right">{{($privateMessage->created_at)->format('d.m.Y H:i')}}</span>
                                         </a>
                                         <span class="product-description">{{$privateMessage->text}}</span>

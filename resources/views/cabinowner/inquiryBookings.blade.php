@@ -88,6 +88,9 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    @if(isset($bookId))
+                                        <input type="hidden" name="parameterId" id="parameterId" value="{{$bookId}}">
+                                    @endif
                                 </tr>
                                 </tfoot>
                             </table>

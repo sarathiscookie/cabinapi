@@ -9,12 +9,18 @@ $(function () {
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
+    /* Datatable functionality begins */
     var inquiry_data;
-    var daterange = '';
+    var daterange   = '';
+    var parameterId = '';
 
-    fetch_data('no');
+    if($('#parameterId').val() != '') {
+        var parameterId    = $('#parameterId').val();
+    }
 
-    function fetch_data(is_date_search, daterange)
+    fetch_data('no', null, parameterId);
+
+    function fetch_data(is_date_search, daterange, parameterId)
     {
         inquiry_data = $('#inquiry_data').DataTable({
             "lengthMenu": [10, 50, 100, 250, 500],
@@ -26,7 +32,7 @@ $(function () {
                 "url": '/cabinowner/inquiry',
                 "dataType": "json",
                 "type": "POST",
-                "data":{ is_date_search:is_date_search, daterange:daterange}
+                "data":{ is_date_search:is_date_search, daterange:daterange, parameterId:parameterId}
             },
             "columns": [
                 { "data": "hash" },
@@ -135,14 +141,14 @@ $(function () {
         if(daterange != '')
         {
             inquiry_data.destroy();
-            fetch_data('yes', daterange)
+            fetch_data('yes', daterange, parameterId)
         }
     });
 
     $('.daterange').on('cancel.daterangepicker', function(ev, picker) {
         var data        = $(this).val('');
         inquiry_data.destroy();
-        fetch_data('no')
+        fetch_data('no', null, parameterId)
     });
 
     /* Date range functionality end */
