@@ -8,6 +8,7 @@ use App\Cabin;
 use App\Booking;
 use Auth;
 use App\MountSchoolBooking;
+use App\PrivateMessage;
 
 class DashboardController extends Controller
 {
@@ -180,5 +181,47 @@ class DashboardController extends Controller
         }
 
         return $cabin_name;
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privateMessageCount()
+    {
+        $count = '';
+
+        $count = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->where('read', 0)
+            ->count();
+        if ($count > 0){
+            return $count;
+        }
+
+        return $count;
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privateMessageList()
+    {
+        $messageList = [];
+
+        $messages = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->where('read', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if (count($messages) > 0){
+            foreach ($messages as $message){
+                $messageList[] = $message;
+            }
+        }
+
+        return $messageList;
     }
 }

@@ -25,6 +25,12 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('css/skins/skin-purple-light.min.css') }}">
 
+    <style>
+        .dropdown-menu{
+            max-height: 300px;
+            overflow-y:scroll;
+        }
+    </style>
     @yield('css')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -58,8 +64,21 @@
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
+                            <span class="label label-success">{!! $miscellaneous->privateMessageCount() !!}</span>
                         </a>
+                        <ul class="dropdown-menu list-group">
+                            <ul class="products-list product-list-in-box">
+                                @foreach($miscellaneous->privateMessageList() as $privateMessage)
+                                    <li class="list-group-item">
+                                        <a href="" class="product-title">{{$privateMessage->subject}}
+                                            <span class="label label-info pull-right">{{($privateMessage->created_at)->format('d.m.Y H:i')}}</span>
+                                        </a>
+                                        <span class="product-description">{{$privateMessage->text}}</span>
+                                    </li>
+                                @endforeach
+                            <!-- /.item -->
+                            </ul>
+                        </ul>
                     </li>
                     <!-- Tasks: style can be found in dropdown.less -->
                     <li class="dropdown tasks-menu">

@@ -418,7 +418,7 @@ class InquiryBookingsController extends Controller
         /* Functionality to send inquiry status approval message to guest begin*/
         $comment                = 'Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been rejected. Please login to website for more details.';
         Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
-            $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$inquiry->cabinname);
+             $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$inquiry->cabinname);
         });
         /* Functionality to send inquiry status approval message to guest end */
         return response()->json(['statusInquiry' => __("inquiry.inquiryStatusRejected")], 201);
@@ -431,6 +431,51 @@ class InquiryBookingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        //
+    }
+
+    /**
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserNotifications(InquiryBookingRequest $request)
+    {
+        //
+    }
+
+    /**
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getPrivateMessages(InquiryBookingRequest $request)
+    {
+        //
+    }
+
+    /**
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getPrivateMessageById(InquiryBookingRequest $request)
+    {
+        //
+    }
+
+    /**
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getPrivateMessageSent(InquiryBookingRequest $request)
+    {
+        //
+    }
+
+    /**
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendPrivateMessage(InquiryBookingRequest $request)
     {
         //
     }
