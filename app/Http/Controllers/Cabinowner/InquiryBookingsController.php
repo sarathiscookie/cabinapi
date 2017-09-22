@@ -208,25 +208,6 @@ class InquiryBookingsController extends Controller
                             $bookings[$key]['usrZip']              = $user->usrZip;
                         }
 
-                        /* For getting sender and receiver messages and details */
-                        $readPrivateMessages = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($booking->_id))
-                            ->orderBy('created_at', 'desc')
-                            ->get();
-
-                        foreach ($readPrivateMessages as $readPrivateMessage){
-                            $bookings[$key]['booking_id']   = $readPrivateMessage->booking_id;
-                            $bookings[$key]['subject']      = $readPrivateMessage->subject;
-                            $bookings[$key]['text']         = $readPrivateMessage->text;
-                            $bookings[$key]['sender_id']    = $readPrivateMessage->sender_id;
-                            $bookings[$key]['receiver_id']  = $readPrivateMessage->receiver_id;
-                            $bookings[$key]['senderFirstname'] = $readPrivateMessage->sender->usrFirstname;
-                            $bookings[$key]['senderLastname'] = $readPrivateMessage->sender->usrLastname;
-                            $bookings[$key]['receiverFirstname'] = $readPrivateMessage->receiver->usrFirstname;
-                            $bookings[$key]['receiverLastname'] = $readPrivateMessage->receiver->usrLastname;
-                        }
-
-                        $private_messages  =  '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$bookings[$key]['booking_id'].'"></i><div class="modal fade" id="msgModal_'.$bookings[$key]['booking_id'].'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Direct Chat</h3></div><div class="box-body"><div class="direct-chat-messages"><div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$bookings[$key]['senderFirstname'].' '.$bookings[$key]['senderLastname'].'</span><span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span></div><i class="menu-icon bg-light-blue direct-chat-img" style="padding: 9px 0px 0px 12px;">GT</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div><div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$bookings[$key]['receiverFirstname'].' '.$bookings[$key]['receiverLastname'].'</span><span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span></div><i class="menu-icon label-default direct-chat-img" style="padding: 9px 0px 0px 12px;">CO</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div></div></div><div class="box-footer"><form action="#" method="post"><div class="input-group col-md-12"><input type="text" name="message" placeholder="Type Message ..." class="form-control"></div></form></div></div></div></div></div></div>';
-
                         /* Checking checkin_from, reserve_to and booking date fields are available or not begin*/
                         if(!$booking->checkin_from){
                             $checkin_from = $noData;
@@ -342,8 +323,27 @@ class InquiryBookingsController extends Controller
                             $inquiryStatus = '<span class="label label-default">'.__("inquiry.noResult").'</span>';
                         }
 
-                        /* Condition for private messages */
-
+                        /* Functionality for private message */
+                        $readPrivateMessages = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($booking->_id))
+                            ->orderBy('created_at', 'desc')
+                            ->get();
+                        if(count($readPrivateMessages) > 0){
+                            foreach ($readPrivateMessages as $readPrivateMessage){
+                                $bookings[$key]['booking_id']   = $readPrivateMessage->booking_id;
+                                $bookings[$key]['subject']      = $readPrivateMessage->subject;
+                                $bookings[$key]['text']         = $readPrivateMessage->text;
+                                $bookings[$key]['sender_id']    = $readPrivateMessage->sender_id;
+                                $bookings[$key]['receiver_id']  = $readPrivateMessage->receiver_id;
+                                $bookings[$key]['senderFirstname'] = $readPrivateMessage->sender->usrFirstname;
+                                $bookings[$key]['senderLastname'] = $readPrivateMessage->sender->usrLastname;
+                                $bookings[$key]['receiverFirstname'] = $readPrivateMessage->receiver->usrFirstname;
+                                $bookings[$key]['receiverLastname'] = $readPrivateMessage->receiver->usrLastname;
+                            }
+                            $private_messages  =  '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$bookings[$key]['booking_id'].'"></i><div class="modal fade" id="msgModal_'.$bookings[$key]['booking_id'].'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Direct Chat</h3></div><div class="box-body"><div class="direct-chat-messages"><div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$bookings[$key]['senderFirstname'].' '.$bookings[$key]['senderLastname'].'</span><span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span></div><i class="menu-icon bg-light-blue direct-chat-img" style="padding: 9px 0px 0px 12px;">GT</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div><div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$bookings[$key]['receiverFirstname'].' '.$bookings[$key]['receiverLastname'].'</span><span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span></div><i class="menu-icon label-default direct-chat-img" style="padding: 9px 0px 0px 12px;">CO</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div></div></div><div class="box-footer"><form action="#" method="post"><div class="input-group col-md-12"><input type="text" name="message" placeholder="Type Message ..." class="form-control"></div></form></div></div></div></div></div></div>';
+                        }
+                        else{
+                            $private_messages  =  '<span class="label label-default">'.__("inquiry.notAsked").'</span>';
+                        }
 
                         $nestedData['hash']                    = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" /><div class="modal fade" id="bookingModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("inquiry.moreDetails").'</h4><div class="response"></div></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.bookingDate").'</h4><p class="list-group-item-text">'.$bookingdate.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.address").'</h4><p class="list-group-item-text">'.$usr_address.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.city").'</h4><p class="list-group-item-text">'.$usr_city.'</p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.usrZip").'</h4><p class="list-group-item-text">'.$usr_zip.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.telephone").'</h4><p class="list-group-item-text">'.$usr_telephone.'</p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("inquiry.mobile").'</h4><p class="list-group-item-text">'.$usr_mobile.'</p></li></ul></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
                         $nestedData['invoice_number']          = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
