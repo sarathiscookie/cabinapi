@@ -328,7 +328,7 @@ Route::prefix('cabinowner')->group(function () {
         */
 
         /* Listing inquiry */
-        Route::get('/inquiry/{bookId?}', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
+        Route::get('/inquiry/{bookId?}/{msgId?}', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
 
         /* Show datatable page */
         Route::post('/inquiry', 'Cabinowner\InquiryBookingsController@dataTables')->name('cabinowner.inquiry.datatables');

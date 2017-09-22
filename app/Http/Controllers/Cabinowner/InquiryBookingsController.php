@@ -8,6 +8,7 @@ use App\Http\Requests\InquiryBookingRequest;
 use App\Cabin;
 use App\Booking;
 use App\Userlist;
+use App\PrivateMessage;
 use Auth;
 use Mail;
 
@@ -61,6 +62,10 @@ class InquiryBookingsController extends Controller
                 $cabin_name = $cabin->name;
 
                 if($request->parameterId) {
+
+                    $privateMsgRead =  PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($request->parameterId))
+                        ->update(['read' => 1]); //1 = read, 0 = unread
+
                     $totalData  = Booking::where('is_delete', 0)
                         ->where('cabinname', $cabin_name)
                         ->where('typeofbooking', 1)
