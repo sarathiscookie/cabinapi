@@ -14,6 +14,28 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .direct-chat-warning .right>.direct-chat-text {
+            background: #3c8dbc;
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            background-repeat-x: initial;
+            background-repeat-y: initial;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: #3c8dbc !important;
+            border-color: #3c8dbc;
+            border-top-color: #3c8dbc;
+            border-right-color: #3c8dbc;
+            border-bottom-color: #3c8dbc;
+            border-left-color: #3c8dbc;
+            color: #fff;
+        }
+        .direct-chat-warning .right>.direct-chat-text:after, .direct-chat-warning .right>.direct-chat-text:before {
+             border-left-color: #3c8dbc;
+        }
     </style>
 @endsection
 

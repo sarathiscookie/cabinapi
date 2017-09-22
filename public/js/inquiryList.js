@@ -122,8 +122,6 @@ $(function () {
         }).container().appendTo($('#buttons'));
     }
 
-
-
     /* Date range functionality begin */
     $('.daterange').daterangepicker({
         autoUpdateInput: false,
@@ -198,4 +196,8 @@ $(function () {
         inquiry_data.columns(i).search(v).draw();
     });
 
+    /* Functionality for msg send */
+    $('#inquiry_data tbody').on( 'click', 'i.msgIcon', function(e){
+        console.log('clicked');
+    });
 });
