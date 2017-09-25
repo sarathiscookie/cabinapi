@@ -84,8 +84,21 @@
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-flag-o"></i>
-                            <span class="label label-danger">9</span>
+                            <span class="label label-danger">{!! $miscellaneous->inquiryUnreadCount() !!}</span>
                         </a>
+                        <ul class="dropdown-menu list-group">
+                            <ul class="products-list product-list-in-box">
+                                @foreach($miscellaneous->inquiryUnreadLists() as $inquiryUnreadList)
+                                    <li class="list-group-item">
+                                        <a href="/cabinowner/inquiry/{{$inquiryUnreadList->_id}}" class="product-title">{{$inquiryUnreadList->invoice_number}}
+                                            <span class="label label-info pull-right">{{($inquiryUnreadList->bookingdate)->format('d.m.Y H:i')}}</span>
+                                        </a>
+                                        <span class="product-description">A new inquiry has registered</span>
+                                    </li>
+                                 @endforeach
+                            <!-- /.item -->
+                            </ul>
+                        </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">

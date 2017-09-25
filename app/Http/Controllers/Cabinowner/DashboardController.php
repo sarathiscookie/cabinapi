@@ -224,4 +224,60 @@ class DashboardController extends Controller
 
         return $messageList;
     }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inquiryUnreadCount()
+    {
+        $count = '';
+
+        $cabin = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            $count = Booking::where('is_delete', 0)
+                ->where('cabinname', $cabin->name)
+                ->where('typeofbooking', 1)
+                ->where('status', "7")
+                ->where('read', 0)
+                ->count();
+        }
+        return $count;
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inquiryUnreadLists()
+    {
+        $inquiryUnreadLists = [];
+
+        $cabin = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            $unreadLists = Booking::where('is_delete', 0)
+                ->where('cabinname', $cabin->name)
+                ->where('typeofbooking', 1)
+                ->where('status', "7")
+                ->where('read', 0)
+                ->orderBy('bookingdate', 'desc')
+                ->get();
+
+            if (count($unreadLists) > 0){
+                foreach ($unreadLists as $unreadList){
+                    $inquiryUnreadLists[] = $unreadList;
+                }
+            }
+        }
+
+        return $inquiryUnreadLists;
+    }
 }
