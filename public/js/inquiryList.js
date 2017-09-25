@@ -208,14 +208,14 @@ $(function () {
         })
             .done(function( response ) {
                 $btn.button('reset');
-                $('.msgResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.msgStatus+'</div>');
+                $('.inquiryStatusResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.msgStatus+'</div>');
                 $('#msgModal_'+data).on('hidden.bs.modal', function () {
                     inquiry_data.ajax.reload(null, false);
                 })
             })
             .fail(function() {
                 $btn.button('reset');
-                $('.msgResponse').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
+                $('.inquiryStatusResponse').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
                 $('#msgModal_'+data).on('hidden.bs.modal', function () {
                     inquiry_data.ajax.reload(null, false);
                 });
