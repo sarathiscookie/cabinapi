@@ -189,15 +189,43 @@ $(function () {
             });
     });
 
+    /* Send message to guest */
+    $('#inquiry_data tbody').on( 'click', 'button.msgSend', function(e){
+        e.preventDefault();
+        var $btn      = $(this).button('loading');
+        var data      = $(this).data('book');
+        var message   = $("#message_"+data).val();
+        var sender    = $("#sender_"+data).val();
+        var receiver  = $("#receiver_"+data).val();
+        var bookingId = $("#bookingId_"+data).val();
+        var subject   = $("#subject_"+data).val();
+
+        $.ajax({
+            url: '/cabinowner/message/send',
+            data: { message: message, sender: sender, receiver: receiver, bookingId: bookingId, subject: subject },
+            dataType: 'JSON',
+            type: 'POST'
+        })
+            .done(function( response ) {
+                $btn.button('reset');
+                $('.msgResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.msgStatus+'</div>');
+                $('#msgModal_'+data).on('hidden.bs.modal', function () {
+                    inquiry_data.ajax.reload(null, false);
+                })
+            })
+            .fail(function() {
+                $btn.button('reset');
+                $('.msgResponse').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
+                $('#msgModal_'+data).on('hidden.bs.modal', function () {
+                    inquiry_data.ajax.reload(null, false);
+                });
+            });
+    });
+
     /* <tfoot> search functionality */
     $('.search-input').on( 'keyup change', function () {
         var i =$(this).attr('id');  // getting column index
         var v =$(this).val();  // getting search input value
         inquiry_data.columns(i).search(v).draw();
-    });
-
-    /* Functionality for msg send */
-    $('#inquiry_data tbody').on( 'click', 'i.msgIcon', function(e){
-        console.log('clicked');
     });
 });

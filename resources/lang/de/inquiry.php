@@ -96,4 +96,5 @@ return [
     'inquiryStatusRejected'                 => 'Inquiry status rejected',
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
+    'msgStatus'                             => 'Message sent successfully',
 ];

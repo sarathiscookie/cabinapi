@@ -198,6 +198,7 @@ class InquiryBookingsController extends Controller
                         $users = Userlist::where('_id', $booking->user)
                             ->get();
                         foreach ($users as $user){
+                            $bookings[$key]['userId']              = $user->_id;
                             $bookings[$key]['usrEmail']            = $user->usrEmail;
                             $bookings[$key]['usrFirstname']        = $user->usrFirstname;
                             $bookings[$key]['usrLastname']         = $user->usrLastname;
@@ -324,22 +325,45 @@ class InquiryBookingsController extends Controller
                         }
 
                         /* Functionality for private message */
+                        $private_messages = [];
+                        $senderTxt        = '';
+                        $senderLname      = '';
+                        $senderFname      = '';
+                        $receiverTxt      = '';
+                        $receiverLname    = '';
+                        $receiverFname    = '';
+                        $senderMsg    = '';
+                        $receiverMsg    = '';
+
                         $readPrivateMessages = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($booking->_id))
-                            ->orderBy('created_at', 'desc')
+                            ->whereIn('receiver_id', [new \MongoDB\BSON\ObjectID(Auth::user()->_id), new \MongoDB\BSON\ObjectID($bookings[$key]['userId'])])
+                            ->whereIn('sender_id', [new \MongoDB\BSON\ObjectID(Auth::user()->_id), new \MongoDB\BSON\ObjectID($bookings[$key]['userId'])])
+                            ->orderBy('created_at')
                             ->get();
+
+                        //dd($readPrivateMessages);//4
+
                         if(count($readPrivateMessages) > 0){
                             foreach ($readPrivateMessages as $readPrivateMessage){
-                                $bookings[$key]['booking_id']   = $readPrivateMessage->booking_id;
-                                $bookings[$key]['subject']      = $readPrivateMessage->subject;
-                                $bookings[$key]['text']         = $readPrivateMessage->text;
-                                $bookings[$key]['sender_id']    = $readPrivateMessage->sender_id;
-                                $bookings[$key]['receiver_id']  = $readPrivateMessage->receiver_id;
-                                $bookings[$key]['senderFirstname'] = $readPrivateMessage->sender->usrFirstname;
-                                $bookings[$key]['senderLastname'] = $readPrivateMessage->sender->usrLastname;
-                                $bookings[$key]['receiverFirstname'] = $readPrivateMessage->receiver->usrFirstname;
-                                $bookings[$key]['receiverLastname'] = $readPrivateMessage->receiver->usrLastname;
+                                if($readPrivateMessage->sender_id == $bookings[$key]['userId'] && $readPrivateMessage->receiver_id == Auth::user()->_id) {
+                                    $senderTxt       = $readPrivateMessage->text; //3
+                                    $senderCreatedAt = ($readPrivateMessage->created_at)->format('d M H:i:s A'); //23 Jan 2:00 pm
+                                    $senderLname     = $readPrivateMessage->sender->usrLastname;
+                                    $senderFname     = $readPrivateMessage->sender->usrFirstname;
+                                    $senderMsg .= '<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$senderFname.' '.$senderLname.'</span><span class="direct-chat-timestamp pull-right">'.$senderCreatedAt.'</span></div><i class="menu-icon bg-light-blue direct-chat-img" style="padding: 9px 0px 0px 12px;">GT</i><div class="direct-chat-text">'.$senderTxt.'</div></div>';
+                                    //print_r($senderMsg);
+                                }
+
+                                if($readPrivateMessage->sender_id == Auth::user()->_id && $readPrivateMessage->receiver_id == $bookings[$key]['userId']) {
+                                    $receiverTxt       = $readPrivateMessage->text; //1
+                                    $receiverCreatedAt = ($readPrivateMessage->created_at)->format('d M H:i:s A'); //23 Jan 2:00 pm
+                                    $receiverLname     = $readPrivateMessage->sender->usrLastname;
+                                    $receiverFname     = $readPrivateMessage->sender->usrFirstname;
+                                    $receiverMsg .= '<div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$receiverFname.' '.$receiverLname.'</span><span class="direct-chat-timestamp pull-left">'.$receiverCreatedAt.'</span></div><i class="menu-icon label-default direct-chat-img" style="padding: 9px 0px 0px 12px;">CO</i><div class="direct-chat-text">'.$receiverTxt.'</div></div>';
+                                    //print_r($receiverMsg);
+                                }
                             }
-                            $private_messages  =  '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$bookings[$key]['booking_id'].'"></i><div class="modal fade" id="msgModal_'.$bookings[$key]['booking_id'].'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Direct Chat</h3></div><div class="box-body"><div class="direct-chat-messages"><div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$bookings[$key]['senderFirstname'].' '.$bookings[$key]['senderLastname'].'</span><span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span></div><i class="menu-icon bg-light-blue direct-chat-img" style="padding: 9px 0px 0px 12px;">GT</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div><div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$bookings[$key]['receiverFirstname'].' '.$bookings[$key]['receiverLastname'].'</span><span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span></div><i class="menu-icon label-default direct-chat-img" style="padding: 9px 0px 0px 12px;">CO</i><div class="direct-chat-text">'.$bookings[$key]['text'].'</div></div></div></div><div class="box-footer"><form action="#" method="post"><div class="input-group col-md-12"><input type="text" name="message" placeholder="Type Message ..." class="form-control"></div></form></div></div></div></div></div></div>';
+                            $private_messages = '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$booking->_id.'"></i><div class="modal fade" id="msgModal_'.$booking->_id.'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Direct Chat</h3><div class="msgResponse"></div></div><div class="box-body"><div class="direct-chat-messages">'.$senderMsg.$receiverMsg.'</div></div><div class="box-footer"><form action="" method="post" id="msgForm_'.$booking->_id.'"><div class="input-group margin col-md-12"><input type="hidden" name="sender" id="sender_'.$booking->_id.'" class="form-control" value="'.Auth::user()->_id.'"><input type="hidden" name="receiver" id="receiver_'.$booking->_id.'" class="form-control"  value="'.$bookings[$key]['userId'].'"><input type="hidden" name="bookingId" id="bookingId_'.$booking->_id.'" class="form-control" value="'.$booking->_id.'"><input type="hidden" name="subject" id="subject_'.$booking->_id.'" class="form-control" value="'.$booking->invoice_number.'"><input type="text" name="message" id="message_'.$booking->_id.'" placeholder="Type Message ..." class="form-control"><span class="input-group-btn"><button type="button" class="btn btn-info btn-flat msgSend" data-book="'.$booking->_id.'" data-loading-text="Sending..." autocomplete="off">Send</button></span></div></form></div></div></div></div></div></div>';
                         }
                         else{
                             $private_messages  =  '<span class="label label-default">'.__("inquiry.notAsked").'</span>';
@@ -376,6 +400,24 @@ class InquiryBookingsController extends Controller
 
     }
 
+    /**
+     * send message to user.
+     *
+     * @param  \App\Http\Requests\InquiryBookingRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendMessage(InquiryBookingRequest $request)
+    {
+        $privateMessage              = new PrivateMessage;
+        $privateMessage->sender_id   = $request->sender;
+        $privateMessage->receiver_id = $request->receiver;
+        $privateMessage->booking_id  = $request->bookingId;
+        $privateMessage->subject     = $request->subject;
+        $privateMessage->text        = $request->message;
+        $privateMessage->read        = 0;
+        $privateMessage->save();
+        return response()->json(['msgStatus' => __("inquiry.msgStatus")], 201);
+    }
     /**
      * Show the form for creating a new resource.
      *

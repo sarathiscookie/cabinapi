@@ -339,26 +339,7 @@ Route::prefix('cabinowner')->group(function () {
         /* Update inquiry status reject */
         Route::put('/inquiry/reject', 'Cabinowner\InquiryBookingsController@rejectStatus')->name('cabinowner.inquiry.status.reject');
 
-
-
-        /* Private message urls */
-        /*Route::post('get/private/message/notifications', 'Cabinowner\InquiryBookingsController@getUserNotifications');
-        Route::post('get/private/messages', 'Cabinowner\InquiryBookingsController@getPrivateMessages');
-        Route::post('get/private/message', 'Cabinowner\InquiryBookingsController@getPrivateMessageById');
-        Route::post('get/private/message/sent', 'Cabinowner\InquiryBookingsController@getPrivateMessageSent');
-        Route::post('send/private/message', 'Cabinowner\InquiryBookingsController@sendPrivateMessage');*/
-
-
-
-        /* test */
-        /*Route::get('test', function(){
-            return App\PrivateMessage::where('_id', '59c2444638867c00f0371cdc')->first();
-        });*/
-
+        /* Reply message */
+        Route::post('/message/send', 'Cabinowner\InquiryBookingsController@sendMessage')->name('cabinowner.inquiry.message.send');
     });
 });
-
-/* test */
-/*Route::get('/user', function(){
-    return App\PrivateMessage::where('_id', '')->first();
-});*/
