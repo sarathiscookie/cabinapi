@@ -114,6 +114,8 @@ class InquiryBookingsController extends Controller
                             ->orWhere('usrFirstname', 'like', "%{$search}%")
                             ->orWhere('usrLastname', 'like', "%{$search}%");
                     })
+                        ->skip($start)
+                        ->take($limit)
                         ->get();
 
                     if(count($users) > 0) {
@@ -173,6 +175,8 @@ class InquiryBookingsController extends Controller
                     $users     = Userlist::where(function($query) use ($params) {
                         $query->where('usrEmail', 'like', "%{$params['columns'][4]['search']['value']}%");
                     })
+                        ->skip($start)
+                        ->take($limit)
                         ->get();
 
                     if(count($users) > 0) {
