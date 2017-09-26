@@ -19,9 +19,19 @@ class InquiryBookingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($bookId = null)
+    public function index($bookId = null, $senderId = null)
     {
-        if($bookId != null){
+        if($bookId != null && $senderId != null) {
+            if ($senderId == 'new') {
+                $newInquiryRead = Booking::where('_id', new \MongoDB\BSON\ObjectID($bookId))
+                    ->update(['read' => 1]); //1 = read, 0 = unread
+            }
+            else {
+                $privateMsgRead = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($bookId))
+                    ->where('receiver_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+                    ->where('sender_id', new \MongoDB\BSON\ObjectID($senderId))
+                    ->update(['read' => 1]); //1 = read, 0 = unread
+            }
             return view('cabinowner.inquiryBookings', ['bookId' => $bookId]);
         }
         return view('cabinowner.inquiryBookings');
@@ -62,10 +72,6 @@ class InquiryBookingsController extends Controller
                 $cabin_name = $cabin->name;
 
                 if($request->parameterId) {
-
-                    $privateMsgRead =  PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($request->parameterId))
-                        ->update(['read' => 1]); //1 = read, 0 = unread
-
                     $totalData  = Booking::where('is_delete', 0)
                         ->where('cabinname', $cabin_name)
                         ->where('typeofbooking', 1)

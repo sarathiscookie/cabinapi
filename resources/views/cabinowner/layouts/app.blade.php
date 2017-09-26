@@ -70,7 +70,7 @@
                             <ul class="products-list product-list-in-box">
                                 @foreach($miscellaneous->privateMessageList() as $privateMessage)
                                     <li class="list-group-item">
-                                        <a href="/cabinowner/inquiry/{{$privateMessage->booking_id}}" class="product-title">{{$privateMessage->subject}}
+                                        <a href="/cabinowner/inquiry/{{$privateMessage->booking_id}}/{{$privateMessage->sender_id}}" class="product-title">{{$privateMessage->subject}}
                                             <span class="label label-info pull-right">{{($privateMessage->created_at)->format('d.m.Y H:i')}}</span>
                                         </a>
                                         <span class="product-description">{{$privateMessage->text}}</span>
@@ -90,7 +90,7 @@
                             <ul class="products-list product-list-in-box">
                                 @foreach($miscellaneous->inquiryUnreadLists() as $inquiryUnreadList)
                                     <li class="list-group-item">
-                                        <a href="/cabinowner/inquiry/{{$inquiryUnreadList->_id}}" class="product-title">{{$inquiryUnreadList->invoice_number}}
+                                        <a href="/cabinowner/inquiry/{{$inquiryUnreadList->_id}}/{{$new = 'new'}}" class="product-title">{{$inquiryUnreadList->invoice_number}}
                                             <span class="label label-info pull-right">{{($inquiryUnreadList->bookingdate)->format('d.m.Y H:i')}}</span>
                                         </a>
                                         <span class="product-description">A new inquiry has registered</span>

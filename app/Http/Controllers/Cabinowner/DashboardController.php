@@ -271,8 +271,8 @@ class DashboardController extends Controller
                 ->orderBy('bookingdate', 'desc')
                 ->get();
 
-            if (count($unreadLists) > 0){
-                foreach ($unreadLists as $unreadList){
+            if (count($unreadLists) > 0) {
+                foreach ($unreadLists as $unreadList) {
                     $inquiryUnreadLists[] = $unreadList;
                 }
             }
