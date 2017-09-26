@@ -67,7 +67,7 @@ return [
     /* Booking status begin */
     'request'                                => 'Anfrage',
     'bookingWaiting'                         => 'Warten auf Zahlung',
-    'rejected'                               => 'Rejected',
+    'rejected'                               => 'Abgelehnt',
     /* Booking status end */
     'noResult'                               => 'Unbekannt',
     'bookedByCabinOwner'                     => 'von HW gebucht',
@@ -93,8 +93,8 @@ return [
     /* Alert messages */
     'inquiryStatusApproved'                 => 'Inquiry status updated to waiting for payment. You can find in bookings list. Please ',
     'inquiryStatusApprovedSec'              => 'for quick view.',
-    'inquiryStatusRejected'                 => 'Inquiry status rejected',
+    'inquiryStatusRejected'                 => 'Anfrage Status abgelehnt',
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
-    'msgStatus'                             => 'Message sent successfully',
+    'msgStatus'                             => 'Die Nachricht wurde nun versendet',
 ];
