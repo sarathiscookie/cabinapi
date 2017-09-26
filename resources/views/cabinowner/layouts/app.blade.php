@@ -64,7 +64,7 @@
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">{!! $miscellaneous->privateMessageCount() !!}</span>
+                            <span class="label label-success msgSpan"><span class="msgCountRemove">{!! $miscellaneous->privateMessageCount() !!}</span></span>
                         </a>
                         <ul class="dropdown-menu list-group">
                             <ul class="products-list product-list-in-box">
@@ -224,6 +224,14 @@
 
     @yield('scripts')
 
+    {{--<script>
+        var socket = io('{{ env("APP_URL") }}:3000');
+        socket.on('channel-message:App\\Events\\MessageEvent', function(data){
+            var items = $('<span class="msgCountRemove">'+data.count+'</span>');
+            $('.msgCountRemove').remove();
+            $('.msgSpan').append(items);
+        });
+    </script>--}}
     <!-- Slimscroll -->
     <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
     <!-- FastClick -->

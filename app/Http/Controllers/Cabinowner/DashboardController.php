@@ -9,6 +9,7 @@ use App\Booking;
 use Auth;
 use App\MountSchoolBooking;
 use App\PrivateMessage;
+use App\Events\MessageEvent;
 
 class DashboardController extends Controller
 {
@@ -245,6 +246,8 @@ class DashboardController extends Controller
                 ->where('status', "7")
                 ->where('read', 0)
                 ->count();
+
+            /*event(new MessageEvent($count));*/
         }
         return $count;
     }
