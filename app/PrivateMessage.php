@@ -13,7 +13,7 @@ class PrivateMessage extends Eloquent
      *
      * @var string
      */
-    protected $collection = 'private_messages';
+    protected $collection = 'messages';
 
     /**
      * The attributes that are mass assignable.
