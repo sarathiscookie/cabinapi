@@ -489,7 +489,7 @@ class InquiryBookingsController extends Controller
         $user_email             = $user->usrEmail;
 
         /* Functionality to send inquiry status approval message to guest begin*/
-        $comment                = 'Congratulations! Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been approved. Please login to website for more details.';
+        $comment                = 'Sie wandern zum Matrashaus! Ihre Anfrage bezüglich der Übernachtung von: '.($inquiry->checkin_from)->format('d.m.y').', bis: '.($inquiry->reserve_to)->format('d.m.y').' mit insgesamt: '.$inquiry->sleeps.' Personen wurde akzeptiert. Um die Buchung fix und damit auch verpflichtend zu machen, melden Sie sich bitte Online an und leisten Sie die fällige Anzahlung.';
         Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
             $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$inquiry->cabinname);
         });
@@ -515,7 +515,7 @@ class InquiryBookingsController extends Controller
         $user_email             = $user->usrEmail;
 
         /* Functionality to send inquiry status approval message to guest begin*/
-        $comment                = 'Your enquiry for Checking from: '.($inquiry->checkin_from)->format('d.m.y').', To: '.($inquiry->reserve_to)->format('d.m.y').' and Sleeps: '.$inquiry->sleeps.' has been rejected. Please login to website for more details.';
+        $comment                = 'Ihre Anfrage bezüglich der Übernachtung von: '.($inquiry->checkin_from)->format('d.m.y').', bis: '.($inquiry->reserve_to)->format('d.m.y').' mit insgesamt: '.$inquiry->sleeps.' Personen wurde leider nicht akzeptiert. Vielleicht kommt eine andere Hütte oder ein anderes Datum in Frage? Finden Sie bei uns die passende Hütte!';
         Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'subject' => 'Nachricht von ', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
              $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$inquiry->cabinname);
         });
