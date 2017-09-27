@@ -301,7 +301,7 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 15px;">
-                                                                            <a class="mcnButton " title="Frage zu meiner Buchung &gt;&gt;" href="http://www.huetten-holiday.de" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">{{$buttonLabel}} &gt;&gt;</a>
+                                                                            <a class="mcnButton " title="{{$buttonLabel}} &gt;&gt;" href="http://www.huetten-holiday.de" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">{{$buttonLabel}} &gt;&gt;</a>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>

@@ -199,10 +199,12 @@ $(function () {
         var receiver  = $("#receiver_"+data).val();
         var bookingId = $("#bookingId_"+data).val();
         var subject   = $("#subject_"+data).val();
+        var cabinName = $("#cabinName_"+data).val();
+        var usrEmail  = $("#usrEmail_"+data).val();
 
         $.ajax({
             url: '/cabinowner/message/send',
-            data: { message: message, sender: sender, receiver: receiver, bookingId: bookingId, subject: subject },
+            data: { message: message, sender: sender, receiver: receiver, bookingId: bookingId, subject: subject, cabinName: cabinName, usrEmail: usrEmail },
             dataType: 'JSON',
             type: 'POST'
         })

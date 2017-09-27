@@ -235,7 +235,7 @@
 
                                                             <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                                                                <h1>{{$subject}}</h1>
+                                                                <h1>{{$subject}} {{$cabinName}}</h1>
 
                                                                 <p>Sehr geehrter Gast, <br>
                                                                     <br>
@@ -303,7 +303,7 @@
                                                                     <tbody>
                                                                     <tr>
                                                                         <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 15px;">
-                                                                            <a class="mcnButton " title="Frage zu meiner Buchung &gt;&gt;" href="http://www.huetten-holiday.de" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Frage zu meiner Buchung &gt;&gt;</a>
+                                                                            <a class="mcnButton " title="{{$buttonLabel}} &gt;&gt;" href="http://www.huetten-holiday.de" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">{{$buttonLabel}} &gt;&gt;</a>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
