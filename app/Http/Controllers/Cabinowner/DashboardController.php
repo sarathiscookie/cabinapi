@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Cabin;
 use App\Booking;
 use Auth;
+use Redis;
 use App\MountSchoolBooking;
 use App\PrivateMessage;
 use App\Events\MessageEvent;
@@ -246,8 +247,6 @@ class DashboardController extends Controller
                 ->where('status', "7")
                 ->where('read', 0)
                 ->count();
-
-            /*event(new MessageEvent($count));*/
         }
         return $count;
     }
@@ -283,4 +282,60 @@ class DashboardController extends Controller
 
         return $inquiryUnreadLists;
     }
+
+    /**
+     * Count the specified resource.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function privateMessageAPICount($id)
+    {
+        /*remove later begin*/
+        $privateMessage              = new PrivateMessage;
+        $privateMessage->sender_id   = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
+        $privateMessage->receiver_id = new \MongoDB\BSON\ObjectID($id);
+        $privateMessage->booking_id  = new \MongoDB\BSON\ObjectID('59402b1dd2ae67ed2d43beaa');
+        $privateMessage->subject     = 'SWH-17-1000535';
+        $privateMessage->text        = 'Message from api';
+        $privateMessage->read        = 0;
+        $privateMessage->save();
+        /*remove later end*/
+
+
+        $count = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID($id))
+            ->where('read', 0)
+            ->count();
+
+        $redis = Redis::connection();
+        $redis->publish('message', $count);
+
+        return response()->json(['status' => $count], 201);
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /*public function inquiryAPIUnreadCount()
+    {
+        $count = '';
+
+        $cabin = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            $count = Booking::where('is_delete', 0)
+                ->where('cabinname', $cabin->name)
+                ->where('typeofbooking', 1)
+                ->where('status', "7")
+                ->where('read', 0)
+                ->count();
+
+            event(new MessageEvent($count));
+        }
+        return $count;
+    }*/
 }

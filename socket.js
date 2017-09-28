@@ -1,16 +1,25 @@
 var app   = require('express')();
 var http  = require('http').Server(app);
 var io    = require('socket.io')(http);
-var Redis = require('ioredis');
-var redis = new Redis();
+var redis = require('redis');
 
-redis.subscribe('channel-message');
+io.on('connection', function(socket){
+    console.log('a user connected');
 
-redis.on('message', function(channel, message){
-    message = JSON.parse(message);
-    io.emit(channel + ':' + message.event, message.data);
+    var redisClient = redis.createClient();
+    redisClient.subscribe('message');
+    redisClient.on('message', function(channel, message){
+       /*console.log('new message in queue', channel, message);*/
+       socket.emit(channel, message);
+    });
+
+    socket.on('disconnect', function(){
+        redisClient.quit();
+        /*console.log('user disconnected');*/
+    });
 });
 
-http.listen(3000);
 
-
+http.listen(3000, function(){
+    /*console.log('listening on *:3000');*/
+});

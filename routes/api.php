@@ -4,6 +4,20 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
+| API Routes for users
+|--------------------------------------------------------------------------
+|
+| Routes for listing, update, delete users
+| Routes for add club members
+| Routes for assign roles.
+*/
+
+/* Get information from user */
+Route::put('/message/count/{id}', 'Cabinowner\DashboardController@privateMessageAPICount');
+
+
+/*
+|--------------------------------------------------------------------------
 | API General Routes
 |--------------------------------------------------------------------------
 |

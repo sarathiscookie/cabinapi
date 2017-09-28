@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MessageEvent
+class MessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,6 +18,7 @@ class MessageEvent
     /**
      * Create a new event instance.
      *
+     * @param string $count
      * @return void
      */
     public function __construct($count)
@@ -32,6 +33,6 @@ class MessageEvent
      */
     public function broadcastOn()
     {
-        return ['channel-message'];
+        return ['message-channel'];
     }
 }

@@ -61,15 +61,15 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
+                    <li class="dropdown messages-menu removechild">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
                             <span class="label label-success msgSpan"><span class="msgCountRemove">{!! $miscellaneous->privateMessageCount() !!}</span></span>
                         </a>
                         <ul class="dropdown-menu list-group">
-                            <ul class="products-list product-list-in-box">
+                            <ul class="products-list product-list-in-box messageList">
                                 @foreach($miscellaneous->privateMessageList() as $privateMessage)
-                                    <li class="list-group-item">
+                                    <li class="list-group-item messageListRemove">
                                         <a href="/cabinowner/inquiry/{{$privateMessage->booking_id}}/{{$privateMessage->sender_id}}" class="product-title">{{$privateMessage->subject}}
                                             <span class="label label-info pull-right">{{($privateMessage->created_at)->format('d.m.Y H:i')}}</span>
                                         </a>
@@ -80,7 +80,7 @@
                             </ul>
                         </ul>
                     </li>
-                    <!-- Tasks: style can be found in dropdown.less -->
+                    <!-- Tasksdropdown.less -->
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-flag-o"></i>
@@ -224,23 +224,24 @@
 
     @yield('scripts')
 
-    {{--<script>
-        var socket = io('{{ env("APP_URL") }}:3000');
-        socket.on('channel-message:App\\Events\\MessageEvent', function(data){
-            var items = $('<span class="msgCountRemove">'+data.count+'</span>');
-            $('.msgCountRemove').remove();
-            $('.msgSpan').append(items);
-        });
-    </script>--}}
     <!-- Slimscroll -->
     <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
     <!-- FastClick -->
     <script src="{{ asset('plugins/fastclick/fastclick.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('js/app.min.js') }}"></script>
-    <!-- AdminLTE dashboard -->
-    {{--<script src="{{ asset('js/dashboard.js') }}"></script>--}}
-    <!-- AdminLTE for demo purposes -->
-    {{--<script src="{{ asset('js/demo.js') }}"></script>--}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+    <script>
+        var socket = io('http://cabinapi.app:3000');
+        socket.on('message', function(data){
+            $('.msgCountRemove').remove();
+            $('.msgSpan').append('<span class="msgCountRemove">'+data+'</span>');
+            /*$('.messageListRemove').remove();
+            $('.messageList').append('<li class="list-group-item messageListRemove"><a href="/cabinowner/inquiry/bookingID/senderID" class="product-title">SUBJECT <span class="label label-info pull-right">CREATED_AT d.m.Y H:i</span> </a> <span class="product-description">TEXT</span>');*/
+        });
+    </script>
+
+
 </body>
 </html>
