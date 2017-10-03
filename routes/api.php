@@ -4,16 +4,25 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes for users
+| API Routes for message count
 |--------------------------------------------------------------------------
 |
-| Routes for listing, update, delete users
-| Routes for add club members
-| Routes for assign roles.
+| Routes for message count.
 */
 
-/* Get information from user */
+/* Get message count when new message created in front end */
 Route::put('/message/count/{id}', 'Cabinowner\DashboardController@privateMessageAPICount');
+
+/*
+|--------------------------------------------------------------------------
+| API Routes for inquiry count
+|--------------------------------------------------------------------------
+|
+| Routes for inquiry count.
+*/
+
+/* Get inquiry count when new inquiry created in front end */
+Route::put('/inquiry/count/{id}', 'Cabinowner\DashboardController@inquiryAPIUnreadCount');
 
 
 /*

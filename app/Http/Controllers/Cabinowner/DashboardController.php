@@ -11,6 +11,7 @@ use Redis;
 use App\MountSchoolBooking;
 use App\PrivateMessage;
 use App\Events\MessageEvent;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -294,7 +295,7 @@ class DashboardController extends Controller
         /*remove later begin*/
         $privateMessage              = new PrivateMessage;
         $privateMessage->sender_id   = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
-        $privateMessage->receiver_id = new \MongoDB\BSON\ObjectID($id);
+        $privateMessage->receiver_id = new \MongoDB\BSON\ObjectID($id); //Cabin owner
         $privateMessage->booking_id  = new \MongoDB\BSON\ObjectID('59402b1dd2ae67ed2d43beaa');
         $privateMessage->subject     = 'SWH-17-1000535';
         $privateMessage->text        = 'Message from api';
@@ -302,50 +303,79 @@ class DashboardController extends Controller
         $privateMessage->save();
         /*remove later end*/
 
+        if($id) {
+            $messageUnreads = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID($id))
+                ->where('read', 0)
+                ->get();
 
-        $messageUnreads = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID($id))
-            ->where('read', 0)
-            ->get();
+            $message = '';
+            if(count($messageUnreads) > 0) {
+                $message .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i><span class="label label-success">'.count($messageUnreads).'</span></a><ul class="dropdown-menu list-group"><ul class="products-list product-list-in-box">';
+                foreach ($messageUnreads as $messageUnread) {
+                    $message .= '<li class="list-group-item"><a href="/cabinowner/inquiry/'.$messageUnread->booking_id.'/'.$messageUnread->sender_id.'" class="product-title">'.$messageUnread->subject.'<span class="label label-info pull-right">'.($messageUnread->created_at)->format("d.m.Y H:i").'</span></a><span class="product-description">'.$messageUnread->text.'</span></li>';
+                }
+                $message .= '</ul></ul>';
 
-        $message = '';
-        if(count($messageUnreads) > 0) {
-            $message .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i><span class="label label-success">'.count($messageUnreads).'</span></a><ul class="dropdown-menu list-group"><ul class="products-list product-list-in-box messageList">';
-            foreach ($messageUnreads as $messageUnread) {
-                $message .= '<li class="list-group-item messageListRemove"><a href="/cabinowner/inquiry/'.$messageUnread->booking_id.'/'.$messageUnread->sender_id.'" class="product-title">'.$messageUnread->subject.'<span class="label label-info pull-right">'.($messageUnread->created_at)->format("d . m . Y H:i").'</span></a><span class="product-description">'.$messageUnread->text.'</span></li>';
+                $redis = Redis::connection();
+                $redis->publish('message', $message);
+                /*$redis->publish('message', json_encode($message));*/
+                return response()->json(['status' => $message], 200);
             }
-            $message .= '</ul></ul>';
         }
-
-        $redis = Redis::connection();
-        $redis->publish('message', $message);
-        /*$redis->publish('message', json_encode($message));*/
-
-        return response()->json(['status' => $message], 201);
+        else {
+            return response()->json(['status' => 'No communication'], 404);
+        }
     }
 
     /**
      * Count the specified resource.
      *
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    /*public function inquiryAPIUnreadCount()
+    public function inquiryAPIUnreadCount($id)
     {
-        $count = '';
+        /*remove later begin*/
+        $book                = new Booking;
+        $book->cabinname     = 'Schwarzwasserhütte';
+        $book->user          = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
+        $book->bookingdate   = Carbon::now();
+        $book->invoice_number= 'SWH-16-333336';
+        $book->typeofbooking = 1;
+        $book->read          = 0;
+        $book->status        = '7';
+        $book->inquirystatus = 0;
+        $book->is_delete     = 0;
+        $book->save();
+        /*remove later end*/
 
-        $cabin = Cabin::where('is_delete', 0)
-            ->where('cabin_owner', Auth::user()->_id)
-            ->first();
+        if($id) {
+            $cabin            = Cabin::where('is_delete', 0)
+                ->where('cabin_owner', $id)
+                ->first();
 
-        if(count($cabin) > 0) {
-            $count = Booking::where('is_delete', 0)
+            $inquiryAPIUnreads = Booking::where('is_delete', 0)
                 ->where('cabinname', $cabin->name)
                 ->where('typeofbooking', 1)
                 ->where('status', "7")
                 ->where('read', 0)
-                ->count();
+                ->get();
 
-            event(new MessageEvent($count));
+            $inquiryCount = '';
+            if(count($inquiryAPIUnreads) > 0) {
+                $inquiryCount .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-flag-o"></i><span class="label label-danger">'.count($inquiryAPIUnreads).'</span></a><ul class="dropdown-menu list-group"><ul class="products-list product-list-in-box">';
+                foreach ($inquiryAPIUnreads as $inquiryAPIUnread) {
+                    $inquiryCount .= '<li class="list-group-item"><a href="/cabinowner/inquiry/'.$inquiryAPIUnread->_id.'/'.$new = "new".'" class="product-title">'.$inquiryAPIUnread->invoice_number.'<span class="label label-info pull-right">'.($inquiryAPIUnread->bookingdate)->format("d.m.Y H:i").'</span></a><span class="product-description">A new inquiry has registered</span></li>';
+                }
+                $inquiryCount .= '</ul></ul>';
+
+                $redis = Redis::connection();
+                $redis->publish('inquiryCount', $inquiryCount);
+                return response()->json(['status' => $inquiryCount], 200);
+            }
         }
-        return $count;
-    }*/
+        else {
+            return response()->json(['status' => 'No communication'], 404);
+        }
+    }
 }

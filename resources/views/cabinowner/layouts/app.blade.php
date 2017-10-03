@@ -67,9 +67,9 @@
                             <span class="label label-success msgSpan"><span class="msgCountRemove">{!! $miscellaneous->privateMessageCount() !!}</span></span>
                         </a>
                         <ul class="dropdown-menu list-group">
-                            <ul class="products-list product-list-in-box messageList">
+                            <ul class="products-list product-list-in-box">
                                 @foreach($miscellaneous->privateMessageList() as $privateMessage)
-                                    <li class="list-group-item messageListRemove">
+                                    <li class="list-group-item">
                                         <a href="/cabinowner/inquiry/{{$privateMessage->booking_id}}/{{$privateMessage->sender_id}}" class="product-title">{{$privateMessage->subject}}
                                             <span class="label label-info pull-right">{{($privateMessage->created_at)->format('d.m.Y H:i')}}</span>
                                         </a>
@@ -228,12 +228,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script>
         var socket = io('{{env('APP_URL')}}:3000');
+        /* Realtime message notification */
         socket.on('message', function(data){
            if(data){
                /* var res = $.parseJSON(data);*/
                $('.messages-menu').empty();
                $('.messages-menu').html(data);
            }
+        });
+        /* Realtime inquiry notification */
+        socket.on('inquiryCount', function(data){
+            if(data){
+                $('.tasks-menu').empty();
+                $('.tasks-menu').html(data);
+            }
         });
     </script>
 
