@@ -303,14 +303,24 @@ class DashboardController extends Controller
         /*remove later end*/
 
 
-        $count = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID($id))
+        $messageUnreads = PrivateMessage::where('receiver_id', new \MongoDB\BSON\ObjectID($id))
             ->where('read', 0)
-            ->count();
+            ->get();
+
+        $message = '';
+        if(count($messageUnreads) > 0) {
+            $message .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope-o"></i><span class="label label-success">'.count($messageUnreads).'</span></a><ul class="dropdown-menu list-group"><ul class="products-list product-list-in-box messageList">';
+            foreach ($messageUnreads as $messageUnread) {
+                $message .= '<li class="list-group-item messageListRemove"><a href="/cabinowner/inquiry/'.$messageUnread->booking_id.'/'.$messageUnread->sender_id.'" class="product-title">'.$messageUnread->subject.'<span class="label label-info pull-right">'.($messageUnread->created_at)->format("d . m . Y H:i").'</span></a><span class="product-description">'.$messageUnread->text.'</span></li>';
+            }
+            $message .= '</ul></ul>';
+        }
 
         $redis = Redis::connection();
-        $redis->publish('message', $count);
+        $redis->publish('message', $message);
+        /*$redis->publish('message', json_encode($message));*/
 
-        return response()->json(['status' => $count], 201);
+        return response()->json(['status' => $message], 201);
     }
 
     /**

@@ -61,7 +61,7 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu removechild">
+                    <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
                             <span class="label label-success msgSpan"><span class="msgCountRemove">{!! $miscellaneous->privateMessageCount() !!}</span></span>
@@ -110,12 +110,6 @@
                             <li class="user-header">
                                 <p>
                                     @lang('cabinowner.welcomeToDashboard') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
-                                    {{--<small>Last login on 06.19.2017 12:30</small>
-                                    <small>Last login on 05.19.2017 11:30</small>
-                                    <small>Last login on 04.19.2017 10:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>--}}
                                 </p>
                             </li>
                             <li class="user-footer">
@@ -233,12 +227,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script>
-        var socket = io('http://cabinapi.app:3000');
+        var socket = io('{{env('APP_URL')}}:3000');
         socket.on('message', function(data){
-            $('.msgCountRemove').remove();
-            $('.msgSpan').append('<span class="msgCountRemove">'+data+'</span>');
-            /*$('.messageListRemove').remove();
-            $('.messageList').append('<li class="list-group-item messageListRemove"><a href="/cabinowner/inquiry/bookingID/senderID" class="product-title">SUBJECT <span class="label label-info pull-right">CREATED_AT d.m.Y H:i</span> </a> <span class="product-description">TEXT</span>');*/
+           if(data){
+               /* var res = $.parseJSON(data);*/
+               $('.messages-menu').empty();
+               $('.messages-menu').html(data);
+           }
         });
     </script>
 
