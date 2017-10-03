@@ -293,14 +293,14 @@ class DashboardController extends Controller
     public function privateMessageAPICount($id)
     {
         /*remove later begin*/
-        $privateMessage              = new PrivateMessage;
+        /*$privateMessage              = new PrivateMessage;
         $privateMessage->sender_id   = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $privateMessage->receiver_id = new \MongoDB\BSON\ObjectID($id); //Cabin owner
         $privateMessage->booking_id  = new \MongoDB\BSON\ObjectID('59402b1dd2ae67ed2d43beaa');
         $privateMessage->subject     = 'SWH-17-1000535';
         $privateMessage->text        = 'Message from api';
         $privateMessage->read        = 0;
-        $privateMessage->save();
+        $privateMessage->save();*/
         /*remove later end*/
 
         if($id) {
@@ -319,7 +319,7 @@ class DashboardController extends Controller
                 $redis = Redis::connection();
                 $redis->publish('message', $message);
                 /*$redis->publish('message', json_encode($message));*/
-                return response()->json(['status' => $message], 200);
+                return response()->json(['status' => 'success'], 200);
             }
         }
         else {
@@ -336,7 +336,7 @@ class DashboardController extends Controller
     public function inquiryAPIUnreadCount($id)
     {
         /*remove later begin*/
-        $book                = new Booking;
+        /*$book                = new Booking;
         $book->cabinname     = 'Schwarzwasserhütte';
         $book->user          = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $book->bookingdate   = Carbon::now();
@@ -346,7 +346,7 @@ class DashboardController extends Controller
         $book->status        = '7';
         $book->inquirystatus = 0;
         $book->is_delete     = 0;
-        $book->save();
+        $book->save();*/
         /*remove later end*/
 
         if($id) {
@@ -371,7 +371,7 @@ class DashboardController extends Controller
 
                 $redis = Redis::connection();
                 $redis->publish('inquiryCount', $inquiryCount);
-                return response()->json(['status' => $inquiryCount], 200);
+                return response()->json(['status' => 'success'], 200);
             }
         }
         else {

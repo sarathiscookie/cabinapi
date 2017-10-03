@@ -24,7 +24,6 @@ Route::put('/message/count/{id}', 'Cabinowner\DashboardController@privateMessage
 /* Get inquiry count when new inquiry created in front end */
 Route::put('/inquiry/count/{id}', 'Cabinowner\DashboardController@inquiryAPIUnreadCount');
 
-
 /*
 |--------------------------------------------------------------------------
 | API General Routes
