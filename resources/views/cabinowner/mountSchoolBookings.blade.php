@@ -28,7 +28,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbDashboard')</a></li>
-                <li><a href="/cabinowner/bookings"><i class="fa fa-table"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbBooking')</a></li>
+                <li><a href="/cabinowner/mschool/bookings"><i class="fa fa-table"></i> @lang('cabinownerMountainSchoolBooking.breadcrumbBooking')</a></li>
                 <li class="active">@lang('cabinownerMountainSchoolBooking.breadcrumbMountainSchool')</li>
             </ol>
         </section>

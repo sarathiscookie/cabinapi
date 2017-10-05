@@ -19,7 +19,7 @@ return [
     'heading'                                => 'Bergschulenliste',
     'subHeading'                             => 'Verwaltungstool',
     'breadcrumbDashboard'                    => 'Übersicht',
-    'breadcrumbBooking'                      => 'Buchungen',
+    'breadcrumbBooking'                      => 'Bergschulen',
     'breadcrumbMountainSchool'               => 'Bergschulenliste',
     'detailsHeading'                         => 'Bergschulen Buchung Details',
     'bookingListMenu'                        => 'Bergschulenliste',

@@ -19,7 +19,7 @@ return [
     'heading'                                => 'Mountain School Bookings',
     'subHeading'                             => 'Control Panel',
     'breadcrumbDashboard'                    => 'Dashboard',
-    'breadcrumbBooking'                      => 'Booking',
+    'breadcrumbBooking'                      => 'Mountain School',
     'breadcrumbMountainSchool'               => 'Mountain School Bookings',
     'detailsHeading'                         => 'Mountain School Booking Details',
     'bookingListMenu'                        => 'Mschool Booking List',
