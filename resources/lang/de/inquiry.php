@@ -91,8 +91,8 @@ return [
     /* Sidebar messages end */
 
     /* Alert messages */
-    'inquiryStatusApproved'                 => 'Inquiry status updated to waiting for payment. You can find in bookings list. Please ',
-    'inquiryStatusApprovedSec'              => 'for quick view.',
+    'inquiryStatusApproved'                 => 'Der Anfragenstatus wurde nun auf "warten auf Zahlung" gestellt. Die Buchung finden Sie nun in der Buchungsliste. ',
+    'inquiryStatusApprovedSec'              => 'um diese zu öffnen.',
     'inquiryStatusRejected'                 => 'Anfrage Status abgelehnt',
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',

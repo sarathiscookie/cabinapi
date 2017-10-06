@@ -162,7 +162,7 @@ $(function () {
             type: 'PUT'
         })
             .done(function( response ) {
-                $('.inquiryStatusResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.statusInquiry+'<a href="/cabinowner/bookings/'+response.dataId+'"> click here </a> for quick view</div>');
+                $('.inquiryStatusResponse').html('<div class="alert alert-success alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+response.statusInquiry+'<a href="/cabinowner/bookings/'+response.dataId+'"> Hier klicken </a> '+response.inquiryStatusApprovedSec+'</div>');
                 inquiry_data.ajax.reload(null, false);
             })
             .fail(function() {
