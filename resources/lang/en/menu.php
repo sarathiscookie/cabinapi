@@ -31,5 +31,9 @@ return [
     'userCreditStatisticsMenu'              => 'User Credit Statistics',
 
     'inquiryMenu'                           => 'Inquiry',
-    'inquiryList'                           => 'Inquiry List'
+    'inquiryList'                           => 'Inquiry List',
+
+    'cabinEditMenu'                         => 'Edit Cabin',
+    'contingentMenu'                        => 'Contingent',
+    'openTimeMenu'                          => 'Open & Close Time',
 ];

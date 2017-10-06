@@ -341,5 +341,16 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Reply message */
         Route::post('/message/send', 'Cabinowner\InquiryBookingsController@sendMessage')->name('cabinowner.inquiry.message.send');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for contingent
+        |--------------------------------------------------------------------------
+        |
+        | Routes for edit contingent
+        */
+
+        /* Edit contingent */
+        Route::get('/contingent', 'Cabinowner\ContingentController@index')->name('cabinowner.contingent');
     });
 });

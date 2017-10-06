@@ -31,6 +31,10 @@ return [
     'userCreditStatisticsMenu'              => 'Guthaben Statistik',
 
     'inquiryMenu'                           => 'Anfrage',
-    'inquiryList'                           => 'Anfrageliste'
+    'inquiryList'                           => 'Anfrageliste',
+
+    'cabinEditMenu'                         => 'Einstellungen',
+    'contingentMenu'                        => 'Kontingent',
+    'openTimeMenu'                          => 'Offene Zeiten',
 
 ];
