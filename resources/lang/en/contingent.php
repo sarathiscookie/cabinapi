@@ -44,7 +44,7 @@ return [
     'selectRulesRegular'                     => 'Regular',
     'selectRulesNotRegular'                  => 'Not Regular',
     'regularLabel'                           => 'Regular',
-    'notRegularLabel'                        => 'Not Regular',
+    'notRegularLabel'                        => 'Set a period',
     'daterangepickerButtonLabel'             => 'Date range picker',
     'monday'                                 => 'Monday',
     'tuesday'                                => 'Tuesday',
