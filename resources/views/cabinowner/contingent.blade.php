@@ -137,7 +137,7 @@
                                         <div class="box box-default box-solid">
 
                                             <div class="box-header with-border">
-                                                <h3 class="box-title">@lang('contingent.selectRulesRegular')</h3>
+                                                <h3 class="box-title"> @lang('contingent.selectRulesRegular')</h3>
                                             </div>
 
                                             <div class="box-body">
@@ -145,44 +145,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.monday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="monday" name="monday" value="1"> @lang('contingent.monday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="monday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
-                                                                <label for="mon_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                            <div class="form-group {{ $errors->has('mon_beds') ? ' has-error' : '' }}">
+                                                                <label for="mon_beds"> @lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="mon_beds" name="mon_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="mon_beds" name="mon_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('mon_beds', $cabin->mon_beds)}}">
+
+                                                                @if ($errors->has('mon_beds'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('mon_beds') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('mon_dorms') ? ' has-error' : '' }}">
                                                                 <label for="mon_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="mon_dorms" name="mon_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="mon_dorms" name="mon_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('mon_dorms', $cabin->mon_dorms)}}">
+
+                                                                @if ($errors->has('mon_dorms'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('mon_dorms') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('mon_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="mon_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="mon_emergency_rooms" name="mon_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="mon_emergency_rooms" name="mon_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('mon_emergency_rooms', $cabin->mon_emergency_rooms)}}">
+
+                                                                @if ($errors->has('mon_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('mon_emergency_rooms') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('mon_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="mon_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="mon_inquiry_guest" name="mon_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="mon_inquiry_guest" name="mon_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('mon_inquiry_guest', $cabin->mon_inquiry_guest)}}">
+
+                                                                @if ($errors->has('mon_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('mon_inquiry_guest') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('mon_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="mon_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="mon_ms_inquiry_guest" name="mon_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="mon_ms_inquiry_guest" name="mon_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('mon_ms_inquiry_guest', $cabin->mon_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('mon_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('mon_ms_inquiry_guest') }}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -193,44 +213,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.tuesday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="tuesday" name="tuesday" value="1"> @lang('contingent.tuesday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="tuesday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('tue_beds') ? ' has-error' : '' }}">
                                                                 <label for="tue_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="tue_beds" name="tues_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="tue_beds" name="tue_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('tue_beds', $cabin->tue_beds)}}">
+
+                                                                @if ($errors->has('tue_beds'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tue_beds') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('tue_dorms') ? ' has-error' : '' }}">
                                                                 <label for="tue_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="tue_dorms" name="tues_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="tue_dorms" name="tue_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('tue_dorms', $cabin->tue_dorms)}}">
+
+                                                                @if ($errors->has('tue_dorms'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tue_dorms') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('tue_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="tue_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="tue_emergency_rooms" name="tue_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="tue_emergency_rooms" name="tue_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('tue_emergency_rooms', $cabin->tue_emergency_rooms)}}">
+
+                                                                @if ($errors->has('tue_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tue_emergency_rooms') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('tue_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="tue_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="tue_inquiry_guest" name="tue_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="tue_inquiry_guest" name="tue_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('tue_inquiry_guest', $cabin->tue_inquiry_guest)}}">
+
+                                                                @if ($errors->has('tue_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tue_inquiry_guest') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('tue_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="tue_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="tue_ms_inquiry_guest" name="tue_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="tue_ms_inquiry_guest" name="tue_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('tue_ms_inquiry_guest', $cabin->tue_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('tue_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tue_ms_inquiry_guest') }}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -241,44 +281,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.wednesday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="wednesday" name="wednesday" value="1"> @lang('contingent.wednesday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="wednesday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('wed_beds') ? ' has-error' : '' }}">
                                                                 <label for="wed_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_beds" name="wed_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="wed_beds" name="wed_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('wed_beds', $cabin->wed_beds)}}">
+
+                                                                @if ($errors->has('wed_beds'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('wed_beds') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('wed_dorms') ? ' has-error' : '' }}">
                                                                 <label for="wed_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('wed_dorms', $cabin->wed_beds)}}">
+
+                                                                @if ($errors->has('wed_dorms'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('wed_dorms') }}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('wed_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="wed_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_emergency_rooms" name="wed_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="wed_emergency_rooms" name="wed_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('wed_emergency_rooms', $cabin->wed_emergency_rooms)}}">
+
+                                                                @if ($errors->has('wed_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('wed_emergency_rooms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('wed_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="wed_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_inquiry_guest" name="wed_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="wed_inquiry_guest" name="wed_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('wed_inquiry_guest', $cabin->wed_inquiry_guest)}}">
+
+                                                                @if ($errors->has('wed_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('wed_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('wed_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="wed_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_ms_inquiry_guest" name="wed_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="wed_ms_inquiry_guest" name="wed_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('wed_ms_inquiry_guest', $cabin->wed_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('wed_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('wed_ms_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -289,44 +349,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.thursday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="thursday" name="thursday" value="1"> @lang('contingent.thursday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="thursday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('thu_beds') ? ' has-error' : '' }}">
                                                                 <label for="thu_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_beds" name="thu_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="thu_beds" name="thu_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('thu_beds', $cabin->thu_beds)}}">
+
+                                                                @if ($errors->has('thu_beds'))
+                                                                    <span class="help-block"><strong>{{$errors->first('thu_beds')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('thu_dorms') ? ' has-error' : '' }}">
                                                                 <label for="thu_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_dorms" name="thu_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="thu_dorms" name="thu_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('thu_dorms', $cabin->thu_dorms)}}">
+
+                                                                @if ($errors->has('thu_dorms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('thu_dorms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('thu_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="thu_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_emergency_rooms" name="thu_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="thu_emergency_rooms" name="thu_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('thu_emergency_rooms', $cabin->thu_emergency_rooms)}}">
+
+                                                                @if ($errors->has('thu_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('thu_emergency_rooms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('thu_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="thu_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_inquiry_guest" name="thu_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="thu_inquiry_guest" name="thu_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('thu_inquiry_guest', $cabin->thu_inquiry_guest)}}">
+
+                                                                @if ($errors->has('thu_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('thu_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('thu_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="thu_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_ms_inquiry_guest" name="thu_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="thu_ms_inquiry_guest" name="thu_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('thu_ms_inquiry_guest', $cabin->thu_inquiry_guest)}}">
+
+                                                                @if ($errors->has('thu_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('thu_ms_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -337,44 +417,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.friday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="friday" name="friday" value="1"> @lang('contingent.friday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="friday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('fri_beds') ? ' has-error' : '' }}">
                                                                 <label for="fri_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="fri_beds" name="fri_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="fri_beds" name="fri_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('fri_beds', $cabin->fri_beds)}}">
+
+                                                                @if ($errors->has('fri_beds'))
+                                                                    <span class="help-block"><strong>{{$errors->first('fri_beds')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('fri_dorms') ? ' has-error' : '' }}">
                                                                 <label for="fri_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="fri_dorms" name="fri_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="fri_dorms" name="fri_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('fri_dorms', $cabin->fri_dorms)}}">
+
+                                                                @if ($errors->has('fri_dorms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('fri_dorms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('fri_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="fri_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="fri_emergency_rooms" name="fri_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="fri_emergency_rooms" name="fri_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('fri_emergency_rooms', $cabin->fri_emergency_rooms)}}">
+
+                                                                @if ($errors->has('fri_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('fri_emergency_rooms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('fri_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="fri_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="fri_inquiry_guest" name="fri_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="fri_inquiry_guest" name="fri_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('fri_inquiry_guest', $cabin->fri_inquiry_guest)}}">
+
+                                                                @if ($errors->has('fri_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('fri_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('fri_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="fri_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="fri_ms_inquiry_guest" name="fri_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="fri_ms_inquiry_guest" name="fri_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('fri_ms_inquiry_guest', $cabin->fri_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('fri_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('fri_ms_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
@@ -385,44 +485,64 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.saturday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="saturday" name="saturday" value="1"> @lang('contingent.saturday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="saturday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sat_beds') ? ' has-error' : '' }}">
                                                                 <label for="sat_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sat_beds" name="sat_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="sat_beds" name="sat_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('sat_beds', $cabin->sat_beds)}}">
+
+                                                                @if ($errors->has('sat_beds'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sat_beds')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sat_dorms') ? ' has-error' : '' }}">
                                                                 <label for="sat_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sat_dorms" name="sat_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="sat_dorms" name="sat_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('sat_dorms', $cabin->sat_dorms)}}">
+
+                                                                @if ($errors->has('sat_dorms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sat_dorms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sat_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="sat_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sat_emergency_rooms" name="sat_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="sat_emergency_rooms" name="sat_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('sat_emergency_rooms', $cabin->sat_emergency_rooms)}}">
+
+                                                                @if ($errors->has('sat_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sat_emergency_rooms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sat_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="sat_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sat_inquiry_guest" name="sat_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="sat_inquiry_guest" name="sat_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('sat_inquiry_guest', $cabin->sat_inquiry_guest)}}">
+
+                                                                @if ($errors->has('sat_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sat_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sat_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="sat_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sat_ms_inquiry_guest" name="sat_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="sat_ms_inquiry_guest" name="sat_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('sat_ms_inquiry_guest', $cabin->sat_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('sat_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sat_ms_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
                                                         </div>
@@ -432,46 +552,66 @@
 
                                                 <!-- Sunday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('sun_beds') || $errors->has('sun_dorms')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title">@lang('contingent.sunday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="sunday" name="sunday" value="1"> @lang('contingent.sunday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <input type="hidden" name="sunday">
+
                                                         <div class="box-body">
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sun_beds') ? ' has-error' : '' }}">
                                                                 <label for="sun_beds">@lang('contingent.noOfBedsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sun_beds" name="sun_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+                                                                <input type="text" class="form-control" id="sun_beds" name="sun_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('sun_beds', $cabin->sun_beds)}}">
+
+                                                                @if ($errors->has('sun_beds'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sun_beds')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sun_dorms') ? ' has-error' : '' }}">
                                                                 <label for="sun_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sun_dorms" name="sun_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+                                                                <input type="text" class="form-control" id="sun_dorms" name="sun_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('sun_dorms', $cabin->sun_dorms)}}">
+
+                                                                @if ($errors->has('sun_dorms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sun_dorms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sun_emergency_rooms') ? ' has-error' : '' }}">
                                                                 <label for="sun_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sun_emergency_rooms" name="sun_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+                                                                <input type="text" class="form-control" id="sun_emergency_rooms" name="sun_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('sun_emergency_rooms', $cabin->sun_emergency_rooms)}}">
+
+                                                                @if ($errors->has('sun_emergency_rooms'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sun_emergency_rooms')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sun_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="sun_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sun_inquiry_guest" name="sun_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="sun_inquiry_guest" name="sun_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('sun_inquiry_guest', $cabin->sun_inquiry_guest)}}">
+
+                                                                @if ($errors->has('sun_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sun_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
 
-                                                            <div class="form-group">
+                                                            <div class="form-group {{ $errors->has('sun_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="sun_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="sun_ms_inquiry_guest" name="sun_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+                                                                <input type="text" class="form-control" id="sun_ms_inquiry_guest" name="sun_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('sun_ms_inquiry_guest', $cabin->sun_ms_inquiry_guest)}}">
+
+                                                                @if ($errors->has('sun_ms_inquiry_guest'))
+                                                                    <span class="help-block"><strong>{{$errors->first('sun_ms_inquiry_guest')}}</strong></span>
+                                                                @endif
                                                             </div>
                                                         </div>
 
