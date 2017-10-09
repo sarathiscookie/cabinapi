@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cabinowner;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ContingentRequest;
 use App\Http\Controllers\Controller;
 use App\Cabin;
 use Auth;
@@ -69,13 +70,14 @@ class ContingentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ContingentRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ContingentRequest $request)
     {
-        //
+        //dd($request->all());
+        return redirect()->back()->with('status', 'Updated!');
     }
 
     /**

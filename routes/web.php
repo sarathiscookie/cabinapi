@@ -352,5 +352,7 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Edit contingent */
         Route::get('/contingent', 'Cabinowner\ContingentController@index')->name('cabinowner.contingent');
+
+        Route::post('/contingent/update', 'Cabinowner\ContingentController@update')->name('cabinowner.contingent.update');
     });
 });

@@ -1,34 +1,33 @@
 $(function(){
 
-    /* Rules: Get rule value from */
-    /*var ruleValue = $( ".selectRules option:selected" ).val();
-
-    if(ruleValue == 1) {
-        $( ".regular" ).show();
-        $( ".notRegular" ).hide();
-    }
-    else if(ruleValue == 2) {
-        $( ".regular" ).hide();
-        $( ".notRegular" ).show();
+    /* Functionality for check box */
+    if($('#regularCheckbox').is(":checked")) {
+        $('#regular').show();
     }
     else {
-        $( ".regular" ).hide();
-        $( ".notRegular" ).hide();
-    }*/
+        $('#regular').hide();
+        $('#regular').attr({
+            style: "display:none"
+        });
+    }
 
-    /* Show and hide regular and not regular */
-    /*$( ".selectRules" ).on('change', function (e){
-        var optionSelected = $("option:selected", this);
-        var valueSelected = this.value;
-        if( valueSelected == 1 ) {
-            $( ".regular" ).show();
-            $( ".notRegular" ).hide();
-        }
-        else if( valueSelected == 2 ) {
-            $( ".regular" ).hide();
-            $( ".notRegular" ).show();
-        }
-    });*/
+    if($('#notRegularCheckbox').is(":checked")) {
+        $('#notRegular').show();
+    }
+    else {
+        $('#notRegular').hide();
+        $('#notRegular').attr({
+            style: "display:none"
+        });
+    }
+
+    $('#regularCheckbox').on('change', function() {
+        $('#regular').toggle();
+    });
+
+    $('#notRegularCheckbox').on('change', function() {
+        $('#notRegular').toggle();
+    });
 
     /* Date range functionality begins */
     $('#daterange').daterangepicker({
