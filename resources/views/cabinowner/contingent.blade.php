@@ -56,8 +56,8 @@
 
                                                 <select class="form-control" name="reservation_type" id="reservation_type">
                                                     <option value="2">--- @lang('contingent.selectReservationType') ---</option>
-                                                    <option value="0" @if($cabin->sleeping_place == 0) selected="selected" @endif>@lang('contingent.reservationTypeBeds')</option>
-                                                    <option value="1" @if($cabin->sleeping_place == 1) selected="selected" @endif>@lang('contingent.reservationTypeSleeps')</option>
+                                                    <option value="0" @if($cabin->sleeping_place == 0 || old('reservation_type') == 0) selected="selected" @endif>@lang('contingent.reservationTypeBeds')</option>
+                                                    <option value="1" @if($cabin->sleeping_place == 1 || old('reservation_type') == 1) selected="selected" @endif>@lang('contingent.reservationTypeSleeps')</option>
                                                 </select>
 
                                                 @if ($errors->has('reservation_type'))
@@ -121,11 +121,11 @@
                                         <label for="rule">@lang('contingent.rulesLabel') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Select rules."></i></label>
                                         <div>
                                             <label for="regularCheckbox">
-                                                <input type="checkbox" id="regularCheckbox" name="regularCheckbox" @if($cabin->regular == 1) checked @endif>
+                                                <input type="checkbox" id="regularCheckbox" name="regularCheckbox" value="1" @if($cabin->regular == 1 || old('regularCheckbox') == 1) checked @endif>
                                                 Regular
                                             </label>
                                             <label for="notRegularCheckbox">
-                                                <input type="checkbox" id="notRegularCheckbox" name="notRegularCheckbox" @if($cabin->not_regular == 1) checked @endif>
+                                                <input type="checkbox" id="notRegularCheckbox" name="notRegularCheckbox" value="1" @if($cabin->not_regular == 1 || old('notRegularCheckbox') == 1) checked @endif>
                                                 Not Regular
                                             </label>
                                         </div>
@@ -154,24 +154,34 @@
                                                         </div>
                                                         <input type="hidden" name="monday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="mon_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="mon_beds" name="mon_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="mon_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="mon_dorms" name="mon_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="mon_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="mon_emergency_rooms" name="mon_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="mon_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="mon_inquiry_guest" name="mon_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="mon_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="mon_ms_inquiry_guest" name="mon_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -192,24 +202,34 @@
                                                         </div>
                                                         <input type="hidden" name="tuesday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="tue_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="tue_beds" name="tues_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="tue_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="tue_dorms" name="tues_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="tue_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="tue_emergency_rooms" name="tue_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="tue_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="tue_inquiry_guest" name="tue_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="tue_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="tue_ms_inquiry_guest" name="tue_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -230,24 +250,34 @@
                                                         </div>
                                                         <input type="hidden" name="wednesday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="wed_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="wed_beds" name="wed_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="wed_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="wed_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="wed_emergency_rooms" name="wed_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="wed_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="wed_inquiry_guest" name="wed_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="wed_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="wed_ms_inquiry_guest" name="wed_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -268,24 +298,34 @@
                                                         </div>
                                                         <input type="hidden" name="thursday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="thu_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="thu_beds" name="thu_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="thu_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="thu_dorms" name="thu_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="thu_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="thu_emergency_rooms" name="thu_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="thu_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="thu_inquiry_guest" name="thu_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="thu_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="thu_ms_inquiry_guest" name="thu_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -306,24 +346,34 @@
                                                         </div>
                                                         <input type="hidden" name="friday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="fri_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="fri_beds" name="fri_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="fri_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="fri_dorms" name="fri_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="fri_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="fri_emergency_rooms" name="fri_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="fri_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="fri_inquiry_guest" name="fri_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="fri_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="fri_ms_inquiry_guest" name="fri_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -344,26 +394,37 @@
                                                         </div>
                                                         <input type="hidden" name="saturday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="sat_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sat_beds" name="sat_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sat_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sat_dorms" name="sat_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sat_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sat_emergency_rooms" name="sat_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sat_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sat_inquiry_guest" name="sat_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sat_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sat_ms_inquiry_guest" name="sat_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
+
                                                         </div>
 
                                                     </div>
@@ -382,24 +443,34 @@
                                                         </div>
                                                         <input type="hidden" name="sunday">
                                                         <div class="box-body">
+
                                                             <div class="form-group">
                                                                 <label for="sun_beds">@lang('contingent.noOfBedsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sun_beds" name="sun_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sun_dorms">@lang('contingent.noOfDormsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sun_dorms" name="sun_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sun_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sun_emergency_rooms" name="sun_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sun_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sun_inquiry_guest" name="sun_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label for="sun_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+
                                                                 <input type="text" class="form-control" id="sun_ms_inquiry_guest" name="sun_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
                                                             </div>
                                                         </div>
@@ -426,39 +497,77 @@
 
                                             <div class="box-body">
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_date') ? ' has-error' : '' }}">
                                                         <label>@lang('contingent.daterangepickerButtonLabel')</label>
 
                                                         <div class="input-group">
                                                             <div class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>
                                                             </div>
-                                                            <input type="text" class="form-control pull-right" id="daterange">
+
+                                                            <input type="text" class="form-control pull-right" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}">
+
+                                                            @if ($errors->has('not_regular_date'))
+                                                                <span class="help-block"><strong>{{ $errors->first('not_regular_date') }}</strong></span>
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_beds') ? ' has-error' : '' }}">
                                                         <label for="not_regular_beds">@lang('contingent.noOfBedsLabel')</label>
-                                                        <input type="text" class="form-control" id="not_regular_beds" name="not_regular_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{$cabin->beds}}">
+
+                                                        <input type="text" class="form-control" id="not_regular_beds" name="not_regular_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('not_regular_beds', $cabin->not_regular_beds)}}">
+
+                                                        @if ($errors->has('not_regular_beds'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_beds') }}</strong></span>
+                                                        @endif
                                                     </div>
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_dorms') ? ' has-error' : '' }}">
                                                         <label for="not_regular_dorms">@lang('contingent.noOfDormsLabel')</label>
-                                                        <input type="text" class="form-control" id="not_regular_dorms" name="not_regular_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{$cabin->dormitory}}">
+
+                                                        <input type="text" class="form-control" id="not_regular_dorms" name="not_regular_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('not_regular_dorms', $cabin->not_regular_dorms)}}">
+
+                                                        @if ($errors->has('not_regular_dorms'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_dorms') }}</strong></span>
+                                                        @endif
                                                     </div>
+
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_emergency_rooms') ? ' has-error' : '' }}">
                                                         <label for="not_regular_emergency_rooms">@lang('contingent.emergencyRoomsLabel')</label>
-                                                        <input type="text" class="form-control" id="not_regular_emergency_rooms" name="not_regular_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{$cabin->makeshift}}">
+
+                                                        <input type="text" class="form-control" id="not_regular_emergency_rooms" name="not_regular_emergency_rooms" placeholder="@lang('contingent.emergencyRoomsPlaceholder')" maxlength="10" value="{{old('not_regular_emergency_rooms', $cabin->not_regular_emergency_rooms)}}">
+
+                                                        @if ($errors->has('not_regular_emergency_rooms'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_emergency_rooms') }}</strong></span>
+                                                        @endif
                                                     </div>
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_inquiry_guest') ? ' has-error' : '' }}">
                                                         <label for="not_regular_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
-                                                        <input type="text" class="form-control" id="not_regular_inquiry_guest" name="not_regular_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->inquiry_starts}}">
+
+                                                        <input type="text" class="form-control" id="not_regular_inquiry_guest" name="not_regular_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('not_regular_inquiry_guest', $cabin->not_regular_inquiry_guest)}}">
+
+                                                        @if ($errors->has('not_regular_inquiry_guest'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_inquiry_guest') }}</strong></span>
+                                                        @endif
                                                     </div>
-                                                    <div class="form-group">
+
+                                                    <div class="form-group {{ $errors->has('not_regular_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                         <label for="not_ms_regular_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
-                                                        <input type="text" class="form-control" id="not_ms_regular_inquiry_guest" name="not_ms_regular_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{$cabin->ms_inquiry_starts}}">
+
+                                                        <input type="text" class="form-control" id="not_regular_ms_inquiry_guest" name="not_regular_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('not_regular_ms_inquiry_guest', $cabin->not_regular_ms_inquiry_guest)}}">
+
+                                                        @if ($errors->has('not_regular_ms_inquiry_guest'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_ms_inquiry_guest') }}</strong></span>
+                                                        @endif
                                                     </div>
+
                                                 </div>
                                             </div>
 

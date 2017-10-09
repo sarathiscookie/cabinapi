@@ -76,8 +76,18 @@ class ContingentController extends Controller
      */
     public function update(ContingentRequest $request)
     {
-        //dd($request->all());
-        return redirect()->back()->with('status', 'Updated!');
+        $errors = '';
+        if($request->notRegularCheckbox === '1') {
+            $errors = $this->validate($request, [
+                'not_regular_date'             => 'required',
+                'not_regular_beds'             => 'required|numeric',
+                'not_regular_dorms'            => 'required|numeric',
+                'not_regular_emergency_rooms'  => 'numeric|nullable',
+                'not_regular_inquiry_guest'    => 'numeric|nullable',
+                'not_regular_ms_inquiry_guest' => 'numeric|nullable'
+            ]);
+        }
+        return redirect()->back()->with('errors', $errors);
     }
 
     /**
