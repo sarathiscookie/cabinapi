@@ -18,11 +18,11 @@ return [
     |
     */
     'pageHeading'                            => 'Contingent',
-    'smallHeading'                           => 'Cabin Details',
+    'smallHeading'                           => 'Reservation Details',
     'dashboard'                              => 'Dashboard',
     'breadcrumbOne'                          => 'Edit Cabins',
     'breadcrumbTwo'                          => 'Contingent',
-    'formHeading'                            => 'Cabin details',
+    'formHeading'                            => 'Reservation Details',
 
     /* Form */
     'reservationType'                        => 'Reservation Type',
@@ -53,5 +53,5 @@ return [
     'friday'                                 => 'Friday',
     'saturday'                               => 'Saturday',
     'sunday'                                 => 'Sunday',
-    'updateButton'                           => 'Update'
+    'updateButton'                           => 'Update Reservation'
     ];

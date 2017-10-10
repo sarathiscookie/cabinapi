@@ -131,11 +131,11 @@
                                         <div>
                                             <label for="regularCheckbox">
                                                 <input type="checkbox" id="regularCheckbox" name="regularCheckbox" value="1" @if($cabin->regular == 1 || old('regularCheckbox') == 1) checked @endif>
-                                                Regular
+                                                @lang('contingent.selectRulesRegular')
                                             </label>
                                             <label for="notRegularCheckbox">
                                                 <input type="checkbox" id="notRegularCheckbox" name="notRegularCheckbox" value="1" @if($cabin->not_regular == 1 || old('notRegularCheckbox') == 1) checked @endif>
-                                                Not Regular
+                                                @lang('contingent.selectRulesNotRegular')
                                             </label>
                                         </div>
                                     </div>
@@ -721,7 +721,7 @@
                                 <!-- /.box-body -->
 
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary pull-right">Update</button>
+                                    <button type="submit" class="btn btn-primary pull-right">@lang('contingent.updateButton')</button>
                                 </div>
                             </form>
                         @endif
