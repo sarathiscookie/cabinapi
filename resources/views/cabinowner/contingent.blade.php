@@ -41,6 +41,15 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">@lang('contingent.formHeading')</h3>
+
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {{ session('status') }}
+                                </div>
+                            @endif
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
@@ -145,7 +154,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="monday" name="monday" value="1"> @lang('contingent.monday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="monday" name="monday" value="1" @if($cabin->mon_day == 1 || old('monday') == 1) checked @endif> @lang('contingent.monday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -213,7 +222,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="tuesday" name="tuesday" value="1"> @lang('contingent.tuesday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="tuesday" name="tuesday" value="1" @if($cabin->tue_day == 1 || old('tuesday') == 1) checked @endif> @lang('contingent.tuesday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -281,7 +290,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="wednesday" name="wednesday" value="1"> @lang('contingent.wednesday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="wednesday" name="wednesday" value="1" @if($cabin->wed_day == 1 || old('wednesday') == 1) checked @endif> @lang('contingent.wednesday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -304,7 +313,7 @@
                                                             <div class="form-group {{ $errors->has('wed_dorms') ? ' has-error' : '' }}">
                                                                 <label for="wed_dorms">@lang('contingent.noOfDormsLabel')</label>
 
-                                                                <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('wed_dorms', $cabin->wed_beds)}}">
+                                                                <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('wed_dorms', $cabin->wed_dorms)}}">
 
                                                                 @if ($errors->has('wed_dorms'))
                                                                     <span class="help-block"><strong>{{ $errors->first('wed_dorms') }}</strong></span>
@@ -349,7 +358,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="thursday" name="thursday" value="1"> @lang('contingent.thursday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="thursday" name="thursday" value="1" @if($cabin->thu_day == 1 || old('thursday') == 1) checked @endif> @lang('contingent.thursday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -402,7 +411,7 @@
                                                             <div class="form-group {{ $errors->has('thu_ms_inquiry_guest') ? ' has-error' : '' }}">
                                                                 <label for="thu_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
 
-                                                                <input type="text" class="form-control" id="thu_ms_inquiry_guest" name="thu_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('thu_ms_inquiry_guest', $cabin->thu_inquiry_guest)}}">
+                                                                <input type="text" class="form-control" id="thu_ms_inquiry_guest" name="thu_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('thu_ms_inquiry_guest', $cabin->thu_ms_inquiry_guest)}}">
 
                                                                 @if ($errors->has('thu_ms_inquiry_guest'))
                                                                     <span class="help-block"><strong>{{$errors->first('thu_ms_inquiry_guest')}}</strong></span>
@@ -417,7 +426,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="friday" name="friday" value="1"> @lang('contingent.friday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="friday" name="friday" value="1" @if($cabin->fri_day == 1 || old('friday') == 1) checked @endif> @lang('contingent.friday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -485,7 +494,7 @@
                                                 <div class="col-md-4">
                                                     <div class="box box-default collapsed-box box-solid">
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="saturday" name="saturday" value="1"> @lang('contingent.saturday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="saturday" name="saturday" value="1" @if($cabin->sat_day == 1 || old('saturday') == 1) checked @endif> @lang('contingent.saturday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -554,7 +563,7 @@
                                                 <div class="col-md-4">
                                                     <div @if($errors->has('sun_beds') || $errors->has('sun_dorms')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
-                                                            <h3 class="box-title"><input type="checkbox" id="sunday" name="sunday" value="1"> @lang('contingent.sunday')</h3>
+                                                            <h3 class="box-title"><input type="checkbox" id="sunday" name="sunday" value="1" @if($cabin->sun_day == 1 || old('sunday') == 1) checked @endif> @lang('contingent.sunday')</h3>
 
                                                             <div class="box-tools pull-right">
                                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -641,17 +650,11 @@
                                                     <div class="form-group {{ $errors->has('not_regular_date') ? ' has-error' : '' }}">
                                                         <label>@lang('contingent.daterangepickerButtonLabel')</label>
 
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                        <input type="text" class="form-control" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}">
 
-                                                            <input type="text" class="form-control pull-right" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}">
-
-                                                            @if ($errors->has('not_regular_date'))
-                                                                <span class="help-block"><strong>{{ $errors->first('not_regular_date') }}</strong></span>
-                                                            @endif
-                                                        </div>
+                                                        @if ($errors->has('not_regular_date'))
+                                                            <span class="help-block"><strong>{{ $errors->first('not_regular_date') }}</strong></span>
+                                                        @endif
                                                     </div>
 
                                                     <div class="form-group {{ $errors->has('not_regular_beds') ? ' has-error' : '' }}">
