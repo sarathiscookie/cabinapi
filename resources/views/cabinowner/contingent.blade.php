@@ -152,7 +152,7 @@
                                             <div class="box-body">
                                                 <!-- Monday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('mon_beds') || $errors->has('mon_dorms') || $errors->has('mon_emergency_rooms') || $errors->has('mon_inquiry_guest') || $errors->has('mon_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="monday" name="monday" value="1" @if($cabin->mon_day == 1 || old('monday') == 1) checked @endif> @lang('contingent.monday')</h3>
 
@@ -165,7 +165,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('mon_beds') ? ' has-error' : '' }}">
-                                                                <label for="mon_beds"> @lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="mon_beds"> @lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="mon_beds" name="mon_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('mon_beds', $cabin->mon_beds)}}">
 
@@ -175,7 +175,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('mon_dorms') ? ' has-error' : '' }}">
-                                                                <label for="mon_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="mon_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="mon_dorms" name="mon_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('mon_dorms', $cabin->mon_dorms)}}">
 
@@ -220,7 +220,7 @@
 
                                                 <!-- Tuesday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('tue_beds') || $errors->has('tue_dorms') || $errors->has('tue_emergency_rooms') || $errors->has('tue_inquiry_guest') || $errors->has('tue_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="tuesday" name="tuesday" value="1" @if($cabin->tue_day == 1 || old('tuesday') == 1) checked @endif> @lang('contingent.tuesday')</h3>
 
@@ -233,7 +233,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('tue_beds') ? ' has-error' : '' }}">
-                                                                <label for="tue_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="tue_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="tue_beds" name="tue_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('tue_beds', $cabin->tue_beds)}}">
 
@@ -243,7 +243,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('tue_dorms') ? ' has-error' : '' }}">
-                                                                <label for="tue_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="tue_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="tue_dorms" name="tue_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('tue_dorms', $cabin->tue_dorms)}}">
 
@@ -288,7 +288,7 @@
 
                                                 <!-- Wednesday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('wed_beds') || $errors->has('wed_dorms') || $errors->has('wed_emergency_rooms') || $errors->has('wed_inquiry_guest') || $errors->has('wed_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="wednesday" name="wednesday" value="1" @if($cabin->wed_day == 1 || old('wednesday') == 1) checked @endif> @lang('contingent.wednesday')</h3>
 
@@ -301,7 +301,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('wed_beds') ? ' has-error' : '' }}">
-                                                                <label for="wed_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="wed_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="wed_beds" name="wed_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('wed_beds', $cabin->wed_beds)}}">
 
@@ -311,7 +311,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('wed_dorms') ? ' has-error' : '' }}">
-                                                                <label for="wed_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="wed_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="wed_dorms" name="wed_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('wed_dorms', $cabin->wed_dorms)}}">
 
@@ -356,7 +356,7 @@
 
                                                 <!-- Thursday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('thu_beds') || $errors->has('thu_dorms') || $errors->has('thu_emergency_rooms') || $errors->has('thu_inquiry_guest') || $errors->has('thu_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="thursday" name="thursday" value="1" @if($cabin->thu_day == 1 || old('thursday') == 1) checked @endif> @lang('contingent.thursday')</h3>
 
@@ -369,7 +369,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('thu_beds') ? ' has-error' : '' }}">
-                                                                <label for="thu_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="thu_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="thu_beds" name="thu_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('thu_beds', $cabin->thu_beds)}}">
 
@@ -379,7 +379,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('thu_dorms') ? ' has-error' : '' }}">
-                                                                <label for="thu_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="thu_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="thu_dorms" name="thu_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('thu_dorms', $cabin->thu_dorms)}}">
 
@@ -424,7 +424,7 @@
 
                                                 <!-- Friday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('fri_beds') || $errors->has('fri_dorms') || $errors->has('fri_emergency_rooms') || $errors->has('fri_inquiry_guest') || $errors->has('fri_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="friday" name="friday" value="1" @if($cabin->fri_day == 1 || old('friday') == 1) checked @endif> @lang('contingent.friday')</h3>
 
@@ -437,7 +437,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('fri_beds') ? ' has-error' : '' }}">
-                                                                <label for="fri_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="fri_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="fri_beds" name="fri_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('fri_beds', $cabin->fri_beds)}}">
 
@@ -447,7 +447,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('fri_dorms') ? ' has-error' : '' }}">
-                                                                <label for="fri_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="fri_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="fri_dorms" name="fri_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('fri_dorms', $cabin->fri_dorms)}}">
 
@@ -492,7 +492,7 @@
 
                                                 <!-- Saturday Div -->
                                                 <div class="col-md-4">
-                                                    <div class="box box-default collapsed-box box-solid">
+                                                    <div @if($errors->has('sat_beds') || $errors->has('sat_dorms') || $errors->has('sat_emergency_rooms') || $errors->has('sat_inquiry_guest') || $errors->has('sat_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="saturday" name="saturday" value="1" @if($cabin->sat_day == 1 || old('saturday') == 1) checked @endif> @lang('contingent.saturday')</h3>
 
@@ -505,7 +505,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('sat_beds') ? ' has-error' : '' }}">
-                                                                <label for="sat_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="sat_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="sat_beds" name="sat_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('sat_beds', $cabin->sat_beds)}}">
 
@@ -515,7 +515,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('sat_dorms') ? ' has-error' : '' }}">
-                                                                <label for="sat_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="sat_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="sat_dorms" name="sat_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('sat_dorms', $cabin->sat_dorms)}}">
 
@@ -561,7 +561,7 @@
 
                                                 <!-- Sunday Div -->
                                                 <div class="col-md-4">
-                                                    <div @if($errors->has('sun_beds') || $errors->has('sun_dorms')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
+                                                    <div @if($errors->has('sun_beds') || $errors->has('sun_dorms') || $errors->has('sun_emergency_rooms') || $errors->has('sun_inquiry_guest') || $errors->has('sun_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default collapsed-box box-solid" @endif>
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title"><input type="checkbox" id="sunday" name="sunday" value="1" @if($cabin->sun_day == 1 || old('sunday') == 1) checked @endif> @lang('contingent.sunday')</h3>
 
@@ -574,7 +574,7 @@
                                                         <div class="box-body">
 
                                                             <div class="form-group {{ $errors->has('sun_beds') ? ' has-error' : '' }}">
-                                                                <label for="sun_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                                <label for="sun_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="sun_beds" name="sun_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('sun_beds', $cabin->sun_beds)}}">
 
@@ -584,7 +584,7 @@
                                                             </div>
 
                                                             <div class="form-group {{ $errors->has('sun_dorms') ? ' has-error' : '' }}">
-                                                                <label for="sun_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                                <label for="sun_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                                 <input type="text" class="form-control" id="sun_dorms" name="sun_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('sun_dorms', $cabin->sun_dorms)}}">
 
@@ -634,7 +634,7 @@
                                     <!-- Div for not regular -->
                                     <div class="form-group" id="notRegular">
 
-                                        <div class="box box-default box-solid">
+                                        <div @if($errors->has('not_regular_date') || $errors->has('not_regular_beds') || $errors->has('not_regular_dorms') || $errors->has('not_regular_emergency_rooms') || $errors->has('not_regular_inquiry_guest') || $errors->has('not_regular_ms_inquiry_guest')) class="box box-danger box-solid" @else class="box box-default box-solid" @endif>
                                             <div class="box-header with-border">
                                                 <h3 class="box-title">@lang('contingent.selectRulesNotRegular')</h3>
 
@@ -648,7 +648,7 @@
                                                 <div class="col-md-6">
 
                                                     <div class="form-group {{ $errors->has('not_regular_date') ? ' has-error' : '' }}">
-                                                        <label>@lang('contingent.daterangepickerButtonLabel')</label>
+                                                        <label>@lang('contingent.daterangepickerButtonLabel') <span class="required">*</span></label>
 
                                                         <input type="text" class="form-control" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}">
 
@@ -658,7 +658,7 @@
                                                     </div>
 
                                                     <div class="form-group {{ $errors->has('not_regular_beds') ? ' has-error' : '' }}">
-                                                        <label for="not_regular_beds">@lang('contingent.noOfBedsLabel')</label>
+                                                        <label for="not_regular_beds">@lang('contingent.noOfBedsLabel') <span class="required">*</span></label>
 
                                                         <input type="text" class="form-control" id="not_regular_beds" name="not_regular_beds" placeholder="@lang('contingent.noOfBedsPlaceholder')" maxlength="10" value="{{old('not_regular_beds', $cabin->not_regular_beds)}}">
 
@@ -668,7 +668,7 @@
                                                     </div>
 
                                                     <div class="form-group {{ $errors->has('not_regular_dorms') ? ' has-error' : '' }}">
-                                                        <label for="not_regular_dorms">@lang('contingent.noOfDormsLabel')</label>
+                                                        <label for="not_regular_dorms">@lang('contingent.noOfDormsLabel') <span class="required">*</span></label>
 
                                                         <input type="text" class="form-control" id="not_regular_dorms" name="not_regular_dorms" placeholder="@lang('contingent.noOfDormsPlaceholder')" maxlength="10" value="{{old('not_regular_dorms', $cabin->not_regular_dorms)}}">
 

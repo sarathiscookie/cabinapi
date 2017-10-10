@@ -75,10 +75,6 @@ class ContingentController extends Controller
      */
     public function update(ContingentRequest $request)
     {
-        $errors                       = '';
-
-        $normal_sleeps                = '';
-
         $notRegular                   = 0;
         $not_regular_date             = '';
         $not_regular_beds             = '';
