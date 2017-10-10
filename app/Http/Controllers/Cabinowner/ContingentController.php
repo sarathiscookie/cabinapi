@@ -152,9 +152,7 @@ class ContingentController extends Controller
         $normal_emergency_rooms    = (isset($request->normal_emergency_rooms)) ? (int)$request->normal_emergency_rooms : '';
         $normal_inquiry_guest      = (isset($request->normal_inquiry_guest)) ? (int)$request->normal_inquiry_guest : '';
         $normal_ms_inquiry_guest   = (isset($request->normal_ms_inquiry_guest)) ? (int)$request->normal_ms_inquiry_guest : '';
-        if($sleeping_place === 1) {
-            $normal_sleeps         = ($normal_beds + $normal_dorms);
-        }
+        $normal_sleeps             = ($normal_beds + $normal_dorms);
 
         /* Not regular Rule */
         if($request->notRegularCheckbox === '1') {
@@ -165,9 +163,7 @@ class ContingentController extends Controller
             $not_regular_emergency_rooms   = (isset($request->not_regular_emergency_rooms)) ? (int)$request->not_regular_emergency_rooms : '';
             $not_regular_inquiry_guest     = (isset($request->not_regular_inquiry_guest)) ? (int)$request->not_regular_inquiry_guest : '';
             $not_regular_ms_inquiry_guest  = (isset($request->not_regular_ms_inquiry_guest)) ? (int)$request->not_regular_ms_inquiry_guest : '';
-            if($sleeping_place === 1) {
-                $not_regular_sleeps        = ($not_regular_beds + $not_regular_dorms);
-            }
+            $not_regular_sleeps            = ($not_regular_beds + $not_regular_dorms);
         }
 
         /* Regular rule */
@@ -180,9 +176,7 @@ class ContingentController extends Controller
                 $mon_emergency_rooms  = (isset($request->mon_emergency_rooms)) ? (int)$request->mon_emergency_rooms : '';
                 $mon_inquiry_guest    = (isset($request->mon_inquiry_guest)) ? (int)$request->mon_inquiry_guest : '';
                 $mon_ms_inquiry_guest = (isset($request->mon_ms_inquiry_guest)) ? (int)$request->mon_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $mon_sleeps       = ($mon_beds + $mon_dorms);
-                }
+                $mon_sleeps           = ($mon_beds + $mon_dorms);
             }
             if($request->tuesday === '1') {
                 $tue_day              = 1;
@@ -191,9 +185,7 @@ class ContingentController extends Controller
                 $tue_emergency_rooms  = (isset($request->tue_emergency_rooms)) ? (int)$request->tue_emergency_rooms : '';
                 $tue_inquiry_guest    = (isset($request->tue_inquiry_guest)) ? (int)$request->tue_inquiry_guest : '';
                 $tue_ms_inquiry_guest = (isset($request->tue_ms_inquiry_guest)) ? (int)$request->tue_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $tue_sleeps       = ($tue_beds + $tue_dorms);
-                }
+                $tue_sleeps           = ($tue_beds + $tue_dorms);
 
             }
             if($request->wednesday === '1') {
@@ -203,9 +195,7 @@ class ContingentController extends Controller
                 $wed_emergency_rooms  = (isset($request->wed_emergency_rooms)) ? (int)$request->wed_emergency_rooms : '';
                 $wed_inquiry_guest    = (isset($request->wed_inquiry_guest)) ? (int)$request->wed_inquiry_guest : '';
                 $wed_ms_inquiry_guest = (isset($request->wed_ms_inquiry_guest)) ? (int)$request->wed_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $wed_sleeps       = ($wed_beds + $wed_dorms);
-                }
+                $wed_sleeps           = ($wed_beds + $wed_dorms);
             }
             if($request->thursday === '1') {
                 $thu_day              = 1;
@@ -214,9 +204,7 @@ class ContingentController extends Controller
                 $thu_emergency_rooms  = (isset($request->thu_emergency_rooms)) ? (int)$request->thu_emergency_rooms : '';
                 $thu_inquiry_guest    = (isset($request->thu_inquiry_guest)) ? (int)$request->thu_inquiry_guest : '';
                 $thu_ms_inquiry_guest = (isset($request->thu_ms_inquiry_guest)) ? (int)$request->thu_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $thu_sleeps       = ($thu_beds + $thu_dorms);
-                }
+                $thu_sleeps           = ($thu_beds + $thu_dorms);
             }
             if($request->friday === '1') {
                 $fri_day              = 1;
@@ -225,9 +213,7 @@ class ContingentController extends Controller
                 $fri_emergency_rooms  = (isset($request->fri_emergency_rooms)) ? (int)$request->fri_emergency_rooms : '';
                 $fri_inquiry_guest    = (isset($request->fri_inquiry_guest)) ? (int)$request->fri_inquiry_guest : '';
                 $fri_ms_inquiry_guest = (isset($request->fri_ms_inquiry_guest)) ? (int)$request->fri_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $fri_sleeps       = ($fri_beds + $fri_dorms);
-                }
+                $fri_sleeps           = ($fri_beds + $fri_dorms);
             }
             if($request->saturday === '1') {
                 $sat_day              = 1;
@@ -236,9 +222,7 @@ class ContingentController extends Controller
                 $sat_emergency_rooms  = (isset($request->sat_emergency_rooms)) ? (int)$request->sat_emergency_rooms : '';
                 $sat_inquiry_guest    = (isset($request->sat_inquiry_guest)) ? (int)$request->sat_inquiry_guest : '';
                 $sat_ms_inquiry_guest = (isset($request->sat_ms_inquiry_guest)) ? (int)$request->sat_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $sat_sleeps       = ($sat_beds + $sat_dorms);
-                }
+                $sat_sleeps           = ($sat_beds + $sat_dorms);
             }
             if($request->sunday === '1') {
                 $sun_day              = 1;
@@ -247,9 +231,7 @@ class ContingentController extends Controller
                 $sun_emergency_rooms  = (isset($request->sun_emergency_rooms)) ? (int)$request->sun_emergency_rooms : '';
                 $sun_inquiry_guest    = (isset($request->sun_inquiry_guest)) ? (int)$request->sun_inquiry_guest : '';
                 $sun_ms_inquiry_guest = (isset($request->sun_ms_inquiry_guest)) ? (int)$request->sun_ms_inquiry_guest : '';
-                if($sleeping_place === 1) {
-                    $sun_sleeps       = ($sun_beds + $sun_dorms);
-                }
+                $sun_sleeps           = ($sun_beds + $sun_dorms);
             }
         }
 
