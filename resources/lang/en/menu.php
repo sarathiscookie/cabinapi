@@ -35,5 +35,5 @@ return [
 
     'cabinEditMenu'                         => 'Edit Cabin',
     'contingentMenu'                        => 'Contingent',
-    'openTimeMenu'                          => 'Open & Close Time',
+    'openTimeMenu'                          => 'Opening Hours',
 ];

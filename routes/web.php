@@ -354,5 +354,20 @@ Route::prefix('cabinowner')->group(function () {
         Route::get('/contingent', 'Cabinowner\ContingentController@index')->name('cabinowner.contingent');
 
         Route::post('/contingent/update', 'Cabinowner\ContingentController@update')->name('cabinowner.contingent.update');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for open close season
+        |--------------------------------------------------------------------------
+        |
+        | Routes for edit opening and closing season
+        */
+
+        /* Edit season */
+        Route::get('/season', 'Cabinowner\OpeningClosingSeasonController@index')->name('cabinowner.season');
+
+        Route::post('/season/summer/update', 'Cabinowner\OpeningClosingSeasonController@summerUpdate')->name('cabinowner.summer.season.update');
+
+        Route::post('/season/winter/update', 'Cabinowner\OpeningClosingSeasonController@winterUpdate')->name('cabinowner.winter.season.update');
     });
 });

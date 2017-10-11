@@ -197,7 +197,7 @@
                             <a href="/cabinowner/contingent"><i class="fa fa-circle-o"></i> @lang('menu.contingentMenu')</a>
                         </li>
                         <li>
-                            <a href=""><i class="fa fa-circle-o"></i> @lang('menu.openTimeMenu')</a>
+                            <a href="/cabinowner/season"><i class="fa fa-circle-o"></i> @lang('menu.openTimeMenu')</a>
                         </li>
                     </ul>
                 </li>
