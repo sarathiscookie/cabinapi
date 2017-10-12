@@ -32,6 +32,7 @@ return [
 
     'inquiryMenu'                           => 'Anfrage',
     'inquiryList'                           => 'Anfrageliste',
+    'msInquiryList'                         => 'Anfrageliste Bergschulen',
 
     'cabinEditMenu'                         => 'Einstellungen',
     'contingentMenu'                        => 'Kontingent',

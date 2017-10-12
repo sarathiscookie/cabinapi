@@ -32,6 +32,7 @@ return [
 
     'inquiryMenu'                           => 'Inquiry',
     'inquiryList'                           => 'Inquiry List',
+    'msInquiryList'                         => 'Ms Inquiry List',
 
     'cabinEditMenu'                         => 'Edit Cabin',
     'contingentMenu'                        => 'Contingent',

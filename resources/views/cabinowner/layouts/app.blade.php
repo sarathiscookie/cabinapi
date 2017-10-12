@@ -182,9 +182,9 @@
                         <li>
                             <a href="/cabinowner/mschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMschoolMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a>
                         </li>
-                        <li>
-                            <a href=""><i class="fa fa-circle-o"></i> Mschool Inquiry List <span class="pull-right-container"><span class="label label-primary pull-right">1</span></span></a>
-                        </li>
+                        {{--<li>
+                            <a href=""><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">1</span></span></a>
+                        </li>--}}
                     </ul>
                 </li>
                 <li class="treeview">
