@@ -366,8 +366,10 @@ Route::prefix('cabinowner')->group(function () {
         /* Edit season */
         Route::get('/season', 'Cabinowner\OpeningClosingSeasonController@index')->name('cabinowner.season');
 
+        /* Update summer season */
         Route::post('/season/summer/update', 'Cabinowner\OpeningClosingSeasonController@summerUpdate')->name('cabinowner.summer.season.update');
 
+        /* Update winter season */
         Route::post('/season/winter/update', 'Cabinowner\OpeningClosingSeasonController@winterUpdate')->name('cabinowner.winter.season.update');
     });
 });
