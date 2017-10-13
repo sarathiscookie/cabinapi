@@ -53,5 +53,5 @@ return [
     'friday'                                 => 'Friday',
     'saturday'                               => 'Saturday',
     'sunday'                                 => 'Sunday',
-    'updateButton'                           => 'Update Reservation'
+    'updateButton'                           => 'Update'
     ];

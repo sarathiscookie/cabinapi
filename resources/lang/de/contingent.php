@@ -53,6 +53,6 @@ return [
     'friday'                                 => 'Freitag',
     'saturday'                               => 'Samstag',
     'sunday'                                 => 'Sonntag',
-    'updateButton'                           => 'Sichern Reservation'
+    'updateButton'                           => 'Sichern'
 
     ];
