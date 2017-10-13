@@ -107,7 +107,7 @@ class OpeningClosingSeasonController extends Controller
                 ->where('cabin_owner', Auth::user()->_id)
                 ->update(['summerSeason' => $summerSeason, 'summerSeasonStatus' => $summerSeasonStatus, 'earliest_summer_open' => $earliest_summer_open, 'earliest_summer_close' => $earliest_summer_close, 'latest_summer_open' => $latest_summer_open, 'latest_summer_close' => $latest_summer_close, 'summer_mon' => $summer_mon, 'summer_tue' => $summer_tue, 'summer_wed' => $summer_wed, 'summer_thu' => $summer_thu, 'summer_fri' => $summer_fri, 'summer_sat' => $summer_sat, 'summer_sun' => $summer_sun]);
 
-            return redirect()->back()->with('successSummer', 'Summer opening and closing time updated successfully!');
+            return redirect()->back()->with('successSummer', __('openingClosingSeason.successMsgSummer'));
         }
         else {
             return redirect()->back()->with('failureSummer', 'Something went wrong!');
@@ -142,7 +142,7 @@ class OpeningClosingSeasonController extends Controller
                 ->where('cabin_owner', Auth::user()->_id)
                 ->update(['winterSeason' => $winterSeason, 'winterSeasonStatus' => $winterSeasonStatus, 'earliest_winter_open' => $earliest_winter_open, 'earliest_winter_close' => $earliest_winter_close, 'latest_winter_open' => $latest_winter_open, 'latest_winter_close' => $latest_winter_close, 'winter_mon' => $winter_mon, 'winter_tue' => $winter_tue, 'winter_wed' => $winter_wed, 'winter_thu' => $winter_thu, 'winter_fri' => $winter_fri, 'winter_sat' => $winter_sat, 'winter_sun' => $winter_sun]);
 
-            return redirect()->back()->with('successWinter', 'Winter opening and closing time updated successfully!');
+            return redirect()->back()->with('successWinter', __('openingClosingSeason.successMsgWinter'));
         }
         else {
             return redirect()->back()->with('failureWinter', 'Something went wrong!');

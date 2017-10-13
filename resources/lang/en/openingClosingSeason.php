@@ -49,6 +49,7 @@ return [
     'saturday'                               => 'Saturday',
     'sunday'                                 => 'Sunday',
     'updateSummerButton'                     => 'Update Summer Season',
+    'successMsgSummer'                       => 'Summer opening and closing time updated successfully!',
 
     'winterSeasonHeading'                    => 'Winter Season',
     'winterSeasonChooseSeasonLabel'          => 'Season',
@@ -75,4 +76,5 @@ return [
     'saturdayWinter'                         => 'Saturday',
     'sundayWinter'                           => 'Sunday',
     'updateWinterButton'                     => 'Update winter Season',
+    'successMsgWinter'                       => 'Winter opening and closing time updated successfully!'
 ];
