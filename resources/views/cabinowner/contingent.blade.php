@@ -61,7 +61,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('reservation_type') ? ' has-error' : '' }}">
-                                                <label for="reservation_type">@lang('contingent.reservationType') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Select reservation types"></i></label>
+                                                <label for="reservation_type">@lang('contingent.reservationType') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Hier können Sie auswählen, ob die Gäste „nur“ Schlafplätze oder Betten und Matratzenlager Buchen können. Anschließend geben Sie bitte die passenden Daten dazu ein."></i></label>
 
                                                 <select class="form-control" name="reservation_type" id="reservation_type">
                                                     <option value="2">--- @lang('contingent.selectReservationType') ---</option>
@@ -127,7 +127,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="rule">@lang('contingent.rulesLabel') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Select rules."></i></label>
+                                        <label for="rule">@lang('contingent.rulesLabel') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Regelmäßige Abweichungen sind solange gültig, bis die Regel an einem bestimmten Wochentag wieder entfernt wurde. Einmalige Abweichungen sind nur ein an dem ausgewählten Datum gültig."></i></label>
                                         <div>
                                             <label for="regularCheckbox">
                                                 <input type="checkbox" id="regularCheckbox" name="regularCheckbox" value="1" @if($cabin->regular == 1 || old('regularCheckbox') == 1) checked @endif>
