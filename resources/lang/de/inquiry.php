@@ -98,4 +98,5 @@ return [
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
     'msgStatus'                             => 'Die Nachricht wurde nun versendet',
+    'newInquiry'                            => 'Sie haben eine neue Anfrage bekommen',
 ];

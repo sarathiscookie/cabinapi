@@ -93,7 +93,7 @@
                                         <a href="/cabinowner/inquiry/{{$inquiryUnreadList->_id}}/{{$new = 'new'}}" class="product-title">{{$inquiryUnreadList->invoice_number}}
                                             <span class="label label-info pull-right">{{($inquiryUnreadList->bookingdate)->format('d.m.Y H:i')}}</span>
                                         </a>
-                                        <span class="product-description">A new inquiry has registered</span>
+                                        <span class="product-description">@lang('inquiry.newInquiry')</span>
                                     </li>
                                  @endforeach
                             <!-- /.item -->

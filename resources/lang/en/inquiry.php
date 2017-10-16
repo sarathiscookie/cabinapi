@@ -97,4 +97,6 @@ return [
     'somethingWrong'                        => 'Something went wrong please try again',
     'successfullyCancelled'                 => 'Booking cancelled successfully',
     'msgStatus'                             => 'Message sent successfully',
+    'newInquiry'                            => 'A new inquiry booking',
+
 ];
