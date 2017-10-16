@@ -37,6 +37,7 @@ return [
     'address'                                => 'Address',
     'telephone'                              => 'Telephone',
     'mobile'                                 => 'Mobile',
+    'close'                                  => 'Close',
     /* Model end */
 
     'bookingNumber'                          => 'Booking Num',
