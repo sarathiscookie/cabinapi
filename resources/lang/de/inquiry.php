@@ -38,7 +38,7 @@ return [
     'address'                                => 'Addresse',
     'telephone'                              => 'Telefon',
     'mobile'                                 => 'Handy',
-    'close'                                  => 'Close',
+    'close'                                  => 'schließen',
     /* Model end */
 
     'bookingNumber'                          => 'Buchungs-Nr.',
