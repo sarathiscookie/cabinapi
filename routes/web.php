@@ -366,23 +366,11 @@ Route::prefix('cabinowner')->group(function () {
         /* Edit season */
         Route::get('/season', 'Cabinowner\OpeningClosingSeasonController@index')->name('cabinowner.season');
 
-        /* Create form for summer season */
-        //Route::get('/season/summer/create', 'Cabinowner\OpeningClosingSeasonController@createSummer')->name('cabinowner.season.summer.create');
-
-        /* Create form for winter season */
-        //Route::get('/season/winter/create', 'Cabinowner\OpeningClosingSeasonController@createWinter')->name('cabinowner.season.winter.create');
-
         /* Create season */
         Route::get('/season/create', 'Cabinowner\OpeningClosingSeasonController@create')->name('cabinowner.season.create');
 
         /* Store season */
         Route::post('/season/store', 'Cabinowner\OpeningClosingSeasonController@store')->name('cabinowner.season.store');
-
-        /* Store summer season */
-        //Route::post('/season/summer/store', 'Cabinowner\OpeningClosingSeasonController@storeSummer')->name('cabinowner.season.summer.store');
-
-        /* Store winter season */
-        //Route::post('/season/winter/store', 'Cabinowner\OpeningClosingSeasonController@storeWinter')->name('cabinowner.season.winter.store');
 
         /* Delete summer season */
         Route::post('/season/summer/delete', 'Cabinowner\OpeningClosingSeasonController@deleteSummer')->name('cabinowner.summer.season.delete');

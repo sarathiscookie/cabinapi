@@ -181,6 +181,7 @@ class DashboardController extends Controller
 
         if(count($cabin) > 0) {
             $cabin_name = $cabin->name;
+            session(['cabin_name' => $cabin_name]);
         }
 
         return $cabin_name;
@@ -336,7 +337,7 @@ class DashboardController extends Controller
     public function inquiryAPIUnreadCount($id)
     {
         /*remove later begin*/
-       /* $book                = new Booking;
+        /*$book                = new Booking;
         $book->cabinname     = 'Schwarzwasserhütte';
         $book->user          = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $book->bookingdate   = Carbon::now();

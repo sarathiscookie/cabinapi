@@ -131,6 +131,7 @@ class OpeningClosingSeasonController extends Controller
     {
         $summerSeason = Season::select('_id', 'summerSeason', 'summerSeasonYear', 'summerSeasonStatus', 'earliest_summer_open', 'earliest_summer_close', 'latest_summer_open', 'latest_summer_close', 'summer_next_season', 'summer_mon', 'summer_tue', 'summer_wed', 'summer_thu', 'summer_fri', 'summer_sat', 'summer_sun')
             ->where('is_delete', 0)
+            ->where('summerSeason', 1)
             ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->first();
@@ -148,6 +149,7 @@ class OpeningClosingSeasonController extends Controller
     {
         $winterSeason = Season::select('_id', 'winterSeason', 'winterSeasonYear', 'winterSeasonStatus', 'earliest_winter_open', 'earliest_winter_close', 'latest_winter_open', 'latest_winter_close', 'winter_next_season', 'winter_mon', 'winter_tue', 'winter_wed', 'winter_thu', 'winter_fri', 'winter_sat', 'winter_sun')
             ->where('is_delete', 0)
+            ->where('winterSeason', 1)
             ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->first();
