@@ -244,4 +244,8 @@
 @endsection
 
 @section('scripts')
+    <script>
+        /* Tooltip */
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
 @endsection
