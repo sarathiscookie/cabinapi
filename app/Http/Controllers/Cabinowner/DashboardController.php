@@ -341,6 +341,8 @@ class DashboardController extends Controller
         $book->cabinname     = 'Schwarzwasserhütte';
         $book->user          = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $book->bookingdate   = Carbon::now();
+        $book->checkin_from  = Carbon::now();
+        $book->reserve_to    = Carbon::now();
         $book->invoice_number= 'SWH-16-333336';
         $book->typeofbooking = 1;
         $book->read          = 0;
