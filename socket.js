@@ -1,4 +1,4 @@
-/*var fs = require('fs');
+var fs = require('fs');
 var pkey = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem');
 var pcert = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/fullchain.pem');
 var options = {
@@ -33,8 +33,8 @@ io.on('connection', function(socket){
 
 http.listen(3000, function(){
     console.log('listening on *:3000');
-});*/
-var app   = require('express')();
+});
+/*var app   = require('express')();
 var http  = require('http').Server(app);
 var io    = require('socket.io')(http);
 var redis = require('redis');
@@ -44,17 +44,17 @@ io.on('connection', function(socket){
 
     var redisClient = redis.createClient();
 
-    /* Realtime message subscribe */
+    /!* Realtime message subscribe *!/
     redisClient.subscribe('message');
     redisClient.on('message', function(channel, message){
-        /*console.log('new message in queue', channel, message);*/
+        /!*console.log('new message in queue', channel, message);*!/
         socket.emit(channel, message);
     });
 
-    /* Realtime inquiry subscribe */
+    /!* Realtime inquiry subscribe *!/
     redisClient.subscribe('inquiryCount');
     redisClient.on('inquiryCount', function(channel, message){
-        /*console.log('new inquiry in queue', channel, message);*/
+        /!*console.log('new inquiry in queue', channel, message);*!/
         socket.emit(channel, message);
     });
 
@@ -67,4 +67,4 @@ io.on('connection', function(socket){
 
 http.listen(3000, function(){
     console.log('listening on *:3000');
-});
+});*/
