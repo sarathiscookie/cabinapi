@@ -480,7 +480,7 @@
                                                                 87448 Waltenhofen<br>
                                                                 <br>
                                                                 Ust.-Id.:  DE 299 379 199<br>
-                                                                Telefon:&nbsp;+49 (0) 83 03 / 32 99 99<br>
+                                                                Telefon:&nbsp;+49 (0) 9001 / 32 99 99<br>
                                                                 Telefax:&nbsp;+49 (0) 08 03 / 32 99 89 -9&nbsp;<br>
                                                                 <br>
                                                                 <strong>Unsere E-Mail-Adresse lautet:</strong><br>
