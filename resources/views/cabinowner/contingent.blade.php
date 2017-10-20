@@ -105,7 +105,7 @@
                                             </div>
 
                                             <div class="form-group {{ $errors->has('normal_inquiry_guest') ? ' has-error' : '' }}">
-                                                <label for="normal_inquiry_guest">@lang('contingent.inquiryGuestLabel')</label>
+                                                <label for="normal_inquiry_guest">@lang('contingent.inquiryGuestLabel') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Hier können Sie auswählen ab wie vielen Personen Gäste nicht mehr direkt Buchen können sondern erst eine Anfrage stellen müssen."></i></label>
 
                                                 <input type="text" class="form-control" id="normal_inquiry_guest" name="normal_inquiry_guest" placeholder="@lang('contingent.inquiryGuestPlaceholder')" maxlength="10" value="{{old('normal_inquiry_guest', $cabin->inquiry_starts)}}">
 
@@ -115,7 +115,7 @@
                                             </div>
 
                                             <div class="form-group {{ $errors->has('normal_ms_inquiry_guest') ? ' has-error' : '' }}">
-                                                <label for="normal_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel')</label>
+                                                <label for="normal_ms_inquiry_guest">@lang('contingent.mschoolInquiryGuestLabel') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Hier können Sie auswählen ab wie vielen Personen Bergschulen nicht mehr direkt Buchen können sondern erst eine Anfrage stellen müssen."></i></label>
 
                                                 <input type="text" class="form-control" id="normal_ms_inquiry_guest" name="normal_ms_inquiry_guest" placeholder="@lang('contingent.mschoolInquiryGuestPlaceholder')" maxlength="10" value="{{old('normal_ms_inquiry_guest', $cabin->ms_inquiry_starts)}}">
 

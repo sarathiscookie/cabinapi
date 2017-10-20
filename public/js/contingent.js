@@ -1,5 +1,8 @@
 $(function(){
 
+    /* Tooltip */
+    $('[data-toggle="tooltip"]').tooltip();
+
     /* Functionality for check box */
     if($('#regularCheckbox').is(":checked")) {
         $('#regular').show();
