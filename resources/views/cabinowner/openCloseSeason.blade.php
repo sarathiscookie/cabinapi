@@ -89,7 +89,6 @@
                                                     <th>@lang('openingClosingSeason.labelEarliestClose')</th>
                                                     <th>@lang('openingClosingSeason.labelLatestOpen')</th>
                                                     <th>@lang('openingClosingSeason.labelLatestClose')</th>
-                                                    <th>@lang('openingClosingSeason.labelNextSeason')</th>
                                                     <th>@lang('openingClosingSeason.labelHoliday')</th>
                                                     <th>@lang('openingClosingSeason.labelAction')</th>
                                                 </tr>
@@ -108,7 +107,6 @@
                                                                 <td>{{ $season->earliest_summer_close }}</td>
                                                                 <td>{{ $season->latest_summer_open }}</td>
                                                                 <td>{{ $season->latest_summer_close }}</td>
-                                                                <td>{{ $season->summer_next_season }}</td>
                                                                 <td>
                                                                     @if ($season->summer_mon == 1)
                                                                         <span class="label label-default">@lang('openingClosingSeason.monday')</span>
@@ -175,7 +173,6 @@
                                                     <th>@lang('openingClosingSeason.labelEarliestClose')</th>
                                                     <th>@lang('openingClosingSeason.labelLatestOpen')</th>
                                                     <th>@lang('openingClosingSeason.labelLatestClose')</th>
-                                                    <th>@lang('openingClosingSeason.labelNextSeason')</th>
                                                     <th>@lang('openingClosingSeason.labelHoliday')</th>
                                                     <th>@lang('openingClosingSeason.labelAction')</th>
                                                 </tr>
@@ -191,7 +188,6 @@
                                                                 <td>{{ $season->earliest_winter_close }}</td>
                                                                 <td>{{ $season->latest_winter_open }}</td>
                                                                 <td>{{ $season->latest_winter_close }}</td>
-                                                                <td>{{ $season->winter_next_season }}</td>
                                                                 <td>
                                                                     @if ($season->winter_mon == 1)
                                                                         <span class="label label-default">@lang('openingClosingSeason.monday')</span>
