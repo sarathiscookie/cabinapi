@@ -18,7 +18,7 @@ io.on('connection', function(socket){
         socket.emit(channel, message);
     });
 
-    /!* Realtime inquiry subscribe *!/
+    /* Realtime inquiry subscribe */
     redisClient.subscribe('inquiryCount');
     redisClient.on('inquiryCount', function(channel, message){
         socket.emit(channel, message);
