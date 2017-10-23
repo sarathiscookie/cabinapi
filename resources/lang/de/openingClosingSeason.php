@@ -22,7 +22,7 @@ return [
     'dashboard'                              => 'Dashboard',
     'breadcrumbOne'                          => 'Hütten bearbeiten',
     'breadcrumbTwo'                          => 'Öffnungszeiten',
-    'listHeading'                            => 'Öffnungs Schließungs Details',
+    'listHeading'                            => 'Saisonen Details',
     'formHeading'                            => 'Öffnungs Schließungs Saison',
 
     'summerSeasonHeading'                    => 'Sommersaison',

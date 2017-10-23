@@ -36,6 +36,6 @@ return [
 
     'cabinEditMenu'                         => 'Einstellungen',
     'contingentMenu'                        => 'Kontingent',
-    'openTimeMenu'                          => 'Offene Zeiten',
+    'openTimeMenu'                          => 'Öffnungszeiten',
 
 ];
