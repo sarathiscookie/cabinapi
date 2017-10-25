@@ -80,7 +80,7 @@ class LoginController extends Controller
             }
 
             if (!$login) {
-                return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
+                return redirect('login')->withInput()->with('message', __('login.loginFailedMsg'));
             }
             else {
                 Auth::login($login);
@@ -114,7 +114,7 @@ class LoginController extends Controller
             }
         }
         else {
-            return redirect('login')->withInput()->with('message', 'The username and password you entered did not match our records. Please double-check and try again');
+            return redirect('login')->withInput()->with('message', __('login.loginFailedMsg'));
         }
     }
 
