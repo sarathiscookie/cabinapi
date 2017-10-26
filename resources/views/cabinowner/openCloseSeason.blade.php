@@ -25,7 +25,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('openingClosingSeason.dashboard')</a></li>
-                <li class="active"><i class="fa fa-clock-o"></i> @lang('openingClosingSeason.breadcrumbTwo')</li>
+                <li class="active"> @lang('openingClosingSeason.breadcrumbTwo')</li>
             </ol>
         </section>
 
