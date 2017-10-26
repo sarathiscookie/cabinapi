@@ -389,5 +389,20 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Update winter season */
         Route::post('/season/winter/update', 'Cabinowner\OpeningClosingSeasonController@updateWinter')->name('cabinowner.winter.season.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for cabin, contact and bill information
+        |--------------------------------------------------------------------------
+        |
+        | Routes for view, store, edit, delete informations
+        */
+
+        /* List details */
+        Route::get('/details', 'Cabinowner\DetailsController@index')->name('cabinowner.details');
+
+        /* Edit details */
+        Route::get('/details/contact', 'Cabinowner\DetailsController@editContactInfo')->name('cabinowner.details.contact');
     });
 });

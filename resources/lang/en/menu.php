@@ -37,4 +37,6 @@ return [
     'cabinEditMenu'                         => 'Edit Cabin',
     'contingentMenu'                        => 'Contingent',
     'openTimeMenu'                          => 'Opening Hours',
+
+    'myDataMenu'                            => 'My Data',
 ];

@@ -38,4 +38,6 @@ return [
     'contingentMenu'                        => 'Kontingent',
     'openTimeMenu'                          => 'Öffnungszeiten',
 
+    'myDataMenu'                            => 'Meine Daten',
+
 ];

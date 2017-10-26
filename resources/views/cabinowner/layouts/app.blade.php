@@ -199,6 +199,9 @@
                         <li>
                             <a href="/cabinowner/season"><i class="fa fa-circle-o"></i> @lang('menu.openTimeMenu')</a>
                         </li>
+                        <li>
+                            <a href="/cabinowner/details"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
