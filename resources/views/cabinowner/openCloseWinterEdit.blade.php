@@ -111,7 +111,7 @@
                                                             <div class="form-group {{ $errors->has('earliest_winter_open') ? ' has-error' : '' }}">
                                                                 <label for="earliest_winter_open">@lang('openingClosingSeason.winterSeasonEarliestOpen') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="earliest_winter_open" name="earliest_winter_open" placeholder="@lang('openingClosingSeason.winterSeasonEarliestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_winter_open', $winterSeason->earliest_winter_open)}}">
+                                                                <input type="text" class="form-control" id="earliest_winter_open" name="earliest_winter_open" placeholder="@lang('openingClosingSeason.winterSeasonEarliestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_winter_open', ($winterSeason->earliest_winter_open)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('earliest_winter_open'))
                                                                     <span class="help-block"><strong>{{ $errors->first('earliest_winter_open') }}</strong></span>
@@ -122,7 +122,7 @@
                                                             <div class="form-group {{ $errors->has('earliest_winter_close') ? ' has-error' : '' }}">
                                                                 <label for="earliest_winter_close">@lang('openingClosingSeason.winterSeasonEarliestClose') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="earliest_winter_close" name="earliest_winter_close" placeholder="@lang('openingClosingSeason.winterSeasonEarliestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_winter_close', $winterSeason->earliest_winter_close)}}">
+                                                                <input type="text" class="form-control" id="earliest_winter_close" name="earliest_winter_close" placeholder="@lang('openingClosingSeason.winterSeasonEarliestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_winter_close', ($winterSeason->earliest_winter_close)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('earliest_winter_close'))
                                                                     <span class="help-block"><strong>{{ $errors->first('earliest_winter_close') }}</strong></span>
@@ -135,7 +135,7 @@
                                                             <div class="form-group {{ $errors->has('latest_winter_open') ? ' has-error' : '' }}">
                                                                 <label for="earliest_winter_open">@lang('openingClosingSeason.winterSeasonLatestOpen') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="latest_winter_open" name="latest_winter_open" placeholder="@lang('openingClosingSeason.winterSeasonLatestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_winter_open', $winterSeason->latest_winter_open)}}">
+                                                                <input type="text" class="form-control" id="latest_winter_open" name="latest_winter_open" placeholder="@lang('openingClosingSeason.winterSeasonLatestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_winter_open', ($winterSeason->latest_winter_open)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('latest_winter_open'))
                                                                     <span class="help-block"><strong>{{ $errors->first('latest_winter_open') }}</strong></span>
@@ -146,7 +146,7 @@
                                                             <div class="form-group {{ $errors->has('latest_winter_close') ? ' has-error' : '' }}">
                                                                 <label for="latest_winter_close">@lang('openingClosingSeason.winterSeasonLatestClose') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="latest_winter_close" name="latest_winter_close" placeholder="@lang('openingClosingSeason.winterSeasonLatestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_winter_close', $winterSeason->latest_winter_close)}}">
+                                                                <input type="text" class="form-control" id="latest_winter_close" name="latest_winter_close" placeholder="@lang('openingClosingSeason.winterSeasonLatestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_winter_close', ($winterSeason->latest_winter_close)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('latest_winter_close'))
                                                                     <span class="help-block"><strong>{{ $errors->first('latest_winter_close') }}</strong></span>
@@ -159,7 +159,7 @@
                                                             <div class="form-group {{ $errors->has('winter_next_season') ? ' has-error' : '' }}">
                                                                 <label for="winter_next_season">@lang('openingClosingSeason.winterNextSeason') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="winter_next_season" name="winter_next_season" placeholder="@lang('openingClosingSeason.winterNextSeasonPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('winter_next_season', $winterSeason->winter_next_season)}}">
+                                                                <input type="text" class="form-control" id="winter_next_season" name="winter_next_season" placeholder="@lang('openingClosingSeason.winterNextSeasonPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('winter_next_season', ($winterSeason->winter_next_season)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('winter_next_season'))
                                                                     <span class="help-block"><strong>{{ $errors->first('winter_next_season') }}</strong></span>

@@ -111,7 +111,7 @@
                                                             <div class="form-group {{ $errors->has('earliest_summer_open') ? ' has-error' : '' }}">
                                                                 <label for="earliest_summer_open">@lang('openingClosingSeason.summerSeasonEarliestOpen') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="earliest_summer_open" name="earliest_summer_open" placeholder="@lang('openingClosingSeason.summerSeasonEarliestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_summer_open', $summerSeason->earliest_summer_open)}}">
+                                                                <input type="text" class="form-control" id="earliest_summer_open" name="earliest_summer_open" placeholder="@lang('openingClosingSeason.summerSeasonEarliestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_summer_open', ($summerSeason->earliest_summer_open)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('earliest_summer_open'))
                                                                     <span class="help-block"><strong>{{ $errors->first('earliest_summer_open') }}</strong></span>
@@ -123,7 +123,7 @@
                                                             <div class="form-group {{ $errors->has('earliest_summer_close') ? ' has-error' : '' }}">
                                                                 <label for="earliest_summer_close">@lang('openingClosingSeason.summerSeasonEarliestClose') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="earliest_summer_close" name="earliest_summer_close" placeholder="@lang('openingClosingSeason.summerSeasonEarliestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_summer_close', $summerSeason->earliest_summer_close)}}">
+                                                                <input type="text" class="form-control" id="earliest_summer_close" name="earliest_summer_close" placeholder="@lang('openingClosingSeason.summerSeasonEarliestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('earliest_summer_close', ($summerSeason->earliest_summer_close)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('earliest_summer_close'))
                                                                     <span class="help-block"><strong>{{ $errors->first('earliest_summer_close') }}</strong></span>
@@ -137,7 +137,7 @@
                                                             <div class="form-group {{ $errors->has('latest_summer_open') ? ' has-error' : '' }}">
                                                                 <label for="earliest_summer_open">@lang('openingClosingSeason.summerSeasonLatestOpen') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="latest_summer_open" name="latest_summer_open" placeholder="@lang('openingClosingSeason.summerSeasonLatestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_summer_open', $summerSeason->latest_summer_open)}}">
+                                                                <input type="text" class="form-control" id="latest_summer_open" name="latest_summer_open" placeholder="@lang('openingClosingSeason.summerSeasonLatestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_summer_open', ($summerSeason->latest_summer_open)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('latest_summer_open'))
                                                                     <span class="help-block"><strong>{{ $errors->first('latest_summer_open') }}</strong></span>
@@ -148,7 +148,7 @@
                                                             <div class="form-group {{ $errors->has('latest_summer_close') ? ' has-error' : '' }}">
                                                                 <label for="latest_summer_close">@lang('openingClosingSeason.summerSeasonLatestClose') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="latest_summer_close" name="latest_summer_close" placeholder="@lang('openingClosingSeason.summerSeasonLatestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_summer_close', $summerSeason->latest_summer_close)}}">
+                                                                <input type="text" class="form-control" id="latest_summer_close" name="latest_summer_close" placeholder="@lang('openingClosingSeason.summerSeasonLatestClosePlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_summer_close', ($summerSeason->latest_summer_close)->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('latest_summer_close'))
                                                                     <span class="help-block"><strong>{{ $errors->first('latest_summer_close') }}</strong></span>
@@ -162,7 +162,7 @@
                                                             <div class="form-group {{ $errors->has('summer_next_season') ? ' has-error' : '' }}">
                                                                 <label for="earliest_summer_open">@lang('openingClosingSeason.summerNextSeason') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="summer_next_season" name="summer_next_season" placeholder="@lang('openingClosingSeason.summerNextSeasonPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('summer_next_season', $summerSeason->summer_next_season)}}">
+                                                                <input type="text" class="form-control" id="summer_next_season" name="summer_next_season" placeholder="@lang('openingClosingSeason.summerNextSeasonPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('summer_next_season', $summerSeason->summer_next_season->format('d.m.y'))}}">
 
                                                                 @if ($errors->has('summer_next_season'))
                                                                     <span class="help-block"><strong>{{ $errors->first('summer_next_season') }}</strong></span>

@@ -54,6 +54,7 @@ return [
     'successMsgSummer'                       => 'Summer opening and closing time updated successfully!',
     'summerNextSeason'                       => 'Next Summer Season',
     'summerNextSeasonPlaceholder'            => 'Enter next summer season',
+    'noResult'                               => 'No Result',
 
     'winterSeasonHeading'                    => 'Winter Season',
     'winterSeasonChooseSeasonLabel'          => 'Winter Season',

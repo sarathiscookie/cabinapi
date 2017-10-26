@@ -8,6 +8,7 @@ use App\Http\Requests\OpenCloseRequest;
 use App\Season;
 use Auth;
 use Carbon\Carbon;
+use DateTime;
 
 class OpeningClosingSeasonController extends Controller
 {
@@ -57,6 +58,21 @@ class OpeningClosingSeasonController extends Controller
     }
 
     /**
+     * To generate date format as mongo.
+     *
+     * @param  string  $date
+     * @return \Illuminate\Http\Response
+     */
+    protected function getDateUtc($date){
+
+        $dateFormatChange = DateTime::createFromFormat("d.m.y", $date)->format('Y-m-d');
+        $dateTime         = new DateTime($dateFormatChange);
+        $timeStamp        = $dateTime->getTimestamp();
+        $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
+        return $utcDateTime;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\OpenCloseRequest
@@ -71,11 +87,11 @@ class OpeningClosingSeasonController extends Controller
             $season->summerSeason          = 1; // 1 - Enabled, 0 - Disabled
             $season->summerSeasonYear      = (int)$request->summerSeasonYear;
             $season->summerSeasonStatus    = $request->summerSeasonStatus;
-            $season->earliest_summer_open  = $request->earliest_summer_open;
-            $season->earliest_summer_close = $request->earliest_summer_close;
-            $season->latest_summer_open    = $request->latest_summer_open;
-            $season->latest_summer_close   = $request->latest_summer_close;
-            $season->summer_next_season    = $request->summer_next_season;
+            $season->earliest_summer_open  = $this->getDateUtc($request->earliest_summer_open);
+            $season->earliest_summer_close = $this->getDateUtc($request->earliest_summer_close);
+            $season->latest_summer_open    = $this->getDateUtc($request->latest_summer_open);
+            $season->latest_summer_close   = $this->getDateUtc($request->latest_summer_close);
+            $season->summer_next_season    = $this->getDateUtc($request->summer_next_season);
             $season->summer_mon            = ($request->summer_mon == '1') ? (int)$request->summer_mon : 0;
             $season->summer_tue            = ($request->summer_tue == '1') ? (int)$request->summer_tue : 0;
             $season->summer_wed            = ($request->summer_wed == '1') ? (int)$request->summer_wed : 0;
@@ -88,11 +104,11 @@ class OpeningClosingSeasonController extends Controller
             $season->winterSeason          = 1; // 1 - Enabled, 0 - Disabled
             $season->winterSeasonYear      = (int)$request->winterSeasonYear;
             $season->winterSeasonStatus    = $request->winterSeasonStatus;
-            $season->earliest_winter_open  = $request->earliest_winter_open;
-            $season->earliest_winter_close = $request->earliest_winter_close;
-            $season->latest_winter_open    = $request->latest_winter_open;
-            $season->latest_winter_close   = $request->latest_winter_close;
-            $season->winter_next_season    = $request->winter_next_season;
+            $season->earliest_winter_open  = $this->getDateUtc($request->earliest_winter_open);
+            $season->earliest_winter_close = $this->getDateUtc($request->earliest_winter_close);
+            $season->latest_winter_open    = $this->getDateUtc($request->latest_winter_open);
+            $season->latest_winter_close   = $this->getDateUtc($request->latest_winter_close);
+            $season->winter_next_season    = $this->getDateUtc($request->winter_next_season);
             $season->winter_mon            = ($request->winter_mon == '1') ? (int)$request->winter_mon : 0;
             $season->winter_tue            = ($request->winter_tue == '1') ? (int)$request->winter_tue : 0;
             $season->winter_wed            = ($request->winter_wed == '1') ? (int)$request->winter_wed : 0;
@@ -181,11 +197,11 @@ class OpeningClosingSeasonController extends Controller
             $summerSeasonId        = $request->summerSeasonId;
             $summerSeasonYear      = (int)$request->summerSeasonYear;
             $summerSeasonStatus    = $request->summerSeasonStatus;
-            $earliest_summer_open  = $request->earliest_summer_open;
-            $earliest_summer_close = $request->earliest_summer_close;
-            $latest_summer_open    = $request->latest_summer_open;
-            $latest_summer_close   = $request->latest_summer_close;
-            $summer_next_season    = $request->summer_next_season;
+            $earliest_summer_open  = $this->getDateUtc($request->earliest_summer_open);
+            $earliest_summer_close = $this->getDateUtc($request->earliest_summer_close);
+            $latest_summer_open    = $this->getDateUtc($request->latest_summer_open);
+            $latest_summer_close   = $this->getDateUtc($request->latest_summer_close);
+            $summer_next_season    = $this->getDateUtc($request->summer_next_season);
             $summer_mon            = ($request->summer_mon == '1') ? (int)$request->summer_mon : 0;
             $summer_tue            = ($request->summer_tue == '1') ? (int)$request->summer_tue : 0;
             $summer_wed            = ($request->summer_wed == '1') ? (int)$request->summer_wed : 0;
@@ -220,11 +236,11 @@ class OpeningClosingSeasonController extends Controller
             $winterSeasonId        = $request->winterSeasonId;
             $winterSeasonYear      = (int)$request->winterSeasonYear;
             $winterSeasonStatus    = $request->winterSeasonStatus;
-            $earliest_winter_open  = $request->earliest_winter_open;
-            $earliest_winter_close = $request->earliest_winter_close;
-            $latest_winter_open    = $request->latest_winter_open;
-            $latest_winter_close   = $request->latest_winter_close;
-            $winter_next_season    = $request->winter_next_season;
+            $earliest_winter_open  = $this->getDateUtc($request->earliest_winter_open);
+            $earliest_winter_close = $this->getDateUtc($request->earliest_winter_close);
+            $latest_winter_open    = $this->getDateUtc($request->latest_winter_open);
+            $latest_winter_close   = $this->getDateUtc($request->latest_winter_close);
+            $winter_next_season    = $this->getDateUtc($request->winter_next_season);
             $winter_mon            = ($request->winter_mon == '1') ? (int)$request->winter_mon : 0;
             $winter_tue            = ($request->winter_tue == '1') ? (int)$request->winter_tue : 0;
             $winter_wed            = ($request->winter_wed == '1') ? (int)$request->winter_wed : 0;

@@ -102,11 +102,11 @@
                                                             <tr>
                                                                 <td>{{ $i++  }}</td>
                                                                 <td>{{ $season->summerSeasonYear }}</td>
-                                                                <td>{{ $season->summerSeasonStatus }}</td>
-                                                                <td>{{ $season->earliest_summer_open }}</td>
-                                                                <td>{{ $season->earliest_summer_close }}</td>
-                                                                <td>{{ $season->latest_summer_open }}</td>
-                                                                <td>{{ $season->latest_summer_close }}</td>
+                                                                <td>@if ($season->summerSeasonStatus === 'open') <span class="label label-success">@lang('openingClosingSeason.summerSeasonChooseStatusLabelOpen')</span> @elseif ($season->summerSeasonStatus === 'close') <span class="label label-danger">@lang('openingClosingSeason.summerSeasonChooseStatusLabelClose')</span> @else <span class="label label-default">@lang('openingClosingSeason.noResult')</span> @endif</td>
+                                                                <td>{{ $season->earliest_summer_open->format('d.m.y') }}</td>
+                                                                <td>{{ $season->earliest_summer_close->format('d.m.y') }}</td>
+                                                                <td>{{ $season->latest_summer_open->format('d.m.y') }}</td>
+                                                                <td>{{ $season->latest_summer_close->format('d.m.y') }}</td>
                                                                 <td>
                                                                     @if ($season->summer_mon == 1)
                                                                         <span class="label label-default">@lang('openingClosingSeason.monday')</span>
@@ -183,11 +183,11 @@
                                                             <tr>
                                                                 <td>{{ $j++  }}</td>
                                                                 <td>{{ $season->winterSeasonYear }}</td>
-                                                                <td>{{ $season->winterSeasonStatus }}</td>
-                                                                <td>{{ $season->earliest_winter_open }}</td>
-                                                                <td>{{ $season->earliest_winter_close }}</td>
-                                                                <td>{{ $season->latest_winter_open }}</td>
-                                                                <td>{{ $season->latest_winter_close }}</td>
+                                                                <td>@if ($season->winterSeasonStatus === 'open') <span class="label label-success">@lang('openingClosingSeason.winterSeasonChooseStatusLabelOpen')</span> @elseif ($season->winterSeasonStatus === 'close') <span class="label label-danger">@lang('openingClosingSeason.winterSeasonChooseStatusLabelClose')</span> @else <span class="label label-default">@lang('openingClosingSeason.noResult')</span> @endif</td>
+                                                                <td>{{ $season->earliest_winter_open->format('d.m.y') }}</td>
+                                                                <td>{{ $season->earliest_winter_close->format('d.m.y') }}</td>
+                                                                <td>{{ $season->latest_winter_open->format('d.m.y') }}</td>
+                                                                <td>{{ $season->latest_winter_close->format('d.m.y') }}</td>
                                                                 <td>
                                                                     @if ($season->winter_mon == 1)
                                                                         <span class="label label-default">@lang('openingClosingSeason.monday')</span>

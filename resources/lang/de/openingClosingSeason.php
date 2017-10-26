@@ -54,6 +54,7 @@ return [
     'successMsgSummer'                       => 'Sommersaison Öffnungszeiten gesichert!',
     'summerNextSeason'                       => 'Nächste Sommer Saison',
     'summerNextSeasonPlaceholder'            => 'Nächste sommer saison eingeben',
+    'noResult'                               => 'Unbekannt',
 
     'winterSeasonHeading'                    => 'Wintersaison',
     'winterSeasonChooseSeasonLabel'          => 'Winter Saison',
