@@ -23,7 +23,13 @@ class DetailsController extends Controller
             ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->first();
 
-        return view('cabinowner.details', ['userDetails' => $userDetails]);
+        $cabin       = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone')
+            ->where('is_delete', 0)
+            ->where('name', session('cabin_name'))
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        return view('cabinowner.details', ['userDetails' => $userDetails, 'cabin' => $cabin]);
     }
 
     /**
@@ -77,6 +83,25 @@ class DetailsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editBillingIfo()
+    {
+        $cabin = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone')
+            ->where('is_delete', 0)
+            ->where('name', session('cabin_name'))
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            return view('cabinowner.detailsBillingUpdate', ['cabin' => $cabin]);
+        }
+        return redirect()->back();
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\DetailsRequest  $request
@@ -96,6 +121,26 @@ class DetailsController extends Controller
             $userDetails->usrZip        = $request->zip;
             $userDetails->save();
             return redirect(url('cabinowner/details'))->with('successContact', __('details.contactSuccessMsg'));
+        }
+        else {
+            return redirect()->back()->with('failure', __('details.failure'));
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\DetailsRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBillingInfo(DetailsRequest $request)
+    {
+        if(isset($request->updateBilling)) {
+            Cabin::where('is_delete', 0)
+                ->where('name', session('cabin_name'))
+                ->where('cabin_owner', Auth::user()->_id)
+                ->update(['legal' => $request->legal, 'tax' => $request->tax, 'telephone' => $request->telephone, 'zip' => $request->zip, 'place' => $request->city, 'street' => $request->street]);
+            return redirect(url('cabinowner/details'))->with('successBilling', __('details.billingSuccessMsg'));
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));

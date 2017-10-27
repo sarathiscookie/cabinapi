@@ -27,7 +27,6 @@ return [
     /* Contact Update Form */
     'breadcrumbThree'                        => 'Contact',
     'innerBoxHeaderForm'                     => 'User Details',
-    'formUpdateContactButton'                => 'Update',
     'contactLabelFirstNamePH'                => 'First Name',
     'contactLabelLastNamePH'                 => 'Last Name',
     'contactLabelEmailPH'                    => 'E-mail',
@@ -39,5 +38,11 @@ return [
     'contactLabelCountryPH'                  => 'Country',
     'contactSuccessMsg'                      => 'Contact details updated successfully',
     'failure'                                => 'Hat leider nicht geklappt.',
+
+    /* Billing Update Form */
+    'billingSuccessMsg'                      => 'Billing details updated successfully',
+
+
+    'formUpdateButton'                       => 'Update',
 
 ];

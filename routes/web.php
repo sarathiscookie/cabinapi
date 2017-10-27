@@ -407,5 +407,11 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Update contact details */
         Route::post('/details/contact/update', 'Cabinowner\DetailsController@updateContactInfo')->name('cabinowner.details.contact.update');
+
+        /* Edit billing details */
+        Route::get('/details/billing', 'Cabinowner\DetailsController@editBillingIfo')->name('cabinowner.details.billing');
+
+        /* Update billing details */
+        Route::post('/details/billing/update', 'Cabinowner\DetailsController@updateBillingInfo')->name('cabinowner.details.billing.update');
     });
 });

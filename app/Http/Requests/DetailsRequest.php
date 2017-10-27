@@ -36,6 +36,17 @@ class DetailsRequest extends FormRequest
             ];
         }
 
+        if($this->request->get('updateBilling') == 'updateBilling') {
+            $rules = [
+                'legal'         => 'required|not_in:0',
+                'tax'           => 'required|max:100',
+                'telephone'     => 'required|max:25',
+                'zip'           => 'required|max:25',
+                'city'          => 'required|max:255',
+                'street'        => 'required|max:255',
+            ];
+        }
+
         return $rules;
     }
 }
