@@ -152,7 +152,10 @@ class OpeningClosingSeasonController extends Controller
             ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->first();
 
-        return view('cabinowner.openCloseSummerEdit', ['summerSeason' => $summerSeason]);
+        if(count($summerSeason) > 0) {
+            return view('cabinowner.openCloseSummerEdit', ['summerSeason' => $summerSeason]);
+        }
+        return redirect()->back();
     }
 
     /**
@@ -170,7 +173,10 @@ class OpeningClosingSeasonController extends Controller
             ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->first();
 
-        return view('cabinowner.openCloseWinterEdit', ['winterSeason' => $winterSeason]);
+        if(count($winterSeason) > 0) {
+            return view('cabinowner.openCloseWinterEdit', ['winterSeason' => $winterSeason]);
+        }
+        return redirect()->back();
     }
 
     /**

@@ -81,7 +81,6 @@
                                         <div class="box-body table-responsive no-padding">
                                             <table class="table table-hover">
                                                 <tr>
-                                                    <th>Id</th>
                                                     <th>@lang('openingClosingSeason.labelsummerSeasonYear')</th>
                                                     <th>@lang('openingClosingSeason.labelSeasonStatus')</th>
                                                     <th>@lang('openingClosingSeason.labelEarliestOpen')</th>
@@ -91,15 +90,10 @@
                                                     <th>@lang('openingClosingSeason.labelHoliday')</th>
                                                     <th>@lang('openingClosingSeason.labelAction')</th>
                                                 </tr>
-                                                @php
-                                                    $i = 1;
-                                                    $j = 1;
-                                                @endphp
                                                 @if(isset($seasons))
                                                     @foreach ($seasons as $season)
                                                         @if($season->summerSeason == 1)
                                                             <tr>
-                                                                <td>{{ $i++  }}</td>
                                                                 <td>{{ $season->summerSeasonYear }}</td>
                                                                 <td>@if ($season->summerSeasonStatus === 'open') <span class="label label-success">@lang('openingClosingSeason.summerSeasonChooseStatusLabelOpen')</span> @elseif ($season->summerSeasonStatus === 'close') <span class="label label-danger">@lang('openingClosingSeason.summerSeasonChooseStatusLabelClose')</span> @else <span class="label label-default">@lang('openingClosingSeason.noResult')</span> @endif</td>
                                                                 <td>{{ $season->earliest_summer_open->format('d.m.y') }}</td>
@@ -135,7 +129,7 @@
                                                                         <span class="label label-default">@lang('openingClosingSeason.sunday')</span>
                                                                     @endif
                                                                 </td>
-                                                                <td><a href="/cabinowner/season/summer/edit/{{$season->_id}}" class="btn btn-block btn-primary btn-sm"><i class="fa fa-fw fa-edit"></i> @lang('openingClosingSeason.editButton')</a></td>
+                                                                <td><a href="/cabinowner/season/summer/edit/{{$season->_id}}" class="btn btn-block btn-primary btn-sm"><i class="fa fa-fw fa-edit"></i></a></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -165,7 +159,6 @@
                                             @endif
                                             <table class="table table-hover">
                                                 <tr>
-                                                    <th>Id</th>
                                                     <th>@lang('openingClosingSeason.labelsummerSeasonYear')</th>
                                                     <th>@lang('openingClosingSeason.labelSeasonStatus')</th>
                                                     <th>@lang('openingClosingSeason.labelEarliestOpen')</th>
@@ -180,7 +173,6 @@
                                                     @foreach ($seasons as $season)
                                                         @if($season->winterSeason == 1)
                                                             <tr>
-                                                                <td>{{ $j++  }}</td>
                                                                 <td>{{ $season->winterSeasonYear }}</td>
                                                                 <td>@if ($season->winterSeasonStatus === 'open') <span class="label label-success">@lang('openingClosingSeason.winterSeasonChooseStatusLabelOpen')</span> @elseif ($season->winterSeasonStatus === 'close') <span class="label label-danger">@lang('openingClosingSeason.winterSeasonChooseStatusLabelClose')</span> @else <span class="label label-default">@lang('openingClosingSeason.noResult')</span> @endif</td>
                                                                 <td>{{ $season->earliest_winter_open->format('d.m.y') }}</td>
@@ -216,7 +208,7 @@
                                                                         <span class="label label-default">@lang('openingClosingSeason.sunday')</span>
                                                                     @endif
                                                                 </td>
-                                                                <td><a href="/cabinowner/season/winter/edit/{{$season->_id}}" class="btn btn-block btn-primary btn-sm"><i class="fa fa-fw fa-edit"></i> @lang('openingClosingSeason.editButton')</a></td>
+                                                                <td><a href="/cabinowner/season/winter/edit/{{$season->_id}}" class="btn btn-block btn-primary btn-sm"><i class="fa fa-fw fa-edit"></i></a></td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
