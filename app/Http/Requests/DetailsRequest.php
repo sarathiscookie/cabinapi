@@ -25,13 +25,14 @@ class DetailsRequest extends FormRequest
     {
         if($this->request->get('updateContact') == 'updateContact') {
             $rules = [
-                'firstname'     => 'required',
-                'lastname'      => 'required',
-                'telephone'     => 'required',
-                'zip'           => 'required',
-                'city'          => 'required',
-                'street'        => 'required',
-                'country'       => 'required',
+                'firstname'     => 'required|max:100',
+                'lastname'      => 'required|max:100',
+                'telephone'     => 'required|max:25',
+                'mobile'        => 'max:25',
+                'zip'           => 'required|max:25',
+                'city'          => 'required|max:255',
+                'street'        => 'required|max:255',
+                'country'       => 'required|max:255',
             ];
         }
 

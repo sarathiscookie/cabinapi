@@ -68,7 +68,7 @@
                                                             <div class="form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelFirstName') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="@lang('details.contactLabelFirstNamePH')" value="{{old('firstname', $userDetails->usrFirstname)}}">
+                                                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="@lang('details.contactLabelFirstNamePH')" value="{{old('firstname', $userDetails->usrFirstname)}}" maxlength="100">
 
                                                                 @if ($errors->has('firstname'))
                                                                     <span class="help-block"><strong>{{ $errors->first('firstname') }}</strong></span>
@@ -79,7 +79,7 @@
                                                             <div class="form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelLastName') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="@lang('details.contactLabelLastNamePH')" value="{{old('lastname', $userDetails->usrLastname)}}">
+                                                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="@lang('details.contactLabelLastNamePH')" value="{{old('lastname', $userDetails->usrLastname)}}" maxlength="100">
 
                                                                 @if ($errors->has('lastname'))
                                                                     <span class="help-block"><strong>{{ $errors->first('lastname') }}</strong></span>
@@ -93,7 +93,7 @@
                                                             <div class="form-group {{ $errors->has('mobile') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelMobile')</label>
 
-                                                                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="@lang('details.contactLabelMobilePH')" value="{{old('mobile', $userDetails->usrMobile)}}">
+                                                                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="@lang('details.contactLabelMobilePH')" value="{{old('mobile', $userDetails->usrMobile)}}" maxlength="25">
 
                                                                 @if ($errors->has('mobile'))
                                                                     <span class="help-block"><strong>{{ $errors->first('mobile') }}</strong></span>
@@ -105,7 +105,7 @@
                                                             <div class="form-group {{ $errors->has('telephone') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelPhone') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="@lang('details.contactLabelPhonePH')" value="{{old('telephone', $userDetails->usrTelephone)}}">
+                                                                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="@lang('details.contactLabelPhonePH')" value="{{old('telephone', $userDetails->usrTelephone)}}" maxlength="25">
 
                                                                 @if ($errors->has('telephone'))
                                                                     <span class="help-block"><strong>{{ $errors->first('telephone') }}</strong></span>
@@ -119,7 +119,7 @@
                                                             <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelZip') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="zip" name="zip" placeholder="@lang('details.contactLabelZipPH')" value="{{old('zip', $userDetails->usrZip)}}">
+                                                                <input type="text" class="form-control" id="zip" name="zip" placeholder="@lang('details.contactLabelZipPH')" value="{{old('zip', $userDetails->usrZip)}}" maxlength="25">
 
                                                                 @if ($errors->has('zip'))
                                                                     <span class="help-block"><strong>{{ $errors->first('zip') }}</strong></span>
@@ -130,7 +130,7 @@
                                                             <div class="form-group {{ $errors->has('city') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelCity') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="city" name="city" placeholder="@lang('details.contactLabelCityPH')" value="{{old('city', $userDetails->usrCity)}}">
+                                                                <input type="text" class="form-control" id="city" name="city" placeholder="@lang('details.contactLabelCityPH')" value="{{old('city', $userDetails->usrCity)}}" maxlength="255">
 
                                                                 @if ($errors->has('city'))
                                                                     <span class="help-block"><strong>{{ $errors->first('city') }}</strong></span>
@@ -144,7 +144,7 @@
                                                             <div class="form-group {{ $errors->has('street') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelStreet') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="street" name="street" placeholder="@lang('details.contactLabelStreetPH')" value="{{old('addresses', $userDetails->usrAddress)}}">
+                                                                <input type="text" class="form-control" id="street" name="street" placeholder="@lang('details.contactLabelStreetPH')" value="{{old('addresses', $userDetails->usrAddress)}}" maxlength="255">
 
                                                                 @if ($errors->has('street'))
                                                                     <span class="help-block"><strong>{{ $errors->first('street') }}</strong></span>
@@ -155,7 +155,7 @@
                                                             <div class="form-group {{ $errors->has('country') ? ' has-error' : '' }}">
                                                                 <label>@lang('details.contactLabelCountry') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="country" name="country" placeholder="@lang('details.contactLabelCountryPH')" value="{{old('country', $userDetails->usrCountry)}}">
+                                                                <input type="text" class="form-control" id="country" name="country" placeholder="@lang('details.contactLabelCountryPH')" value="{{old('country', $userDetails->usrCountry)}}" maxlength="255">
 
                                                                 @if ($errors->has('country'))
                                                                     <span class="help-block"><strong>{{ $errors->first('country') }}</strong></span>
