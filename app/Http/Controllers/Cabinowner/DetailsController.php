@@ -82,7 +82,7 @@ class DetailsController extends Controller
      * @param  \App\Http\Requests\DetailsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateContactInfo(Request $request)
+    public function updateContactInfo(DetailsRequest $request)
     {
         if(isset($request->updateContact)) {
             $userDetails                = Userlist::findOrFail(Auth::user()->_id);
