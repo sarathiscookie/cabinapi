@@ -3,8 +3,6 @@
 @section('title', 'Cabin API - Cabin Owner: Contact Information Edit')
 
 @section('css')
-    <!-- Date Range Picker -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datepicker/datepicker3.css') }}" />
     <style type="text/css">
         .required{
             color:red;

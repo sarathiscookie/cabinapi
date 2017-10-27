@@ -38,5 +38,6 @@ return [
     'contactLabelStreetPH'                   => 'Street',
     'contactLabelCountryPH'                  => 'Country',
     'contactSuccessMsg'                      => 'Contact details updated successfully',
+    'failure'                                => 'Hat leider nicht geklappt.',
 
 ];
