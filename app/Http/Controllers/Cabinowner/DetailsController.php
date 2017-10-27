@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cabinowner;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DetailsRequest;
 use App\Cabin;
 use App\Userlist;
 use Auth;
@@ -19,7 +20,7 @@ class DetailsController extends Controller
     {
         $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile')
             ->where('is_delete', 0)
-            ->where('_id', Auth::user()->_id)
+            ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->first();
 
         return view('cabinowner.details', ['userDetails' => $userDetails]);
@@ -66,22 +67,39 @@ class DetailsController extends Controller
     {
         $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile')
             ->where('is_delete', 0)
-            ->where('_id', Auth::user()->_id)
+            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->first();
 
-        return view('cabinowner.detailsContactUpdate', ['userDetails' => $userDetails]);
+        if(count($userDetails) > 0) {
+            return view('cabinowner.detailsContactUpdate', ['userDetails' => $userDetails]);
+        }
+        return redirect()->back();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\DetailsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateContactInfo(DetailsRequest $request)
     {
-        //
+        if(isset($request->updateContact)) {
+            $userDetails                = Userlist::findOrFail(Auth::user()->_id);
+            $userDetails->usrFirstname  = $request->firstname;
+            $userDetails->usrLastname   = $request->lastname;
+            $userDetails->usrTelephone  = $request->telephone;
+            $userDetails->usrCountry    = $request->country;
+            $userDetails->usrMobile     = $request->mobile;
+            $userDetails->usrAddress    = $request->street;
+            $userDetails->usrCity       = $request->city;
+            $userDetails->usrZip        = $request->zip;
+            $userDetails->save();
+            return redirect(url('cabinowner/details'))->with('successContact', __('details.contactSuccessMsg'));
+        }
+        else {
+            return redirect()->back()->with('failure', __('details.failure'));
+        }
     }
 
     /**

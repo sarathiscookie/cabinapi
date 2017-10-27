@@ -402,7 +402,10 @@ Route::prefix('cabinowner')->group(function () {
         /* List details */
         Route::get('/details', 'Cabinowner\DetailsController@index')->name('cabinowner.details');
 
-        /* Edit details */
+        /* Edit contact details */
         Route::get('/details/contact', 'Cabinowner\DetailsController@editContactInfo')->name('cabinowner.details.contact');
+
+        /* Update contact details */
+        Route::post('/details/contact/update', 'Cabinowner\DetailsController@updateContactInfo')->name('cabinowner.details.contact.update');
     });
 });

@@ -20,12 +20,12 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Details
-                <small>Information</small>
+                @lang('details.heading')
+                <small>@lang('details.smallHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('openingClosingSeason.dashboard')</a></li>
-                <li><i class="active"></i> Details</li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('details.breadcrumbOne')</a></li>
+                <li><i class="active"></i> @lang('details.breadcrumbTwo')</li>
             </ol>
         </section>
 
@@ -37,46 +37,59 @@
                     <!-- Profile Image -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h4 class="box-title">Contact Information</h4>
+                            <h4 class="box-title">@lang('details.boxHeading')</h4>
                         </div>
+
+                        @if (session('successContact'))
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ session('successContact') }}
+                            </div>
+                        @endif
+
                         <div class="box-body">
                             <ul class="list-group">
                                 @isset($userDetails)
                                     <li class="list-group-item">
-                                        <b>First Name:</b> <a class="pull-right">{{ $userDetails->usrFirstname }}</a>
+                                        <b>@lang('details.contactLabelFirstName'):</b> <a class="pull-right">{{ $userDetails->usrFirstname }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Last Name:</b> <a class="pull-right">{{ $userDetails->usrLastname }}</a>
+                                        <b>@lang('details.contactLabelLastName'):</b> <a class="pull-right">{{ $userDetails->usrLastname }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Email:</b> <a class="pull-right">{{ $userDetails->usrEmail }}</a>
+                                        <b>@lang('details.contactLabelEmail'):</b> <a class="pull-right">{{ $userDetails->usrEmail }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Phone No:</b> <a class="pull-right">{{ $userDetails->usrTelephone }}</a>
+                                        <b>@lang('details.contactLabelMobile'):</b> <a class="pull-right">{{ $userDetails->usrMobile }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Zip Code:</b> <a class="pull-right">{{ $userDetails->usrZip }}</a>
+                                        <b>@lang('details.contactLabelPhone'):</b> <a class="pull-right">{{ $userDetails->usrTelephone }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>City:</b> <a class="pull-right">{{ $userDetails->usrCity }}</a>
+                                        <b>@lang('details.contactLabelZip'):</b> <a class="pull-right">{{ $userDetails->usrZip }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Street:</b> <a class="pull-right">{{ $userDetails->usrAddress }}</a>
+                                        <b>@lang('details.contactLabelCity'):</b> <a class="pull-right">{{ $userDetails->usrCity }}</a>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Country:</b> <a class="pull-right">{{ $userDetails->usrCountry }}</a>
+                                        <b>@lang('details.contactLabelStreet'):</b> <a class="pull-right">{{ $userDetails->usrAddress }}</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>@lang('details.contactLabelCountry'):</b> <a class="pull-right">{{ $userDetails->usrCountry }}</a>
                                     </li>
                                 @endisset
 
                                 @empty($userDetails)
                                     <li class="list-group-item">
-                                        <a><span class="label label-default">No Result</span></a>
+                                        <a><span class="label label-default">@lang('details.noResult')</span></a>
                                     </li>
                                 @endempty
 
                             </ul>
 
-                            <a href="/cabinowner/details/contact" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>Edit</a>
+                            <a href="/cabinowner/details/contact" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>@lang('details.contactLabelEditButton')</a>
                         </div>
                         <!-- /.box-body -->
                     </div>
