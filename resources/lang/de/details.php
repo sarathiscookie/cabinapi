@@ -41,8 +41,29 @@ return [
 
     /* Billing Update Form */
     'billingSuccessMsg'                      => 'Billing details updated successfully',
-
+    'breadcrumbBilling'                      => 'Billing',
+    'billingHeading'                         => 'Billing',
+    'billingHeadingInner'                    => 'Information',
+    'legalSelectLabel'                       => 'Select legal forms',
+    'legalgmbh'                              => 'GmbH',
+    'legalgbr'                               => 'GbR',
+    'legalkg'                                => 'KG',
+    'legalohg'                               => 'OHGlegal',
+    'legalsingle'                            => 'Einzelunternehmen',
 
     'formUpdateButton'                       => 'Update',
+
+
+    /* Listing Billing form */
+    'billingBoxHeading'                      => 'Billing Information',
+    'billingLabelCompanyName'                => 'Company Name',
+    'billingLabelZip'                        => 'Zip Code',
+    'billingLabelPlace'                      => 'City',
+    'billingLabelStreet'                     => 'Street',
+    'billingLabelLegal'                      => 'Legal',
+    'billingLabelTax'                        => 'Tax',
+    'billingLabelVat'                        => 'Vat',
+    'billingLabelFax'                        => 'Fax',
+
 
 ];

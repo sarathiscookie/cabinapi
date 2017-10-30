@@ -85,7 +85,7 @@
                     <!-- Billing Box -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h4 class="box-title">Billing Information</h4>
+                            <h4 class="box-title">@lang('details.billingBoxHeading')</h4>
                         </div>
                         <!-- /.box-header -->
 
@@ -103,25 +103,12 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <strong>Legal Form</strong>
-                                            <p class="text-muted">{{ $cabin->legal }}</p>
+                                            <strong>@lang('details.billingLabelCompanyName')</strong>
+                                            <p class="text-muted"> @isset($userDetails) {{ $userDetails->company }} @endisset</p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Tax Id Number</strong>
-                                            <p><span class="label label-default">{{ $cabin->tax }}</span></p>
-                                            <hr>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <strong>Phone No</strong>
-                                            <p class="text-muted">{{ $cabin->telephone }}</p>
-                                            <hr>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Company Zip Code</strong>
+                                            <strong>@lang('details.billingLabelZip')</strong>
                                             <p class="text-muted">{{ $cabin->zip }}</p>
                                             <hr>
                                         </div>
@@ -129,13 +116,39 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <strong>Company City</strong>
+                                            <strong>@lang('details.billingLabelPlace')</strong>
                                             <p class="text-muted">{{ $cabin->place }}</p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Company Street</strong>
+                                            <strong>@lang('details.billingLabelStreet')</strong>
                                             <p class="text-muted">{{ $cabin->street }}</p>
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>@lang('details.billingLabelLegal')</strong>
+                                            <p class="text-muted">{{ $cabin->legal }}</p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>@lang('details.billingLabelTax')</strong>
+                                            <p><span class="label label-default">{{ $cabin->tax }}</span></p>
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>@lang('details.billingLabelVat')</strong>
+                                            <p><span class="label label-default">{{ $cabin->vat }}</span></p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>@lang('details.billingLabelFax')</strong>
+                                            <p class="text-muted">{{ $cabin->fax }}</p>
                                             <hr>
                                         </div>
                                     </div>

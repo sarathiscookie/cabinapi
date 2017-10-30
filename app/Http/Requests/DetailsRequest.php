@@ -38,12 +38,14 @@ class DetailsRequest extends FormRequest
 
         if($this->request->get('updateBilling') == 'updateBilling') {
             $rules = [
-                'legal'         => 'required|not_in:0',
-                'tax'           => 'required|max:100',
-                'telephone'     => 'required|max:25',
+                'company'       => 'required|max:255',
                 'zip'           => 'required|max:25',
                 'city'          => 'required|max:255',
                 'street'        => 'required|max:255',
+                'legal'         => 'required|not_in:0',
+                'tax'           => 'required|max:100',
+                'vat'           => 'required|max:100',
+                'fax'           => 'required|max:50',
             ];
         }
 

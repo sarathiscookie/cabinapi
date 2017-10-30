@@ -18,12 +18,12 @@ class DetailsController extends Controller
      */
     public function index()
     {
-        $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile')
+        $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile', 'company')
             ->where('is_delete', 0)
             ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->first();
 
-        $cabin       = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone')
+        $cabin       = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
             ->where('is_delete', 0)
             ->where('name', session('cabin_name'))
             ->where('cabin_owner', Auth::user()->_id)
@@ -89,14 +89,19 @@ class DetailsController extends Controller
      */
     public function editBillingIfo()
     {
-        $cabin = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone')
+        $userDetails = Userlist::select('company')
+            ->where('is_delete', 0)
+            ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->first();
+
+        $cabin = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
             ->where('is_delete', 0)
             ->where('name', session('cabin_name'))
             ->where('cabin_owner', Auth::user()->_id)
             ->first();
 
         if(count($cabin) > 0) {
-            return view('cabinowner.detailsBillingUpdate', ['cabin' => $cabin]);
+            return view('cabinowner.detailsBillingUpdate', ['cabin' => $cabin, 'userCompany' => $userDetails]);
         }
         return redirect()->back();
     }
@@ -139,7 +144,12 @@ class DetailsController extends Controller
             Cabin::where('is_delete', 0)
                 ->where('name', session('cabin_name'))
                 ->where('cabin_owner', Auth::user()->_id)
-                ->update(['legal' => $request->legal, 'tax' => $request->tax, 'telephone' => $request->telephone, 'zip' => $request->zip, 'place' => $request->city, 'street' => $request->street]);
+                ->update(['legal' => $request->legal, 'tax' => $request->tax, 'telephone' => $request->telephone, 'zip' => $request->zip, 'place' => $request->city, 'street' => $request->street, 'fax' => $request->fax, 'vat' =>$request->vat]);
+
+            $userDetails          = Userlist::findOrFail(Auth::user()->_id);
+            $userDetails->company = $request->company;
+            $userDetails->save();
+
             return redirect(url('cabinowner/details'))->with('successBilling', __('details.billingSuccessMsg'));
         }
         else {

@@ -22,7 +22,7 @@
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('details.breadcrumbOne')</a></li>
                 <li><a href="/cabinowner/details"><i class="fa fa fa-table"></i> @lang('details.breadcrumbTwo')</a></li>
-                <li class="fa fa-edit active">Billing</li>
+                <li class="fa fa-edit active">@lang('details.breadcrumbBilling')</li>
             </ol>
         </section>
 
@@ -34,7 +34,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h4 class="box-title">
-                                Information
+                                @lang('details.billingHeading')
                             </h4>
                         </div>
                         <!-- /.box-header -->
@@ -46,7 +46,7 @@
                                     <div class="col-md-12">
                                         <div class="box box-default box-solid">
                                             <div class="box-header with-border">
-                                                <h4>Billing</h4>
+                                                <h4>@lang('details.billingHeadingInner')</h4>
                                             </div>
 
                                             @if (session('failure'))
@@ -60,58 +60,26 @@
 
                                             <form role="form" method="post" action="{{ route('cabinowner.details.billing.update') }}">
                                                 {{ csrf_field() }}
+
                                                 <div class="box-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <div class="form-group {{ $errors->has('legal') ? ' has-error' : '' }}">
-                                                                <label>Legal <span class="required">*</span></label>
+                                                            <div class="form-group {{ $errors->has('company') ? ' has-error' : '' }}">
+                                                                <label>@lang('details.billingLabelCompanyName') <span class="required">*</span></label>
 
-                                                                <select class="form-control" name="legal" id="legal">
-                                                                    <option value="0">Select legal forms</option>
-                                                                    <option value="gmbh" @if($cabin->legal == 'gmbh' || old('legal') == 'gmbh') selected="selected" @endif>GmbH</option>
-                                                                    <option value="gbr" @if($cabin->legal == 'gbr' || old('legal') == 'gbr') selected="selected" @endif>GbR</option>
-                                                                    <option value="kg" @if($cabin->legal == 'kg' || old('legal') == 'kg') selected="selected" @endif>KG</option>
-                                                                    <option value="ohg" @if($cabin->legal == 'ohg' || old('summerSeason') == 'ohg') selected="selected" @endif>OHGlegal
-                                                                    <option value="single" @if($cabin->legal == 'single' || old('legal') == 'single') selected="selected" @endif>One Man Business</option>
-                                                                </select>
+                                                                <input type="text" class="form-control" id="company" name="company" placeholder="@lang('details.billingLabelCompanyNamePH')" @if(isset($userCompany)) value="{{old('company', $userCompany->company)}}" @else value="{{old('company')}}" @endif maxlength="255">
 
-                                                                @if ($errors->has('legal'))
-                                                                    <span class="help-block"><strong>{{ $errors->first('legal') }}</strong></span>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group {{ $errors->has('tax') ? ' has-error' : '' }}">
-                                                                <label>Tax <span class="required">*</span></label>
-
-                                                                <input type="text" class="form-control" id="tax" name="tax" placeholder="Tax" value="{{old('tax', $cabin->tax)}}" maxlength="100">
-
-                                                                @if ($errors->has('tax'))
-                                                                    <span class="help-block"><strong>{{ $errors->first('tax') }}</strong></span>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group {{ $errors->has('telephone') ? ' has-error' : '' }}">
-                                                                <label>Phone <span class="required">*</span></label>
-
-                                                                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Phone" value="{{old('telephone', $cabin->telephone)}}" maxlength="25">
-
-                                                                @if ($errors->has('telephone'))
-                                                                    <span class="help-block"><strong>{{ $errors->first('telephone') }}</strong></span>
+                                                                @if ($errors->has('company'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('company') }}</strong></span>
                                                                 @endif
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
-                                                                <label>Zip <span class="required">*</span></label>
+                                                                <label>@lang('details.billingLabelZip') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip" value="{{old('zip', $cabin->zip)}}" maxlength="25">
+                                                                <input type="text" class="form-control" id="zip" name="zip" placeholder="@lang('details.billingLabelZipPH')" value="{{old('zip', $cabin->zip)}}" maxlength="25">
 
                                                                 @if ($errors->has('zip'))
                                                                     <span class="help-block"><strong>{{ $errors->first('zip') }}</strong></span>
@@ -123,9 +91,9 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group {{ $errors->has('city') ? ' has-error' : '' }}">
-                                                                <label>City <span class="required">*</span></label>
+                                                                <label>@lang('details.billingLabelPlace') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{old('city', $cabin->place)}}" maxlength="255">
+                                                                <input type="text" class="form-control" id="city" name="city" placeholder="@lang('details.billingLabelPlacePH')" value="{{old('city', $cabin->place)}}" maxlength="255">
 
                                                                 @if ($errors->has('city'))
                                                                     <span class="help-block"><strong>{{ $errors->first('city') }}</strong></span>
@@ -135,9 +103,9 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group {{ $errors->has('street') ? ' has-error' : '' }}">
-                                                                <label>Street <span class="required">*</span></label>
+                                                                <label>@lang('details.billingLabelStreet') <span class="required">*</span></label>
 
-                                                                <input type="text" class="form-control" id="street" name="street" placeholder="Street" value="{{old('street', $cabin->street)}}" maxlength="255">
+                                                                <input type="text" class="form-control" id="street" name="street" placeholder="@lang('details.billingLabelStreetPH')" value="{{old('street', $cabin->street)}}" maxlength="255">
 
                                                                 @if ($errors->has('street'))
                                                                     <span class="help-block"><strong>{{ $errors->first('street') }}</strong></span>
@@ -145,6 +113,66 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group {{ $errors->has('legal') ? ' has-error' : '' }}">
+                                                                <label>Legal <span class="required">*</span></label>
+
+                                                                <select class="form-control" name="legal" id="legal">
+                                                                    <option value="0">@lang('details.legalSelectLabel')</option>
+                                                                    <option value="gmbh" @if($cabin->legal == 'gmbh' || old('legal') == 'gmbh') selected="selected" @endif>@lang('details.legalgmbh')</option>
+                                                                    <option value="gbr" @if($cabin->legal == 'gbr' || old('legal') == 'gbr') selected="selected" @endif>@lang('details.legalgbr')</option>
+                                                                    <option value="kg" @if($cabin->legal == 'kg' || old('legal') == 'kg') selected="selected" @endif>@lang('details.legalkg')</option>
+                                                                    <option value="ohg" @if($cabin->legal == 'ohg' || old('summerSeason') == 'ohg') selected="selected" @endif>@lang('details.legalohg')</option>
+                                                                    <option value="single" @if($cabin->legal == 'single' || old('legal') == 'single') selected="selected" @endif>@lang('details.legalsingle')</option>
+                                                                </select>
+
+                                                                @if ($errors->has('legal'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('legal') }}</strong></span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group {{ $errors->has('tax') ? ' has-error' : '' }}">
+                                                                <label>@lang('details.billingLabelTax') <span class="required">*</span></label>
+
+                                                                <input type="text" class="form-control" id="tax" name="tax" placeholder="@lang('details.billingLabelTaxPH')" value="{{old('tax', $cabin->tax)}}" maxlength="100">
+
+                                                                @if ($errors->has('tax'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('tax') }}</strong></span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group {{ $errors->has('vat') ? ' has-error' : '' }}">
+                                                                <label>@lang('details.billingLabelVat') <span class="required">*</span></label>
+
+                                                                <input type="text" class="form-control" id="vat" name="vat" placeholder="@lang('details.billingLabelVatPH')" value="{{old('vat', $cabin->vat)}}" maxlength="100">
+
+                                                                @if ($errors->has('vat'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('vat') }}</strong></span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group {{ $errors->has('fax') ? ' has-error' : '' }}">
+                                                                <label>@lang('details.billingLabelFax') <span class="required">*</span></label>
+
+                                                                <input type="text" class="form-control" id="fax" name="fax" placeholder="@lang('details.billingLabelFaxPH')" value="{{old('fax', $cabin->fax)}}" maxlength="50">
+
+                                                                @if ($errors->has('fax'))
+                                                                    <span class="help-block"><strong>{{ $errors->first('fax') }}</strong></span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <!-- /.box-body -->
 
