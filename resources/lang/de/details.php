@@ -27,32 +27,36 @@ return [
     /* Contact Update Form */
     'breadcrumbThree'                        => 'Contact',
     'innerBoxHeaderForm'                     => 'User Details',
-    'contactLabelFirstNamePH'                => 'First Name',
-    'contactLabelLastNamePH'                 => 'Last Name',
-    'contactLabelEmailPH'                    => 'E-mail',
-    'contactLabelMobilePH'                   => 'Mobile',
-    'contactLabelPhonePH'                    => 'Phone No',
-    'contactLabelZipPH'                      => 'Zip Code',
-    'contactLabelCityPH'                     => 'City',
-    'contactLabelStreetPH'                   => 'Street',
-    'contactLabelCountryPH'                  => 'Country',
+    'contactLabelFirstNamePH'                => 'Enter First Name',
+    'contactLabelLastNamePH'                 => 'Enter Last Name',
+    'contactLabelEmailPH'                    => 'Enter E-mail',
+    'contactLabelMobilePH'                   => 'Enter Mobile',
+    'contactLabelPhonePH'                    => 'Enter Phone No',
+    'contactLabelZipPH'                      => 'Enter Zip Code',
+    'contactLabelCityPH'                     => 'Enter City',
+    'contactLabelStreetPH'                   => 'Enter Street',
+    'contactLabelCountryPH'                  => 'Enter Country',
     'contactSuccessMsg'                      => 'Contact details updated successfully',
-    'failure'                                => 'Hat leider nicht geklappt.',
+    'failure'                                => 'Hat leider nicht geklappt',
 
     /* Billing Update Form */
     'billingSuccessMsg'                      => 'Billing details updated successfully',
     'breadcrumbBilling'                      => 'Billing',
     'billingHeading'                         => 'Billing',
     'billingHeadingInner'                    => 'Information',
+    'billingLabelCompanyNamePH'              => 'Enter Company Name',
+    'billingLabelZipPH'                      => 'Enter Zip Code',
+    'billingLabelPlacePH'                    => 'Enter City',
+    'billingLabelStreetPH'                   => 'Enter Street',
+    'billingLabelTaxPH'                      => 'Enter Tax',
+    'billingLabelVatPH'                      => 'Enter Vat',
+    'billingLabelFaxPH'                      => 'Enter Fax',
     'legalSelectLabel'                       => 'Select legal forms',
     'legalgmbh'                              => 'GmbH',
     'legalgbr'                               => 'GbR',
     'legalkg'                                => 'KG',
     'legalohg'                               => 'OHGlegal',
     'legalsingle'                            => 'Einzelunternehmen',
-
-    'formUpdateButton'                       => 'Update',
-
 
     /* Listing Billing form */
     'billingBoxHeading'                      => 'Billing Information',
@@ -65,5 +69,6 @@ return [
     'billingLabelVat'                        => 'Vat',
     'billingLabelFax'                        => 'Fax',
 
-
+    /* General */
+    'formUpdateButton'                       => 'Update',
 ];

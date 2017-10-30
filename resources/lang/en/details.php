@@ -21,7 +21,7 @@ return [
     'contactLabelCity'                       => 'City',
     'contactLabelStreet'                     => 'Street',
     'contactLabelCountry'                    => 'Country',
-    'noResult'                               => 'Unbekannt',
+    'noResult'                               => 'No Result',
     'contactLabelEditButton'                 => 'Edit',
 
     /* Contact Update Form */

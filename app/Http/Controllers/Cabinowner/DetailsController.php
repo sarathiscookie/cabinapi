@@ -89,18 +89,18 @@ class DetailsController extends Controller
      */
     public function editBillingIfo()
     {
-        $userDetails = Userlist::select('company')
-            ->where('is_delete', 0)
-            ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-            ->first();
-
-        $cabin = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
+        $userDetails     = '';
+        $cabin           = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
             ->where('is_delete', 0)
             ->where('name', session('cabin_name'))
             ->where('cabin_owner', Auth::user()->_id)
             ->first();
 
         if(count($cabin) > 0) {
+            $userDetails = Userlist::select('company')
+                ->where('is_delete', 0)
+                ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+                ->first();
             return view('cabinowner.detailsBillingUpdate', ['cabin' => $cabin, 'userCompany' => $userDetails]);
         }
         return redirect()->back();
