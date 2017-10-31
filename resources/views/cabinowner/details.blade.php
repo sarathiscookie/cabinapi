@@ -346,7 +346,7 @@
                                         <div class="list-group">
                                             <a href="#" class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelMoreDetails')</strong>
-                                                <p class="list-group-item-text">{{ $cabin->other_details }}</p>
+                                                <p class="list-group-item-text">{!! $cabin->other_details !!}</p>
                                             </a>
                                         </div>
                                     </div>

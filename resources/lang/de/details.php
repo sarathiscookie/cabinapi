@@ -86,7 +86,7 @@ return [
     'cabinBoxLabelPayType'                   => 'Bezahlungsarten',
     'cabinBoxLabelPayTypeCash'               => 'Cash',
     'cabinBoxLabelPayTypeDebit'              => 'Debit Card',
-    'cabinBoxLabelPayTypeCredit'             => 'Credit Card',
+    'cabinBoxLabelPayTypeCredit'             => 'Kreditkarte',
     'cabinBoxLabelNeighbour'                 => 'Nachbarhütten',
     'cabinBoxLabelDeposit'                   => 'Anzahlung',
     'cabinBoxLabelWebsite'                   => 'Website',
