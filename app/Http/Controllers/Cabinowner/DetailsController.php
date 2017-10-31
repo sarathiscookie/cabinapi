@@ -106,6 +106,26 @@ class DetailsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editCabinIfo()
+    {
+        $cabin           = Cabin::where('is_delete', 0)
+            ->where('name', session('cabin_name'))
+            ->where('cabin_owner', Auth::user()->_id)
+            ->first();
+
+        if(count($cabin) > 0) {
+            return view('cabinowner.detailsCabinUpdate', ['cabin' => $cabin]);
+        }
+        return redirect()->back();
+    }
+
+
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\DetailsRequest  $request

@@ -389,7 +389,7 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>@lang('details.contactLabelEditButton')</a>
+                                        <a href="/cabinowner/details/cabin" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>@lang('details.contactLabelEditButton')</a>
                                     </div>
                                 </div>
                             </div>

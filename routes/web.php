@@ -413,5 +413,11 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Update billing details */
         Route::post('/details/billing/update', 'Cabinowner\DetailsController@updateBillingInfo')->name('cabinowner.details.billing.update');
+
+        /* Edit cabin details */
+        Route::get('/details/cabin', 'Cabinowner\DetailsController@editCabinIfo')->name('cabinowner.details.cabin');
+
+        /* Update billing details */
+        Route::post('/details/cabin/update', 'Cabinowner\DetailsController@updateCabinIfo')->name('cabinowner.details.cabin.update');
     });
 });
