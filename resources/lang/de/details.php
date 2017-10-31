@@ -92,8 +92,9 @@ return [
     'cabinBoxLabelWebsite'                   => 'Website',
     'cabinBoxLabelMoreDetails'               => 'Weitere Details',
     'cabinBoxLabelRegion'                    => 'Region',
-    'cabinBoxLabelLatitude'                  => 'Latitude',
-    'cabinBoxLabelLongitude'                 => 'Longitude',
+    'cabinBoxLabelLatitude'                  => 'Breitengrad',
+    'cabinBoxLabelLongitude'                 => 'Längengrad',
+    'notSetHalfBoard'                        => 'Not set half board',
 
     'cancelDeadlineBegin'                    => 'Stornierung bis',
     'cancelDeadlineEnd'                      => 'Tage vor Anreisedatum',

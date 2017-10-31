@@ -192,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelName')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->name  }}</p>
                                             </a>
@@ -201,7 +201,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelHeight')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->height }}</p>
                                             </a>
@@ -212,7 +212,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelClub')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->club }}</p>
                                             </a>
@@ -220,7 +220,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelCancel')</strong>
                                                 <p class="list-group-item-text">@lang('details.cancelDeadlineBegin') {{ $cabin->reservation_cancel }} @lang('details.cancelDeadlineEnd')</p>
                                             </a>
@@ -231,7 +231,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelAvailability')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->reachable }}</p>
                                             </a>
@@ -240,7 +240,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelTour')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->tours }}</p>
                                             </a>
@@ -251,7 +251,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelCheckIn')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->checkin_from }}</p>
                                             </a>
@@ -259,7 +259,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelCheckOut')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->reservation_to }}</p>
                                             </a>
@@ -270,7 +270,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelFacility')</strong> <br>
                                                 @foreach($cabin->interior as $interior)
                                                     <span class="label label-default">{{ $cabinInfo->interiorLabel($interior) }}</span>
@@ -281,9 +281,13 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
-                                                <strong>@lang('details.cabinBoxLabelPrice')</strong>
-                                                <p class="list-group-item-text">{{ $cabin->halfboard_price }}</p>
+                                            <a class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelPrice')</strong> <br>
+                                                @if($cabin->halfboard == '1')
+                                                    <p class="list-group-item-text">{{ $cabin->halfboard_price }}</p>
+                                                @else
+                                                    <span class="label label-warning">@lang('details.notSetHalfBoard')</span>
+                                                @endif
                                             </a>
                                         </div>
                                     </div>
@@ -292,7 +296,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelPayType')</strong> <br>
                                                 @foreach($cabin->payment_type as $payment)
                                                     @if($payment == '0')
@@ -311,7 +315,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelNeighbour')</strong> <br>
                                                 @foreach($cabin->neighbour_cabin as $neighbour_cabin)
                                                     <span class="label label-default">{{ $cabinInfo->neighbourCabin($neighbour_cabin) }}</span>
@@ -324,7 +328,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelDeposit')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->prepayment_amount }}</p>
                                             </a>
@@ -333,7 +337,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelWebsite')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->website }}</p>
                                             </a>
@@ -344,7 +348,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelMoreDetails')</strong>
                                                 <p class="list-group-item-text">{!! $cabin->other_details !!}</p>
                                             </a>
@@ -353,7 +357,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelRegion')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->region }}</p>
                                             </a>
@@ -364,7 +368,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelLatitude')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->latitude }}</p>
                                             </a>
@@ -373,7 +377,7 @@
 
                                     <div class="col-md-6">
                                         <div class="list-group">
-                                            <a href="#" class="list-group-item">
+                                            <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelLongitude')</strong>
                                                 <p class="list-group-item-text">{{ $cabin->longitude }}</p>
                                             </a>

@@ -94,6 +94,7 @@ return [
     'cabinBoxLabelRegion'                    => 'Region',
     'cabinBoxLabelLatitude'                  => 'Latitude',
     'cabinBoxLabelLongitude'                 => 'Longitude',
+    'notSetHalfBoard'                        => 'Not set half board',
 
     'cancelDeadlineBegin'                    => 'Cancelling in between',
     'cancelDeadlineEnd'                      => 'days before arrival',
