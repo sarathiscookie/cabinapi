@@ -2,6 +2,16 @@
 
 @section('title', 'Cabin API - Cabin Owner: Cabin Information')
 
+@section('css')
+    <style type="text/css">
+        .list-group-item{
+            cursor: default;
+        }
+    </style>
+@endsection
+
+@inject('cabinInfo', 'App\Http\Controllers\Cabinowner\DetailsController')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -162,7 +172,7 @@
                                 </div>
                             @endisset
 
-                            @empty($userDetails)
+                            @empty($cabin)
                                <p class="text-muted">@lang('details.noResult')</p>
                             @endempty
                         </div>
@@ -172,69 +182,229 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
-                    <div class="nav-tabs-custom">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#activity" data-toggle="tab">Cabin</a></li>
-                            <li><a href="#timeline" data-toggle="tab">Facility</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="activity">
-                                <!-- Post -->
-                                <div class="post">
-                                    <div class="user-block">
-                                        {{--<img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                        </span>
-                                        <span class="description">Shared publicly - 7:30 PM today</span>--}}
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        Lorem ipsum represents a long-held tradition for designers,
-                                        typographers and the like. Some people hate it and argue for
-                                        its demise, but others ignore the hate as they create awesome
-                                        tools to help create filler text for everyone from bacon lovers
-                                        to Charlie Sheen fans.
-                                    </p>
-                                    {{--<ul class="list-inline">
-                                        <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                                        <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
-                                        </li>
-                                        <li class="pull-right">
-                                            <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
-                                                (5)</a></li>
-                                    </ul>
-
-                                    <input class="form-control input-sm" type="text" placeholder="Type a comment">--}}
-                                </div>
-                                <!-- /.post -->
-
-                                <!-- Post -->
-                                <div class="post clearfix">
-                                    <div class="user-block">
-                                        {{--<img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
-                        </span>
-                                        <span class="description">Sent you a message - 3 days ago</span>--}}
-                                    </div>
-                                    <!-- /.user-block -->
-                                    <p>
-                                        Lorem ipsum represents a long-held tradition for designers,
-                                        typographers and the like. Some people hate it and argue for
-                                        its demise, but others ignore the hate as they create awesome
-                                        tools to help create filler text for everyone from bacon lovers
-                                        to Charlie Sheen fans.
-                                    </p>
-                                </div>
-                                <!-- /.post -->
-                            </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">@lang('details.cabinBoxHeading')</h4>
                         </div>
-                        <!-- /.tab-content -->
+
+                        @isset($cabin)
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelName')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->name  }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelHeight')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->height }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelClub')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->club }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelCancel')</strong>
+                                                <p class="list-group-item-text">@lang('details.cancelDeadlineBegin') {{ $cabin->reservation_cancel }} @lang('details.cancelDeadlineEnd')</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelAvailability')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->reachable }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelTour')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->tours }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelCheckIn')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->checkin_from }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelCheckOut')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->reservation_to }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelFacility')</strong> <br>
+                                                @foreach($cabin->interior as $interior)
+                                                    <span class="label label-default">{{ $cabinInfo->interiorLabel($interior) }}</span>
+                                                @endforeach
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelPrice')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->halfboard_price }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelPayType')</strong> <br>
+                                                @foreach($cabin->payment_type as $payment)
+                                                    @if($payment == '0')
+                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCash')</span>
+                                                    @endif
+                                                    @if($payment == '1')
+                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeDebit')</span>
+                                                    @endif
+                                                    @if($payment == '2')
+                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCredit')</span>
+                                                    @endif
+                                                @endforeach
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelNeighbour')</strong> <br>
+                                                @foreach($cabin->neighbour_cabin as $neighbour_cabin)
+                                                    <span class="label label-default">{{ $cabinInfo->neighbourCabin($neighbour_cabin) }}</span>
+                                                @endforeach
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelDeposit')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->prepayment_amount }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelWebsite')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->website }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelMoreDetails')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->other_details }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelRegion')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->region }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelLatitude')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->latitude }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item">
+                                                <strong>@lang('details.cabinBoxLabelLongitude')</strong>
+                                                <p class="list-group-item-text">{{ $cabin->longitude }}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>@lang('details.contactLabelEditButton')</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endisset
+
+                        @empty($cabin)
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <p class="list-group-item-text">@lang('details.noResult')</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endempty
+
                     </div>
-                    <!-- /.nav-tabs-custom -->
+
                 </div>
                 <!-- /.col -->
             </div>

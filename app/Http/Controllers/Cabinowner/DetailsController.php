@@ -23,8 +23,7 @@ class DetailsController extends Controller
             ->where('_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->first();
 
-        $cabin       = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
-            ->where('is_delete', 0)
+        $cabin       = Cabin::where('is_delete', 0)
             ->where('name', session('cabin_name'))
             ->where('cabin_owner', Auth::user()->_id)
             ->first();
@@ -154,6 +153,66 @@ class DetailsController extends Controller
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));
+        }
+    }
+
+    /**
+     * Get the specified resource.
+     *
+     * @param  int  $neighbour_cabin
+     * @return \Illuminate\Http\Response
+     */
+    public function neighbourCabin($neighbour_cabin)
+    {
+        $cabinName = '';
+
+        $cabin = Cabin::select('name')
+            ->where('is_delete', 0)
+            ->where('_id', new \MongoDB\BSON\ObjectID($neighbour_cabin))
+            ->first();
+
+        if(count($cabin) > 0) {
+            $cabinName = $cabin->name;
+        }
+
+        return $cabinName;
+    }
+
+    /**
+     * Get the specified resource.
+     *
+     * @param  int  $interior
+     * @return \Illuminate\Http\Response
+     */
+    public function interiorLabel($interior)
+    {
+        $facilities = array(
+            'Wifi'                                      => __("details.interiorWifi"),
+            'shower available'                          => __("details.interiorShower"),
+            'Food à la carte'                           => __("details.interiorMealCard"),
+            'breakfast'                                 => __("details.interiorBreakfast"),
+            'TV available'                              => __("details.interiorTv"),
+            'washing machine'                           => __("details.interiorWashingMachine"),
+            'drying room'                               => __("details.interiorDryingRoom"),
+            'Luggage transport from the valley'         => __("details.interiorLuggageTransport"),
+            'Accessible by car'                         => __("details.interiorAccessCar"),
+            'dogs allowed'                              => __("details.interiorDogsAllowed"),
+            'Suitable for wheelchairs'                  => __("details.interiorWheelchairs"),
+            'Public telephone available'                => __("details.interiorPublicPhone"),
+            'Mobile phone reception'                    => __("details.interiorPhoneReception"),
+            'Power supply for own devices'              => __("details.interiorPowerSupply"),
+            'Waste bin'                                 => __("details.interiorDustbins"),
+            'Hut shop'                                  => __("details.interiorCabinShop"),
+            'Advancement possibilities including time'  => __("details.interiorAscentPossibility"),
+            'reachable by phone'                        => __("details.interiorAccessibleTelephone"),
+            'Smoking (allowed, forbidden)'              => __("details.interiorSmokingAllowed"),
+            'smoke detector'                            => __("details.interiorSmokeDetector"),
+            'Carbon monoxide detector'                  => __("details.interiorCarbMonoDetector"),
+            'Helicopter land available'                 => __("details.interiorHelicopterLand"),
+        );
+
+        if(array_key_exists($interior, $facilities)) {
+            return $facilities[$interior];
         }
     }
 
