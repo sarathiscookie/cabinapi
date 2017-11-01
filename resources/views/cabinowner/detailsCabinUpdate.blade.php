@@ -89,7 +89,11 @@
                                                     <div class="form-group {{ $errors->has('cancel') ? ' has-error' : '' }}">
                                                         <label>@lang('details.cabinBoxLabelCancel') <span class="required">*</span></label>
 
-                                                        <input type="text" class="form-control" id="cancel" name="cancel" placeholder="@lang('details.cabinBoxLabelCancelPH')" value="{{old('cancel', $cabin->reservation_cancel)}}" maxlength="100">
+                                                        <select class="form-control" id="cancel" name="cancel">
+                                                            @foreach($cabinInfo->reservationCancel() as $key => $type)
+                                                                <option value="{{ $key }}" @if($key == $cabin->reservation_cancel || old('legal') == $cabin->reservation_cancel) selected="selected" @endif>{{ $type }}</option>
+                                                            @endforeach
+                                                        </select>
 
                                                         @if ($errors->has('cancel'))
                                                             <span class="help-block"><strong>{{ $errors->first('cancel') }}</strong></span>

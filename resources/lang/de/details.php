@@ -98,6 +98,7 @@ return [
 
     'cancelDeadlineBegin'                    => 'Stornierung bis',
     'cancelDeadlineEnd'                      => 'Tage vor Anreisedatum',
+    'selectReservationCancelType'            => 'Select reservation cancel type',
     'interiorWifi'                           => 'Wlan',
     'interiorShower'                         => 'Dusche vorhanden',
     'interiorMealCard'                       => 'Essen á la carte',

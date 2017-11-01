@@ -12,6 +12,70 @@ use Auth;
 class DetailsController extends Controller
 {
     /**
+     * Create array.
+     *
+     * @param  string  $interior
+     * @return \Illuminate\Http\Response
+     */
+    public function interiorLabel($interior)
+    {
+        $facilities = array(
+            'Wifi'                                      => __("details.interiorWifi"),
+            'shower available'                          => __("details.interiorShower"),
+            'Food à la carte'                           => __("details.interiorMealCard"),
+            'breakfast'                                 => __("details.interiorBreakfast"),
+            'TV available'                              => __("details.interiorTv"),
+            'washing machine'                           => __("details.interiorWashingMachine"),
+            'drying room'                               => __("details.interiorDryingRoom"),
+            'Luggage transport from the valley'         => __("details.interiorLuggageTransport"),
+            'Accessible by car'                         => __("details.interiorAccessCar"),
+            'dogs allowed'                              => __("details.interiorDogsAllowed"),
+            'Suitable for wheelchairs'                  => __("details.interiorWheelchairs"),
+            'Public telephone available'                => __("details.interiorPublicPhone"),
+            'Mobile phone reception'                    => __("details.interiorPhoneReception"),
+            'Power supply for own devices'              => __("details.interiorPowerSupply"),
+            'Waste bin'                                 => __("details.interiorDustbins"),
+            'Hut shop'                                  => __("details.interiorCabinShop"),
+            'Advancement possibilities including time'  => __("details.interiorAscentPossibility"),
+            'reachable by phone'                        => __("details.interiorAccessibleTelephone"),
+            'Smoking (allowed, forbidden)'              => __("details.interiorSmokingAllowed"),
+            'smoke detector'                            => __("details.interiorSmokeDetector"),
+            'Carbon monoxide detector'                  => __("details.interiorCarbMonoDetector"),
+            'Helicopter land available'                 => __("details.interiorHelicopterLand"),
+        );
+
+        if(array_key_exists($interior, $facilities)) {
+            return $facilities[$interior];
+        }
+    }
+
+    /**
+     * Create array.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function reservationCancel()
+    {
+        $array = array(
+            '0'  => __("details.selectReservationCancelType"),
+            '2'  => __("details.cancelDeadlineBegin").' 2 '.__("details.cancelDeadlineEnd"),
+            '3'  => __("details.cancelDeadlineBegin").' 3 '.__("details.cancelDeadlineEnd"),
+            '4'  => __("details.cancelDeadlineBegin").' 4 '.__("details.cancelDeadlineEnd"),
+            '5'  => __("details.cancelDeadlineBegin").' 5 '. __("details.cancelDeadlineEnd"),
+            '6'  => __("details.cancelDeadlineBegin").' 6 '. __("details.cancelDeadlineEnd"),
+            '7'  => __("details.cancelDeadlineBegin").' 7 '. __("details.cancelDeadlineEnd"),
+            '8'  => __("details.cancelDeadlineBegin").' 8 '. __("details.cancelDeadlineEnd"),
+            '10' => __("details.cancelDeadlineBegin").' 10 '. __("details.cancelDeadlineEnd"),
+            '14' => __("details.cancelDeadlineBegin").' 14 '. __("details.cancelDeadlineEnd"),
+            '20' => __("details.cancelDeadlineBegin").' 20 '. __("details.cancelDeadlineEnd"),
+            '30' => __("details.cancelDeadlineBegin").' 30 '. __("details.cancelDeadlineEnd"),
+            '40' => __("details.cancelDeadlineBegin").' 40 '. __("details.cancelDeadlineEnd"),
+        );
+
+        return $array;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -196,44 +260,6 @@ class DetailsController extends Controller
         }
 
         return $cabinName;
-    }
-
-    /**
-     * Get the specified resource.
-     *
-     * @param  int  $interior
-     * @return \Illuminate\Http\Response
-     */
-    public function interiorLabel($interior)
-    {
-        $facilities = array(
-            'Wifi'                                      => __("details.interiorWifi"),
-            'shower available'                          => __("details.interiorShower"),
-            'Food à la carte'                           => __("details.interiorMealCard"),
-            'breakfast'                                 => __("details.interiorBreakfast"),
-            'TV available'                              => __("details.interiorTv"),
-            'washing machine'                           => __("details.interiorWashingMachine"),
-            'drying room'                               => __("details.interiorDryingRoom"),
-            'Luggage transport from the valley'         => __("details.interiorLuggageTransport"),
-            'Accessible by car'                         => __("details.interiorAccessCar"),
-            'dogs allowed'                              => __("details.interiorDogsAllowed"),
-            'Suitable for wheelchairs'                  => __("details.interiorWheelchairs"),
-            'Public telephone available'                => __("details.interiorPublicPhone"),
-            'Mobile phone reception'                    => __("details.interiorPhoneReception"),
-            'Power supply for own devices'              => __("details.interiorPowerSupply"),
-            'Waste bin'                                 => __("details.interiorDustbins"),
-            'Hut shop'                                  => __("details.interiorCabinShop"),
-            'Advancement possibilities including time'  => __("details.interiorAscentPossibility"),
-            'reachable by phone'                        => __("details.interiorAccessibleTelephone"),
-            'Smoking (allowed, forbidden)'              => __("details.interiorSmokingAllowed"),
-            'smoke detector'                            => __("details.interiorSmokeDetector"),
-            'Carbon monoxide detector'                  => __("details.interiorCarbMonoDetector"),
-            'Helicopter land available'                 => __("details.interiorHelicopterLand"),
-        );
-
-        if(array_key_exists($interior, $facilities)) {
-            return $facilities[$interior];
-        }
     }
 
     /**

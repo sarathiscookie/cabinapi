@@ -98,6 +98,7 @@ return [
 
     'cancelDeadlineBegin'                    => 'Cancelling in between',
     'cancelDeadlineEnd'                      => 'days before arrival',
+    'selectReservationCancelType'            => 'Choose reservation cancel type',
     'interiorWifi'                           => 'Wifi',
     'interiorShower'                         => 'Shower',
     'interiorMealCard'                       => 'Meal via Card',
