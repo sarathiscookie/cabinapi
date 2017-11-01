@@ -212,23 +212,20 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    {{--<div class="form-group {{ $errors->has('neighbour') ? ' has-error' : '' }}">
+                                                    <div class="form-group {{ $errors->has('neighbour') ? ' has-error' : '' }}">
                                                         <label>@lang('details.cabinBoxLabelNeighbour') <span class="required">*</span></label>
 
-                                                        <input type="text" class="form-control" id="neighbour" name="neighbour" placeholder="@lang('details.cabinBoxLabelNeighbourPH')" value="{{old('neighbour', $cabin->payment_type)}}" maxlength="200">
+                                                        <select id="neighbour" name="neighbour" class="form-control neighbour" multiple="multiple" data-placeholder="Choose neighbour cabin" style="width: 100%;">
+                                                            @foreach($cabin->neighbour_cabin as $neighbour_cabin)
+                                                                @foreach($cabinInfo->cabins() as $neighbour)
+                                                                    <option value="{{ $neighbour->_id }}" @if($neighbour->_id == $neighbour_cabin || old('neighbour') == $neighbour_cabin) selected="selected" @endif>{{ $neighbour->name }}</option>
+                                                                @endforeach
+                                                            @endforeach
+                                                        </select>
 
                                                         @if ($errors->has('neighbour'))
                                                             <span class="help-block"><strong>{{ $errors->first('neighbour') }}</strong></span>
                                                         @endif
-                                                    </div>--}}
-
-                                                    <div class="list-group">
-                                                        <a href="#" class="list-group-item">
-                                                            <strong>Neighbours Cabin</strong> <br>
-                                                            @foreach($cabin->neighbour_cabin as $neighbour_cabin)
-                                                                <span class="label label-default">{{ $neighbour_cabin }}</span>
-                                                            @endforeach
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,7 +235,7 @@
                                                     <div class="form-group {{ $errors->has('deposit') ? ' has-error' : '' }}">
                                                         <label>@lang('details.cabinBoxLabelDeposit') <span class="required">*</span></label>
 
-                                                        <input type="text" class="form-control" id="deposit" name="deposit" placeholder="@lang('details.cabinBoxLabelNeighbourPH')" value="{{old('deposit', $cabin->prepayment_amount)}}" maxlength="15">
+                                                        <input type="text" class="form-control" id="deposit" name="deposit" placeholder="@lang('details.cabinBoxLabelDepositPH')" value="{{old('deposit', $cabin->prepayment_amount)}}" maxlength="15">
 
                                                         @if ($errors->has('deposit'))
                                                             <span class="help-block"><strong>{{ $errors->first('deposit') }}</strong></span>
@@ -543,4 +540,14 @@
     <!-- /.content-wrapper -->
 @endsection
 
+@section('scripts')
+    <!-- Select2 -->
+    <script type="text/javascript" src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
 
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $(".neighbour").select2();
+        });
+    </script>
+@endsection

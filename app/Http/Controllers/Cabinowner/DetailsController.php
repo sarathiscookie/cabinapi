@@ -12,7 +12,7 @@ use Auth;
 class DetailsController extends Controller
 {
     /**
-     * Create array.
+     * Array for interior.
      *
      * @param  string  $interior
      * @return \Illuminate\Http\Response
@@ -50,7 +50,7 @@ class DetailsController extends Controller
     }
 
     /**
-     * Create array.
+     * Array for reservation cancel.
      *
      * @return \Illuminate\Http\Response
      */
@@ -73,6 +73,26 @@ class DetailsController extends Controller
         );
 
         return $array;
+    }
+
+    /**
+     * Array for cabin.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cabins()
+    {
+        $neighbour = '';
+
+        $cabins     = Cabin::select('_id', 'name')
+            ->where('is_delete', 0)
+            ->get();
+
+        if(count($cabins) > 0) {
+            $neighbour = $cabins;
+        }
+
+        return $neighbour;
     }
 
     /**
