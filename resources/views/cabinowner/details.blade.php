@@ -350,7 +350,7 @@
                                         <div class="list-group">
                                             <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelMoreDetails')</strong>
-                                                <p class="list-group-item-text">{!! $cabin->other_details !!}</p>
+                                                <p class="list-group-item-text">{{ str_limit(strip_tags($cabin->other_details), 150, ' ...') }}</p>
                                             </a>
                                         </div>
                                     </div>

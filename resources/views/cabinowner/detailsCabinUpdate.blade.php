@@ -340,7 +340,7 @@
                                                 <div class="col-md-6">
                                                     <div class="list-group">
                                                         <a href="#" class="list-group-item">
-                                                            <strong>Breakfeast</strong><span class="pull-right"><input type="checkbox" id="breakfast" name="breakfast" value="1"></span>
+                                                            <strong>Breakfast</strong><span class="pull-right"><input type="checkbox" id="breakfast" name="breakfast" value="1"></span>
                                                         </a>
                                                     </div>
                                                 </div>
