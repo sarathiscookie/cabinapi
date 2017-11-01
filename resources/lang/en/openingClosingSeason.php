@@ -27,7 +27,7 @@ return [
 
     'summerSeasonHeading'                    => 'Summer Season',
     'summerSeasonChooseSeasonLabel'          => 'Summer Season',
-    'summerSeasonChooseSeasonSelect'         => 'Choose Your Season',
+    'summerSeasonChooseSeasonSelect'         => 'Choose your season',
     'summerSeasonChooseStatusLabel'          => 'Status',
     'summerSeasonChooseStatusSelect'         => 'Choose your status',
     'summerSeasonChooseStatusLabelOpen'      => 'Open',
