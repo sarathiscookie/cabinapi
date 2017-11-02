@@ -3,6 +3,9 @@
 @section('title', 'Cabin API - Cabin Owner: Cabin Information Edit')
 
 @section('css')
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" />
+
     <style type="text/css">
         .list-group-item{
             cursor: default;
@@ -246,7 +249,8 @@
                                             <div class="form-group {{ $errors->has('details') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelMoreDetails') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="details" name="details" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" value="{{old('details', $cabin->other_details)}}">
+                                                {{--<input type="text" class="form-control" id="details" name="details" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" value="{{old('details', $cabin->other_details)}}">--}}
+                                                <textarea class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $cabin->other_details }}</textarea>
 
                                                 @if ($errors->has('details'))
                                                     <span class="help-block"><strong>{{ $errors->first('details') }}</strong></span>
@@ -331,12 +335,17 @@
     <!-- Select2 -->
     <script type="text/javascript" src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
 
+    <!-- Bootstrap WYSIHTML5 -->
+    <script type="text/javascript" src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+
     <script>
         $(function () {
             //Initialize Select2 Elements
             $(".neighbour").select2();
             $(".interior").select2();
             $(".payment").select2();
+
+            $(".otherDetails").wysihtml5();
         });
     </script>
 @endsection
