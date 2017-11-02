@@ -175,6 +175,7 @@
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" id="halfboard" name="halfboard" value="1" @if($cabin->halfboard == '1' || old('halfboard') == '1') checked @endif>
+                                                        Enable halfboard price
                                                     </label>
                                                 </div>
 
@@ -264,8 +265,7 @@
                                             <div class="form-group {{ $errors->has('details') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelMoreDetails') <span class="required">*</span></label>
 
-                                                {{--<input type="text" class="form-control" id="details" name="details" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" value="{{old('details', $cabin->other_details)}}">--}}
-                                                <textarea class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $cabin->other_details }}</textarea>
+                                                <textarea id="details" name="details" class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $cabin->other_details }}</textarea>
 
                                                 @if ($errors->has('details'))
                                                     <span class="help-block"><strong>{{ $errors->first('details') }}</strong></span>
@@ -283,11 +283,7 @@
                                                     <span class="help-block"><strong>{{ $errors->first('region') }}</strong></span>
                                                 @endif
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('latitude') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelLatitude') <span class="required">*</span></label>
 
@@ -297,9 +293,7 @@
                                                     <span class="help-block"><strong>{{ $errors->first('latitude') }}</strong></span>
                                                 @endif
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('longitude') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelLongitude') <span class="required">*</span></label>
 
@@ -309,8 +303,10 @@
                                                     <span class="help-block"><strong>{{ $errors->first('longitude') }}</strong></span>
                                                 @endif
                                             </div>
+
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="box-footer">
