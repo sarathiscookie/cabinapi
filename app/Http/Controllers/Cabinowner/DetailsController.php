@@ -17,7 +17,7 @@ class DetailsController extends Controller
      * @param  string  $interior
      * @return \Illuminate\Http\Response
      */
-    public function interiorLabel($interior)
+    public function interiorLabel($interior = null)
     {
         $facilities = array(
             'Wifi'                                      => __("details.interiorWifi"),
@@ -44,8 +44,13 @@ class DetailsController extends Controller
             'Helicopter land available'                 => __("details.interiorHelicopterLand"),
         );
 
-        if(array_key_exists($interior, $facilities)) {
-            return $facilities[$interior];
+        if($interior != null) {
+            if(array_key_exists($interior, $facilities)) {
+                return $facilities[$interior];
+            }
+        }
+        else {
+            return $facilities;
         }
     }
 
@@ -70,6 +75,22 @@ class DetailsController extends Controller
             '20' => __("details.cancelDeadlineBegin").' 20 '. __("details.cancelDeadlineEnd"),
             '30' => __("details.cancelDeadlineBegin").' 30 '. __("details.cancelDeadlineEnd"),
             '40' => __("details.cancelDeadlineBegin").' 40 '. __("details.cancelDeadlineEnd"),
+        );
+
+        return $array;
+    }
+
+    /**
+     * Array for payment type.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function paymentType()
+    {
+        $array = array(
+            '0' => __("details.cabinBoxLabelPayTypeCash"),
+            '1' => __("details.cabinBoxLabelPayTypeDebit"),
+            '2' => __("details.cabinBoxLabelPayTypeCredit"),
         );
 
         return $array;
