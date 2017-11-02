@@ -282,6 +282,86 @@ class DetailsController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\DetailsRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCabinIfo(Request $request)
+    {
+        if(isset($request->updateCabin)) {
+            /* Array prepared for facilities, pay type & neighbour cabin */
+            $facilityArray = [];
+            foreach ($request->facility as $key => $facility) {
+                $facilityArray[] = [
+                    $key  => $facility,
+                ];
+            }
+
+            $paymentArray = [];
+            foreach ($request->payment as $key => $payment) {
+                $paymentArray[] = [
+                    $key  => $payment,
+                ];
+            }
+
+            $neighbourArray = [];
+            foreach ($request->neighbour as $key => $neighbour) {
+                $neighbourArray[] = [
+                    $key  => $neighbour,
+                ];
+            }
+
+            // here need to write eloquent save
+            /*"cabinname" => "Schwarzwasserhütte"
+  "height" => "1621"
+  "club" => "DAV-Sektion Schwaben"
+  "cancel" => "5"
+  "availability" => "Riezlern"
+  "tours" => null
+  "checkin" => "13:00"
+  "checkout" => "18:00"
+  "facility" => array:7 [▼
+    0 => "shower available"
+    1 => "Food à la carte"
+    2 => "breakfast"
+    3 => "drying room"
+    4 => "Mobile phone reception"
+    5 => "reachable by phone"
+    6 => "smoke detector"
+  ]
+  "halfboard" => "1"
+  "price" => "29,00"
+  "payment" => array:3 [▼
+    0 => "0"
+    1 => "1"
+    2 => "2"
+  ]
+  "neighbour" => array:5 [▼
+    0 => "583583b9d2ae67d866ec89e3"
+    1 => "583da4e5d2ae6745509860f4"
+    2 => "5858e9afd2ae677b67bf40ec"
+    3 => "5858ea17d2ae67406cbf40eb"
+    4 => "5858ea45d2ae67486cbf40eb"
+  ]
+  "deposit" => "10,00"
+  "website" => "http://www.schwarzwasserhuette.com"
+  "details" => "<p></p> <p></p> <p><strong>Reservierungsbedingungen Schwarzwasserhütte</strong></p> <p>Reservierungen können ausschließlich online über unser <a target="_blank" ▶"
+  "_wysihtml5_mode" => "1"
+  "region" => "Allgäuer Alpen"
+  "latitude" => null
+  "longitude" => null
+  "updateCabin" => "updateCabin"*/
+
+            //DB::table('extra')->insert($facilityArray);
+        }
+        else {
+            return redirect()->back()->with('failure', __('details.failure'));
+        }
+    }
+
+
+    /**
      * Get the specified resource.
      *
      * @param  int  $neighbour_cabin

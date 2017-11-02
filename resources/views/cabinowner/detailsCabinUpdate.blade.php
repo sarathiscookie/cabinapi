@@ -27,7 +27,7 @@
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('details.breadcrumbOne')</a></li>
                 <li><a href="/cabinowner/details"><i class="fa fa fa-table"></i> @lang('details.breadcrumbTwo')</a></li>
-                <li class="fa fa-edit active">Cabin</li>
+                <li class="fa fa-edit active">@lang('details.breadcrumbFour')</li>
             </ol>
         </section>
 
@@ -37,11 +37,12 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h4 class="box-title">Cabin Information</h4>
+                            <h4 class="box-title">@lang('details.cabinBoxHeading')</h4>
                         </div>
 
                         @isset($cabin)
-                            <form>
+                            <form role="form" method="post" action="{{ route('cabinowner.details.cabin.update') }}">
+                                {{ csrf_field() }}
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -60,7 +61,7 @@
                                             <div class="form-group {{ $errors->has('height') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelHeight') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="height" name="height" placeholder="@lang('details.cabinBoxLabelHeightPH')" value="{{old('height', $cabin->height)}}" maxlength="10">
+                                                <input type="text" class="form-control" id="height" name="height" placeholder="@lang('details.cabinBoxLabelHeightPH')" value="{{old('height', $cabin->height)}}" maxlength="15">
 
                                                 @if ($errors->has('height'))
                                                     <span class="help-block"><strong>{{ $errors->first('height') }}</strong></span>
@@ -88,7 +89,7 @@
 
                                                 <select class="form-control" id="cancel" name="cancel">
                                                     @foreach($cabinInfo->reservationCancel() as $key => $type)
-                                                        <option value="{{ $key }}" @if($key == $cabin->reservation_cancel || old('legal') == $cabin->reservation_cancel) selected="selected" @endif>{{ $type }}</option>
+                                                        <option value="{{ $key }}" @if($key == $cabin->reservation_cancel || old('cancel') == $cabin->reservation_cancel) selected="selected" @endif>{{ $type }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -104,7 +105,7 @@
                                             <div class="form-group {{ $errors->has('availability') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelAvailability') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="availability" name="availability" placeholder="@lang('details.cabinBoxLabelCancelPH')" value="{{old('availability', $cabin->reachable)}}" maxlength="255">
+                                                <input type="text" class="form-control" id="availability" name="availability" placeholder="@lang('details.cabinBoxLabelAvailabilityPH')" value="{{old('availability', $cabin->reachable)}}" maxlength="200">
 
                                                 @if ($errors->has('availability'))
                                                     <span class="help-block"><strong>{{ $errors->first('availability') }}</strong></span>
@@ -116,7 +117,7 @@
                                             <div class="form-group {{ $errors->has('tours') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelTour') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="tours" name="tours" placeholder="@lang('details.cabinBoxLabelTourPH')" value="{{old('tours', $cabin->tours)}}" maxlength="255">
+                                                <input type="text" class="form-control" id="tours" name="tours" placeholder="@lang('details.cabinBoxLabelTourPH')" value="{{old('tours', $cabin->tours)}}" maxlength="200">
 
                                                 @if ($errors->has('tours'))
                                                     <span class="help-block"><strong>{{ $errors->first('tours') }}</strong></span>
@@ -154,7 +155,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('facility') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelFacility') <span class="required">*</span></label>
-                                                <select id="facility" name="facility" class="form-control interior" multiple="multiple" data-placeholder="Choose facility cabin" style="width: 100%;">
+                                                <select id="facility" name="facility[]" class="form-control interior" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelFacilityPH')" style="width: 100%;">
                                                     @foreach($cabin->interior as $interior)
                                                         @foreach($cabinInfo->interiorLabel() as $key => $interiorLabel)
                                                             <option value="{{ $key }}" @if($key == $interior || old('facility') == $interior) selected="selected" @endif>{{ $interiorLabel }}</option>
@@ -170,12 +171,12 @@
 
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('halfboard') ? ' has-error' : '' }}">
-                                                <label>Halfboard</label>
+                                                <label>@lang('details.cabinBoxLabelHalfboard')</label>
 
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" id="halfboard" name="halfboard" value="1" @if($cabin->halfboard == '1' || old('halfboard') == '1') checked @endif>
-                                                        Enable halfboard price
+                                                        @lang('details.cabinBoxLabelHalfboardMsg')
                                                     </label>
                                                 </div>
 
@@ -201,7 +202,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('payment') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelPayType') <span class="required">*</span></label>
-                                                <select id="payment" name="payment" class="form-control payment" multiple="multiple" data-placeholder="Choose payment type" style="width: 100%;">
+                                                <select id="payment" name="payment[]" class="form-control payment" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelPayTypePH')" style="width: 100%;">
                                                     @foreach($cabin->payment_type as $payment)
                                                         @foreach($cabinInfo->paymentType() as $paymentTypeKey => $paymentType)
                                                             <option value="{{ $paymentTypeKey }}" @if($paymentTypeKey == $payment || old('payment') == $payment) selected="selected" @endif>{{ $paymentType }}</option>
@@ -219,7 +220,7 @@
                                             <div class="form-group {{ $errors->has('neighbour') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelNeighbour') <span class="required">*</span></label>
 
-                                                <select id="neighbour" name="neighbour" class="form-control neighbour" multiple="multiple" data-placeholder="Choose neighbour cabin" style="width: 100%;">
+                                                <select id="neighbour" name="neighbour[]" class="form-control neighbour" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelNeighbourPH')" style="width: 100%;">
                                                     @foreach($cabin->neighbour_cabin as $neighbour_cabin)
                                                         @foreach($cabinInfo->cabins() as $neighbour)
                                                             <option value="{{ $neighbour->_id }}" @if($neighbour->_id == $neighbour_cabin || old('neighbour') == $neighbour_cabin) selected="selected" @endif>{{ $neighbour->name }}</option>
@@ -265,7 +266,7 @@
                                             <div class="form-group {{ $errors->has('details') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelMoreDetails') <span class="required">*</span></label>
 
-                                                <textarea id="details" name="details" class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{ $cabin->other_details }}</textarea>
+                                                <textarea id="details" name="details" class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{old('details', $cabin->other_details)}}</textarea>
 
                                                 @if ($errors->has('details'))
                                                     <span class="help-block"><strong>{{ $errors->first('details') }}</strong></span>
@@ -312,7 +313,7 @@
                                 <div class="box-footer">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <a href="" class="btn btn-primary btn-block"><i class="fa fa-fw fa-edit"></i>@lang('details.contactLabelEditButton')</a>
+                                            <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>Update</button>
                                         </div>
                                     </div>
                                 </div>
