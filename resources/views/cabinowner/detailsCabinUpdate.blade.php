@@ -168,7 +168,22 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
+                                            <div class="form-group {{ $errors->has('halfboard') ? ' has-error' : '' }}">
+                                                <label>Halfboard</label>
+
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="halfboard" name="halfboard" value="1" @if($cabin->halfboard == '1' || old('halfboard') == '1') checked @endif>
+                                                    </label>
+                                                </div>
+
+                                                @if ($errors->has('halfboard'))
+                                                    <span class="help-block"><strong>{{ $errors->first('halfboard') }}</strong></span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 priceBox">
                                             <div class="form-group {{ $errors->has('price') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelPrice') <span class="required">*</span></label>
 
@@ -340,12 +355,30 @@
 
     <script>
         $(function () {
-            //Initialize Select2 Elements
+            /* Multiple select for neighbour cabins */
             $(".neighbour").select2();
+
+            /* Multiple select for interior cabins */
             $(".interior").select2();
+
+            /* Multiple select for payment */
             $(".payment").select2();
 
+            /* Editor for listing cabin more details*/
             $(".otherDetails").wysihtml5();
+
+            /* Hide show function for halfboard price */
+            if($('#halfboard').is(":checked")) {
+                $('.priceBox').show();
+            }
+            else {
+                $('.priceBox').hide();
+            }
+
+            $('#halfboard').on('change', function() {
+                $('.priceBox').toggle();
+            });
+
         });
     </script>
 @endsection
