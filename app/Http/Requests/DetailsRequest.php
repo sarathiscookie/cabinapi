@@ -49,6 +49,21 @@ class DetailsRequest extends FormRequest
             ];
         }
 
+        if($this->request->get('updateCabin') == 'updateCabin') {
+            $rules = [
+                'cabinname'          => 'required|max:200',
+                'height'             => 'required|max:15',
+                'club'               => 'required|max:200',
+                'cancel'             => 'required|not_in:0',
+                //'payment_type'       => 'required|not_in:0', //any of 0,1,2 need select
+                'deposit'            => 'required|max:15',
+                'website'            => 'required|max:100',
+                'region'             => 'required|not_in:0',
+                'latitude'           => 'required|max:100',
+                'longitude'          => 'required|max:100',
+            ];
+        }
+
         return $rules;
     }
 }

@@ -187,6 +187,15 @@
                             <h4 class="box-title">@lang('details.cabinBoxHeading')</h4>
                         </div>
 
+                        @if (session('successCabin'))
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ session('successCabin') }}
+                            </div>
+                        @endif
+
                         @isset($cabin)
                             <div class="box-body">
                                 <div class="row">
@@ -283,7 +292,7 @@
                                         <div class="list-group">
                                             <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelPrice')</strong> <br>
-                                                @if($cabin->halfboard == '1')
+                                                @if($cabin->halfboard == '1' && $cabin->halfboard_price != '')
                                                     <p class="list-group-item-text">{{ $cabin->halfboard_price }}</p>
                                                 @else
                                                     <span class="label label-warning">@lang('details.notSetHalfBoard')</span>

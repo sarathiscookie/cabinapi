@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DetailsRequest;
 use App\Cabin;
+use App\Region;
 use App\Userlist;
 use Auth;
+use DateTime;
 
 class DetailsController extends Controller
 {
@@ -63,6 +65,7 @@ class DetailsController extends Controller
     {
         $array = array(
             '0'  => __("details.selectReservationCancelType"),
+            '1'  => __("details.cancelDeadlineBegin").' 1 '.__("details.cancelDeadlineEnd"),
             '2'  => __("details.cancelDeadlineBegin").' 2 '.__("details.cancelDeadlineEnd"),
             '3'  => __("details.cancelDeadlineBegin").' 3 '.__("details.cancelDeadlineEnd"),
             '4'  => __("details.cancelDeadlineBegin").' 4 '.__("details.cancelDeadlineEnd"),
@@ -70,11 +73,16 @@ class DetailsController extends Controller
             '6'  => __("details.cancelDeadlineBegin").' 6 '. __("details.cancelDeadlineEnd"),
             '7'  => __("details.cancelDeadlineBegin").' 7 '. __("details.cancelDeadlineEnd"),
             '8'  => __("details.cancelDeadlineBegin").' 8 '. __("details.cancelDeadlineEnd"),
+            '9'  => __("details.cancelDeadlineBegin").' 9 '. __("details.cancelDeadlineEnd"),
             '10' => __("details.cancelDeadlineBegin").' 10 '. __("details.cancelDeadlineEnd"),
             '14' => __("details.cancelDeadlineBegin").' 14 '. __("details.cancelDeadlineEnd"),
+            '15' => __("details.cancelDeadlineBegin").' 15 '. __("details.cancelDeadlineEnd"),
             '20' => __("details.cancelDeadlineBegin").' 20 '. __("details.cancelDeadlineEnd"),
             '30' => __("details.cancelDeadlineBegin").' 30 '. __("details.cancelDeadlineEnd"),
-            '40' => __("details.cancelDeadlineBegin").' 40 '. __("details.cancelDeadlineEnd"),
+            '60' => __("details.cancelDeadlineBegin").' 60 '. __("details.cancelDeadlineEnd"),
+            '90' => __("details.cancelDeadlineBegin").' 90 '. __("details.cancelDeadlineEnd"),
+            '180' => __("details.cancelDeadlineBegin").' 180 '. __("details.cancelDeadlineEnd"),
+            '365' => __("details.cancelDeadlineBegin").' 365 '. __("details.cancelDeadlineEnd"),
         );
 
         return $array;
@@ -115,6 +123,27 @@ class DetailsController extends Controller
 
         return $neighbour;
     }
+
+    /**
+     * Getting all regions.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function regions()
+    {
+        $regions = '';
+
+        $regionsQuery = Region::select('name')
+            ->where('is_delete', 0)
+            ->get();
+
+        if(count($regionsQuery) > 0) {
+            $regions  = $regionsQuery;
+        }
+
+        return $regions;
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -287,73 +316,22 @@ class DetailsController extends Controller
      * @param  \App\Http\Requests\DetailsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateCabinIfo(Request $request)
+    public function updateCabinIfo(DetailsRequest $request)
     {
-        if(isset($request->updateCabin)) {
-            /* Array prepared for facilities, pay type & neighbour cabin */
-            $facilityArray = [];
-            foreach ($request->facility as $key => $facility) {
-                $facilityArray[] = [
-                    $key  => $facility,
-                ];
-            }
+        /* Mongo UTCDateTime begin */
+        $date_now    = date("Y-m-d H:i:s");
+        $orig_date   = new DateTime($date_now);
+        $orig_date   = $orig_date->getTimestamp();
+        $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+        /* Mongo UTCDateTime end */
 
-            $paymentArray = [];
-            foreach ($request->payment as $key => $payment) {
-                $paymentArray[] = [
-                    $key  => $payment,
-                ];
-            }
+        $cabin  = Cabin::where('is_delete', 0)
+            ->where('name', session('cabin_name'))
+            ->where('cabin_owner', Auth::user()->_id)
+            ->update(['name' => $request->cabinname, 'height' => $request->height, 'club' => $request->club, 'reservation_cancel' => $request->cancel, 'reachable' => $request->availability, 'tours' => $request->tours, 'checkin_from' => $request->checkin, 'reservation_to' => $request->checkout, 'interior' => $request->facility, 'halfboard' => $request->halfboard, 'halfboard_price' => $request->price, 'payment_type' => $request->payment, 'neighbour_cabin' => $request->neighbour, 'prepayment_amount' => $request->deposit, 'website' => $request->website, 'other_details' => $request->details, 'region' => $request->region, 'latitude' => $request->latitude, 'longitude' => $request->longitude, 'updated_at' => $utcdatetime]);
 
-            $neighbourArray = [];
-            foreach ($request->neighbour as $key => $neighbour) {
-                $neighbourArray[] = [
-                    $key  => $neighbour,
-                ];
-            }
-
-            // here need to write eloquent save
-            /*"cabinname" => "Schwarzwasserhütte"
-  "height" => "1621"
-  "club" => "DAV-Sektion Schwaben"
-  "cancel" => "5"
-  "availability" => "Riezlern"
-  "tours" => null
-  "checkin" => "13:00"
-  "checkout" => "18:00"
-  "facility" => array:7 [▼
-    0 => "shower available"
-    1 => "Food à la carte"
-    2 => "breakfast"
-    3 => "drying room"
-    4 => "Mobile phone reception"
-    5 => "reachable by phone"
-    6 => "smoke detector"
-  ]
-  "halfboard" => "1"
-  "price" => "29,00"
-  "payment" => array:3 [▼
-    0 => "0"
-    1 => "1"
-    2 => "2"
-  ]
-  "neighbour" => array:5 [▼
-    0 => "583583b9d2ae67d866ec89e3"
-    1 => "583da4e5d2ae6745509860f4"
-    2 => "5858e9afd2ae677b67bf40ec"
-    3 => "5858ea17d2ae67406cbf40eb"
-    4 => "5858ea45d2ae67486cbf40eb"
-  ]
-  "deposit" => "10,00"
-  "website" => "http://www.schwarzwasserhuette.com"
-  "details" => "<p></p> <p></p> <p><strong>Reservierungsbedingungen Schwarzwasserhütte</strong></p> <p>Reservierungen können ausschließlich online über unser <a target="_blank" ▶"
-  "_wysihtml5_mode" => "1"
-  "region" => "Allgäuer Alpen"
-  "latitude" => null
-  "longitude" => null
-  "updateCabin" => "updateCabin"*/
-
-            //DB::table('extra')->insert($facilityArray);
+        if(count($cabin) > 0){
+            return redirect(url('cabinowner/details'))->with('successCabin', __('details.cabinSuccessMsg'));
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));

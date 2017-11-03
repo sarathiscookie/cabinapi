@@ -10,6 +10,9 @@
         .list-group-item{
             cursor: default;
         }
+        .required{
+            color:red;
+        }
     </style>
 @endsection
 
@@ -39,6 +42,15 @@
                         <div class="box-header with-border">
                             <h4 class="box-title">@lang('details.cabinBoxHeading')</h4>
                         </div>
+
+                        @if (session('failure'))
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ session('failure') }}
+                            </div>
+                        @endif
 
                         @isset($cabin)
                             <form role="form" method="post" action="{{ route('cabinowner.details.cabin.update') }}">
@@ -102,98 +114,64 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('availability') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelAvailability') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelAvailability')</label>
                                                 <input type="text" class="form-control" id="availability" name="availability" placeholder="@lang('details.cabinBoxLabelAvailabilityPH')" value="{{old('availability', $cabin->reachable)}}" maxlength="200">
-
-                                                @if ($errors->has('availability'))
-                                                    <span class="help-block"><strong>{{ $errors->first('availability') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('tours') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelTour') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelTour')</label>
                                                 <input type="text" class="form-control" id="tours" name="tours" placeholder="@lang('details.cabinBoxLabelTourPH')" value="{{old('tours', $cabin->tours)}}" maxlength="200">
-
-                                                @if ($errors->has('tours'))
-                                                    <span class="help-block"><strong>{{ $errors->first('tours') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('checkin') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelCheckIn') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelCheckIn')</label>
                                                 <input type="text" class="form-control" id="checkin" name="checkin" placeholder="@lang('details.cabinBoxLabelCheckInPH')" value="{{old('checkin', $cabin->checkin_from)}}" maxlength="10">
-
-                                                @if ($errors->has('checkin'))
-                                                    <span class="help-block"><strong>{{ $errors->first('checkin') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('checkout') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelCheckOut') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelCheckOut')</label>
                                                 <input type="text" class="form-control" id="checkout" name="checkout" placeholder="@lang('details.cabinBoxLabelCheckOutPH')" value="{{old('checkout', $cabin->reservation_to)}}" maxlength="10">
-
-                                                @if ($errors->has('checkout'))
-                                                    <span class="help-block"><strong>{{ $errors->first('checkout') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('facility') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelFacility') <span class="required">*</span></label>
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelFacility')</label>
                                                 <select id="facility" name="facility[]" class="form-control interior" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelFacilityPH')" style="width: 100%;">
                                                     @foreach($cabin->interior as $interior)
                                                         @foreach($cabinInfo->interiorLabel() as $key => $interiorLabel)
-                                                            <option value="{{ $key }}" @if($key == $interior || old('facility') == $interior) selected="selected" @endif>{{ $interiorLabel }}</option>
+                                                            <option value="{{ $key }}" @if($key == $interior || old('facility') == $interiorLabel) selected="selected" @endif>{{ $interiorLabel }}</option>
                                                         @endforeach
                                                     @endforeach
                                                 </select>
-
-                                                @if ($errors->has('facility'))
-                                                    <span class="help-block"><strong>{{ $errors->first('facility') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
 
                                         <div class="col-md-2">
-                                            <div class="form-group {{ $errors->has('halfboard') ? ' has-error' : '' }}">
+                                            <div class="form-group">
                                                 <label>@lang('details.cabinBoxLabelHalfboard')</label>
-
                                                 <div class="checkbox">
                                                     <label>
                                                         <input type="checkbox" id="halfboard" name="halfboard" value="1" @if($cabin->halfboard == '1' || old('halfboard') == '1') checked @endif>
                                                         @lang('details.cabinBoxLabelHalfboardMsg')
                                                     </label>
                                                 </div>
-
-                                                @if ($errors->has('halfboard'))
-                                                    <span class="help-block"><strong>{{ $errors->first('halfboard') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-md-4 priceBox">
-                                            <div class="form-group {{ $errors->has('price') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelPrice') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelPrice')</label>
                                                 <input type="text" class="form-control" id="price" name="price" placeholder="@lang('details.cabinBoxLabelPricePH')" value="{{old('price', $cabin->halfboard_price)}}" maxlength="15">
-
-                                                @if ($errors->has('price'))
-                                                    <span class="help-block"><strong>{{ $errors->first('price') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -217,9 +195,8 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('neighbour') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelNeighbour') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelNeighbour')</label>
                                                 <select id="neighbour" name="neighbour[]" class="form-control neighbour" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelNeighbourPH')" style="width: 100%;">
                                                     @foreach($cabin->neighbour_cabin as $neighbour_cabin)
                                                         @foreach($cabinInfo->cabins() as $neighbour)
@@ -227,10 +204,6 @@
                                                         @endforeach
                                                     @endforeach
                                                 </select>
-
-                                                @if ($errors->has('neighbour'))
-                                                    <span class="help-block"><strong>{{ $errors->first('neighbour') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +225,7 @@
                                             <div class="form-group {{ $errors->has('website') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelWebsite') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="website" name="website" placeholder="@lang('details.cabinBoxLabelWebsitePH')" value="{{old('website', $cabin->website)}}" maxlength="200">
+                                                <input type="text" class="form-control" id="website" name="website" placeholder="@lang('details.cabinBoxLabelWebsitePH')" value="{{old('website', $cabin->website)}}" maxlength="100">
 
                                                 @if ($errors->has('website'))
                                                     <span class="help-block"><strong>{{ $errors->first('website') }}</strong></span>
@@ -263,22 +236,21 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('details') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelMoreDetails') <span class="required">*</span></label>
-
+                                            <div class="form-group">
+                                                <label>@lang('details.cabinBoxLabelMoreDetails')</label>
                                                 <textarea id="details" name="details" class="otherDetails" placeholder="@lang('details.cabinBoxLabelMoreDetailsPH')" style="width: 100%; height: 150px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{old('details', $cabin->other_details)}}</textarea>
-
-                                                @if ($errors->has('details'))
-                                                    <span class="help-block"><strong>{{ $errors->first('details') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('region') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelRegion') <span class="required">*</span></label>
-
-                                                <input type="text" class="form-control" id="region" name="region" placeholder="@lang('details.cabinBoxLabelRegionPH')" value="{{old('region', $cabin->region)}}" maxlength="200">
+                                                <select id="region" name="region" class="form-control region" style="width: 100%;">
+                                                    <option value="0">@lang('details.cabinBoxLabelRegionPH')</option>
+                                                    @foreach($cabinInfo->regions() as $region)
+                                                        <option value="{{ $region->name }}" @if($region->name == $cabin->region || old('region') == $cabin->region) selected="selected" @endif>{{ $region->name }}</option>
+                                                    @endforeach
+                                                </select>
 
                                                 @if ($errors->has('region'))
                                                     <span class="help-block"><strong>{{ $errors->first('region') }}</strong></span>
@@ -287,7 +259,6 @@
 
                                             <div class="form-group {{ $errors->has('latitude') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelLatitude') <span class="required">*</span></label>
-
                                                 <input type="text" class="form-control" id="latitude" name="latitude" placeholder="@lang('details.cabinBoxLabelLatitudePH')" value="{{old('latitude', $cabin->latitude)}}" maxlength="100">
 
                                                 @if ($errors->has('latitude'))
@@ -297,15 +268,14 @@
 
                                             <div class="form-group {{ $errors->has('longitude') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelLongitude') <span class="required">*</span></label>
-
                                                 <input type="text" class="form-control" id="longitude" name="longitude" placeholder="@lang('details.cabinBoxLabelLongitudePH')" value="{{old('longitude', $cabin->longitude)}}" maxlength="100">
 
                                                 @if ($errors->has('longitude'))
                                                     <span class="help-block"><strong>{{ $errors->first('longitude') }}</strong></span>
                                                 @endif
                                             </div>
-
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -349,6 +319,7 @@
 
     <!-- Bootstrap WYSIHTML5 -->
     <script type="text/javascript" src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.de-DE.js') }}"></script>
 
     <script>
         $(function () {
@@ -362,7 +333,13 @@
             $(".payment").select2();
 
             /* Editor for listing cabin more details*/
-            $(".otherDetails").wysihtml5();
+            $(".otherDetails").wysihtml5({
+                locale: 'de-DE',
+                toolbar: {
+                    "image": false,
+                    "link": false,
+                }
+            });
 
             /* Hide show function for halfboard price */
             if($('#halfboard').is(":checked")) {
