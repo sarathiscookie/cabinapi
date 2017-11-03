@@ -278,7 +278,9 @@ class DetailsController extends Controller
             $userDetails->usrCity       = $request->city;
             $userDetails->usrZip        = $request->zip;
             $userDetails->save();
-            return redirect(url('cabinowner/details'))->with('successContact', __('details.contactSuccessMsg'));
+
+            $request->session()->flash('successContact', __('details.contactSuccessMsg'));
+            return redirect(url('cabinowner/details'));
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));
@@ -303,7 +305,8 @@ class DetailsController extends Controller
             $userDetails->company = $request->company;
             $userDetails->save();
 
-            return redirect(url('cabinowner/details'))->with('successBilling', __('details.billingSuccessMsg'));
+            $request->session()->flash('successBilling', __('details.billingSuccessMsg'));
+            return redirect(url('cabinowner/details'));
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));
@@ -318,20 +321,22 @@ class DetailsController extends Controller
      */
     public function updateCabinIfo(DetailsRequest $request)
     {
-        /* Mongo UTCDateTime begin */
-        $date_now    = date("Y-m-d H:i:s");
-        $orig_date   = new DateTime($date_now);
-        $orig_date   = $orig_date->getTimestamp();
-        $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
-        /* Mongo UTCDateTime end */
+        if(isset($request->updateCabin)) {
 
-        $cabin  = Cabin::where('is_delete', 0)
-            ->where('name', session('cabin_name'))
-            ->where('cabin_owner', Auth::user()->_id)
-            ->update(['name' => $request->cabinname, 'height' => $request->height, 'club' => $request->club, 'reservation_cancel' => $request->cancel, 'reachable' => $request->availability, 'tours' => $request->tours, 'checkin_from' => $request->checkin, 'reservation_to' => $request->checkout, 'interior' => $request->facility, 'halfboard' => $request->halfboard, 'halfboard_price' => $request->price, 'payment_type' => $request->payment, 'neighbour_cabin' => $request->neighbour, 'prepayment_amount' => $request->deposit, 'website' => $request->website, 'other_details' => $request->details, 'region' => $request->region, 'latitude' => $request->latitude, 'longitude' => $request->longitude, 'updated_at' => $utcdatetime]);
+            /* Mongo UTCDateTime begin */
+            $date_now    = date("Y-m-d H:i:s");
+            $orig_date   = new DateTime($date_now);
+            $orig_date   = $orig_date->getTimestamp();
+            $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+            /* Mongo UTCDateTime end */
 
-        if(count($cabin) > 0){
-            return redirect(url('cabinowner/details'))->with('successCabin', __('details.cabinSuccessMsg'));
+            Cabin::where('is_delete', 0)
+                ->where('name', session('cabin_name'))
+                ->where('cabin_owner', Auth::user()->_id)
+                ->update(['name' => $request->cabinname, 'height' => $request->height, 'club' => $request->club, 'reservation_cancel' => $request->cancel, 'reachable' => $request->availability, 'tours' => $request->tours, 'checkin_from' => $request->checkin, 'reservation_to' => $request->checkout, 'interior' => $request->facility, 'halfboard' => $request->halfboard, 'halfboard_price' => $request->price, 'payment_type' => $request->payment, 'neighbour_cabin' => $request->neighbour, 'prepayment_amount' => $request->deposit, 'website' => $request->website, 'other_details' => $request->details, 'region' => $request->region, 'latitude' => $request->latitude, 'longitude' => $request->longitude, 'updated_at' => $utcdatetime]);
+
+            $request->session()->flash('successCabin', __('details.cabinSuccessMsg'));
+            return redirect(url('cabinowner/details'));
         }
         else {
             return redirect()->back()->with('failure', __('details.failure'));

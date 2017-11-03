@@ -4,8 +4,21 @@
 
 @section('css')
     <style type="text/css">
-        .list-group-item{
+        .list-group-item {
             cursor: default;
+        }
+
+        #flash {
+            position: absolute;
+            top: 53px;
+            right: 20px;
+            z-index: 10;
+            animation: flash-message 6s forwards;
+        }
+
+        @keyframes flash-message {
+            0%   {opacity: 1;}
+            100% {opacity: 0; display:none;}
         }
     </style>
 @endsection
@@ -27,6 +40,33 @@
             </ol>
         </section>
 
+        @if (session()->has('successBilling'))
+            <div id="flash" class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session()->get('successBilling') }}
+            </div>
+        @endif
+
+        @if (session()->has('successContact'))
+            <div id="flash" class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session()->get('successContact') }}
+            </div>
+        @endif
+
+        @if (session()->has('successCabin'))
+            <div id="flash" class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session()->get('successCabin') }}
+            </div>
+        @endif
+
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -36,15 +76,6 @@
                         <div class="box-header with-border">
                             <h4 class="box-title">@lang('details.boxHeading')</h4>
                         </div>
-
-                        @if (session('successContact'))
-                            <div class="alert alert-success">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{ session('successContact') }}
-                            </div>
-                        @endif
 
                         <div class="box-body">
                             <ul class="list-group">
@@ -98,15 +129,6 @@
                             <h4 class="box-title">@lang('details.billingBoxHeading')</h4>
                         </div>
                         <!-- /.box-header -->
-
-                        @if (session('successBilling'))
-                            <div class="alert alert-success">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{ session('successBilling') }}
-                            </div>
-                        @endif
 
                         <div class="box-body">
                             @isset($cabin)
@@ -186,15 +208,6 @@
                         <div class="box-header with-border">
                             <h4 class="box-title">@lang('details.cabinBoxHeading')</h4>
                         </div>
-
-                        @if (session('successCabin'))
-                            <div class="alert alert-success">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                {{ session('successCabin') }}
-                            </div>
-                        @endif
 
                         @isset($cabin)
                             <div class="box-body">
