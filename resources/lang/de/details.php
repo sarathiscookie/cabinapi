@@ -42,7 +42,7 @@ return [
     'failure'                                => 'Etwas ist schief gegangen',
 
     /* Listing Billing */
-    'billingBoxHeading'                      => 'Etwas ist schief gegangen',
+    'billingBoxHeading'                      => 'Rechnungs Informationen',
     'billingLabelCompanyName'                => 'Firmenname',
     'billingLabelZip'                        => 'Postleizahl',
     'billingLabelPlace'                      => 'Stadt',
