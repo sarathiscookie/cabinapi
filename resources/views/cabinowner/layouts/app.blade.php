@@ -245,22 +245,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
     <script>
-        /*var socket = io('{{env('APP_URL')}}:3000');*/
+        var socket = io('{{env('APP_URL')}}:3000');
         /* Realtime message notification */
-        /*socket.on('message', function(data){
+        socket.on('message', function(data){
            if(data){
-               /!* var res = $.parseJSON(data);*!/
+               /* var res = $.parseJSON(data);*/
                $('.messages-menu').empty();
                $('.messages-menu').html(data);
            }
-        });*/
+        });
         /* Realtime inquiry notification */
-        /*socket.on('inquiryCount', function(data){
+        socket.on('inquiryCount', function(data){
             if(data){
                 $('.tasks-menu').empty();
                 $('.tasks-menu').html(data);
             }
-        });*/
+        });
     </script>
 
 
