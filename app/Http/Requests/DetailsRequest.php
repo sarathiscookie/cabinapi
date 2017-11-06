@@ -55,7 +55,7 @@ class DetailsRequest extends FormRequest
                 'height'             => 'required|max:15',
                 'club'               => 'required|max:200',
                 'cancel'             => 'required|not_in:0',
-                //'payment_type'       => 'required|not_in:0', //any of 0,1,2 need select
+                'payment'            => 'required',
                 'deposit'            => 'required|max:15',
                 'website'            => 'required|max:100',
                 'region'             => 'required|not_in:0',
