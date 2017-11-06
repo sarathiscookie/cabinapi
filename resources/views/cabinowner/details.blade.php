@@ -294,9 +294,13 @@
                                         <div class="list-group">
                                             <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelFacility')</strong> <br>
-                                                @foreach($cabin->interior as $interior)
-                                                    <span class="label label-default">{{ $cabinInfo->interiorLabel($interior) }}</span>
-                                                @endforeach
+                                                @if(!empty($cabin->interior))
+                                                    @foreach($cabin->interior as $interior)
+                                                        <span class="label label-default">{{ $cabinInfo->interiorLabel($interior) }}</span>
+                                                    @endforeach
+                                                @else
+                                                    <span class="label label-default">@lang('details.noResult')</span>
+                                                @endif
                                             </a>
                                         </div>
                                     </div>
@@ -320,17 +324,22 @@
                                         <div class="list-group">
                                             <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelPayType')</strong> <br>
-                                                @foreach($cabin->payment_type as $payment)
-                                                    @if($payment == '0')
-                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCash')</span>
-                                                    @endif
-                                                    @if($payment == '1')
-                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeDebit')</span>
-                                                    @endif
-                                                    @if($payment == '2')
-                                                        <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCredit')</span>
-                                                    @endif
-                                                @endforeach
+                                                @if(!empty($cabin->payment_type))
+                                                    @foreach($cabin->payment_type as $payment)
+                                                        @if($payment == '0')
+                                                            <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCash')</span>
+                                                        @endif
+                                                        @if($payment == '1')
+                                                            <span class="label label-default">@lang('details.cabinBoxLabelPayTypeDebit')</span>
+                                                        @endif
+                                                        @if($payment == '2')
+                                                            <span class="label label-default">@lang('details.cabinBoxLabelPayTypeCredit')</span>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <span class="label label-default">@lang('details.noResult')</span>
+                                                @endif
+
                                             </a>
                                         </div>
                                     </div>
@@ -339,9 +348,13 @@
                                         <div class="list-group">
                                             <a class="list-group-item">
                                                 <strong>@lang('details.cabinBoxLabelNeighbour')</strong> <br>
-                                                @foreach($cabin->neighbour_cabin as $neighbour_cabin)
-                                                    <span class="label label-default">{{ $cabinInfo->neighbourCabin($neighbour_cabin) }}</span>
-                                                @endforeach
+                                                @if(!empty($cabin->neighbour_cabin))
+                                                    @foreach($cabin->neighbour_cabin as $neighbour_cabin)
+                                                        <span class="label label-default">{{ $cabinInfo->neighbourCabin($neighbour_cabin) }}</span>
+                                                    @endforeach
+                                                @else
+                                                    <span class="label label-default">@lang('details.noResult')</span>
+                                                @endif
                                             </a>
                                         </div>
                                     </div>

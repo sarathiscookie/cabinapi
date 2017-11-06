@@ -148,10 +148,12 @@
                                             <div class="form-group">
                                                 <label>@lang('details.cabinBoxLabelFacility')</label>
                                                 <select id="facility" name="facility[]" class="form-control interior" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelFacilityPH')" style="width: 100%;">
-                                                    @foreach($cabin->interior as $interior)
-                                                        @foreach($cabinInfo->interiorLabel() as $key => $interiorLabel)
-                                                            <option value="{{ $key }}" @if($key == $interior || old('facility') == $interiorLabel) selected="selected" @endif>{{ $interiorLabel }}</option>
-                                                        @endforeach
+                                                    @foreach($cabinInfo->interiorLabel() as $interiorLabelKey => $interiorLabel)
+                                                        @if(!empty($cabin->interior))
+                                                            <option value="{{ $interiorLabelKey }}" @if(in_array($interiorLabelKey, $cabin->interior)) selected="selected" @endif>{{ $interiorLabel }}</option>
+                                                        @else
+                                                            <option value="{{ $interiorLabelKey }}">{{ $interiorLabel }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -181,10 +183,12 @@
                                             <div class="form-group {{ $errors->has('payment') ? ' has-error' : '' }}">
                                                 <label>@lang('details.cabinBoxLabelPayType') <span class="required">*</span></label>
                                                 <select id="payment" name="payment[]" class="form-control payment" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelPayTypePH')" style="width: 100%;">
-                                                    @foreach($cabin->payment_type as $payment)
-                                                        @foreach($cabinInfo->paymentType() as $paymentTypeKey => $paymentType)
-                                                            <option value="{{ $paymentTypeKey }}" @if($paymentTypeKey == $payment || old('payment') == $payment) selected="selected" @endif>{{ $paymentType }}</option>
-                                                        @endforeach
+                                                    @foreach($cabinInfo->paymentType() as $paymentTypeKey => $paymentType)
+                                                        @if(!empty($cabin->payment_type))
+                                                            <option value="{{ $paymentTypeKey }}" @if(in_array($paymentTypeKey, $cabin->payment_type )) selected="selected" @endif>{{ $paymentType }}</option>
+                                                        @else
+                                                            <option value="{{ $paymentTypeKey }}">{{ $paymentType }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
 
@@ -198,10 +202,12 @@
                                             <div class="form-group">
                                                 <label>@lang('details.cabinBoxLabelNeighbour')</label>
                                                 <select id="neighbour" name="neighbour[]" class="form-control neighbour" multiple="multiple" data-placeholder="@lang('details.cabinBoxLabelNeighbourPH')" style="width: 100%;">
-                                                    @foreach($cabin->neighbour_cabin as $neighbour_cabin)
-                                                        @foreach($cabinInfo->cabins() as $neighbour)
-                                                            <option value="{{ $neighbour->_id }}" @if($neighbour->_id == $neighbour_cabin || old('neighbour') == $neighbour_cabin) selected="selected" @endif>{{ $neighbour->name }}</option>
-                                                        @endforeach
+                                                    @foreach($cabinInfo->cabins() as $neighbour)
+                                                        @if(!empty($cabin->neighbour_cabin))
+                                                            <option value="{{ $neighbour->_id }}" @if(in_array($neighbour->_id, $cabin->neighbour_cabin )) selected="selected" @endif>{{ $neighbour->name }}</option>
+                                                        @else
+                                                            <option value="{{ $neighbour->_id }}">{{ $neighbour->name }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -283,7 +289,7 @@
                                 <div class="box-footer">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>Update</button>
+                                            <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>@lang('details.formUpdateButton')</button>
                                         </div>
                                     </div>
                                 </div>
