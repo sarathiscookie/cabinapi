@@ -126,7 +126,7 @@ return [
     /* Cabin update form */
     'cabinSuccessMsg'                        => 'Hütten Details wurden erfolgreich gespeichert',
     'cabinBoxLabelHalfboard'                 => 'Halbpension',
-    'cabinBoxLabelHalfboardMsg'              => 'Enable Halbpension Preis',
+    'cabinBoxLabelHalfboardMsg'              => 'Halbpension buchbar',
     'cabinBoxLabelNamePH'                    => 'Hüttenname eingeben',
     'cabinBoxLabelHeightPH'                  => 'Höhe eingeben',
     'cabinBoxLabelClubPH'                    => 'Alpenverein eingeben',

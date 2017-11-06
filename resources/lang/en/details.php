@@ -126,7 +126,7 @@ return [
     /* Cabin update form */
     'cabinSuccessMsg'                        => 'Cabin details updated successfully',
     'cabinBoxLabelHalfboard'                 => 'Halfboard',
-    'cabinBoxLabelHalfboardMsg'              => 'Enable halfboard price',
+    'cabinBoxLabelHalfboardMsg'              => 'Half board available',
     'cabinBoxLabelNamePH'                    => 'Enter cabin name',
     'cabinBoxLabelHeightPH'                  => 'Enter height',
     'cabinBoxLabelClubPH'                    => 'Enter club',
