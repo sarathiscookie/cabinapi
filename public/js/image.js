@@ -10,7 +10,7 @@ $(function(){
         }
     });
 /* Delete Image  */
-$('.img_button').on('click', function(e){
+    $('body').on('click','.img_button', function(e){
     e.preventDefault();
     var imgname  = $(this).val();
     var r = confirm('Delete?');
