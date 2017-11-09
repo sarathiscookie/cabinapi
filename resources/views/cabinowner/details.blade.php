@@ -147,12 +147,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <strong>@lang('details.billingLabelPlace')</strong>
-                                            <p class="text-muted">{{ $cabin->place }}</p>
-                                            <hr>
-                                        </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <strong>@lang('details.billingLabelStreet')</strong>
                                             <p class="text-muted">{{ $cabin->street }}</p>
                                             <hr>
@@ -161,13 +156,13 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <strong>@lang('details.billingLabelLegal')</strong>
-                                            <p class="text-muted">{{ $cabin->legal }}</p>
+                                            <strong>@lang('details.billingLabelPlace')</strong>
+                                            <p class="text-muted">{{ $cabin->place }}</p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>@lang('details.billingLabelTax')</strong>
-                                            <p>@if($cabin->tax)<span class="label label-default">{{ $cabin->tax }}</span> @else <span class="label label-warning">@lang('details.noResult')</span>@endif</p>
+                                            <strong>@lang('details.billingLabelLegal')</strong>
+                                            <p class="text-muted">{{ $cabin->legal }}</p>
                                             <hr>
                                         </div>
                                     </div>

@@ -230,10 +230,10 @@ class DetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function editBillingIfo()
+    public function editBillingInfo()
     {
         $userDetails     = '';
-        $cabin           = Cabin::select('name', 'zip', 'street', 'place', 'tax', 'legal', 'telephone', 'vat', 'fax')
+        $cabin           = Cabin::select('name', 'zip', 'street', 'place', 'legal', 'telephone', 'vat', 'fax')
             ->where('is_delete', 0)
             ->where('name', session('cabin_name'))
             ->where('cabin_owner', Auth::user()->_id)
