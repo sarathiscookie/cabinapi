@@ -18,10 +18,10 @@ class DetailsController extends Controller
      * Middleware for remove session flash message cache.
      *
      */
-    /*public function __construct()
+    public function __construct()
     {
         $this->middleware('preventBackHistory');
-    }*/
+    }
 
     /**
      * Array for interior.
