@@ -52,7 +52,7 @@ return [
     'updateSummerButton'                     => 'Sichern',
     'deleteSummerButton'                     => 'Löschen',
     'successMsgSummer'                       => 'Sommersaison Öffnungszeiten gesichert!',
-    'summerNextSeason'                       => 'Nächste Sommer Saison',
+    'summerNextSeason'                       => 'Nächste Sommersaison buchbar ab',
     'summerNextSeasonPlaceholder'            => 'Nächste sommer saison eingeben',
     'noResult'                               => 'Unbekannt',
 
