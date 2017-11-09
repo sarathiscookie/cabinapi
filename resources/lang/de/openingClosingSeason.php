@@ -83,7 +83,7 @@ return [
     'updateWinterButton'                     => 'Sichern',
     'deleteWinterButton'                     => 'Löschen',
     'successMsgWinter'                       => 'Wintersaison Öffnungszeiten gesichert!',
-    'winterNextSeason'                       => 'Nächste Winter Saison',
+    'winterNextSeason'                       => 'Nächste Wintersaison buchbar ab',
     'winterNextSeasonPlaceholder'            => 'Nächste winter saison eingeben',
 
     /* Form to save data */
