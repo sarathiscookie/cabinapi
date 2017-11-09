@@ -51,7 +51,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>H</b>HD</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><img src="/img/huetten-holiday-logo-sw.png" alt="Huetten-Holiday.de" style="max-height: 45px;"></span>
+            <span class="logo-lg"><img src="/img/2018-Hütten-Holiday-NEW-Logo-weiß.png" alt="Huetten-Holiday.de" style="max-height: 67px; margin-top: -27px;"></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
