@@ -199,6 +199,9 @@
                         <li>
                             <a href="/cabinowner/details"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a>
                         </li>
+                        <li>
+                            <a href="/cabinowner/image"><i class="fa fa-circle-o"></i> @lang('menu.imageMenu')</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
