@@ -43,7 +43,6 @@ class DetailsRequest extends FormRequest
                 'city'          => 'required|max:255',
                 'street'        => 'required|max:255',
                 'legal'         => 'required|not_in:0',
-                'tax'           => 'required|max:100',
                 'vat'           => 'required|max:100',
                 'fax'           => 'required|max:50',
             ];
@@ -51,16 +50,16 @@ class DetailsRequest extends FormRequest
 
         if($this->request->get('updateCabin') == 'updateCabin') {
             $rules = [
-                'cabinname'          => 'required|max:200',
-                'height'             => 'required|max:15',
-                'club'               => 'required|max:200',
-                'cancel'             => 'required|not_in:0',
-                'payment'            => 'required',
-                'deposit'            => 'required|max:15',
-                'website'            => 'required|max:100',
-                'region'             => 'required|not_in:0',
-                'latitude'           => 'required|max:100',
-                'longitude'          => 'required|max:100',
+                'cabinname'     => 'required|max:200',
+                'height'        => 'required|max:15',
+                'club'          => 'required|max:200',
+                'cancel'        => 'required|not_in:0',
+                'payment'       => 'required',
+                'deposit'       => 'required|max:15',
+                'website'       => 'required|max:100',
+                'region'        => 'required|not_in:0',
+                'latitude'      => 'required|max:100',
+                'longitude'     => 'required|max:100',
             ];
         }
 

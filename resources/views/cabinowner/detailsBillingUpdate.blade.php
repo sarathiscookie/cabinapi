@@ -125,21 +125,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('tax') ? ' has-error' : '' }}">
-                                                <label>@lang('details.billingLabelTax') <span class="required">*</span></label>
-
-                                                <input type="text" class="form-control" id="tax" name="tax" placeholder="@lang('details.billingLabelTaxPH')" value="{{old('tax', $cabin->tax)}}" maxlength="100">
-
-                                                @if ($errors->has('tax'))
-                                                    <span class="help-block"><strong>{{ $errors->first('tax') }}</strong></span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group {{ $errors->has('vat') ? ' has-error' : '' }}">
                                                 <label>@lang('details.billingLabelVat') <span class="required">*</span></label>
 
@@ -151,7 +137,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group {{ $errors->has('fax') ? ' has-error' : '' }}">
                                                 <label>@lang('details.billingLabelFax') <span class="required">*</span></label>
 

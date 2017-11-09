@@ -13,6 +13,16 @@ use DateTime;
 
 class DetailsController extends Controller
 {
+
+    /**
+     * Middleware for remove session flash message cache.
+     *
+     */
+    /*public function __construct()
+    {
+        $this->middleware('preventBackHistory');
+    }*/
+
     /**
      * Array for interior.
      *
@@ -299,7 +309,7 @@ class DetailsController extends Controller
             Cabin::where('is_delete', 0)
                 ->where('name', session('cabin_name'))
                 ->where('cabin_owner', Auth::user()->_id)
-                ->update(['legal' => $request->legal, 'tax' => $request->tax, 'telephone' => $request->telephone, 'zip' => $request->zip, 'place' => $request->city, 'street' => $request->street, 'fax' => $request->fax, 'vat' =>$request->vat]);
+                ->update(['legal' => $request->legal, 'telephone' => $request->telephone, 'zip' => $request->zip, 'place' => $request->city, 'street' => $request->street, 'fax' => $request->fax, 'vat' =>$request->vat]);
 
             $userDetails          = Userlist::findOrFail(Auth::user()->_id);
             $userDetails->company = $request->company;
