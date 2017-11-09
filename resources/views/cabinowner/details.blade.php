@@ -167,7 +167,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>@lang('details.billingLabelTax')</strong>
-                                            <p><span class="label label-default">{{ $cabin->tax }}</span></p>
+                                            <p>@if($cabin->tax)<span class="label label-default">{{ $cabin->tax }}</span> @else <span class="label label-warning">@lang('details.noResult')</span>@endif</p>
                                             <hr>
                                         </div>
                                     </div>
