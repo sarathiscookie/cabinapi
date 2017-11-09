@@ -287,8 +287,11 @@ Route::prefix('cabinowner')->group(function () {
         | Routes for bookings
         |--------------------------------------------------------------------------
         |
-        | Routes for listing bookings, send message, cancel booking
+        | Routes for listing bookings, send message, cancel booking, create booking
         */
+
+        /* Create bookings */
+        Route::get('/bookings/create', 'Cabinowner\BookingController@create')->name('cabinowner.bookings.create');
 
         /* Listing bookings */
         Route::get('/bookings/{bookId?}', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
@@ -409,7 +412,7 @@ Route::prefix('cabinowner')->group(function () {
         Route::post('/details/contact/update', 'Cabinowner\DetailsController@updateContactInfo')->name('cabinowner.details.contact.update');
 
         /* Edit billing details */
-        Route::get('/details/billing', 'Cabinowner\DetailsController@editBillingIfo')->name('cabinowner.details.billing');
+        Route::get('/details/billing', 'Cabinowner\DetailsController@editBillingInfo')->name('cabinowner.details.billing');
 
         /* Update billing details */
         Route::post('/details/billing/update', 'Cabinowner\DetailsController@updateBillingInfo')->name('cabinowner.details.billing.update');
