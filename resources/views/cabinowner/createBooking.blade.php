@@ -181,7 +181,7 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>Create Booking</button>
+                                        <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>Create Bookings</button>
                                     </div>
                                 </div>
                             </div>
