@@ -41,7 +41,7 @@ class ImageController extends Controller
      */
     public function create()
     {
-        return view('cabinowner.imagecreate');
+        return view('cabinowner.imageCreate');
     }
 
     /**
