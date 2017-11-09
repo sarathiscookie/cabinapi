@@ -39,4 +39,6 @@ return [
     'openTimeMenu'                          => 'Opening Hours',
 
     'myDataMenu'                            => 'My Data',
+
+    'imageMenu'                             => 'Images',
 ];

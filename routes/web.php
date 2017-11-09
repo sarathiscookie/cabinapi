@@ -422,5 +422,24 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Update billing details */
         Route::post('/details/cabin/update', 'Cabinowner\DetailsController@updateCabinIfo')->name('cabinowner.details.cabin.update');
+        /*
+
+         |--------------------------------------------------------------------------
+         | Routes for Image Upload
+         |--------------------------------------------------------------------------
+         |
+         | Routes for upload,listing, delete,edit
+         */
+
+        /* list Image */
+        Route::get('/image', 'Cabinowner\ImageController@index')->name('cabinowner.image');
+
+        /* list create */
+        Route::get('/image/create', 'Cabinowner\ImageController@create')->name('cabinowner.image.create');
+
+        Route::post('/image/store', 'Cabinowner\ImageController@store')->name('cabinowner.image.store');
+        /* Delete an image */
+        Route::post('/image/delete', 'Cabinowner\ImageController@deleteImage')->name('cabinowner.image.delete');
+        Route::post('/image/setMainImg', 'Cabinowner\ImageController@setMainImg')->name('cabinowner.image.setMainImg');
     });
 });

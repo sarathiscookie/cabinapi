@@ -40,4 +40,6 @@ return [
 
     'myDataMenu'                            => 'Meine Daten',
 
+    'imageMenu'                             => 'Images',
+
 ];
