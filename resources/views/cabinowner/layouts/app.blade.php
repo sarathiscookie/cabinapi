@@ -111,7 +111,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    @lang('cabinowner.welcomeToDashboard') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
+                                    @lang('cabinowner.welcomeToDashboard') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }} {{session('_id')}}
                                 </p>
                             </li>
                             <li class="user-footer">
