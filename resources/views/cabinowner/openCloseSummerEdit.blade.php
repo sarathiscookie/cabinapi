@@ -77,11 +77,16 @@
 
                                                                 <select class="form-control" name="summerSeasonYear" id="summerSeasonYear">
                                                                     <option value="0">@lang('openingClosingSeason.summerSeasonChooseSeasonSelect')</option>
-                                                                    <option value="2017" @if($summerSeason->summerSeasonYear == 2017 || old('summerSeason') == '2017') selected="selected" @endif>2017</option>
-                                                                    <option value="2018" @if($summerSeason->summerSeasonYear == 2018 || old('summerSeason') == '2018') selected="selected" @endif>2018</option>
-                                                                    <option value="2019" @if($summerSeason->summerSeasonYear == 2019 || old('summerSeason') == '2019') selected="selected" @endif>2019</option>
-                                                                    <option value="2020" @if($summerSeason->summerSeasonYear == 2020 || old('summerSeason') == '2020') selected="selected" @endif>2020</option>
-                                                                    <option value="2021" @if($summerSeason->summerSeasonYear == 2021 || old('summerSeason') == '2021') selected="selected" @endif>2021</option>
+                                                                    <?php
+                                                                    $firstYear = (int)date('Y');
+                                                                    $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                                    for($i = $firstYear; $i <= $lastYear; $i++)
+                                                                    {
+                                                                    ?>
+                                                                    <option value="{{$i}}" @if($summerSeason->summerSeasonYear == $i || old('summerSeason') == $i) selected="selected" @endif>{{$i}}</option>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
                                                                 </select>
 
                                                                 @if ($errors->has('summerSeasonYear'))

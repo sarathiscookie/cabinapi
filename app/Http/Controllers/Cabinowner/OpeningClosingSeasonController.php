@@ -13,6 +13,15 @@ use DateTime;
 class OpeningClosingSeasonController extends Controller
 {
     /**
+     * Middleware for remove session flash message cache.
+     *
+     */
+    public function __construct()
+    {
+        $this->middleware('preventBackHistory');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -119,7 +128,7 @@ class OpeningClosingSeasonController extends Controller
 
             $season->is_delete             = 0;
             $season->cabin_owner           = new \MongoDB\BSON\ObjectID(Auth::user()->_id);
-            $season->cabin_name            = session('cabin_name');
+            $season->cabin_id              = new \MongoDB\BSON\ObjectID(session('_id'));
             $season->save();
 
             return redirect(url('cabinowner/season'))->with('successMsgSeasonSave', __('openingClosingSeason.successMsgSeasonSave'));
@@ -218,7 +227,7 @@ class OpeningClosingSeasonController extends Controller
 
             Season::where('is_delete', 0)
                 ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                ->where('cabin_name', session('cabin_name'))
+                ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('_id')))
                 ->where('_id', new \MongoDB\BSON\ObjectID($summerSeasonId))
                 ->update(['summerSeasonYear' => $summerSeasonYear, 'summerSeasonStatus' => $summerSeasonStatus, 'earliest_summer_open' => $earliest_summer_open, 'earliest_summer_close' => $earliest_summer_close, 'latest_summer_open' => $latest_summer_open, 'latest_summer_close' => $latest_summer_close, 'summer_next_season' => $summer_next_season, 'summer_mon' => $summer_mon, 'summer_tue' => $summer_tue, 'summer_wed' => $summer_wed, 'summer_thu' => $summer_thu, 'summer_fri' => $summer_fri, 'summer_sat' => $summer_sat, 'summer_sun' => $summer_sun]);
 
@@ -257,7 +266,7 @@ class OpeningClosingSeasonController extends Controller
 
             Season::where('is_delete', 0)
                 ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                ->where('cabin_name', session('cabin_name'))
+                ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('_id')))
                 ->where('_id', new \MongoDB\BSON\ObjectID($winterSeasonId))
                 ->update(['winterSeasonYear' => $winterSeasonYear, 'winterSeasonStatus' => $winterSeasonStatus, 'earliest_winter_open' => $earliest_winter_open, 'earliest_winter_close' => $earliest_winter_close, 'latest_winter_open' => $latest_winter_open, 'latest_winter_close' => $latest_winter_close, 'winter_next_season' => $winter_next_season, 'winter_mon' => $winter_mon, 'winter_tue' => $winter_tue, 'winter_wed' => $winter_wed, 'winter_thu' => $winter_thu, 'winter_fri' => $winter_fri, 'winter_sat' => $winter_sat, 'winter_sun' => $winter_sun]);
 
@@ -280,7 +289,7 @@ class OpeningClosingSeasonController extends Controller
         if($request->summerId != '') {
             Season::where('is_delete', 0)
                 ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                ->where('cabin_name', session('cabin_name'))
+                ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('_id')))
                 ->where('_id', new \MongoDB\BSON\ObjectID($request->summerId))
                 ->update(['summerSeason' => 0]);
 
@@ -302,7 +311,7 @@ class OpeningClosingSeasonController extends Controller
         if($request->winterId != '') {
             Season::where('is_delete', 0)
                 ->where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                ->where('cabin_name', session('cabin_name'))
+                ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('_id')))
                 ->where('_id', new \MongoDB\BSON\ObjectID($request->winterId))
                 ->update(['winterSeason' => 0]);
 

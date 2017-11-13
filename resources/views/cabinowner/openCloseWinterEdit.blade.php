@@ -52,7 +52,7 @@
                                     <div class="col-md-12">
                                         <div class="box box-default box-solid">
                                             <div class="box-header with-border">
-                                                <h4>@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 31.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></i>
+                                                <h4>@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 30.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></i>
                                                 </h4>
                                             </div>
 
@@ -77,11 +77,16 @@
 
                                                                 <select class="form-control" name="winterSeasonYear" id="winterSeasonYear">
                                                                     <option value="0">@lang('openingClosingSeason.winterSeasonChooseSeasonSelect')</option>
-                                                                    <option value="2017" @if($winterSeason->winterSeasonYear == 2017 || old('winterSeason') == '2017') selected="selected" @endif>2017</option>
-                                                                    <option value="2018" @if($winterSeason->winterSeasonYear == 2018 || old('winterSeason') == '2018') selected="selected" @endif>2018</option>
-                                                                    <option value="2019" @if($winterSeason->winterSeasonYear == 2019 || old('winterSeason') == '2019') selected="selected" @endif>2019</option>
-                                                                    <option value="2020" @if($winterSeason->winterSeasonYear == 2020 || old('winterSeason') == '2020') selected="selected" @endif>2020</option>
-                                                                    <option value="2021" @if($winterSeason->winterSeasonYear == 2021 || old('winterSeason') == '2021') selected="selected" @endif>2021</option>
+                                                                    <?php
+                                                                    $firstYear = (int)date('Y');
+                                                                    $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                                    for($i = $firstYear; $i <= $lastYear; $i++)
+                                                                    {
+                                                                    ?>
+                                                                    <option value="{{$i}}" @if($winterSeason->winterSeasonYear == $i || old('winterSeason') == $i) selected="selected" @endif>{{$i}}</option>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
                                                                 </select>
 
                                                                 @if ($errors->has('winterSeasonYear'))

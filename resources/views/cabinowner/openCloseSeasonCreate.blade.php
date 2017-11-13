@@ -60,11 +60,16 @@
 
                                                 <select class="form-control" name="summerSeasonYear" id="summerSeasonYear">
                                                     <option value="0">@lang('openingClosingSeason.summerSeasonChooseSeasonSelect')</option>
-                                                    <option value="2017" @if(old('summerSeasonYear') == '2017') selected="selected" @endif>2017</option>
-                                                    <option value="2018" @if(old('summerSeasonYear') == '2018') selected="selected" @endif>2018</option>
-                                                    <option value="2019" @if(old('summerSeasonYear') == '2019') selected="selected" @endif>2019</option>
-                                                    <option value="2020" @if(old('summerSeasonYear') == '2020') selected="selected" @endif>2020</option>
-                                                    <option value="2021" @if(old('summerSeasonYear') == '2021') selected="selected" @endif>2021</option>
+                                                    <?php
+                                                    $firstYear = (int)date('Y');
+                                                    $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                    for($i = $firstYear; $i <= $lastYear; $i++)
+                                                    {
+                                                    ?>
+                                                    <option value="{{$i}}" @if(old('summerSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </select>
 
                                                 @if ($errors->has('summerSeasonYear'))
@@ -197,7 +202,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4>@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 31.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></h4>
+                                            <h4>@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 30.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></h4>
                                         </div>
                                     </div>
 
@@ -208,11 +213,16 @@
 
                                                 <select class="form-control" name="winterSeasonYear" id="winterSeasonYear">
                                                     <option value="0">@lang('openingClosingSeason.winterSeasonChooseSeasonSelect')</option>
-                                                    <option value="2017" @if(old('winterSeasonYear') == '2017') selected="selected" @endif>2017</option>
-                                                    <option value="2018" @if(old('winterSeasonYear') == '2018') selected="selected" @endif>2018</option>
-                                                    <option value="2019" @if(old('winterSeasonYear') == '2019') selected="selected" @endif>2019</option>
-                                                    <option value="2020" @if(old('winterSeasonYear') == '2020') selected="selected" @endif>2020</option>
-                                                    <option value="2021" @if(old('winterSeasonYear') == '2021') selected="selected" @endif>2021</option>
+                                                    <?php
+                                                        $firstYear = (int)date('Y');
+                                                        $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                        for($i = $firstYear; $i <= $lastYear; $i++)
+                                                        {
+                                                    ?>
+                                                    <option value="{{$i}}" @if(old('winterSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </select>
 
                                                 @if ($errors->has('winterSeasonYear'))
@@ -373,13 +383,14 @@
     <!-- openCloseSeason Js -->
     <script>
         $(function(){
-            /* Getting year from dropdown and setting in datepicker */
+            /* Get year from dropdown and set in datepicker */
             $('#summerSeasonYear').on('change', function(){
                 var summerSeasonYear = $("#summerSeasonYear").val();
-                $( '#summerSeasonYear' ).attr( "data-summerYear", summerSeasonYear );
+                $( '#summerSeasonYear' ).attr( "data-summeryear", summerSeasonYear );
                 var year = $( '#summerSeasonYear' ).val();
                 var start = new Date("January 01, "+year+" 00:00:00");
-                //var end = new Date(new Date().setYear(start.getFullYear()+1));
+                //setDates: to set date
+
                 $('#earliest_summer_open').datepicker('setDates', start);
                 $('#earliest_summer_close').datepicker('setDates', start);
                 $('#latest_summer_open').datepicker('setDates', start);
@@ -389,10 +400,10 @@
 
             $('#winterSeasonYear').on('change', function(){
                 var winterSeasonYear = $("#winterSeasonYear").val();
-                $( '#winterSeasonYear' ).attr( "data-winterYear", winterSeasonYear );
+                $( '#winterSeasonYear' ).attr( "data-winteryear", winterSeasonYear );
                 var year = $( '#winterSeasonYear' ).val();
                 var start = new Date("January 01, "+year+" 00:00:00");
-                //var end = new Date(new Date().setYear(start.getFullYear()+1));
+
                 $('#earliest_winter_open').datepicker('setDates', start);
                 $('#earliest_winter_close').datepicker('setDates', start);
                 $('#latest_winter_open').datepicker('setDates', start);

@@ -83,7 +83,7 @@ $(function(){
     /* Getting year from dropdown and setting in datepicker */
     $('#summerSeasonYear').on('change', function(){
         var summerSeasonYear = $("#summerSeasonYear").val();
-        $( '#summerSeasonYear' ).attr( "data-summerYear", summerSeasonYear );
+        $( '#summerSeasonYear' ).attr( "data-summeryear", summerSeasonYear );
         var year = $( '#summerSeasonYear' ).val();
         var start = new Date("January 01, "+year+" 00:00:00");
         //var end = new Date(new Date().setYear(start.getFullYear()+1));
@@ -96,7 +96,7 @@ $(function(){
 
     $('#winterSeasonYear').on('change', function(){
         var winterSeasonYear = $("#winterSeasonYear").val();
-        $( '#winterSeasonYear' ).attr( "data-winterYear", winterSeasonYear );
+        $( '#winterSeasonYear' ).attr( "data-winteryear", winterSeasonYear );
         var year = $( '#winterSeasonYear' ).val();
         var start = new Date("January 01, "+year+" 00:00:00");
         //var end = new Date(new Date().setYear(start.getFullYear()+1));

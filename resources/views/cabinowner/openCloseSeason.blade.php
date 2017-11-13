@@ -145,7 +145,7 @@
                                 <div class="col-md-6">
                                     <div class="box box-default box-solid">
                                         <div class="box-header with-border">
-                                            <h3 class="box-title">@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 31.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></h3>
+                                            <h3 class="box-title">@lang('openingClosingSeason.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 30.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></h3>
                                         </div>
                                         <!-- /.box-header -->
                                         <div class="box-body table-responsive no-padding">
