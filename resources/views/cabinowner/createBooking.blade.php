@@ -3,8 +3,8 @@
 @section('title', 'Cabin API - Cabin Owner: Create new booking')
 
 @section('css')
-    <!-- -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('') }}" />
+    <!-- Hotel Datepicker CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/hoteldatepicker/hotel-datepicker.css') }}" />
 
     <style type="text/css">
         .required{
@@ -37,51 +37,87 @@
                             <h4 class="box-title">Check Availability</h4>
                         </div>
 
-                        <form role="form" method="post" action="">
+                        <form role="form" method="post" action="{{ route('cabinowner.bookings.availability') }}">
                             {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group {{ $errors->has('bookingDate') ? ' has-error' : '' }}">
+                                            <label>Booking Date</label>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <input type="text" class="form-control" id="bookingDate" name="bookingDate" placeholder="" value="{{old('bookingDate')}}" maxlength="30" readonly>
 
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
-
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                            @if ($errors->has('bookingDate'))
+                                                <span class="help-block"><strong>{{ $errors->first('bookingDate') }}</strong></span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
 
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                @if(session()->has('sleeping_place'))
+                                    @if(session('sleeping_place') != 1)
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
+                                                    <label>No of beds</label>
+
+                                                    <select class="form-control" id="beds" name="beds">
+                                                        <option value=""> Select no of beds </option>
+                                                        @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
+                                                            <option value="{{$bedsDormsSleepKey}}" @if(old('beds') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
+                                                        @endforeach
+                                                    </select>
+
+                                                    @if ($errors->has('beds'))
+                                                        <span class="help-block"><strong>{{ $errors->first('beds') }}</strong></span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group {{ $errors->has('dorms') ? ' has-error' : '' }}">
+                                                    <label>No of dorms</label>
+
+                                                    <select class="form-control" id="dorms" name="dorms">
+                                                        <option value=""> Select no of dorms </option>
+                                                        @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
+                                                            <option value="{{$bedsDormsSleepKey}}" @if(old('dorms') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
+                                                        @endforeach
+                                                    </select>
+
+                                                    @if ($errors->has('dorms'))
+                                                        <span class="help-block"><strong>{{ $errors->first('dorms') }}</strong></span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
+                                                    <label>No of sleeps</label>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                                    <select class="form-control" id="sleeps" name="sleeps">
+                                                        <option value=""> Select no of sleeps </option>
+                                                        @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
+                                                            <option value="{{$bedsDormsSleepKey}}" @if(old('sleeps') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
+                                                        @endforeach
+                                                    </select>
 
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                                    @if ($errors->has('sleeps'))
+                                                        <span class="help-block"><strong>{{ $errors->first('sleeps') }}</strong></span>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                </div>
+                                    @endif
+                                @endif
                             </div>
 
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary pull-right" name="updateCabin" value="updateCabin"><i class="fa fa-fw fa-save"></i>Check</button>
+                                        <button type="submit" class="btn btn-primary pull-right" name="searchAvailability" value="searchAvailability"><i class="fa fa-fw fa-search"></i>Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -100,29 +136,12 @@
                         <form role="form" method="post" action="">
                             {{ csrf_field() }}
                             <div class="box-body">
-                                <div class="row">
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
-
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
-
-                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>First Name <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -130,7 +149,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>Last Name <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -141,7 +160,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>Street <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -149,7 +168,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>Zip Code <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -160,7 +179,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>City <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -168,7 +187,34 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Test <span class="required">*</span></label>
+                                            <label>Country <span class="required">*</span></label>
+
+                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Email <span class="required">*</span></label>
+
+                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Mobile <span class="required">*</span></label>
+
+                                            <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Phone <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="height" name="height" placeholder="" value="">
                                         </div>
@@ -199,9 +245,19 @@
 @endsection
 
 @section('scripts')
-    <!--  -->
-    <script type="text/javascript" src="{{ asset('') }}"></script>
+    <!-- Hotel Datepicker JS -->
+    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/hotel-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/fecha.min.js') }}"></script>
 
     <script>
+        var input = document.getElementById('bookingDate');
+        var datepicker = new HotelDatepicker(input, {
+            maxNights: 60,
+            format: 'DD.MM.YY'
+        });
+
+        $('#close-bookingDate').on('click', function(e){
+            e.preventDefault();
+        });
     </script>
 @endsection

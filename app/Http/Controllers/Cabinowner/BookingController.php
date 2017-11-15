@@ -12,9 +12,68 @@ use App\Cabin;
 use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\Bmessages;
+use App\Season;
+use DateTime;
 
 class BookingController extends Controller
 {
+    /**
+     * No of beds, dorms and sleeps.
+     *
+     */
+    public function noBedsDormsSleeps()
+    {
+        $numbers = array(
+            '1' => 1,
+            '2' => 2,
+            '3' => 3,
+            '4' => 4,
+            '5' => 5,
+            '6' => 6,
+            '7' => 7,
+            '8' => 8,
+            '9' => 9,
+            '10' => 10,
+            '11' => 11,
+            '12' => 12,
+            '13' => 13,
+            '14' => 14,
+            '15' => 15,
+            '16' => 16,
+            '17' => 17,
+            '18' => 18,
+            '19' => 19,
+            '20' => 20,
+            '21' => 21,
+            '22' => 22,
+            '23' => 23,
+            '24' => 24,
+            '25' => 25,
+            '26' => 26,
+            '27' => 27,
+            '28' => 28,
+            '29' => 29,
+            '30' => 30,
+        );
+
+        return $numbers;
+    }
+
+    /**
+     * To generate date format as mongo.
+     *
+     * @param  string  $date
+     * @return \Illuminate\Http\Response
+     */
+    protected function getDateUtc($date){
+
+        $dateFormatChange = DateTime::createFromFormat("d.m.y", $date)->format('Y-m-d');
+        $dateTime         = new DateTime($dateFormatChange);
+        $timeStamp        = $dateTime->getTimestamp();
+        $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
+        return $utcDateTime;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,10 +90,10 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function dataTables(CabinownerBookingRequest $request)
+    public function dataTables(Request $request)
     {
         $params        = $request->all();
 
@@ -483,10 +542,10 @@ class BookingController extends Controller
     /**
      * send message to user.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function send(CabinownerBookingRequest $request)
+    public function send(Request $request)
     {
         $message    = '';
         $array      = json_decode($request->data, true);
@@ -543,10 +602,10 @@ class BookingController extends Controller
     /**
      * Cancel the specified resource in storage.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cancelBooking(CabinownerBookingRequest $request)
+    public function cancelBooking(Request $request)
     {
         $booking            = Booking::findOrFail($request->data);
         $booking->status    = '2';
@@ -562,18 +621,62 @@ class BookingController extends Controller
      */
     public function create()
     {
-        return view('cabinowner.createBooking');
+        $noBedsDormsSleeps = $this->noBedsDormsSleeps();
+        return view('cabinowner.createBooking', ['noBedsDormsSleeps' => $noBedsDormsSleeps]);
+    }
+
+    /**
+     * Get available data.
+     *
+     * @param  \App\Http\Requests\CabinownerBookingRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkAvailability(CabinownerBookingRequest $request)
+    {
+        $daterange              = explode(" - ", $request->bookingDate);
+        $dateBegin              = $this->getDateUtc($daterange[0]);
+        $dateEnd                = $this->getDateUtc($daterange[1]);
+
+        $seasons                = Season::raw(function ($collection) use ($dateBegin, $dateEnd) {
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        'cabin_owner' => new \MongoDB\BSON\ObjectID(Auth::user()->_id),
+                        'cabin_id' => new \MongoDB\BSON\ObjectID(session('cabin_id')),
+                    ],
+                ],
+                [
+                    '$project' => [
+                        'year' => ['$year' => '$earliest_summer_open'],
+                        'month' => ['$month' => '$earliest_summer_open'],
+                        'day' => ['$dayOfMonth' => '$earliest_summer_open'],
+                        'summerSeason' => 1,
+                        'summerSeasonStatus' => 1,
+                        'summerSeasonYear' => 1,
+                        'earliest_summer_open' => 1,
+                        'latest_summer_close' => 1,
+                        'winterSeason' => 1,
+                        'winterSeasonStatus' => 1,
+                        'winterSeasonYear' => 1,
+                        'earliest_winter_open' => 1,
+                        'latest_winter_close' => 1,
+                    ],
+                ]
+            ]);
+        });
+
+        dd($seasons);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
+     * @param  \App\Http\Requests\CabinownerBookingRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CabinownerBookingRequest $request)
     {
-        //
+        //return redirect()->back();
     }
 
     /**
@@ -601,11 +704,11 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CabinownerBookingRequest $request, $id)
+    public function update(Request $request, $id)
     {
         //
     }

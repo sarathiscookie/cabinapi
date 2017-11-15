@@ -23,8 +23,22 @@ class CabinownerBookingRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+
+        if(session('sleeping_place') != 1)
+        {
+            $rules = [
+                'bookingDate' => 'required',
+                'beds' => 'required_without:dorms',
+                'dorms' => 'required_without:beds',
+            ];
+        }
+        else {
+            $rules = [
+                'bookingDate' => 'required',
+                'sleeps' => 'required|not_in:0',
+            ];
+        }
+
+        return $rules;
     }
 }
