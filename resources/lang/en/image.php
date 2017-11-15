@@ -25,5 +25,7 @@ return [
     'imagesetMainSuccessResponse'           =>'Main image is set Successfully!',
     'imageUploadPreview'                    =>'Image Upload with Preview',
     'noImage'                               =>'No Image Found',
+    'uploadSetProfileButton'                =>'Set as Profile Image',
+    'profileImg'                            =>'Profile Image',
 
 ];

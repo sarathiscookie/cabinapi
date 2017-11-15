@@ -71,15 +71,19 @@ class ImageController extends Controller
                 Storage::makeDirectory($thumb);
 
             }
+            $file_size = $_FILES["logoUpload"]["size"];
+            if($file_size > 4)
+            {
 
-
+                return view('cabinowner.imageCreate')->with('imagesStatus',__('image.wrongImageSize') );
+            }
             Storage::disk('public')->put($cabin_name . '/' . $filename, $code);
 
 
             /**********create thumbnail starts *******************/
 
             $fname = $_FILES["logoUpload"]["name"];
-            $uploadedfile = $_FILES['logoUpload']['tmp_name'];
+             $uploadedfile = $_FILES['logoUpload']['tmp_name'];
             if (preg_match('/[.](jpg)$/', $fname)) {
                 $src = imagecreatefromjpeg($uploadedfile);
             } else if (preg_match('/[.](gif)$/', $fname)) {
@@ -103,6 +107,9 @@ class ImageController extends Controller
         } else
             return redirect(url('cabinowner/image/create'))->with('successMsgImageSave', __('image.failedMsgImageSave'));
 
+    }
+    public function checkImg(Request $request)
+    {
     }
 
     /**
@@ -179,8 +186,10 @@ class ImageController extends Controller
 
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
-                } else {
-                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button >';
+                } elseif (strpos($image['basename'], 'profile_') !== false) {
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                }else {
+                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
 
                 $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
@@ -240,8 +249,10 @@ class ImageController extends Controller
 
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
-                } else {
-                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button >';
+                } elseif (strpos($image['basename'], 'profile_') !== false) {
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                }else {
+                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
 
                 $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
@@ -250,5 +261,66 @@ class ImageController extends Controller
             return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success','message' => __('image.imagesetMainSuccessResponse')], 201);
         }
     }
+    /**
+     * Set profile Image.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function setProfileImg(Request $request)
+    {
+        if ($request->imagename != '') {
+            $cabin_name = session('cabin_name');
+            $thumb = 'public/' . $cabin_name . '/thumb/' . $request->imagename;
+            $img = 'public/' . $cabin_name . '/' . $request->imagename;
 
+            $folder = 'public/' . $cabin_name . '/';
+            $thumbfolder = 'public/' . $cabin_name . '/thumb/';
+
+            $images = Storage::allFiles($folder . '/thumb');
+
+
+            foreach ($images as $image) {
+
+                $img_det = pathinfo($image);
+                /****renaming old main image ***/
+                if (strpos($img_det['basename'], 'profile_') !== false) {
+
+                    $new_image = str_replace("profile_", "", $img_det['basename']);
+
+                    Storage::move($thumbfolder . $img_det['basename'], $thumbfolder . $new_image);
+                    Storage::move($folder . $img_det['basename'], $folder . $new_image);
+                }
+                if ($img_det['basename'] == $request->imagename) {
+                    /***setting main image***/
+                    $main_image = "profile_" . $request->imagename;
+                    Storage::move($thumbfolder . $img_det['basename'], $thumbfolder . $main_image);
+                    Storage::move($folder . $img_det['basename'], $folder . $main_image);
+                }
+            }
+
+
+            $thumbimages = Storage::allFiles($folder . '/thumb');
+
+            $imgDiv = '';
+
+            foreach ($thumbimages as $eachimage) {
+                $image = pathinfo($eachimage);
+                $imgDiv .= '<div class="col-md-4" id="' . $image['filename'] . '" ><a  class = "thumbnail" >
+                                <img  src = "' . str_replace('public', '/storage', $image['dirname'] . '/' . $image['basename']) . '" alt = "Generic placeholder thumbnail" >';
+
+                if (strpos($image['basename'], 'main_') !== false) {
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
+                } elseif (strpos($image['basename'], 'profile_') !== false) {
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                }else {
+                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
+                }
+
+                $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
+
+            }
+            return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success','message' => __('image.imagesetMainSuccessResponse')], 201);
+        }
+    }
 }
