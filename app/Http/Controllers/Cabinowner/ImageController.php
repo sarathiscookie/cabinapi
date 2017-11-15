@@ -72,7 +72,8 @@ class ImageController extends Controller
 
             }
             $file_size = $_FILES["logoUpload"]["size"];
-            if($file_size > 4)
+            /***limiting fie size to 400kb****/
+            if($file_size > 409600)
             {
 
                 return view('cabinowner.imageCreate')->with('imagesStatus',__('image.wrongImageSize') );
