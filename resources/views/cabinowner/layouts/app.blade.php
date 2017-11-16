@@ -202,6 +202,9 @@
                         <li>
                             <a href="/cabinowner/image"><i class="fa fa-circle-o"></i> @lang('menu.imageMenu')</a>
                         </li>
+                        <li>
+                            <a href="/cabinowner/msusers"><i class="fa fa-circle-o"></i> @lang('menu.mUsersMenu')</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

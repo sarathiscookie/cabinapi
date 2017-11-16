@@ -41,6 +41,6 @@ return [
     'myDataMenu'                            => 'Meine Daten',
 
     'imageMenu'                             => 'Images',
-    'mUsersMenu'                            => 'Mountain School users',
+    'mUsersMenu'                            => 'Mountain Schools',
 
 ];

@@ -107,4 +107,11 @@
 @section('scripts')
     <!-- /.content-wrapper -->
     <script src="{{ asset('js/image.js') }}"></script>
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            deleteImage: '{{ trans('image.confirmDeleteImage') }}',
+
+        };
+    </script>
 @endsection
