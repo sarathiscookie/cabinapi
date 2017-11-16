@@ -37,7 +37,7 @@
                             <h4 class="box-title">Check Availability</h4>
                         </div>
 
-                        <form role="form" method="post" action="{{ route('cabinowner.bookings.availability') }}">
+                        <form role="form" method="post" action="{{--{{ route('cabinowner.bookings.availability') }}--}}">
                             {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="row">
