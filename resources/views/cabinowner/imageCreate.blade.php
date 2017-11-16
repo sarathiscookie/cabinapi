@@ -4,13 +4,14 @@
 
 @section('css')
     <style type="text/css">
-        .nounderline {
-            text-decoration: none;
-            cursor: pointer;
+        .col-md-offset-2 {
+            margin-left: 1% !important;
         }
-
-        .required {
-            color: red;
+        .col-md-8 {
+            width: 97% !important;
+        }
+        .#image-cropper{
+            overflow: scroll !important;
         }
     </style>
     <link rel="stylesheet" href="/css/darkroom.css">
@@ -46,7 +47,9 @@
                             </h3>
 
                         </div>
-
+                        @if(@$imagesStatus)
+                        <div class="responseMessage"><div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> {{@$imagesStatus}} </div></div>
+                        @endif
                         <!-- image upload part -->
 
                         <div class="row">
@@ -183,6 +186,26 @@
 
         }
         $(".export").click(function (e) {
+            e.preventDefault();
+            var imgname = $(this).val();
+
+            $.ajax({
+                url: '/cabinowner/image/checkImage',
+                data: {imagename: imgname},
+                dataType: 'JSON',
+                type: 'POST'
+            })
+                .done(function (response) {
+                    if (response.imgsetMainStatus == 'success') {
+
+                        $('#imgDiv').html(response.images);
+                        $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> ' + response.message + ' </div>');
+                        $('.responseMessage').show().delay(5000).fadeOut();
+                    }
+                })
+                .fail(function () {
+
+                });
             document.imageupload.submit();
         })
 

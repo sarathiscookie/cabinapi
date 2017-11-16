@@ -15,12 +15,11 @@
             color: #fff;
             background-color: #337ab7;
             text-align: center;
-            width: 69%;
-            margin-left: 10%;
-            margin-top: 3%;
-            padding: 5px 0 !important;
-            float: left;
-            margin-right: 2px;
+            width: 202px;
+            margin-top: -1%;
+            padding: 1% 0;
+            display: inline-block;
+            margin-bottom: 0px;
         }
         .bg-info {
             text-align: center;
@@ -31,15 +30,19 @@
             float: left;
             margin-right: 2px;
         }
-        .btn.btn-success.set_mainimg {
-            width: 69%;
-            margin-left: 10%;
+        .btn.btn-success.set_mainimg, .btn.btn-success.set_profileimg {
+            width: 120px;
             margin-top: -1%;
             padding: 1% 0;
+            display: inline-block;
         }
         .img_button{
-            margin-top: 3%;
+            margin-top: 1%;
             padding: 1% 3%;
+            display: inline-block;
+        }
+        .thumbnail{
+            text-align: center;
         }
     </style>
 @endsection
@@ -81,9 +84,13 @@
                                             <a  class = "thumbnail">
                                             <img  src = "{{str_replace('public', '/storage', $image['dirname'].'/'.$image['basename'])}}" alt = "Generic placeholder thumbnail">
                                             @if(strpos($image['basename'],'main_') !== false) <p class="bg-primary">@lang('image.mainImg')</p>
+                                            @elseif(strpos($image['basename'],'profile_') !== false) <p class="bg-primary">@lang('image.profileImg')</p>
                                             @else <button value="{{$image['basename']}}" type="button" class="btn btn-success set_mainimg">@lang('image.uploadSetmageButton')</button>
+                                                <button value="{{$image['basename']}}" type="button" class="btn btn-success set_profileimg">@lang('image.uploadSetProfileButton')</button>
                                             @endif
-                                            <button class="img_button" type="submit" value="{{$image['basename']}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                                <button class="img_button" type="submit" value="{{$image['basename']}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                             </a>
                                         </div>
 

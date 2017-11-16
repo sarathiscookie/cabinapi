@@ -441,5 +441,23 @@ Route::prefix('cabinowner')->group(function () {
         /* Delete an image */
         Route::post('/image/delete', 'Cabinowner\ImageController@deleteImage')->name('cabinowner.image.delete');
         Route::post('/image/setMainImg', 'Cabinowner\ImageController@setMainImg')->name('cabinowner.image.setMainImg');
+        Route::post('/image/setProfileImg', 'Cabinowner\ImageController@setProfileImg')->name('cabinowner.image.setProfileImg');
+
+
+        /*
+
+        |--------------------------------------------------------------------------
+        | Routes for MountainSchool Users Listing
+        |--------------------------------------------------------------------------
+        |
+        | Routes for Mountain School Users
+        */
+
+        /* list Image */
+        Route::get('/msusers', 'Cabinowner\MountSchoolUsersController@index')->name('cabinowner.msusers');
+
+        /* Show datatable page */
+        Route::post('/msusers/datatables', 'Cabinowner\MountSchoolUsersController@dataTables')->name('msusers.datatables');
+
     });
 });

@@ -16,14 +16,17 @@ return [
     |
     */
     /* upload Images */
-    'imagePageHeading'                      => 'Titelbilder',
-    'images'                                => 'Titelbilder',
-    'uploadNewImageButton'                  => 'Upload New Image',
+    'imagePageHeading'                      => 'Bilder',
+    'images'                                => 'Titel- und Profilbilder',
+    'uploadNewImageButton'                  => 'Bild hochladen',
     'uploadSetmageButton'                   => 'Als Titelbild auswählen',
     'mainImg'                               => 'Titelbild',
-    'imageDeleteSuccessResponse'            => 'Selected Image is deleted Successfully!',
-    'imagesetMainSuccessResponse'           => 'Main image is set Successfully!',
+    'imageDeleteSuccessResponse'            => 'Das Bild wurde erfolgreich gelöscht!',
+    'imagesetMainSuccessResponse'           => 'Das Titelbild wurde geändert!',
     'imageUploadPreview'                    =>' Bild-Upload mit Vorschau',
     'noImage'                               =>'No Image Found',
+    'uploadSetProfileButton'                =>'Set as Profile Image',
+    'profileImg'                            =>'Profile Image',
+
 
 ];
