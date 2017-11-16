@@ -4,8 +4,12 @@
 
 @section('css')
     <!-- Date Range Picker -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datepicker/datepicker3.css') }}" />
     <style type="text/css">
+        .nounderline {
+            text-decoration: none;
+            cursor: pointer;
+        }
         .required{
             color:red;
         }
@@ -118,7 +122,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('latest_summer_open') ? ' has-error' : '' }}">
-                                                <label for="latest_summer_open">@lang('openingClosingSeason.summerSeasonLatestOpen') <span class="required">*</span></label>
+                                                <label for="earliest_summer_open">@lang('openingClosingSeason.summerSeasonLatestOpen') <span class="required">*</span></label>
 
                                                 <input type="text" class="form-control" id="latest_summer_open" name="latest_summer_open" placeholder="@lang('openingClosingSeason.summerSeasonLatestOpenPlaceholder')" data-date-format="dd.mm.yy" readonly="true" value="{{old('latest_summer_open')}}">
 
@@ -373,104 +377,74 @@
 @endsection
 
 @section('scripts')
+
+    <!-- Date Range Picker -->
+    <script type="text/javascript" src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+    <!-- openCloseSeason Js -->
     <script>
         $(function(){
-            /* Date picker functionality for summer season begin */
+            /* Get year from dropdown and set in datepicker */
             $('#summerSeasonYear').on('change', function(){
-                var summerSeasonYear     = $("#summerSeasonYear").val();
-                if(summerSeasonYear != '0') {
-                    // Set minDate and maxDate in calendar
-                    var start            = new Date("May 01, "+summerSeasonYear);
-                    var end              = new Date("October 31, "+summerSeasonYear);
-                    var nextSummerStart  = new Date("May 01, "+(parseInt(summerSeasonYear)+1));
-                    var nextSummerEnd    = new Date("October 31, "+(parseInt(summerSeasonYear)+1));
+                var summerSeasonYear = $("#summerSeasonYear").val();
+                $( '#summerSeasonYear' ).attr( "data-summeryear", summerSeasonYear );
+                var year = $( '#summerSeasonYear' ).val();
+                var start = new Date("January 01, "+year+" 00:00:00");
+                //setDates: to set date
 
-                    $('#earliest_summer_open').datepicker('option', 'minDate', start);
-                    $('#earliest_summer_open').datepicker('option', 'maxDate', end);
-
-                    $('#earliest_summer_close').datepicker('option', 'minDate', start);
-                    $('#earliest_summer_close').datepicker('option', 'maxDate', end);
-
-                    $('#latest_summer_open').datepicker('option', 'minDate', start);
-                    $('#latest_summer_open').datepicker('option', 'maxDate', end);
-
-                    $('#latest_summer_close').datepicker('option', 'minDate', start);
-                    $('#latest_summer_close').datepicker('option', 'maxDate', end);
-
-                    $('#summer_next_season').datepicker('option', 'minDate', nextSummerStart);
-                    $('#summer_next_season').datepicker('option', 'maxDate', nextSummerEnd);
-                }
+                $('#earliest_summer_open').datepicker('setDates', start);
+                $('#earliest_summer_close').datepicker('setDates', start);
+                $('#latest_summer_open').datepicker('setDates', start);
+                $('#latest_summer_close').datepicker('setDates', start);
+                $('#summer_next_season').datepicker('setDates', start);
             });
 
-            $('#earliest_summer_open').datepicker({
-                dateFormat: "dd.mm.yy"
-            });
-
-            $('#earliest_summer_close').datepicker({
-                dateFormat: "dd.mm.yy"
-            });
-
-            $('#latest_summer_open').datepicker({
-                dateFormat: "dd.mm.yy"
-            });
-
-            $('#latest_summer_close').datepicker({
-                dateFormat: "dd.mm.yy"
-            });
-
-            $('#summer_next_season').datepicker({
-                dateFormat: "dd.mm.yy"
-            });
-            /* Date picker functionality for summer season end */
-
-            /* Date picker functionality for winter season begin */
             $('#winterSeasonYear').on('change', function(){
+                var winterSeasonYear = $("#winterSeasonYear").val();
+                $( '#winterSeasonYear' ).attr( "data-winteryear", winterSeasonYear );
+                var year = $( '#winterSeasonYear' ).val();
+                var start = new Date("January 01, "+year+" 00:00:00");
 
-                var winterSeasonYear     = $("#winterSeasonYear").val();
-                if(winterSeasonYear != '0') {
-                    // Set minDate and maxDate in calendar
-                    var start            = new Date("November 01, "+winterSeasonYear);
-                    var end              = new Date("April 30, "+(parseInt(winterSeasonYear)+1));
-                    var nextWinterStart  = new Date("November 01, "+(parseInt(winterSeasonYear)+1));
-                    var nextWinterEnd    = new Date("April 30, "+(parseInt(winterSeasonYear)+2));
-
-                    $('#earliest_winter_open').datepicker('option', 'minDate', start);
-                    $('#earliest_winter_open').datepicker('option', 'maxDate', end);
-
-                    $('#earliest_winter_close').datepicker('option', 'minDate', start);
-                    $('#earliest_winter_close').datepicker('option', 'maxDate', end);
-
-                    $('#latest_winter_open').datepicker('option', 'minDate', start);
-                    $('#latest_winter_open').datepicker('option', 'maxDate', end);
-
-                    $('#latest_winter_close').datepicker('option', 'minDate', start);
-                    $('#latest_winter_close').datepicker('option', 'maxDate', end);
-
-                    $('#winter_next_season').datepicker('option', 'minDate', nextWinterStart);
-                    $('#winter_next_season').datepicker('option', 'maxDate', nextWinterEnd);
-                }
+                $('#earliest_winter_open').datepicker('setDates', start);
+                $('#earliest_winter_close').datepicker('setDates', start);
+                $('#latest_winter_open').datepicker('setDates', start);
+                $('#latest_winter_close').datepicker('setDates', start);
+                $('#winter_next_season').datepicker('setDates', start);
             });
 
+            /* Date picker for summer season */
+            $('#earliest_summer_open').datepicker({
+                autoclose: true
+            });
+            $('#earliest_summer_close').datepicker({
+                autoclose: true
+            });
+            $('#latest_summer_open').datepicker({
+                autoclose: true
+            });
+            $('#latest_summer_close').datepicker({
+                autoclose: true
+            });
+            $('#summer_next_season').datepicker({
+                autoclose: true
+            });
+
+
+            /* Date picker for winter season */
             $('#earliest_winter_open').datepicker({
-                dateFormat: "dd.mm.yy"
+                autoclose: true
             });
-
             $('#earliest_winter_close').datepicker({
-                dateFormat: "dd.mm.yy"
+                autoclose: true
             });
-
             $('#latest_winter_open').datepicker({
-                dateFormat: "dd.mm.yy"
+                autoclose: true
             });
-
             $('#latest_winter_close').datepicker({
-                dateFormat: "dd.mm.yy"
+                autoclose: true
             });
-
             $('#winter_next_season').datepicker({
-                dateFormat: "dd.mm.yy"
+                autoclose: true
             });
-            /* Date picker functionality for winter season end */
         });
     </script>
 @endsection
