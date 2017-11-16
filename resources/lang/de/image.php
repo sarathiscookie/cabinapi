@@ -27,6 +27,6 @@ return [
     'noImage'                               =>'No Image Found',
     'uploadSetProfileButton'                =>'Set as Profile Image',
     'profileImg'                            =>'Profile Image',
-
+    'confirmDeleteImage'                    =>'Sind Sie sicher, dass Sie das Bild löschen möchten?'
 
 ];

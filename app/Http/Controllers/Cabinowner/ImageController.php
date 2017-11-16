@@ -188,7 +188,7 @@ class ImageController extends Controller
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
                 } elseif (strpos($image['basename'], 'profile_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
                 }else {
                     $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
@@ -251,7 +251,7 @@ class ImageController extends Controller
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
                 } elseif (strpos($image['basename'], 'profile_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
                 }else {
                     $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
@@ -313,7 +313,7 @@ class ImageController extends Controller
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
                 } elseif (strpos($image['basename'], 'profile_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.ProfileImg") . '</p >';
+                    $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
                 }else {
                     $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
