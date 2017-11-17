@@ -14,6 +14,8 @@ use Auth;
 use App\Bmessages;
 use App\Season;
 use DateTime;
+use DatePeriod;
+use DateInterval;
 
 class BookingController extends Controller
 {
@@ -74,6 +76,22 @@ class BookingController extends Controller
         return $utcDateTime;
     }
 
+    /**
+     * To generate date between two dates.
+     *
+     * @param  string  $now
+     * @param  string  $end
+     * @return \Illuminate\Http\Response
+     */
+    protected function generateDates($now, $end){
+        $period = new DatePeriod(
+            new DateTime($now),
+            new DateInterval('P1D'),
+            new DateTime($end)
+        );
+
+        return $period;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -628,12 +646,12 @@ class BookingController extends Controller
     /**
      * Get available data.
      *
-     * @param  \App\Http\Requests\CabinownerBookingRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function checkAvailability(CabinownerBookingRequest $request)
+    /*public function checkAvailability(CabinownerBookingRequest $request)*/
+    public function checkAvailability()
     {
-        $daterange              = explode(" - ", $request->bookingDate);
+        /*$daterange              = explode(" - ", $request->bookingDate);
         $dateBegin              = $this->getDateUtc($daterange[0]);
         $dateEnd                = $this->getDateUtc($daterange[1]);
 
@@ -663,9 +681,86 @@ class BookingController extends Controller
                     ],
                 ]
             ]);
-        });
+        });*/
+        $dates                  = [];
+        $monthNow               = date("2018-04-16");
+        $monthEndWithTime       = date("Y-m-t 23:59:59"); // To include the end date we need to add the time
+        $monthEnd               = date("Y-m-t");
+        $holiday                = [];
+        $summer_holiday_prepare = '';
+        $winter_holiday_prepare = '';
 
-        dd($seasons);
+        $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
+            ->get();
+        foreach($seasons as $season) {
+            if($season->summerSeasonStatus === 'open' && $season->summerSeason === 1) {
+                /*if(($monthNow >= ($season->earliest_summer_open)->format('Y-m-d')) && (date("Y-m-t") <= ($season->latest_summer_close)->format('Y-m-d')))
+                {
+                    print_r('enable summer dates');
+                    //enable summer dates
+                }*/
+                $summer_holiday_prepare .= ($season->summer_mon === 1) ? 'Mon' : 0;
+                $summer_holiday_prepare .= ($season->summer_tue === 1) ? 'Tue' : 0;
+                $summer_holiday_prepare .= ($season->summer_wed === 1) ? 'Wed' : 0;
+                $summer_holiday_prepare .= ($season->summer_thu === 1) ? 'Thu' : 0;
+                $summer_holiday_prepare .= ($season->summer_fri === 1) ? 'Fri' : 0;
+                $summer_holiday_prepare .= ($season->summer_sat === 1) ? 'Sat' : 0;
+                $summer_holiday_prepare .= ($season->summer_sun === 1) ? 'Sun' : 0;
+                /* 1   0000 1   0 1   00000 1   1   00000 1 */
+                /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
+            }
+
+            if($season->winterSeasonStatus === 'open' && $season->winterSeason === 1) {
+                /*if((date("Y-m-d") >= ($season->earliest_winter_open)->format('Y-m-d')) && (date("Y-m-t") <= ($season->latest_winter_close)->format('Y-m-d')))
+                {
+                    //print_r('enable winter dates');
+                    //enable winter dates
+                }*/
+                $winter_holiday_prepare .= ($season->winter_mon === 1) ? 'Mon' : 0;
+                $winter_holiday_prepare .= ($season->winter_tue === 1) ? 'Tue' : 0;
+                $winter_holiday_prepare .= ($season->winter_wed === 1) ? 'Wed' : 0;
+                $winter_holiday_prepare .= ($season->winter_thu === 1) ? 'Thu' : 0;
+                $winter_holiday_prepare .= ($season->winter_fri === 1) ? 'Fri' : 0;
+                $winter_holiday_prepare .= ($season->winter_sat === 1) ? 'Sat' : 0;
+                $winter_holiday_prepare .= ($season->winter_sun === 1) ? 'Sun' : 0;
+                /* 000000 1   0 1   00000 1   000000 */
+                /* 000000 Sun 0 Tue 00000 Mon 000000 */
+            }
+
+            print_r($monthNow .'>='. $season->latest_winter_close->format('Y-m-d').'   '.$monthNow .'<'. $season->earliest_summer_open->format('Y-m-d'));
+
+            if(($monthNow >= ($season->latest_winter_close)->format('Y-m-d')) && ($monthNow < ($season->earliest_summer_open)->format('Y-m-d')))
+            {
+                $latest_winter_close  = ($season->latest_winter_close)->format('Y-m-d');
+                $earliest_summer_open = ($season->earliest_summer_open)->format('Y-m-d');
+                echo '<br />';
+                print_r('1st current date >= latest winter close &&  < earliest summer open'.$latest_winter_close.'--'.$earliest_summer_open);
+                $generateDates        = $this->generateDates($latest_winter_close, $earliest_summer_open);
+            }
+
+            if(($monthNow >= ($season->latest_summer_close)->format('Y-m-d')) && ($monthNow < ($season->earliest_winter_open)->format('Y-m-d')))
+            {
+                $latest_winter_close  = ($season->latest_summer_close)->format('Y-m-d');
+                $earliest_summer_open = ($season->earliest_winter_open)->format('Y-m-d');
+                echo '<br />';
+                print_r('2nd current date >= latest summer close &&  < earliest winter open'.$latest_winter_close.'--'.$earliest_summer_open);
+                $generateDates        = $this->generateDates($latest_winter_close, $earliest_summer_open);
+            }
+            exit();
+        }
+
+        /*print_r($winter_holiday_prepare);*/
+
+
+
+        /*$generateDates   = $this->generateDates($monthNow, $monthEndWithTime);
+        foreach ($generateDates as $generateDate) {
+            $dates[] = $generateDate->format('Y-m-d');
+        }
+        print_r($dates);
+        exit();*/
+        return response()->json(['date_array' => '']);
     }
 
     /**

@@ -37,7 +37,7 @@
                             <h4 class="box-title">Check Availability</h4>
                         </div>
 
-                        <form role="form" method="post" action="{{ route('cabinowner.bookings.availability') }}">
+                        <form role="form" method="post" action="">
                             {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="row">
@@ -246,18 +246,41 @@
 
 @section('scripts')
     <!-- Hotel Datepicker JS -->
-    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/hotel-datepicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/fecha.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/hotel-datepicker.min.js') }}"></script>
 
     <script>
-        var input = document.getElementById('bookingDate');
-        var datepicker = new HotelDatepicker(input, {
-            maxNights: 60,
-            format: 'DD.MM.YY'
-        });
+        $(function(){
+            /* Checking for the CSRF token */
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-        $('#close-bookingDate').on('click', function(e){
-            e.preventDefault();
+            /* Availability checking begin */
+            var input = document.getElementById('bookingDate');
+            $.ajax({
+                url: '/cabinowner/bookings/availability',
+                dataType: 'JSON',
+                type: 'GET'
+            })
+                .done(function( response ) {
+                    console.log(response.date_array);
+                    var datepicker = new HotelDatepicker(input, {
+                        maxNights: 60,
+                        format: 'DD.MM.YY',
+                        disabledDates:response.date_array
+                    });
+                })
+                .fail(function() {
+
+                });
+
+            $('#close-bookingDate').on('click', function(e){
+                e.preventDefault();
+            });
+            /* Availability checking end */
         });
     </script>
 @endsection

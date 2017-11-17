@@ -294,7 +294,7 @@ Route::prefix('cabinowner')->group(function () {
         Route::get('/bookings/create', 'Cabinowner\BookingController@create')->name('cabinowner.bookings.create');
 
         /* Check booking availability */
-        Route::post('/bookings/availability', 'Cabinowner\BookingController@checkAvailability')->name('cabinowner.bookings.availability');
+        Route::get('/bookings/availability', 'Cabinowner\BookingController@checkAvailability')->name('cabinowner.bookings.availability');
 
         /* Listing bookings */
         Route::get('/bookings/{bookId?}', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
