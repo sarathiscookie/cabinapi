@@ -47,6 +47,7 @@
                                 <tr>
                                     <th>Logo</th>
                                     <th>@lang('msuserList.userName')</th>
+                                    <th>@lang('msuserList.usrCompany')</th>
                                     <th>@lang('msuserList.email')</th>
                                     <th>@lang('msuserList.lastName')</th>
                                     <th>@lang('msuserList.firstName')</th>
@@ -55,11 +56,13 @@
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
+
+                                    <td></td>
                                     <th><input type="text" id="2"  class="form-control input-sm search-input-name" placeholder="@lang('msuserList.searchUsername')"></th>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
                                     <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('msuserList.searchEmail')"></th>
+                                    <td></td>
+
 
                                 </tr>
                                 </tfoot>

@@ -17,24 +17,24 @@ return [
     | table headings, breadcrumbs etc
     |
     */
-    'heading'                                => 'MountainSchool Details',
+    'heading'                                => 'Bergschulen Details',
     'controlPanel'                           => 'Verwaltungstool',
     'breadcrumbOne'                          => 'Übersicht',
-    'breadcrumbTwo'                          => 'MountainSchool Details',
-    'panelHeading'                           => 'MountainSchool Details',
+    'breadcrumbTwo'                          => 'Bergschulen Details',
+    'panelHeading'                           => 'Bergschulen Details',
 
     'lastName'                               => 'Nachname',
     'firstName'                              => 'Vorname',
-    'userName'                               => 'Mountain School',
+    'userName'                               => 'Bergschulen',
     'email'                                  => 'E-Mail',
     'searchEmail'                            => 'Suche E-Mail',
-    'searchUsername'                         => 'Search Mountain School',
+    'searchUsername'                         => 'Suche Bergschule',
     'noResult'                               => 'Unbekannt',
 
 
 
     /* Modal for user details update */
-    'userUpdateModalHeading'                 => 'Mountain School Details',
+    'userUpdateModalHeading'                 => 'Bergschulen Details',
     'userUpdateModalFirstName'               => 'Vorname',
     'userUpdateModalLastName'                => 'Nachname',
     'userUpdateModalEmail'                   => 'E-Mail',
@@ -46,7 +46,8 @@ return [
     'userUpdateModalCity'                    => 'Ort',
     'userUpdateModalCountry'                 => 'Land',
     'userUpdateModalButton'                  => 'Bestätigen',
-
+    'usrCompany'                             => 'Bergschulenname',
+    'closeBtn'                               => 'Schließen',
 
 
 ];

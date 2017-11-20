@@ -10,8 +10,32 @@
         .col-md-8 {
             width: 97% !important;
         }
-        .#image-cropper{
+        .image-cropper{
             overflow: scroll !important;
+        }
+        .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+        .custom-file-input::before {
+            content: 'Select some files';
+            display: inline-block;
+            background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+        .custom-file-input:hover::before {
+            border-color: black;
+        }
+        .custom-file-input:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
         }
     </style>
     <link rel="stylesheet" href="/css/darkroom.css">
@@ -47,9 +71,11 @@
                             </h3>
 
                         </div>
-                        @if(@$imagesStatus)
-                        <div class="responseMessage"><div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> {{@$imagesStatus}} </div></div>
-                        @endif
+
+                        <div class="responseMessage">
+                            @if(@$imagesStatus)<div class="alert alert-danger alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-times"></i> {{$imagesStatus}} </h4></div>
+                            @endif</div>
+
                         <!-- image upload part -->
 
                         <div class="row">
@@ -68,9 +94,7 @@
                                                     <img src="" id="target">
                                                     <!-- The actual file input will be hidden -->
                                                     <div class="col-md-6">
-                                                        <input type="file" name="logoUpload" id="logoUpload" accept="image/png|image/jpeg"
-                                                               class="cropit-image-input" multiple="true"/>
-
+                                                        <input type="file" name="logoUpload" id="logoUpload" accept="image/png|image/jpeg" class="custom-file-input" />
                                                     </div>
                                                 </div>
                                                 <label class="data-url"></label>
@@ -80,7 +104,7 @@
                                                 <div class="col-md-6  col-md-offset-4">
                                                     <input type="hidden" id="hidden_base64Logo" name="hidden_base64Logo"/>
                                                     <button class="btn btn-primary export">Speichern</button>
-                                                    <button class="btn btn-primary abbrechen" onclick="location.href='/account';">
+                                                    <button class="btn btn-primary abbrechen" onclick="location.href='/image/create';">
                                                         Abbrechen
                                                     </button>
                                                 </div>
@@ -108,7 +132,7 @@
 <script>
 
     $(function () {
-
+        $('#logoUpload').text("Your Text to Choose a File Here!");
         $(".export").prop('disabled', true);
 
         function neueBildBearbeitung() {

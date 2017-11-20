@@ -9,6 +9,8 @@ $(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    if($('.responseMessage').html()!='')
+        $('.responseMessage').show().delay(5000).fadeOut();
     /* Helping object for translation */
     var translations = {
         deleteImage: window.translations.deleteImage,
