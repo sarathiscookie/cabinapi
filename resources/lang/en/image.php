@@ -27,6 +27,9 @@ return [
     'noImage'                               =>'No Image Found',
     'uploadSetProfileButton'                =>'Set as Profile Image',
     'profileImg'                            =>'Profile Image',
-    'confirmDeleteImage'                    =>'Do you want to delete the selected image?'
+    'confirmDeleteImage'                    =>'Do you want to delete the selected image?',
+    'wrongImageSize'                        =>'Uploaded image is too large, Please upload image less than 400Kb',
+    'successMsgImageSave'                   =>'Image is uploaded successfuly',
+    'failedMsgImageSave'                    =>'Uploading image is failed',
 
 ];

@@ -25,8 +25,11 @@ return [
     'imagesetMainSuccessResponse'           => 'Das Titelbild wurde geändert!',
     'imageUploadPreview'                    =>' Bild-Upload mit Vorschau',
     'noImage'                               =>'No Image Found',
-    'uploadSetProfileButton'                =>'Set as Profile Image',
-    'profileImg'                            =>'Profile Image',
-    'confirmDeleteImage'                    =>'Sind Sie sicher, dass Sie das Bild löschen möchten?'
+    'uploadSetProfileButton'                =>'Als Profilbild auswählen',
+    'profileImg'                            =>'Profilbild',
+    'confirmDeleteImage'                    =>'Sind Sie sicher, dass Sie das Bild löschen möchten?',
+    'wrongImageSize'                        =>'Die Datei ist zu groß. Bitte wählen Sie eine Datei, welche kleiner als 400Kb ist.',
+    'successMsgImageSave'                   =>'Das Bild wurde erfolgreich hochgeladen',
+    'failedMsgImageSave'                    =>'Fehler beim Bildhochladen',
 
 ];

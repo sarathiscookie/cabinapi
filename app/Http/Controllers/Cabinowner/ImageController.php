@@ -54,6 +54,25 @@ class ImageController extends Controller
     {
         $cabin_name = session('cabin_name');
 
+
+        $folder = 'public/' . $cabin_name;
+        $images_arr = '';
+        if (Storage::directories($folder)) {
+
+            $images = Storage::allFiles($folder . '/thumb');
+            $images_arr = [];
+
+
+            foreach ($images as $path) {
+
+                $images_arr[] = pathinfo($path);
+            }
+
+
+        }
+
+
+
         if ($request->hidden_base64Logo != '') {
 
             $code = $request->hidden_base64Logo;
@@ -102,11 +121,11 @@ class ImageController extends Controller
             $filename1 = storage_path() . '/app/public/' . $cabin_name . '/thumb/' . $cabin_name . '_' . $current_time . '.jpg';
             imagejpeg($tmp1, $filename1, 100);
             //create thumbnail ends *******************/
+            return view('cabinowner.image')->with('images', $images_arr)->with('imagesSuccessStatus',__('image.successMsgImageSave') );
 
-            return redirect(url('cabinowner/image'))->with('successMsgImageSave', __('image.successMsgImageSave'));
 
         } else
-            return redirect(url('cabinowner/image/create'))->with('successMsgImageSave', __('image.failedMsgImageSave'));
+            return view('cabinowner.imageCreate')->with('imagesStatus',__('image.failedMsgImageSave') );
 
     }
     public function checkImg(Request $request)

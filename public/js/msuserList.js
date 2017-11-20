@@ -20,7 +20,7 @@ $(function () {
     /* Data table functionality begin */
     var user_data = $('#user_data').DataTable({
         "lengthMenu": [10, 50, 100, 250, 500],
-        "order": [[ 2, "desc" ]],
+        "order": [[ 2, "asc" ]],
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -31,14 +31,15 @@ $(function () {
         "columns": [
             { "data": "usrLogo" },
             { "data": "usrName" },
+            { "data": "usrCompany" },
             { "data": "usrEmail" },
             { "data": "usrLastname" },
             { "data": "usrFirstname" },
         ],
         "columnDefs": [
             {
-                "orderable": false,
-                "targets": [0, 1, 2, 3]
+                "orderable": true,
+                "targets": [0, 1, 2, 3,4]
             }
         ],
         "language": {
@@ -74,7 +75,7 @@ $(function () {
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
+                    columns: [ 1, 2, 4, 5,6 ]
                 }
             },
             {
@@ -82,13 +83,13 @@ $(function () {
                 orientation: 'portrait',
                 pageSize: 'LEGAL',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
+                    columns: [ 1, 2, 4, 5 ,6]
                 }
             },
             {
                 extend: 'print',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
+                    columns: [ 1, 2, 4, 5 ,6]
                 }
             }
         ]

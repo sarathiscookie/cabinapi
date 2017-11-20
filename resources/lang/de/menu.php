@@ -40,7 +40,7 @@ return [
 
     'myDataMenu'                            => 'Meine Daten',
 
-    'imageMenu'                             => 'Images',
-    'mUsersMenu'                            => 'Mountain Schools',
+    'imageMenu'                             => 'Bilder',
+    'mUsersMenu'                            => 'Bergschulen',
 
 ];

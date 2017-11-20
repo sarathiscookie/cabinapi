@@ -45,6 +45,7 @@ return [
     'userUpdateModalCity'                    => 'City',
     'userUpdateModalCountry'                 => 'Country',
     'userUpdateModalButton'                  => 'Update User Details',
-
+    'usrCompany'                             =>'Company',
+    'closeBtn'                               => 'Close',
 
     ];

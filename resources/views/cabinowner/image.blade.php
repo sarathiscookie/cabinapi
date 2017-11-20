@@ -31,7 +31,7 @@
             margin-right: 2px;
         }
         .btn.btn-success.set_mainimg, .btn.btn-success.set_profileimg {
-            width: 120px;
+            width: 45%;
             margin-top: -1%;
             padding: 1% 0;
             display: inline-block;
@@ -74,7 +74,9 @@
                             </h3>
                             <a href="/cabinowner/image/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i> @lang('image.uploadNewImageButton')</a>
                         </div>
-                        <div class="responseMessage"></div>
+
+                        <div class="responseMessage">@if(@$imagesSuccessStatus)<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> {{$imagesSuccessStatus}} </h4></div>@endif</div>
+
                             <div id="imgDiv" class = "row" >
                                 @if($images == '')
                                     <p class="bg-info">@lang('image.noImage')</p>
