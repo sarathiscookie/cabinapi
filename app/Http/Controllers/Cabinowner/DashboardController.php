@@ -175,23 +175,20 @@ class DashboardController extends Controller
     {
         $cabin_name = '';
 
-        $cabin = Cabin::select('_id', 'name', 'sleeping_place', 'beds', 'dormitory', 'sleeps')->where('is_delete', 0)
+        $cabin = Cabin::select('_id', 'name', 'sleeping_place', 'beds', 'dormitory', 'sleeps', 'regular', 'not_regular')->where('is_delete', 0)
             ->where('cabin_owner', Auth::user()->_id)
             ->first();
 
         if(count($cabin) > 0) {
             $cabin_name     = $cabin->name;
-            $sleeping_place = $cabin->sleeping_place;
-            $beds           = $cabin->beds;
-            $dorms          = $cabin->dormitory;
-            $sleeps         = $cabin->sleeps;
-            $cabin_id       = $cabin->_id;
             session(['cabin_name' => $cabin_name]);
-            session(['sleeping_place' => $sleeping_place]);
-            session(['beds' => $beds]);
-            session(['dormitory' => $dorms]);
-            session(['sleeps' => $sleeps]);
-            session(['cabin_id' => $cabin_id]);
+            session(['sleeping_place' => $cabin->sleeping_place]);
+            session(['beds' => $cabin->beds]);
+            session(['dormitory' => $cabin->dormitory]);
+            session(['sleeps' => $cabin->sleeps]);
+            session(['cabin_id' => $cabin->_id]);
+            session(['regular' => $cabin->regular]);
+            session(['not_regular' => $cabin->not_regular]);
         }
 
         return $cabin_name;

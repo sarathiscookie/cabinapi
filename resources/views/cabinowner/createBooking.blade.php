@@ -266,13 +266,11 @@
                 type: 'GET'
             })
                 .done(function( response ) {
-                    console.log(response.startDate);
                     var datepicker = new HotelDatepicker(input, {
                         maxNights: 60,
                         format: 'DD.MM.YY',
-                        startDate: response.startDate,
-                        endDate: response.endDate
-                        /*disabledDates:response.date_array*/
+                        disabledDates:response.holidays,
+                        enableCheckout: true
                     });
                 })
                 .fail(function() {

@@ -67,10 +67,24 @@ class BookingController extends Controller
      * @param  string  $date
      * @return \Illuminate\Http\Response
      */
-    protected function getDateUtc($date){
-
+    protected function getDateUtc($date)
+    {
         $dateFormatChange = DateTime::createFromFormat("d.m.y", $date)->format('Y-m-d');
         $dateTime         = new DateTime($dateFormatChange);
+        $timeStamp        = $dateTime->getTimestamp();
+        $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
+        return $utcDateTime;
+    }
+
+    /**
+     * To generate date format as mongo.
+     *
+     * @param  string  $date
+     * @return \Illuminate\Http\Response
+     */
+    protected function getOtherFormatDateUtc($date)
+    {
+        $dateTime         = new DateTime($date);
         $timeStamp        = $dateTime->getTimestamp();
         $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
         return $utcDateTime;
@@ -651,100 +665,95 @@ class BookingController extends Controller
     /*public function checkAvailability(CabinownerBookingRequest $request)*/
     public function checkAvailability()
     {
-        /*$daterange              = explode(" - ", $request->bookingDate);
+        /*$daterange            = explode(" - ", $request->bookingDate);
         $dateBegin              = $this->getDateUtc($daterange[0]);
-        $dateEnd                = $this->getDateUtc($daterange[1]);
+        $dateEnd                = $this->getDateUtc($daterange[1]);*/
 
-        $seasons                = Season::raw(function ($collection) use ($dateBegin, $dateEnd) {
-            return $collection->aggregate([
-                [
-                    '$match' => [
-                        'cabin_owner' => new \MongoDB\BSON\ObjectID(Auth::user()->_id),
-                        'cabin_id' => new \MongoDB\BSON\ObjectID(session('cabin_id')),
-                    ],
-                ],
-                [
-                    '$project' => [
-                        'year' => ['$year' => '$earliest_summer_open'],
-                        'month' => ['$month' => '$earliest_summer_open'],
-                        'day' => ['$dayOfMonth' => '$earliest_summer_open'],
-                        'summerSeason' => 1,
-                        'summerSeasonStatus' => 1,
-                        'summerSeasonYear' => 1,
-                        'earliest_summer_open' => 1,
-                        'latest_summer_close' => 1,
-                        'winterSeason' => 1,
-                        'winterSeasonStatus' => 1,
-                        'winterSeasonYear' => 1,
-                        'earliest_winter_open' => 1,
-                        'latest_winter_close' => 1,
-                    ],
-                ]
-            ]);
-        });*/
-        $dates                  = '';
         $monthNow               = date("Y-m-d");
         $monthEndWithTime       = date("Y-m-t 23:59:59"); // To include the end date we need to add the time
-        $monthEnd               = date("Y-m-t");
-        $startDate              = '';
-        $endDate                = '';
+        $monthEnd               = date('Y-m-t', strtotime('+1 month'));
 
-        $holiday                = [];
-        $summer_holiday_prepare = '';
-        $winter_holiday_prepare = '';
+        $holiday_prepare        = [];
+        $holidays               = [];
 
         $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
             ->get();
 
-        $generateDates = $this->generateDates($monthNow, $monthEnd);
+        $generateDates          = $this->generateDates($monthNow, $monthEnd);
 
         foreach ($generateDates as $generateDate) {
             $dates = $generateDate->format('Y-m-d');
-            $day   = $generateDate->format('w');
-
+            $day   = $generateDate->format('D');
             foreach($seasons as $season) {
                 if($season->summerSeasonStatus === 'open' && $season->summerSeason === 1) {
-                   /* print_r($dates. '>=' .($season->earliest_summer_open)->format('Y-m-d'). '' . $dates .'<'. ($season->latest_summer_close)->format('Y-m-d'));*/
                     if(($dates >= ($season->earliest_summer_open)->format('Y-m-d')) && ($dates < ($season->latest_summer_close)->format('Y-m-d')))
                     {
-                        $startDate = ($season->earliest_summer_open)->format('Y-m-d');
-                        $endDate   = ($season->latest_summer_close)->format('Y-m-d');
                         //print_r('booked on summer season');
+                        $holiday_prepare[] = ($season->summer_mon === 1) ? 'Mon' : 0;
+                        $holiday_prepare[] = ($season->summer_tue === 1) ? 'Tue' : 0;
+                        $holiday_prepare[] = ($season->summer_wed === 1) ? 'Wed' : 0;
+                        $holiday_prepare[] = ($season->summer_thu === 1) ? 'Thu' : 0;
+                        $holiday_prepare[] = ($season->summer_fri === 1) ? 'Fri' : 0;
+                        $holiday_prepare[] = ($season->summer_sat === 1) ? 'Sat' : 0;
+                        $holiday_prepare[] = ($season->summer_sun === 1) ? 'Sun' : 0;
+                        /* 1   0000 1   0 1   00000 1   1   00000 1 */
+                        /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
                     }
-                    /*$summer_holiday_prepare .= ($season->summer_mon === 1) ? 'Mon' : 0;
-                    $summer_holiday_prepare .= ($season->summer_tue === 1) ? 'Tue' : 0;
-                    $summer_holiday_prepare .= ($season->summer_wed === 1) ? 'Wed' : 0;
-                    $summer_holiday_prepare .= ($season->summer_thu === 1) ? 'Thu' : 0;
-                    $summer_holiday_prepare .= ($season->summer_fri === 1) ? 'Fri' : 0;
-                    $summer_holiday_prepare .= ($season->summer_sat === 1) ? 'Sat' : 0;
-                    $summer_holiday_prepare .= ($season->summer_sun === 1) ? 'Sun' : 0;*/
-                    /* 1   0000 1   0 1   00000 1   1   00000 1 */
-                    /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
                 }
 
                 if($season->winterSeasonStatus === 'open' && $season->winterSeason === 1) {
-                    /*print_r($dates. '>=' .($season->earliest_winter_open)->format('Y-m-d'). '' . $dates .'<'. ($season->latest_winter_close)->format('Y-m-d'));*/
                     if(($dates >= ($season->earliest_winter_open)->format('Y-m-d')) && ($dates < ($season->latest_winter_close)->format('Y-m-d')))
                     {
-                        $startDate = ($season->earliest_winter_open)->format('Y-m-d');
-                        $endDate   = ($season->latest_winter_close)->format('Y-m-d');
                         //print_r('booked on winter season');
+                        $holiday_prepare[] = ($season->winter_mon === 1) ? 'Mon' : 0;
+                        $holiday_prepare[] = ($season->winter_tue === 1) ? 'Tue' : 0;
+                        $holiday_prepare[] = ($season->winter_wed === 1) ? 'Wed' : 0;
+                        $holiday_prepare[] = ($season->winter_thu === 1) ? 'Thu' : 0;
+                        $holiday_prepare[] = ($season->winter_fri === 1) ? 'Fri' : 0;
+                        $holiday_prepare[] = ($season->winter_sat === 1) ? 'Sat' : 0;
+                        $holiday_prepare[] = ($season->winter_sun === 1) ? 'Sun' : 0;
+                        /* 000000 1   0 1   00000 1   000000 */
+                        /* 000000 Sun 0 Tue 00000 Mon 000000 */
                     }
-                    /*$winter_holiday_prepare .= ($season->winter_mon === 1) ? 'Mon' : 0;
-                    $winter_holiday_prepare .= ($season->winter_tue === 1) ? 'Tue' : 0;
-                    $winter_holiday_prepare .= ($season->winter_wed === 1) ? 'Wed' : 0;
-                    $winter_holiday_prepare .= ($season->winter_thu === 1) ? 'Thu' : 0;
-                    $winter_holiday_prepare .= ($season->winter_fri === 1) ? 'Fri' : 0;
-                    $winter_holiday_prepare .= ($season->winter_sat === 1) ? 'Sat' : 0;
-                    $winter_holiday_prepare .= ($season->winter_sun === 1) ? 'Sun' : 0;*/
-                    /* 000000 1   0 1   00000 1   000000 */
-                    /* 000000 Sun 0 Tue 00000 Mon 000000 */
                 }
+            }
+
+            $prepareArray           = [$dates => $day];
+            $array_unique           = array_unique($holiday_prepare);
+            $array_intersect        = array_intersect($prepareArray,$array_unique);
+            foreach ($array_intersect as $array_intersect_key => $array_intersect_values) {
+                $holidays[] = $array_intersect_key;
             }
         }
 
-        return response()->json(['startDate' => $startDate, 'endDate' => $endDate]);
+        /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
+        $totalData  = Booking::where('is_delete', 0)
+            ->where('cabinname', session('cabin_name'))
+            ->whereNotIn('status', ['2', '3', '6'])
+            ->whereBetween('checkin_from', [$this->getOtherFormatDateUtc($monthNow), $this->getOtherFormatDateUtc($monthEnd)])
+            ->get();
+
+        /* Taking beds, dorms and sleeps depends up on sleeping_place */
+        if(session('sleeping_place') != 1) {
+            $beds   = session('beds');
+            $dorms  = session('dormitory');
+        }
+        else {
+            $sleeps = session('sleeps');
+        }
+
+        /* Checking regular & not regular section */
+        if(session('regular') != 1 && session('not_regular') != 1) {
+            //print_r('regular:'.session('regular').'notregular:'.session('not_regular'));
+        }
+        else {
+            //print_r('regular:'.session('regular').'notregular:'.session('not_regular'));
+        }
+
+        print_r($totalData);
+        exit();
+        return response()->json(['holidays' => $holidays]);
     }
 
     /**
