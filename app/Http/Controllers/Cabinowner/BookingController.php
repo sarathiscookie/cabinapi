@@ -77,20 +77,6 @@ class BookingController extends Controller
     }
 
     /**
-     * To generate date format as mongo.
-     *
-     * @param  string  $date
-     * @return \Illuminate\Http\Response
-     */
-    protected function getOtherFormatDateUtc($date)
-    {
-        $dateTime         = new DateTime($date);
-        $timeStamp        = $dateTime->getTimestamp();
-        $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
-        return $utcDateTime;
-    }
-
-    /**
      * To generate date between two dates.
      *
      * @param  string  $now
@@ -660,27 +646,35 @@ class BookingController extends Controller
     /**
      * Get available data.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /*public function checkAvailability(CabinownerBookingRequest $request)*/
-    public function checkAvailability()
+    public function checkAvailability(Request $request)
     {
-        /*$daterange            = explode(" - ", $request->bookingDate);
-        $dateBegin              = $this->getDateUtc($daterange[0]);
-        $dateEnd                = $this->getDateUtc($daterange[1]);*/
-
-        $monthNow               = date("Y-m-d");
-        $monthEndWithTime       = date("Y-m-t 23:59:59"); // To include the end date we need to add the time
-        $monthEnd               = date('Y-m-t', strtotime('+1 month'));
+        $monthBegin             = date("Y-m-d");
+        $dateEndWithTime        = date("Y-m-t 23:59:59"); // To include the end date we need to add the time
+        $monthEnd               = date('Y-m-d', strtotime('+1 month'));
 
         $holiday_prepare        = [];
         $holidays               = [];
+
+        $cabinBeds              = '';
+        $cabinDorms             = '';
+        $cabinSleeps            = '';
+
+        $dorms                  = [];
+        $beds                   = [];
+        $sleeps                 = [];
+
+        $bookSleeps             = '';
+        $bookBeds               = '';
+        $bookDorms              = '';
 
         $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
             ->get();
 
-        $generateDates          = $this->generateDates($monthNow, $monthEnd);
+        $generateDates          = $this->generateDates($monthBegin, $monthEnd);
 
         foreach ($generateDates as $generateDate) {
             $dates = $generateDate->format('Y-m-d');
@@ -727,32 +721,71 @@ class BookingController extends Controller
             }
         }
 
-        /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
-        $totalData  = Booking::where('is_delete', 0)
-            ->where('cabinname', session('cabin_name'))
-            ->whereNotIn('status', ['2', '3', '6'])
-            ->whereBetween('checkin_from', [$this->getOtherFormatDateUtc($monthNow), $this->getOtherFormatDateUtc($monthEnd)])
-            ->get();
+        if($request->search == 'searchAvailability') {
+            if(session('sleeping_place') != 1)
+            {
+                $this->validate($request, [
+                    'daterange' => 'required',
+                    'beds' => 'required_without:dorms',
+                    'dorms' => 'required_without:beds',
+                ]);
+            }
+            else {
+                $this->validate($request, [
+                    'daterange' => 'required',
+                    'sleeps' => 'required|not_in:0',
+                ]);
+            }
 
-        /* Taking beds, dorms and sleeps depends up on sleeping_place */
-        if(session('sleeping_place') != 1) {
-            $beds   = session('beds');
-            $dorms  = session('dormitory');
-        }
-        else {
-            $sleeps = session('sleeps');
-        }
+            if($request->daterange != null){
+                $daterange              = explode(" - ", $request->daterange);
+                $dateBegin              = $this->getDateUtc($daterange[0]);
+                $dateEnd                = $this->getDateUtc($daterange[1]);
 
-        /* Checking regular & not regular section */
-        if(session('regular') != 1 && session('not_regular') != 1) {
-            //print_r('regular:'.session('regular').'notregular:'.session('not_regular'));
-        }
-        else {
-            //print_r('regular:'.session('regular').'notregular:'.session('not_regular'));
-        }
+                /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
+                $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
+                    ->where('is_delete', 0)
+                    ->where('cabinname', session('cabin_name'))
+                    ->whereNotIn('status', ['2', '3', '6'])
+                    ->whereBetween('checkin_from', [$dateBegin, $dateEnd])
+                    ->get();
 
-        print_r($totalData);
-        exit();
+                foreach ($bookings as $booking) {
+                    if($booking->dormitory != '') {
+                        $dorms[]  = $booking->dormitory;
+                    }
+
+                    if($booking->beds != '') {
+                        $beds[]   = $booking->beds;
+                    }
+
+                    if($booking->sleeps != '') {
+                        $sleeps[] = $booking->sleeps;
+                    }
+                }
+
+                /* Taking beds, dorms and sleeps depends up on sleeping_place */
+                if(session('sleeping_place') != 1) {
+                    $cabinBeds  = session('beds');
+                    $cabinDorms = session('dormitory');
+                    $bookBeds   = array_sum($beds);
+                    $bookDorms  = array_sum($dorms);
+                }
+                else {
+                    $cabinSleeps = session('sleeps');
+                    $bookSleeps  = array_sum($sleeps);
+                }
+
+                /* Checking regular & not regular section */
+                if(session('regular') != 1 && session('not_regular') != 1) {
+                    print_r('sleeps'.$request->sleeps);
+                }
+                else {
+                    print_r('beds'.$request->beds.'Dorms'.$request->dorms);
+                }
+            }
+        }
+        //exit();
         return response()->json(['holidays' => $holidays]);
     }
 

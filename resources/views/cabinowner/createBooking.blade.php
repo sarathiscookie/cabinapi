@@ -39,17 +39,14 @@
 
                         <form role="form" method="post" action="">
                             {{ csrf_field() }}
+                            <div id="errors"></div>
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group {{ $errors->has('bookingDate') ? ' has-error' : '' }}">
+                                        <div class="form-group">
                                             <label>Booking Date</label>
 
-                                            <input type="text" class="form-control" id="bookingDate" name="bookingDate" placeholder="" value="{{old('bookingDate')}}" maxlength="30" readonly>
-
-                                            @if ($errors->has('bookingDate'))
-                                                <span class="help-block"><strong>{{ $errors->first('bookingDate') }}</strong></span>
-                                            @endif
+                                            <input type="text" class="form-control" id="daterange" name="daterange" placeholder="" value="{{old('daterange')}}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +55,7 @@
                                     @if(session('sleeping_place') != 1)
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
+                                                <div class="form-group">
                                                     <label>No of beds</label>
 
                                                     <select class="form-control" id="beds" name="beds">
@@ -67,15 +64,11 @@
                                                             <option value="{{$bedsDormsSleepKey}}" @if(old('beds') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
                                                         @endforeach
                                                     </select>
-
-                                                    @if ($errors->has('beds'))
-                                                        <span class="help-block"><strong>{{ $errors->first('beds') }}</strong></span>
-                                                    @endif
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('dorms') ? ' has-error' : '' }}">
+                                                <div class="form-group">
                                                     <label>No of dorms</label>
 
                                                     <select class="form-control" id="dorms" name="dorms">
@@ -84,17 +77,13 @@
                                                             <option value="{{$bedsDormsSleepKey}}" @if(old('dorms') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
                                                         @endforeach
                                                     </select>
-
-                                                    @if ($errors->has('dorms'))
-                                                        <span class="help-block"><strong>{{ $errors->first('dorms') }}</strong></span>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
                                     @else
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
+                                                <div class="form-group">
                                                     <label>No of sleeps</label>
 
                                                     <select class="form-control" id="sleeps" name="sleeps">
@@ -103,10 +92,6 @@
                                                             <option value="{{$bedsDormsSleepKey}}" @if(old('sleeps') == $bedsDormsSleepKey) selected="selected" @endif> {{$noBedsDormsSleep}} </option>
                                                         @endforeach
                                                     </select>
-
-                                                    @if ($errors->has('sleeps'))
-                                                        <span class="help-block"><strong>{{ $errors->first('sleeps') }}</strong></span>
-                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -117,7 +102,7 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary pull-right" name="searchAvailability" value="searchAvailability"><i class="fa fa-fw fa-search"></i>Search</button>
+                                        <button type="submit" class="btn btn-primary pull-right" id="searchAvailability" name="searchAvailability" value="searchAvailability"><i class="fa fa-fw fa-search"></i>Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -259,23 +244,54 @@
             });
 
             /* Availability checking begin */
-            var input = document.getElementById('bookingDate');
-            $.ajax({
-                url: '/cabinowner/bookings/availability',
-                dataType: 'JSON',
-                type: 'GET'
-            })
-                .done(function( response ) {
-                    var datepicker = new HotelDatepicker(input, {
-                        maxNights: 60,
-                        format: 'DD.MM.YY',
-                        disabledDates:response.holidays,
-                        enableCheckout: true
-                    });
-                })
-                .fail(function() {
+            var daterange = '';
+            var beds      = '';
+            var dorms     = '';
+            var sleeps    = '';
+            var search    = '';
 
-                });
+            $("#searchAvailability").on('click', function(e){
+                e.preventDefault();
+                daterange = $('#daterange').val();
+                //daterange = '02.09.17 - 05.09.17';
+                beds      = $('#beds').val();
+                dorms     = $('#dorms').val();
+                sleeps    = $('#sleeps').val();
+                search    = $(this).val();
+                fetch_data(daterange, beds, dorms, sleeps, search);
+            });
+
+            fetch_data(null, null, null, null, null);
+
+            function fetch_data(daterange, beds, dorms, sleeps, search)
+            {
+                var input = document.getElementById('daterange');
+                $.ajax({
+                    url: '/cabinowner/bookings/availability',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: { daterange: daterange, beds: beds, dorms: dorms, sleeps: sleeps, search: search}
+                })
+                    .done(function( response ) {
+                        var datepicker = new HotelDatepicker(input, {
+                            maxNights: 60,
+                            format: 'DD.MM.YY',
+                            disabledDates:response.holidays,
+                            enableCheckout: true
+                        });
+                    })
+                    .fail(function(response) {
+                        if( response.status === 422 ) {
+                            var errors = response.responseJSON;
+                            errorsHtml = '<div class="alert alert-danger"><ul>';
+                            $.each( errors , function( key, value ) {
+                                errorsHtml += '<li>' + value[0] + '</li>';
+                            });
+                            errorsHtml += '</ul></div>';
+                            $( '#errors' ).html( errorsHtml );
+                        }
+                    });
+            }
 
             $('#close-bookingDate').on('click', function(e){
                 e.preventDefault();
