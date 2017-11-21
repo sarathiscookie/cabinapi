@@ -68,31 +68,6 @@ $(function () {
 
 
 
-    /* Bottom buttons for datatables */
-    var buttons = new $.fn.dataTable.Buttons(user_data, {
-        buttons: [
-            {
-                extend: 'excel',
-                exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
-                }
-            },
-            {
-                extend: 'pdf',
-                orientation: 'portrait',
-                pageSize: 'LEGAL',
-                exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
-                }
-            },
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: [ 1, 2, 4, 5 ]
-                }
-            }
-        ]
-    }).container().appendTo($('#buttons'));
 
     /* <tfoot> search functionality */
     $('.search-input').on( 'keyup change', function () {

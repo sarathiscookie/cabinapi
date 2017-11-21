@@ -57,8 +57,8 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="2"  class="form-control input-sm search-input-name" placeholder="@lang('msuserList.searchCompany')"></th>
-                                    <td></td>
                                     <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('msuserList.searchEmail')"></th>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 </tfoot>
