@@ -30,7 +30,6 @@ $(function () {
         },
         "columns": [
             { "data": "usrLogo" },
-            { "data": "usrName" },
             { "data": "usrCompany" },
             { "data": "usrEmail" },
             { "data": "usrLastname" },
@@ -39,7 +38,7 @@ $(function () {
         "columnDefs": [
             {
                 "orderable": true,
-                "targets": [0, 1, 2, 3,4]
+                "targets": [0, 1, 2, 3]
             }
         ],
         "language": {
@@ -75,7 +74,7 @@ $(function () {
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5,6 ]
+                    columns: [ 1, 2, 4, 5 ]
                 }
             },
             {
@@ -83,13 +82,13 @@ $(function () {
                 orientation: 'portrait',
                 pageSize: 'LEGAL',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5 ,6]
+                    columns: [ 1, 2, 4, 5 ]
                 }
             },
             {
                 extend: 'print',
                 exportOptions: {
-                    columns: [ 1, 2, 4, 5 ,6]
+                    columns: [ 1, 2, 4, 5 ]
                 }
             }
         ]

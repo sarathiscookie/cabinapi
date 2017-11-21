@@ -28,7 +28,7 @@ return [
     'userName'                               => 'Bergschulen',
     'email'                                  => 'E-Mail',
     'searchEmail'                            => 'Suche E-Mail',
-    'searchUsername'                         => 'Suche Bergschule',
+    'searchCompany'                         => 'Suche Bergschulenname',
     'noResult'                               => 'Unbekannt',
 
 
