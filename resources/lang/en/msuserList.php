@@ -29,7 +29,7 @@ return [
     'userName'                               => 'Mountain School',
     'email'                                  => 'E-mail',
     'searchEmail'                            => 'Search email',
-    'searchUsername'                         => 'Search Mountain School',
+    'searchCompany'                          => 'Search Company',
 
     'noResult'                               => 'No Result',
     /* Modal for user details update */
