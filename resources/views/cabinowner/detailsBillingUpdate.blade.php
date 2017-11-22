@@ -108,7 +108,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('legal') ? ' has-error' : '' }}">
-                                                <label>Legal <span class="required">*</span></label>
+                                                <label>@lang('details.billingLabelLegal') <span class="required">*</span></label>
 
                                                 <select class="form-control" name="legal" id="legal">
                                                     <option value="0">@lang('details.legalSelectLabel')</option>

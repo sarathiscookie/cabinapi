@@ -68,7 +68,7 @@ return [
     'legalgmbh'                              => 'GmbH',
     'legalgbr'                               => 'GbR',
     'legalkg'                                => 'KG',
-    'legalohg'                               => 'OHGlegal',
+    'legalohg'                               => 'OHG',
     'legalsingle'                            => 'Einzelunternehmen',
 
     /* Listing cabin */
