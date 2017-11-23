@@ -739,28 +739,37 @@ class BookingController extends Controller
 
             if($request->daterange != null){
                 $daterange              = explode(" - ", $request->daterange);
-                $dateBegin              = $this->getDateUtc($daterange[0]);
-                $dateEnd                = $this->getDateUtc($daterange[1]);
+                $dateBeginUtc           = $this->getDateUtc($daterange[0]);
+                $dateEndUtc             = $this->getDateUtc($daterange[1]);
+                $dateBegin              = DateTime::createFromFormat('d.m.y', $daterange[0])->format('Y-m-d');
+                $dateEnd                = DateTime::createFromFormat('d.m.y', $daterange[1])->format('Y-m-d');
 
-                /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
-                $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
-                    ->where('is_delete', 0)
-                    ->where('cabinname', session('cabin_name'))
-                    ->whereNotIn('status', ['2', '3', '6'])
-                    ->whereBetween('checkin_from', [$dateBegin, $dateEnd])
-                    ->get();
+                $generateBookingDates   = $this->generateDates($dateBegin, $dateEnd);
 
-                foreach ($bookings as $booking) {
-                    if($booking->dormitory != '') {
-                        $dorms[]  = $booking->dormitory;
-                    }
+                foreach ($generateBookingDates as $generateBookingDate) {
+                    /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
+                    $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
+                        ->where('is_delete', 0)
+                        ->where('cabinname', session('cabin_name'))
+                        ->whereIn('status', ['1', '4', '5', '7'])
+                        ->whereRaw(['checkin_from' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                        ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                        ->get();
 
-                    if($booking->beds != '') {
-                        $beds[]   = $booking->beds;
-                    }
+                    print_r($bookings); // Total bookings is 18 for Schwarzwasserhütte between 02.09.17 - 03.09.17
 
-                    if($booking->sleeps != '') {
-                        $sleeps[] = $booking->sleeps;
+                    foreach ($bookings as $booking) {
+                        if($booking->dormitory != '') {
+                            $dorms[]  = $booking->dormitory;
+                        }
+
+                        if($booking->beds != '') {
+                            $beds[]   = $booking->beds;
+                        }
+
+                        if($booking->sleeps != '') {
+                            $sleeps[] = $booking->sleeps;
+                        }
                     }
                 }
 
@@ -778,10 +787,10 @@ class BookingController extends Controller
 
                 /* Checking regular & not regular section */
                 if(session('regular') != 1 && session('not_regular') != 1) {
-                    print_r('sleeps'.$request->sleeps);
+                    //print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$bookSleeps);
                 }
                 else {
-                    print_r('beds'.$request->beds.'Dorms'.$request->dorms);
+                    //print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$bookBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$bookDorms);
                 }
             }
         }
