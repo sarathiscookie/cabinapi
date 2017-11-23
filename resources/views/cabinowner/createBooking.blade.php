@@ -252,8 +252,8 @@
 
             $("#searchAvailability").on('click', function(e){
                 e.preventDefault();
-                daterange = $('#daterange').val();
-                //daterange = '02.09.17 - 05.09.17';
+                //daterange = $('#daterange').val();
+                daterange = '02.08.17 - 05.09.17'; //366kb 13000ms
                 beds      = $('#beds').val();
                 dorms     = $('#dorms').val();
                 sleeps    = $('#sleeps').val();
@@ -279,9 +279,13 @@
                             disabledDates:response.holidays,
                             enableCheckout: true
                         });
+                        $('#close-daterange').on('click', function(e){
+                            e.preventDefault();
+                        });
                     })
-                    .fail(function(response) {
+                    .fail(function(response, jqxhr, textStatus, error) {
                         if( response.status === 422 ) {
+                            $( '#errors' ).show();
                             var errors = response.responseJSON;
                             errorsHtml = '<div class="alert alert-danger"><ul>';
                             $.each( errors , function( key, value ) {
@@ -290,12 +294,14 @@
                             errorsHtml += '</ul></div>';
                             $( '#errors' ).html( errorsHtml );
                         }
+                        if( response.status === 200 ) {
+                            $( '#errors' ).hide();
+                        }
+
+                        var err = textStatus + ", " + error;
+                        console.log( "Request Failed: " + err );
                     });
             }
-
-            $('#close-bookingDate').on('click', function(e){
-                e.preventDefault();
-            });
             /* Availability checking end */
         });
     </script>
