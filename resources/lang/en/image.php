@@ -31,5 +31,6 @@ return [
     'wrongImageSize'                        =>'Uploaded image is too large, Please upload image less than 400Kb',
     'successMsgImageSave'                   =>'Image is uploaded successfuly',
     'failedMsgImageSave'                    =>'Uploading image is failed',
+    'browseFile'                            =>'Browse',
 
 ];

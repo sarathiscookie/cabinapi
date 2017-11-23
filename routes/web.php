@@ -266,6 +266,22 @@ Route::prefix('admin')->group(function () {
     /* Delete bookings */
     Route::delete('/mschool/bookings/{id}', 'MschoolBookingsController@destroy')->name('admin.mschool.bookings.delete');
 
+        /*
+       |--------------------------------------------------------------------------
+       | Routes for Cabins Short version View
+       |--------------------------------------------------------------------------
+       |
+       | Routes for listing
+       */
+
+        /* Listing cabins */
+        Route::get('/shortversion', 'ShortVersionController@index')->name('admin.cabins.shortversion');
+
+        /* Show datatable page */
+        Route::post('/shortversion/datatables', 'ShortVersionController@dataTables')->name('admin.cabins.datatables.datatables');
+
+
+
     });
 });
 
