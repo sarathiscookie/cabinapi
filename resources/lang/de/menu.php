@@ -42,7 +42,7 @@ return [
 
     'imageMenu'                             => 'Bilder',
     'mUsersMenu'                            => 'Bergschulen',
-    'cabinsMenu'                            => 'Cabins',
-    'shortVersionMenu'                      => 'ShortVersion',
+    'cabinsMenu'                            => 'Hütten',
+    'shortVersionMenu'                      => 'Kürzel',
 
 ];
