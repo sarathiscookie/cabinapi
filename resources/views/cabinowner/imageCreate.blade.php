@@ -16,26 +16,13 @@
         .custom-file-input::-webkit-file-upload-button {
             visibility: hidden;
         }
-        .custom-file-input::before {
-            content: 'Select some files';
-            display: inline-block;
-            background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
-            border: 1px solid #999;
-            border-radius: 3px;
-            padding: 5px 8px;
-            outline: none;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            cursor: pointer;
-            text-shadow: 1px 1px #fff;
-            font-weight: 700;
-            font-size: 10pt;
+        input[type='file'] {
+            color: transparent;
         }
-        .custom-file-input:hover::before {
-            border-color: black;
-        }
-        .custom-file-input:active::before {
-            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+        #f-name {
+            position: absolute;
+            margin-left: 80px;
+            margin-top: -19px;
         }
     </style>
     <link rel="stylesheet" href="/css/darkroom.css">
@@ -94,7 +81,9 @@
                                                     <img src="" id="target">
                                                     <!-- The actual file input will be hidden -->
                                                     <div class="col-md-6">
-                                                        <input type="file" name="logoUpload" id="logoUpload" accept="image/png|image/jpeg" class="custom-file-input" />
+
+                                                        <input type="file" name="logoUpload" id="logoUpload" accept="image/png|image/jpeg" class="filestyle" data-buttonText="@lang('image.browseFile')" />
+
                                                     </div>
                                                 </div>
                                                 <label class="data-url"></label>
@@ -128,11 +117,22 @@
 @section('scripts')
     <script src="{{ asset('js/fabric.js') }}"></script>
     <script src="{{ asset('js/darkroom.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-filestyle.min.js') }}"></script>
 
 <script>
 
     $(function () {
-        $('#logoUpload').text("Your Text to Choose a File Here!");
+        jQuery(function($) {
+            $(":file").filestyle();
+            $('input[type="file"]').change(function() {
+                if ($(this).val()) {
+
+                    $(this).css('color', 'red');
+                    $('#f-name').hide();
+
+                }
+            });
+        });
         $(".export").prop('disabled', true);
 
         function neueBildBearbeitung() {

@@ -42,4 +42,6 @@ return [
 
     'imageMenu'                             => 'Images',
     'mUsersMenu'                            => 'Mountain Schools',
+    'cabinsMenu'                            => 'Cabins',
+    'shortVersionMenu'                      => 'ShortVersion',
 ];
