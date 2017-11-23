@@ -69,10 +69,19 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
+                        @if(Auth::user()->usrlId === 1)
+                            <a href="/admin/dashboard" class="btn btn-primary btn-flat">
+                                @lang('admin.dashboard')
+                            </a>
+                        @elseif(Auth::user()->usrlId === 5)
+                            <a href="/cabinowner/bookings" class="btn btn-primary btn-flat">
+                                @lang('cabinowner.dashboard')
+                            </a>
+                        @endif
                         <a href="{{ route('logout') }}" class="btn btn-primary btn-flat"
                            onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                            Logout
+                            @lang('cabinowner.logoutDashboard')
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
