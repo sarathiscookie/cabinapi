@@ -9,6 +9,7 @@ use App\Booking;
 use App\Userlist;
 use App\Tempuser;
 use App\Cabin;
+use App\MountSchoolBooking;
 use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\Bmessages;
@@ -662,9 +663,13 @@ class BookingController extends Controller
         $cabinDorms             = '';
         $cabinSleeps            = '';
 
-        $dorms                  = [];
-        $beds                   = [];
-        $sleeps                 = [];
+        $dorms                  = '';
+        $beds                   = '';
+        $sleeps                 = '';
+
+        $msSleeps               = '';
+        $msBeds                 = '';
+        $msDorms                = '';
 
         $bookSleeps             = '';
         $bookBeds               = '';
@@ -753,81 +758,53 @@ class BookingController extends Controller
                 foreach ($generateBookingDates as $key => $generateBookingDate) {
                     if($dateDifference->format("%a") <= 60) {
 
-                        /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
+                        /* Getting bookings from booking collection status is 1=>Fix, 4=>Request, 7=>Inquiry */
                         $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
                             ->where('is_delete', 0)
                             ->where('cabinname', session('cabin_name'))
-                            ->whereIn('status', ['1', '4', '5', '7'])
+                            ->whereIn('status', ['1', '4', '7'])
                             ->whereRaw(['checkin_from' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
                             ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
                             ->get();
+                        //Shwarz   02 => 16 (b:72, d:24), 03 => 7 (b:42, d: 12), 04 => 10 (b: 57 d: 21)
+                        //Kempt    02 => 33 (s:111),      03 => 41 (s: 108),     04 => 60 (s: 155)
 
-                        /*$bookings  = Booking::raw(function ($collection) use ($generateBookingDate) {
-                            return $collection->aggregate([
-                                [
-                                    '$match' => [
-                                        'cabinname' => session('cabin_name'),
-                                        'checkin_from' => ['$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
-                                        'reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
-                                        'is_delete' => 0,
-                                    ]
-                                ],
-                                [
-                                    '$group' => [
-                                        '_id' => ['checkin_from' => '$checkin_from'],
-                                        'beds' => ['$sum' => '$beds'],
-                                        'sum' => ['$sum' => 1]
-                                    ]
-                                ],
-                                [
-                                    '$project' => [
-                                        'beds' => 1,
-                                        'dormitory' => 1,
-                                        'sleeps' => 1,
-                                        'status' => 1,
-                                        'sum' => 1,
-                                        'hasstatus' => [
-                                            '$in' => ['status', ['1', '4', '5', '7']]
-                                        ]
-                                    ],
-                                ]
-                            ]);
-                        });*/
+                        /* Getting count of sleeps, beds and dorms from bookings */
+                        if(count($bookings) > 0) {
+                            $sleeps   = $bookings->sum('sleeps');
+                            $beds     = $bookings->sum('beds');
+                            $dorms    = $bookings->sum('dormitory');
+                        }
 
-                        print_r($bookings->sum('sleeps'));
+                        /* Getting bookings from mschool collection status is 1=>Fix, 4=>Request, 7=>Inquiry */
+                        $msBookings  = MountSchoolBooking::select('beds', 'dormitory', 'sleeps')
+                            ->where('is_delete', 0)
+                            ->where('cabin_name', session('cabin_name'))
+                            ->whereIn('status', ['1', '4', '7'])
+                            ->whereRaw(['check_in' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                            ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                            ->get();
 
-
-                        /*if(count($bookings) > 0) {
-                            foreach ($bookings as $booking) {
-                                if($booking->dormitory != '') {
-                                    $dorms[]  = $booking->dormitory;
-                                }
-
-                                if($booking->beds != '') {
-                                    $beds[]   = $booking->beds;
-                                }
-
-                                if($booking->sleeps != '') {
-                                    $sleeps[] = $booking->sleeps;
-                                }
-                            }
-                        }*/
+                        //Kempt    02 => 4 (s:77),      03 => 4 (s: 90),     04 => 4 (s: 73)
+                        /* Getting count of sleeps, beds and dorms from mschool */
+                        if(count($msBookings) > 0) {
+                            $msSleeps   = $msBookings->sum('sleeps');
+                            $msBeds     = $msBookings->sum('beds');
+                            $msDorms    = $msBookings->sum('dormitory');
+                        }
 
                         /* Taking beds, dorms and sleeps depends up on sleeping_place */
-                        /*if(session('sleeping_place') != 1) {
+                        if(session('sleeping_place') != 1) {
                             $cabinBeds  = session('beds');
                             $cabinDorms = session('dormitory');
-                            $bookBeds   = array_sum($beds);
-                            $bookDorms  = array_sum($dorms);
-                            print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$bookBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$bookDorms);
+                            //print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$beds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$dorms);
+                            print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' mschoolBeds:'.$msBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' mschoolDorms:'.$msDorms);
                         }
                         else {
                             $cabinSleeps = session('sleeps');
-                            $bookSleeps  = array_sum($sleeps);
-                            print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$bookSleeps);
-                        }*/
-
-
+                            //print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$sleeps);
+                            print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' mschoolSleeps:'.$msSleeps);
+                        }
                     }
                     else {
                         $limit = 'Quota exceeded';
