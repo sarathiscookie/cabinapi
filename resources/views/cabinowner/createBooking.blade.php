@@ -253,7 +253,7 @@
             $("#searchAvailability").on('click', function(e){
                 e.preventDefault();
                 //daterange = $('#daterange').val();
-                daterange = '02.08.17 - 05.09.17'; //366kb 13000ms
+                daterange = '02.09.17 - 05.09.17';
                 beds      = $('#beds').val();
                 dorms     = $('#dorms').val();
                 sleeps    = $('#sleeps').val();
@@ -298,8 +298,9 @@
                             $( '#errors' ).hide();
                         }
 
-                        var err = textStatus + ", " + error;
-                        console.log( "Request Failed: " + err );
+                        //to check error in json
+                        /*var err = textStatus + ", " + error;
+                        console.log( "Request Failed: " + err );*/
                     });
             }
             /* Availability checking end */

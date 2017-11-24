@@ -670,6 +670,9 @@ class BookingController extends Controller
         $bookBeds               = '';
         $bookDorms              = '';
 
+        $limit                  = '';
+        $bookings               = '';
+
         $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
             ->get();
@@ -743,59 +746,97 @@ class BookingController extends Controller
                 $dateEndUtc             = $this->getDateUtc($daterange[1]);
                 $dateBegin              = DateTime::createFromFormat('d.m.y', $daterange[0])->format('Y-m-d');
                 $dateEnd                = DateTime::createFromFormat('d.m.y', $daterange[1])->format('Y-m-d');
+                $dateDifference         = date_diff(date_create($dateBegin), date_create($dateEnd));
 
                 $generateBookingDates   = $this->generateDates($dateBegin, $dateEnd);
 
-                foreach ($generateBookingDates as $generateBookingDate) {
-                    /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
-                    $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
-                        ->where('is_delete', 0)
-                        ->where('cabinname', session('cabin_name'))
-                        ->whereIn('status', ['1', '4', '5', '7'])
-                        ->whereRaw(['checkin_from' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
-                        ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
-                        ->get();
+                foreach ($generateBookingDates as $key => $generateBookingDate) {
+                    if($dateDifference->format("%a") <= 60) {
 
-                    print_r($bookings); // Total bookings is 18 for Schwarzwasserhütte between 02.09.17 - 03.09.17
+                        /* Getting count of sleeps, beds and dorms from bookings. Getting booking status is 1=>Fix, 5=>Waiting for payment, 4=>Request, 7=>Inquiry */
+                        $bookings  = Booking::select('beds', 'dormitory', 'sleeps')
+                            ->where('is_delete', 0)
+                            ->where('cabinname', session('cabin_name'))
+                            ->whereIn('status', ['1', '4', '5', '7'])
+                            ->whereRaw(['checkin_from' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                            ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
+                            ->get();
 
-                    foreach ($bookings as $booking) {
-                        if($booking->dormitory != '') {
-                            $dorms[]  = $booking->dormitory;
+                        /*$bookings  = Booking::raw(function ($collection) use ($generateBookingDate) {
+                            return $collection->aggregate([
+                                [
+                                    '$match' => [
+                                        'cabinname' => session('cabin_name'),
+                                        'checkin_from' => ['$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
+                                        'reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
+                                        'is_delete' => 0,
+                                    ]
+                                ],
+                                [
+                                    '$group' => [
+                                        '_id' => ['checkin_from' => '$checkin_from'],
+                                        'beds' => ['$sum' => '$beds'],
+                                        'sum' => ['$sum' => 1]
+                                    ]
+                                ],
+                                [
+                                    '$project' => [
+                                        'beds' => 1,
+                                        'dormitory' => 1,
+                                        'sleeps' => 1,
+                                        'status' => 1,
+                                        'sum' => 1,
+                                        'hasstatus' => [
+                                            '$in' => ['status', ['1', '4', '5', '7']]
+                                        ]
+                                    ],
+                                ]
+                            ]);
+                        });*/
+
+                        print_r($bookings->sum('sleeps'));
+
+
+                        /*if(count($bookings) > 0) {
+                            foreach ($bookings as $booking) {
+                                if($booking->dormitory != '') {
+                                    $dorms[]  = $booking->dormitory;
+                                }
+
+                                if($booking->beds != '') {
+                                    $beds[]   = $booking->beds;
+                                }
+
+                                if($booking->sleeps != '') {
+                                    $sleeps[] = $booking->sleeps;
+                                }
+                            }
+                        }*/
+
+                        /* Taking beds, dorms and sleeps depends up on sleeping_place */
+                        /*if(session('sleeping_place') != 1) {
+                            $cabinBeds  = session('beds');
+                            $cabinDorms = session('dormitory');
+                            $bookBeds   = array_sum($beds);
+                            $bookDorms  = array_sum($dorms);
+                            print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$bookBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$bookDorms);
                         }
+                        else {
+                            $cabinSleeps = session('sleeps');
+                            $bookSleeps  = array_sum($sleeps);
+                            print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$bookSleeps);
+                        }*/
 
-                        if($booking->beds != '') {
-                            $beds[]   = $booking->beds;
-                        }
 
-                        if($booking->sleeps != '') {
-                            $sleeps[] = $booking->sleeps;
-                        }
                     }
-                }
-
-                /* Taking beds, dorms and sleeps depends up on sleeping_place */
-                if(session('sleeping_place') != 1) {
-                    $cabinBeds  = session('beds');
-                    $cabinDorms = session('dormitory');
-                    $bookBeds   = array_sum($beds);
-                    $bookDorms  = array_sum($dorms);
-                }
-                else {
-                    $cabinSleeps = session('sleeps');
-                    $bookSleeps  = array_sum($sleeps);
-                }
-
-                /* Checking regular & not regular section */
-                if(session('regular') != 1 && session('not_regular') != 1) {
-                    //print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$bookSleeps);
-                }
-                else {
-                    //print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$bookBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$bookDorms);
+                    else {
+                        $limit = 'Quota exceeded';
+                    }
                 }
             }
         }
         //exit();
-        return response()->json(['holidays' => $holidays]);
+        return response()->json(['holidays' => $holidays, 'limit' => $limit]);
     }
 
     /**
