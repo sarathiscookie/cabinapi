@@ -276,7 +276,7 @@
                         var datepicker = new HotelDatepicker(input, {
                             maxNights: 60,
                             format: 'DD.MM.YY',
-                            disabledDates:response.holidays,
+                            disabledDates:response.disableDates,
                             enableCheckout: true
                         });
                         $('#close-daterange').on('click', function(e){

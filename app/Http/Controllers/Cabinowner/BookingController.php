@@ -653,30 +653,20 @@ class BookingController extends Controller
     public function checkAvailability(Request $request)
     {
         $monthBegin             = date("Y-m-d");
-        $dateEndWithTime        = date("Y-m-t 23:59:59"); // To include the end date we need to add the time
         $monthEnd               = date('Y-m-d', strtotime('+1 month'));
 
         $holiday_prepare        = [];
-        $holidays               = [];
+        $disableDates           = [];
 
-        $cabinBeds              = '';
-        $cabinDorms             = '';
-        $cabinSleeps            = '';
+        $dorms                  = 0;
+        $beds                   = 0;
+        $sleeps                 = 0;
 
-        $dorms                  = '';
-        $beds                   = '';
-        $sleeps                 = '';
-
-        $msSleeps               = '';
-        $msBeds                 = '';
-        $msDorms                = '';
-
-        $bookSleeps             = '';
-        $bookBeds               = '';
-        $bookDorms              = '';
+        $msSleeps               = 0;
+        $msBeds                 = 0;
+        $msDorms                = 0;
 
         $limit                  = '';
-        $bookings               = '';
 
         $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
@@ -725,7 +715,7 @@ class BookingController extends Controller
             $array_unique           = array_unique($holiday_prepare);
             $array_intersect        = array_intersect($prepareArray,$array_unique);
             foreach ($array_intersect as $array_intersect_key => $array_intersect_values) {
-                $holidays[] = $array_intersect_key;
+                $disableDates[] = $array_intersect_key; // holidays
             }
         }
 
@@ -769,13 +759,6 @@ class BookingController extends Controller
                         //Shwarz   02 => 16 (b:72, d:24), 03 => 7 (b:42, d: 12), 04 => 10 (b: 57 d: 21)
                         //Kempt    02 => 33 (s:111),      03 => 41 (s: 108),     04 => 60 (s: 155)
 
-                        /* Getting count of sleeps, beds and dorms from bookings */
-                        if(count($bookings) > 0) {
-                            $sleeps   = $bookings->sum('sleeps');
-                            $beds     = $bookings->sum('beds');
-                            $dorms    = $bookings->sum('dormitory');
-                        }
-
                         /* Getting bookings from mschool collection status is 1=>Fix, 4=>Request, 7=>Inquiry */
                         $msBookings  = MountSchoolBooking::select('beds', 'dormitory', 'sleeps')
                             ->where('is_delete', 0)
@@ -784,27 +767,115 @@ class BookingController extends Controller
                             ->whereRaw(['check_in' => array('$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
                             ->whereRaw(['reserve_to' => array('$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y')))])
                             ->get();
-
                         //Kempt    02 => 4 (s:77),      03 => 4 (s: 90),     04 => 4 (s: 73)
-                        /* Getting count of sleeps, beds and dorms from mschool */
-                        if(count($msBookings) > 0) {
-                            $msSleeps   = $msBookings->sum('sleeps');
-                            $msBeds     = $msBookings->sum('beds');
-                            $msDorms    = $msBookings->sum('dormitory');
+
+                        /* Getting count of sleeps, beds and dorms */
+                        if(count($bookings) > 0 || count($msBookings) > 0) {
+                            $sleeps   = $bookings->sum('sleeps');
+                            $beds     = $bookings->sum('beds');
+                            $dorms    = $bookings->sum('dormitory');
+                            $msSleeps = $msBookings->sum('sleeps');
+                            $msBeds   = $msBookings->sum('beds');
+                            $msDorms  = $msBookings->sum('dormitory');
+
+                            /* Taking beds, dorms and sleeps depends up on sleeping_place */
+                            if(session('sleeping_place') != 1) {
+                                $cabinBeds  = session('beds');
+                                $cabinDorms = session('dormitory');
+                                $totalBeds  = $beds + $msBeds;
+                                $totalDorms = $dorms + $msDorms;
+
+                                if($totalBeds < session('beds')) {
+                                    $availableBeds = session('beds') - $totalBeds;
+                                    if($request->beds <= $availableBeds) {
+                                        print_r('Beds available');
+                                    }
+                                    else {
+                                        print_r('Beds not available');
+                                        //print_r($generateBookingDate->format('Y-m-d'));
+                                        //$disableDates[] = $generateBookingDate->format('Y-m-d');
+                                    }
+                                }
+                                else {
+                                    print_r('Beds not available');
+                                    //print_r($generateBookingDate->format('Y-m-d'));
+                                    //$disableDates[] = $generateBookingDate->format('Y-m-d');
+                                }
+
+                                if($totalDorms < session('dormitory')) {
+                                    $availableDorms = session('dormitory') - $totalDorms;
+                                    if($request->dormitory <= $availableDorms) {
+                                        print_r('Dorms available');
+                                    }
+                                    else {
+                                        print_r('Dorms not available');
+                                        //print_r($generateBookingDate->format('Y-m-d'));
+                                        //$disableDates[] = $generateBookingDate->format('Y-m-d');
+                                    }
+                                }
+                                else {
+                                    print_r('Dorms not available');
+                                    //print_r($generateBookingDate->format('Y-m-d'));
+                                    //$disableDates[] = $generateBookingDate->format('Y-m-d');
+                                }
+                                /*print_r(' bookBeds: '.$beds.' BookDorms: '.$dorms).'<br>';
+                                print_r(' mschoolBeds: '.$msBeds.' mschoolDorms: '.$msDorms);
+                                print_r(' totalBeds: '.$totalBeds.' totalDorms: '.$totalDorms);*/
+
+                                // Alpenrosenhütte (beds:50, dormitory:24)
+                                // bookBeds: 41 BookDorms: 42
+                                // mschoolBeds: 19 mschoolDorms: 23
+                                // totalBeds: 60 totalDorms 65
+                                // totalBedsGreat: 60 totalDormsGreat: 65
+                                // bookBeds: 27 BookDorms: 20
+                                // mschoolBeds: 9 mschoolDorms: 9
+                                // totalBeds: 36 totalDorms 29
+                                // totalBedsLess: 36 totalDormsGreat: 29
+                                // bookBeds: 27 BookDorms: 20
+                                // mschoolBeds: 0 mschoolDorms: 0
+                                // totalBeds: 27 totalDorms 20
+                                // totalBedsLess: 27 totalDormsLess: 20
+
+                            }
+                            else {
+                                $totalSleeps     = $sleeps + $msSleeps;
+                                if($totalSleeps < session('sleeps')) {
+                                    $availableSleeps = session('sleeps') - $totalSleeps;
+                                    if($request->sleeps <= $availableSleeps) {
+                                        print_r('Sleeps available');
+                                    }
+                                    else {
+                                        print_r('Sleeps not available');
+                                    }
+                                }
+                                else {
+                                    print_r('Sleeps not available');
+                                    //print_r($generateBookingDate->format('Y-m-d'));
+                                    //$disableDates[] = $generateBookingDate->format('Y-m-d');
+                                }
+
+                                /*print_r(' sleepssss: '.$sleeps).'<br>';
+                                print_r(' mschoolsleeps: '.$msSleeps);
+                                print_r(' TotalSleeps: '.$totalSleeps);
+                                print_r(' AvailableSleeps: '.$availableSleeps);*/
+
+                                // kempter hutte (Sleeps: 255)
+                                // sleeps: 97
+                                // mschoolsleeps: 77
+                                // TotalSleeps: 174
+                                // AvailableSleeps: 81 (255 - 174)
+                                // sleeps: 94
+                                // mschoolsleeps: 64
+                                // TotalSleeps: 158
+                                // AvailableSleeps: 97 (255 - 158)
+                                // sleeps: 135
+                                // mschoolsleeps: 0
+                                // TotalSleeps: 135
+                                // AvailableSleeps: 120 (255 - 135)
+
+                            }
                         }
 
-                        /* Taking beds, dorms and sleeps depends up on sleeping_place */
-                        if(session('sleeping_place') != 1) {
-                            $cabinBeds  = session('beds');
-                            $cabinDorms = session('dormitory');
-                            //print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' bookBeds:'.$beds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' BookDorms:'.$dorms);
-                            print_r(' Beds:'.$request->beds.' CabinBeds:'.$cabinBeds.' mschoolBeds:'.$msBeds.' Dorms:'.$request->dorms.' CabinDorms:'.$cabinDorms.' mschoolDorms:'.$msDorms);
-                        }
-                        else {
-                            $cabinSleeps = session('sleeps');
-                            //print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' BookSleeps:'.$sleeps);
-                            print_r('sleeps'.$request->sleeps.' CabinSleeps:'.$cabinSleeps.' mschoolSleeps:'.$msSleeps);
-                        }
                     }
                     else {
                         $limit = 'Quota exceeded';
@@ -812,8 +883,8 @@ class BookingController extends Controller
                 }
             }
         }
-        //exit();
-        return response()->json(['holidays' => $holidays, 'limit' => $limit]);
+
+        return response()->json(['disableDates' => $disableDates, 'limit' => $limit]);
     }
 
     /**
