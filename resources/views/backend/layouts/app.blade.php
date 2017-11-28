@@ -192,7 +192,7 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-pie-chart"></i> <span>@lang('menu.cabinsMenu')</span>
+                        <i class="fa fa-home"></i> <span>@lang('menu.cabinsMenu')</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>

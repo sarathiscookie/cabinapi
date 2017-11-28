@@ -17,15 +17,15 @@ return [
     | table headings, breadcrumbs etc
     |
     */
-    'heading'                                => 'Kürzel',
-    'controlPanel'                           => 'Kürzel',
-    'breadcrumbOne'                          => 'Übersicht',
-    'breadcrumbTwo'                          => 'Kürzel',
-    'panelHeading'                           => 'Kürzel',
+    'heading'                                => 'Hüttenkennzeichen Details',
+    'controlPanel'                           => 'Hüttenkennzeichen Details',
+    'breadcrumbOne'                          => 'Hütten',
+    'breadcrumbTwo'                          => 'Hüttenkennzeichen Details',
+    'panelHeading'                           => 'Kennzeichen',
 
     'lastName'                               => 'Nachname',
     'firstName'                              => 'Vorname',
-    'userName'                               => 'Bergschulen',
+    'userName'                               => 'Benutzername',
     'email'                                  => 'E-Mail',
     'searchShortVersion'                     => 'Suche Kürzel',
     'searchCabin'                            => 'Suche Hütte',
@@ -34,20 +34,19 @@ return [
     'cabinName'                              => 'Hüttenname',
     'cabinShortVersion'                      => 'Hüttenkürzel',
     /* Modal for user details update */
-    'userUpdateModalHeading'                 => 'Kürzel',
-    'userUpdateModalFirstName'               => 'First Name',
-    'userUpdateModalLastName'                => 'Last Name',
+    'userUpdateModalHeading'                 => 'Details',
+    'userUpdateModalFirstName'               => 'Vorname',
+    'userUpdateModalLastName'                => 'Nachname',
     'userUpdateModalEmail'                   => 'Email',
-    'userUpdateModalTelephone'               => 'Telephone',
-    'userUpdateModalMobile'                  => 'Mobile',
+    'userUpdateModalTelephone'               => 'Telefonnummer',
+    'userUpdateModalMobile'                  => 'Handy',
     'userUpdateModalDOB'                     => 'DOB',
-    'userUpdateModalStreet'                  => 'Street',
-    'userUpdateModalZipcode'                 => 'Zipcode',
-    'userUpdateModalCity'                    => 'City',
+    'userUpdateModalStreet'                  => 'Straße',
+    'userUpdateModalZipcode'                 => 'Postleizahl',
+    'userUpdateModalCity'                    => 'Stadt',
     'userUpdateModalCountry'                 => 'Country',
-    'userUpdateModalButton'                  => 'Update User Details',
-    'usrCompany'                             =>'Company',
-    'closeBtn'                               => 'Close',
+    'usrCompany'                             => 'Company',
+    'closeBtn'                               => 'schließen',
 
 
 ];

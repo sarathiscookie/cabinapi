@@ -43,6 +43,5 @@ return [
     'imageMenu'                             => 'Bilder',
     'mUsersMenu'                            => 'Bergschulen',
     'cabinsMenu'                            => 'Hütten',
-    'shortVersionMenu'                      => 'Kürzel',
-
+    'shortVersionMenu'                      => 'Hüttenkennzeichen',
 ];
