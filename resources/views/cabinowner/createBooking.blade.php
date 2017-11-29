@@ -253,7 +253,7 @@
             $("#searchAvailability").on('click', function(e){
                 e.preventDefault();
                 //daterange = $('#daterange').val();
-                daterange = '02.09.17 - 05.09.17';
+                daterange = '02.09.17 - 05.09.17'; //sat - tue
                 beds      = $('#beds').val();
                 dorms     = $('#dorms').val();
                 sleeps    = $('#sleeps').val();
