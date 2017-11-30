@@ -748,8 +748,8 @@ class BookingController extends Controller
 
                 foreach ($generateBookingDates as $key => $generateBookingDate) {
                     if($dateDifference->format("%a") <= 60) {
-                        $generateBookingDat   = $generateBookingDate->format('Y-m-d');; //2017-09-02, 2017-09-03, 2017-09-04
-                        $generateBookingDay   = $generateBookingDate->format('D'); //Sat, Sun, Mon
+                        $generateBookingDat   = $generateBookingDate->format('Y-m-d');; //2017-09-02,2017-09-03,2017-09-04,2017-09-05,2017-09-06,2017-09-07,2017-09-08,2017-09-09,2017-09-10,2017-09-11
+                        $generateBookingDay   = $generateBookingDate->format('D'); //Sat,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Mon
 
                         $session_mon_day      = (session('mon_day') === 1) ? 'Mon' : 0;
                         $session_tue_day      = (session('tue_day') === 1) ? 'Tue' : 0;
@@ -798,40 +798,44 @@ class BookingController extends Controller
 
                                     if($session_mon_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' monBeds: '.session('mon_beds').' monDorms: '.session('mon_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' monBeds: '.session('mon_beds').' monDorms: '.session('mon_dorms'));
                                     }
 
                                     if($session_tue_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' beds: '.session('tue_beds').' dorms: '.session('tue_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' tueBeds: '.session('tue_beds').' tueDorms: '.session('tue_dorms'));
                                     }
 
                                     if($session_wed_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' beds: '.session('wed_beds').' dorms: '.session('wed_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' wedBeds: '.session('wed_beds').' wedDorms: '.session('wed_dorms'));
                                     }
 
                                     if($session_thu_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' beds: '.session('thu_beds').' dorms: '.session('thu_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' thuBeds: '.session('thu_beds').' thuDorms: '.session('thu_dorms'));
                                     }
 
                                     if($session_fri_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' beds: '.session('fri_beds').' dorms: '.session('fri_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' friBeds: '.session('fri_beds').' friDorms: '.session('fri_dorms'));
                                     }
 
                                     if($session_sat_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' beds: '.session('sat_beds').' dorms: '.session('sat_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' satBeds: '.session('sat_beds').' satDorms: '.session('sat_dorms'));
                                     }
 
                                     if($session_sun_day === $generateBookingDay) {
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' sunBeds: '.session('sun_beds').' sunDorms: '.session('sun_dorms'));
+                                        print_r(' Date '.$generateBookingDat.' sunBeds: '.session('sun_beds').' sunDorms: '.session('sun_dorms'));
                                     }
-                                    // Sun-> beds: 78 dorms: 68
-                                    // Mon-> beds: 58 dorms: 48
+
+                                    // Date 2017-09-03 sunBeds: 78 sunDorms: 68
+                                    // Date 2017-09-04 monBeds: 55 monDorms: 45
+                                    // Date 2017-09-05 tueBeds: 50 tueDorms: 40
+                                    // Date 2017-09-10 sunBeds: 78 sunDorms: 68
+                                    // Date 2017-09-11 monBeds: 55 monDorms: 45
                                 }
                                 if(session('not_regular') === 1) {
                                     //print_r('not regular');
@@ -884,6 +888,7 @@ class BookingController extends Controller
                             // totalBeds: 27 totalDorms 20
                             // totalBedsLess: 27 totalDormsLess: 20 //Beds available Dorms available //Mon
 
+                            // Alpenrosenhütte (Mixed with regular)
                             // Beds not available Dorms not available
                             // sunBeds: 78 sunDorms: 68 Beds
                             // available Dorms not available
