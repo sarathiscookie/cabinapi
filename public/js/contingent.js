@@ -36,7 +36,7 @@ $(function(){
     $('#daterange').daterangepicker({
         autoUpdateInput: false,
         locale: {
-            format: "DD.MM.YYYY",
+            format: "DD.MM.YY",
             applyLabel: "Bestätigen",
             cancelLabel: "Löschen",
             daysOfWeek: [
@@ -52,7 +52,7 @@ $(function(){
     });
 
     $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
+        $(this).val(picker.startDate.format('DD.MM.YY') + ' - ' + picker.endDate.format('DD.MM.YY'));
     });
     /* Date range functionality ends */
 });
