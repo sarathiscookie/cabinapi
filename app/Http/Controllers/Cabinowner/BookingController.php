@@ -748,7 +748,7 @@ class BookingController extends Controller
 
                 foreach ($generateBookingDates as $key => $generateBookingDate) {
                     if($dateDifference->format("%a") <= 60) {
-                        $generateBookingDat   = $generateBookingDate->format('Y-m-d');; //2017-09-02,2017-09-03,2017-09-04,2017-09-05,2017-09-06,2017-09-07,2017-09-08,2017-09-09,2017-09-10,2017-09-11
+                        $generateBookingDat   = $generateBookingDate->format('Y-m-d'); //2017-09-02,2017-09-03,2017-09-04,2017-09-05,2017-09-06,2017-09-07,2017-09-08,2017-09-09,2017-09-10,2017-09-11
                         $generateBookingDay   = $generateBookingDate->format('D'); //Sat,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Mon
 
                         $session_mon_day      = (session('mon_day') === 1) ? 'Mon' : 0;
@@ -792,108 +792,377 @@ class BookingController extends Controller
                             $totalBeds  = $beds + $msBeds;
                             $totalDorms = $dorms + $msDorms;
 
+                            /* Calculating beds & dorms of regular and not regular */
                             if ($request->session()->has('regular') || $request->session()->has('not_regular')) {
+
+                                if(session('not_regular') === 1) {
+                                    $not_regular_date_explode = explode(" - ", session('not_regular_date'));
+                                    print_r($not_regular_date_explode[0].'#############'.$not_regular_date_explode[1]);
+                                    /*session('not_regular_beds');
+                                    session('not_regular_dorms');
+                                    session('not_regular_sleeps');*/
+                                }
+
                                 if(session('regular') === 1) {
-                                    //print_r('regular');
 
                                     if($session_mon_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' monBeds: '.session('mon_beds').' monDorms: '.session('mon_dorms'));
+
+                                        if($totalBeds < session('mon_beds')) {
+
+                                            $available_mon_beds = session('mon_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_mon_beds) {
+                                                //print_r(' mon beds available '.' available_mon_beds ' . $available_mon_beds);
+                                            }
+                                            else {
+                                                //print_r(' mon beds not available '.' available_mon_beds ' . $available_mon_beds);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' mon beds not available ');
+                                        }
+
+                                        if($totalDorms < session('mon_dorms')) {
+
+                                            $available_mon_dorms = session('mon_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_mon_dorms) {
+                                                //print_r(' mon dorms available '.' available_mon_dorms ' . $available_mon_dorms);
+                                            }
+                                            else {
+                                                //print_r(' mon dorms not available '.' available_mon_dorms ' . $available_mon_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' mon dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' mon_beds: '.session('mon_beds').' totalBeds '. $totalBeds . ' mon_dorms: '.session('mon_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_tue_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' tueBeds: '.session('tue_beds').' tueDorms: '.session('tue_dorms'));
+
+                                        if($totalBeds < session('tue_beds')) {
+
+                                            $available_tue_beds = session('tue_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_tue_beds) {
+                                                //print_r(' tue_beds available '.' available_tue_beds ' . $available_tue_beds);
+                                            }
+                                            else {
+                                                //print_r(' tue_beds not available '.' available_tue_beds ' . $available_tue_beds);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' tue_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('tue_dorms')) {
+
+                                            $available_tue_dorms = session('tue_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_tue_dorms) {
+                                                //print_r(' tue_dorms available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                            }
+                                            else {
+                                                //print_r(' tue_dorms not available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' tue_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' tue_beds: '.session('tue_beds').' totalBeds '. $totalBeds . ' tue_dorms: '.session('tue_dorms').' totalDorms '. $totalDorms);
+
                                     }
 
                                     if($session_wed_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' wedBeds: '.session('wed_beds').' wedDorms: '.session('wed_dorms'));
+
+                                        if($totalBeds < session('wed_beds')) {
+
+                                            $available_wed_beds = session('wed_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_wed_beds) {
+                                                //print_r(' wed_beds available '.' available_wed_beds ' . $available_wed_beds);
+                                            }
+                                            else {
+                                                //print_r(' wed_beds not available '.' available_wed_beds ' . $available_wed_beds);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' wed_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('wed_dorms')) {
+
+                                            $available_wed_dorms = session('wed_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_wed_dorms) {
+                                                //print_r(' wed_dorms available '.' available_wed_dorms ' . $available_wed_dorms);
+                                            }
+                                            else {
+                                                //print_r(' wed_dorms not available '.' available_wed_dorms ' . $available_wed_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' wed_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' wed_beds: '.session('wed_beds').' totalBeds '. $totalBeds . ' wed_dorms: '.session('wed_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_thu_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' thuBeds: '.session('thu_beds').' thuDorms: '.session('thu_dorms'));
+
+                                        if($totalBeds < session('thu_beds')) {
+
+                                            $available_thu_beds = session('thu_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_thu_beds) {
+                                               // print_r(' thu_beds available '.' available_thu_beds ' . $available_thu_beds);
+                                            }
+                                            else {
+                                               // print_r(' thu_beds not available '.' available_thu_beds ' . $available_thu_beds);
+                                            }
+                                        }
+                                        else {
+                                           // print_r(' thu_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('thu_dorms')) {
+
+                                            $available_thu_dorms = session('thu_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_thu_dorms) {
+                                                //print_r(' thu_dorms available '.' available_thu_dorms ' . $available_thu_dorms);
+                                            }
+                                            else {
+                                               // print_r(' thu_dorms not available '.' available_thu_dorms ' . $available_thu_dorms);
+                                            }
+                                        }
+                                        else {
+                                           // print_r(' thu_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' thu_beds: '.session('thu_beds').' totalBeds '. $totalBeds . ' thu_dorms: '.session('thu_dorms').' totalDorms '. $totalDorms);
+
                                     }
 
                                     if($session_fri_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' friBeds: '.session('fri_beds').' friDorms: '.session('fri_dorms'));
+
+                                        if($totalBeds < session('fri_beds')) {
+
+                                            $available_fri_beds = session('fri_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_fri_beds) {
+                                                //print_r(' fri_beds available '.' available_fri_beds ' . $available_fri_beds);
+                                            }
+                                            else {
+                                                //print_r(' fri_beds not available '.' available_fri_beds ' . $available_fri_beds);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' fri_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('fri_dorms')) {
+
+                                            $available_fri_dorms = session('fri_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_fri_dorms) {
+                                                //print_r(' fri_dorms available '.' available_fri_dorms ' . $available_fri_dorms);
+                                            }
+                                            else {
+                                                //print_r(' fri_dorms not available '.' available_fri_dorms ' . $available_fri_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' fri_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' fri_beds: '.session('fri_beds').' totalBeds '. $totalBeds . ' fri_dorms: '.session('fri_dorms').' totalDorms '. $totalDorms);
+
                                     }
 
                                     if($session_sat_day === $generateBookingDay) {
+
                                         $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' satBeds: '.session('sat_beds').' satDorms: '.session('sat_dorms'));
+
+                                        if($totalBeds < session('sat_beds')) {
+
+                                            $available_sat_beds = session('sat_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_sat_beds) {
+                                                //print_r(' sat_beds available '.' available_sat_beds ' . $available_sat_beds);
+                                            }
+                                            else {
+                                                //print_r(' sat_beds not available '.' available_sat_beds ' . $available_sat_beds);
+                                            }
+                                        }
+                                        else {
+                                           // print_r(' sat_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('sat_dorms')) {
+
+                                            $available_sat_dorms = session('sat_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_sat_dorms) {
+                                                //print_r(' sat_dorms available '.' available_sat_dorms ' . $available_sat_dorms);
+                                            }
+                                            else {
+                                                //print_r(' sat_dorms not available '.' available_sat_dorms ' . $available_sat_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' sat_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' sat_beds: '.session('sat_beds').' totalBeds '. $totalBeds . ' sat_dorms: '.session('sat_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_sun_day === $generateBookingDay) {
-                                        $regular_dates_array[] = $generateBookingDat;
-                                        print_r(' Date '.$generateBookingDat.' sunBeds: '.session('sun_beds').' sunDorms: '.session('sun_dorms'));
-                                    }
 
-                                    // Date 2017-09-03 sunBeds: 78 sunDorms: 68
-                                    // Date 2017-09-04 monBeds: 55 monDorms: 45
-                                    // Date 2017-09-05 tueBeds: 50 tueDorms: 40
-                                    // Date 2017-09-10 sunBeds: 78 sunDorms: 68
-                                    // Date 2017-09-11 monBeds: 55 monDorms: 45
-                                }
-                                if(session('not_regular') === 1) {
-                                    //print_r('not regular');
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalBeds < session('sun_beds')) {
+
+                                            $available_sun_beds = session('sun_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_sun_beds) {
+                                                //print_r(' sun_beds available '.' available_sun_beds ' . $available_sun_beds);
+                                            }
+                                            else {
+                                                //print_r(' sun_beds not available '.' available_sun_beds ' . $available_sun_beds);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' sun_beds not available ');
+                                        }
+
+                                        if($totalDorms < session('sun_dorms')) {
+
+                                            $available_sun_dorms = session('sun_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_sun_dorms) {
+                                                //print_r(' sun_dorms available '.' available_sun_dorms ' . $available_sun_dorms);
+                                            }
+                                            else {
+                                                //print_r(' sun_dorms not available '.' available_sun_dorms ' . $available_sun_dorms);
+                                            }
+                                        }
+                                        else {
+                                            //print_r(' sun_dorms not available ');
+                                        }
+
+                                        //print_r(' Date '.$generateBookingDat.' sun_beds: '.session('sun_beds').' totalBeds '. $totalBeds . ' sun_dorms: '.session('sun_dorms').' totalDorms '. $totalDorms );
+                                    }
                                 }
                             }
 
+                            /* Calculating beds & dorms of normal */
                             if(!in_array($generateBookingDat, $regular_dates_array)) {
+
                                 if($totalBeds < session('beds')) {
+
                                     $availableBeds = session('beds') - $totalBeds;
+
                                     if($request->beds <= $availableBeds) {
-                                        print_r('Beds available');
+                                        //print_r(' Beds available '.' availableBeds ' . $availableBeds);
                                     }
                                     else {
-                                        print_r('Beds not available');
+                                        //print_r(' Beds not available '.' availableBeds ' . $availableBeds);
                                     }
                                 }
                                 else {
-                                    print_r('Beds not available');
+                                    //print_r(' Beds not available ');
                                 }
 
                                 if($totalDorms < session('dormitory')) {
+
                                     $availableDorms = session('dormitory') - $totalDorms;
-                                    if($request->dormitory <= $availableDorms) {
-                                        print_r('Dorms available');
+
+                                    if($request->dorms <= $availableDorms) {
+                                        //print_r(' Dorms available '.' availableDorms ' . $availableDorms);
                                     }
                                     else {
-                                        print_r('Dorms not available');
+                                        //print_r(' Dorms not available '.' availableDorms ' . $availableDorms);
                                     }
                                 }
                                 else {
-                                    print_r('Dorms not available');
+                                    //print_r(' Dorms not available ');
                                 }
+
+                                //print_r(' Date '.$generateBookingDat.' beds: '.session('beds').' totalBeds '. $totalBeds . ' dormitory: '.session('dormitory').' totalDorms '. $totalDorms );
                             }
+
 
                             /*print_r(' bookBeds: '.$beds.' BookDorms: '.$dorms).'<br>';
                             print_r(' mschoolBeds: '.$msBeds.' mschoolDorms: '.$msDorms);
                             print_r(' totalBeds: '.$totalBeds.' totalDorms: '.$totalDorms);*/
 
                             // Alpenrosenhütte (beds:50, dormitory:24)
-                            // bookBeds: 41 BookDorms: 42
-                            // mschoolBeds: 19 mschoolDorms: 23
-                            // totalBeds: 60 totalDorms 65
-                            // totalBedsGreat: 60 totalDormsGreat: 65 //Beds not available Dorms not available //Sat
-                            // bookBeds: 27 BookDorms: 20
-                            // mschoolBeds: 9 mschoolDorms: 9
-                            // totalBeds: 36 totalDorms 29
-                            // totalBedsLess: 36 totalDormsGreat: 29 //Beds available Dorms not available //Sun
-                            // bookBeds: 27 BookDorms: 20
-                            // mschoolBeds: 0 mschoolDorms: 0
-                            // totalBeds: 27 totalDorms 20
-                            // totalBedsLess: 27 totalDormsLess: 20 //Beds available Dorms available //Mon
+                            // bookBeds: 41      BookDorms: 42   mschoolBeds: 19   mschoolDorms: 23     Beds not available    Date 2017-09-02  //sat
+                            // totalBeds: 60     totalDorms: 65                                         Dorms not available
 
-                            // Alpenrosenhütte (Mixed with regular)
-                            // Beds not available Dorms not available
-                            // sunBeds: 78 sunDorms: 68 Beds
-                            // available Dorms not available
-                            // monBeds: 58 monDorms: 48
-                            // Beds available Dorms available
+                            // bookBeds: 27      BookDorms: 20   mschoolBeds: 9    mschoolDorms: 9      Beds available        Date 2017-09-03  //sun
+                            // totalBeds: 36     totalDorms: 29  availableBeds 14                       Dorms not available
+
+                            // bookBeds: 27      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-04  //mon
+                            // totalBeds: 27     totalDorms: 20  availableBeds 23  availableDorms 4     Dorms available
+
+                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-05  //tue
+                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
+
+                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-06  //wed
+                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
+
+                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-07  //thu
+                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
+
+                            // bookBeds: 37      BookDorms: 44   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-08  //fri
+                            // totalBeds: 37     totalDorms: 44  availableBeds 13                       Dorms not available
+
+                            // bookBeds: 37      BookDorms: 44   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-09  //sat
+                            // totalBeds: 37     totalDorms: 44  availableBeds 13                       Dorms not available
+
+                            // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-10  //sun
+                            // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
+
+                            // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-11 //mon
+                            // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
+
+
+                            // Alpenrosenhütte (regular)
+                            // sat_beds not available  sat_dorms not available  Date 2017-09-02 sat_beds: 30 totalBeds 60 sat_dorms: 20 totalDorms 65
+
+                            // sun_beds not available  sun_dorms not available  Date 2017-09-03 sun_beds: 25 totalBeds 36 sun_dorms: 15 totalDorms 29
+
+                            // mon beds available  available_mon_beds 3 mon dorms not available  Date 2017-09-04 mon_beds: 30 totalBeds 27 mon_dorms: 20 totalDorms 20
+
+                            // tue_beds available  available_tue_beds 13 tue_dorms not available  Date 2017-09-05 tue_beds: 25 totalBeds 12 tue_dorms: 15 totalDorms 20
+
+                            // wed_beds available  available_wed_beds 3 wed_dorms not available  Date 2017-09-06 wed_beds: 15 totalBeds 12 wed_dorms: 5 totalDorms 20
+
+                            // thu_beds available  available_thu_beds 3 thu_dorms not available  Date 2017-09-07 thu_beds: 15 totalBeds 12 thu_dorms: 5 totalDorms 20
+
+                            // fri_beds not available  fri_dorms not available  Date 2017-09-08 fri_beds: 25 totalBeds 37 fri_dorms: 15 totalDorms 44
+
+                            // sat_beds not available  sat_dorms not available  Date 2017-09-09 sat_beds: 30 totalBeds 37 sat_dorms: 20 totalDorms 44
+
+                            // sun_beds not available  sun_dorms available  available_sun_dorms 15 Date 2017-09-10 sun_beds: 25 totalBeds 31 sun_dorms: 15 totalDorms 0
+
+                            // mon beds not available  mon dorms available  available_mon_dorms 20 Date 2017-09-11 mon_beds: 30 totalBeds 31 mon_dorms: 20 totalDorms 0
+
 
                             // Schwarzwasserhutte (beds:40, dormitory:40)
                             // Beds not available Dorms available bookBeds: 72 BookDorms: 24
@@ -903,38 +1172,219 @@ class BookingController extends Controller
                         }
                         else {
                             $totalSleeps     = $sleeps + $msSleeps;
-                            if($totalSleeps < session('sleeps')) {
-                                $availableSleeps = session('sleeps') - $totalSleeps;
-                                if($request->sleeps <= $availableSleeps) {
-                                    print_r('Sleeps available');
+
+                            /* Calculating sleeps of regular and not regular */
+                            if ($request->session()->has('regular') || $request->session()->has('not_regular')) {
+
+                                if(session('regular') === 1) {
+
+                                    if($session_mon_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('mon_sleeps')) {
+
+                                            $availableMonSleeps = session('mon_sleeps') - $totalSleeps;
+
+                                            if($request->sleeps <= $availableMonSleeps) {
+                                                print_r('Mon sleeps available');
+                                            }
+                                            else {
+                                                print_r('Mon sleeps not available');
+                                            }
+                                        }
+                                        else {
+                                            print_r('Mon sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' mon_sleeps: '.session('mon_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableMonSleeps ' . $availableMonSleeps);
+                                    }
+
+                                    if($session_tue_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('tue_sleeps')) {
+
+                                            $availableTueSleeps = session('tue_sleeps') - $totalSleeps;
+
+                                            if($request->sleeps <= $availableTueSleeps) {
+                                                print_r('Tue sleeps available');
+                                            }
+                                            else {
+                                                print_r('Tue sleeps not available');
+                                            }
+                                        }
+                                        else {
+                                            print_r('Tue sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' tue_sleeps: '.session('tue_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableTueSleeps ' . $availableTueSleeps);
+                                    }
+
+                                    if($session_wed_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('wed_sleeps')) {
+
+                                            $availableWedSleeps = session('wed_sleeps') - $totalSleeps;
+
+                                            if($request->sleeps <= $availableWedSleeps) {
+                                                print_r('Wed sleeps available');
+                                            }
+                                            else {
+                                                print_r('Wed sleeps not available');
+                                            }
+                                        }
+                                        else {
+                                            print_r('Wed sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' wed_sleeps: '.session('wed_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableWedSleeps ' . $availableWedSleeps);
+                                    }
+
+                                    if($session_thu_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('thu_sleeps')) {
+
+                                            $availableThuSleeps = session('thu_sleeps') - $totalSleeps;
+
+                                            if($request->sleeps <= $availableThuSleeps) {
+                                                print_r('Thu sleeps available');
+                                            }
+                                            else {
+                                                print_r('Thu sleeps not available');
+                                            }
+                                        }
+                                        else {
+                                            print_r('Tue sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' thu_sleeps: '.session('thu_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableThuSleeps ' . $availableThuSleeps);
+                                    }
+
+                                    if($session_fri_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('fri_sleeps')) {
+
+                                            $availableFriSleeps = session('fri_sleeps') - $totalSleeps;
+
+                                            if($request->sleeps <= $availableFriSleeps) {
+                                                print_r('Fri sleeps available');
+                                            }
+                                            else {
+                                                print_r('Fri sleeps not available');
+                                            }
+                                        }
+                                        else {
+                                            print_r('Fri sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' fri_sleeps: '.session('fri_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableFriSleeps ' . $availableFriSleeps);
+                                    }
+
+                                    if($session_sat_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('sat_sleeps')) {
+
+                                            $availableSatSleeps = session('sat_sleeps') - $totalSleeps;
+                                            if($request->sleeps <= $availableSatSleeps) {
+                                                print_r('Sat sleeps available');
+                                            }
+                                            else {
+                                                print_r('Sat sleeps not available');
+                                            }
+
+                                        }
+                                        else {
+                                            print_r('Sat sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' sat_sleeps: '.session('sat_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSatSleeps ' . $availableSatSleeps);
+                                    }
+
+                                    if($session_sun_day === $generateBookingDay) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalSleeps < session('sun_sleeps')) {
+
+                                            $availableSunSleeps = session('sun_sleeps') - $totalSleeps;
+                                            if($request->sleeps <= $availableSunSleeps) {
+                                                print_r('Sun sleeps available');
+                                            }
+                                            else {
+                                                print_r('Sun sleeps not available');
+                                            }
+
+                                        }
+                                        else {
+                                            print_r('Sat sleeps not available');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' sun_sleeps: '.session('sun_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSunSleeps ' . $availableSunSleeps);
+                                    }
                                 }
-                                else {
-                                    print_r('Sleeps not available');
+
+                                if(session('not_regular') === 1) {
+                                    //print_r('not regular');
                                 }
-                            }
-                            else {
-                                print_r('Sleeps not available');
                             }
 
-                            /*print_r(' sleepssss: '.$sleeps).'<br>';
+                            /* Calculating sleeps of normal */
+                            if(!in_array($generateBookingDat, $regular_dates_array)) {
+
+                                if($totalSleeps < session('sleeps')) {
+
+                                    $availableSleeps = session('sleeps') - $totalSleeps;
+
+                                    if($request->sleeps <= $availableSleeps) {
+                                        print_r(' Sleeps available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                    }
+                                    else {
+                                        print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                    }
+                                }
+                                else {
+                                    print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                }
+                            }
+
+                            /*print_r(' sleeps: '.$sleeps).'<br>';
                             print_r(' mschoolsleeps: '.$msSleeps);
                             print_r(' TotalSleeps: '.$totalSleeps);
                             print_r(' AvailableSleeps: '.$availableSleeps);*/
 
                             // kempter hutte (Sleeps: 255)
-                            // sleeps: 97
-                            // mschoolsleeps: 77
-                            // TotalSleeps: 174
-                            // AvailableSleeps: 81 (255 - 174) //Sleeps available
-                            // sleeps: 94
-                            // mschoolsleeps: 64
-                            // TotalSleeps: 158
-                            // AvailableSleeps: 97 (255 - 158) //Sleeps available
-                            // sleeps: 135
-                            // mschoolsleeps: 0
-                            // TotalSleeps: 135
-                            // AvailableSleeps: 120 (255 - 135) //Sleeps available
+                            // sleeps: 97 mschoolsleeps: 77 TotalSleeps: 174 AvailableSleeps: 81      // 2017-09-02 Sat
+                            // sleeps: 94 mschoolsleeps: 64 TotalSleeps: 158 AvailableSleeps: 97      // 2017-09-03 Sun
+                            // sleeps: 135 mschoolsleeps: 0 TotalSleeps: 135 AvailableSleeps: 120     // 2017-09-04 Mon
+                            // sleeps: 127 mschoolsleeps: 141 TotalSleeps: 268 AvailableSleeps: 120   // 2017-09-05 Tue
+                            // sleeps: 143 mschoolsleeps: 37 TotalSleeps: 180 AvailableSleeps: 75     // 2017-09-06 Wed
+                            // sleeps: 183 mschoolsleeps: 27 TotalSleeps: 210 AvailableSleeps: 45     // 2017-09-07 Thu
+                            // sleeps: 173 mschoolsleeps: 58 TotalSleeps: 231 AvailableSleeps: 24     // 2017-09-08 Fri
+                            // sleeps: 150 mschoolsleeps: 64 TotalSleeps: 214 AvailableSleeps: 41     // 2017-09-09 Sat
+                            // sleeps: 109 mschoolsleeps: 62 TotalSleeps: 171 AvailableSleeps: 84     // 2017-09-10 Sun
+                            // sleeps: 72 mschoolsleeps: 89 TotalSleeps: 161 AvailableSleeps: 94      // 2017-09-11 Mon
 
+                            // kempter hutte (Regular)
+                            // Sat sleeps available Date 2017-09-02 sat_sleeps: 216 totalSleeps 174 requestSleeps 1 availableSatSleeps 42
+                            // Sun sleeps available Date 2017-09-03 sun_sleeps: 174 totalSleeps 158 requestSleeps 1 availableSunSleeps 16
+                            // Mon sleeps available Date 2017-09-04 mon_sleeps: 137 totalSleeps 135 requestSleeps 1 availableMonSleeps 2
+                            // Tue sleeps available Date 2017-09-05 tue_sleeps: 270 totalSleeps 268 requestSleeps 1 availableTueSleeps 2
+                            // Wed sleeps available Date 2017-09-06 wed_sleeps: 182 totalSleeps 180 requestSleeps 1 availableWedSleeps 2
+                            // Thu sleeps available Date 2017-09-07 thu_sleeps: 212 totalSleeps 210 requestSleeps 1 availableThuSleeps 2
+                            // Fri sleeps available Date 2017-09-08 fri_sleeps: 233 totalSleeps 231 requestSleeps 1 availableFriSleeps 2
+                            // Sat sleeps available Date 2017-09-09 sat_sleeps: 216 totalSleeps 214 requestSleeps 1 availableSatSleeps 2
+                            // Sun sleeps available Date 2017-09-10 sun_sleeps: 174 totalSleeps 171 requestSleeps 1 availableSunSleeps 3
+                            // Mon sleeps not available Date 2017-09-11 mon_sleeps: 137 totalSleeps 161 requestSleeps 1 availableMonSleeps 2
                         }
                     }
                     else {

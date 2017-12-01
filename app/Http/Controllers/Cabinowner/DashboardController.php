@@ -187,63 +187,49 @@ class DashboardController extends Controller
             session(['dormitory' => $cabin->dormitory]);
             session(['sleeps' => $cabin->sleeps]);
             session(['cabin_id' => $cabin->_id]);
-            session(['regular' => $cabin->regular]);
+
             session(['not_regular' => $cabin->not_regular]);
+
+            session(['not_regular_date' => $cabin->not_regular_date]);
+            session(['not_regular_beds' => $cabin->not_regular_beds]);
+            session(['not_regular_dorms' => $cabin->not_regular_dorms]);
+            session(['not_regular_sleeps' => $cabin->not_regular_sleeps]);
+
+            session(['regular' => $cabin->regular]);
 
             session(['mon_day' => $cabin->mon_day]);
             session(['mon_beds' => $cabin->mon_beds]);
             session(['mon_dorms' => $cabin->mon_dorms]);
-            session(['mon_emergency_rooms' => $cabin->mon_emergency_rooms]);
-            session(['mon_inquiry_guest' => $cabin->mon_inquiry_guest]);
-            session(['mon_ms_inquiry_guest' => $cabin->mon_ms_inquiry_guest]);
             session(['mon_sleeps' => $cabin->mon_sleeps]);
 
             session(['tue_day' => $cabin->tue_day]);
             session(['tue_beds' => $cabin->tue_beds]);
             session(['tue_dorms' => $cabin->tue_dorms]);
-            session(['tue_emergency_rooms' => $cabin->tue_emergency_rooms]);
-            session(['tue_inquiry_guest' => $cabin->tue_inquiry_guest]);
-            session(['tue_ms_inquiry_guest' => $cabin->tue_ms_inquiry_guest]);
             session(['tue_sleeps' => $cabin->tue_sleeps]);
 
             session(['wed_day' => $cabin->wed_day]);
             session(['wed_beds' => $cabin->wed_beds]);
             session(['wed_dorms' => $cabin->wed_dorms]);
-            session(['wed_emergency_rooms' => $cabin->wed_emergency_rooms]);
-            session(['wed_inquiry_guest' => $cabin->wed_inquiry_guest]);
-            session(['wed_ms_inquiry_guest' => $cabin->wed_ms_inquiry_guest]);
             session(['wed_sleeps' => $cabin->wed_sleeps]);
 
             session(['thu_day' => $cabin->thu_day]);
             session(['thu_beds' => $cabin->thu_beds]);
             session(['thu_dorms' => $cabin->thu_dorms]);
-            session(['thu_emergency_rooms' => $cabin->thu_emergency_rooms]);
-            session(['thu_inquiry_guest' => $cabin->thu_inquiry_guest]);
-            session(['thu_ms_inquiry_guest' => $cabin->thu_ms_inquiry_guest]);
             session(['thu_sleeps' => $cabin->thu_sleeps]);
 
             session(['fri_day' => $cabin->fri_day]);
             session(['fri_beds' => $cabin->fri_beds]);
             session(['fri_dorms' => $cabin->fri_dorms]);
-            session(['fri_emergency_rooms' => $cabin->fri_emergency_rooms]);
-            session(['fri_inquiry_guest' => $cabin->fri_inquiry_guest]);
-            session(['fri_ms_inquiry_guest' => $cabin->fri_ms_inquiry_guest]);
             session(['fri_sleeps' => $cabin->fri_sleeps]);
 
             session(['sat_day' => $cabin->sat_day]);
             session(['sat_beds' => $cabin->sat_beds]);
             session(['sat_dorms' => $cabin->sat_dorms]);
-            session(['sat_emergency_rooms' => $cabin->sat_emergency_rooms]);
-            session(['sat_inquiry_guest' => $cabin->sat_inquiry_guest]);
-            session(['sat_ms_inquiry_guest' => $cabin->sat_ms_inquiry_guest]);
             session(['sat_sleeps' => $cabin->sat_sleeps]);
 
             session(['sun_day' => $cabin->sun_day]);
             session(['sun_beds' => $cabin->sun_beds]);
             session(['sun_dorms' => $cabin->sun_dorms]);
-            session(['sun_emergency_rooms' => $cabin->sun_emergency_rooms]);
-            session(['sun_inquiry_guest' => $cabin->sun_inquiry_guest]);
-            session(['sun_ms_inquiry_guest' => $cabin->sun_ms_inquiry_guest]);
             session(['sun_sleeps' => $cabin->sun_sleeps]);
 
         }
