@@ -658,6 +658,7 @@ class BookingController extends Controller
         $holiday_prepare        = [];
         $disableDates           = [];
         $regular_dates_array    = [];
+        $not_regular_dates      = [];
 
         $dorms                  = 0;
         $beds                   = 0;
@@ -797,7 +798,56 @@ class BookingController extends Controller
 
                                 if(session('not_regular') === 1) {
                                     $not_regular_date_explode = explode(" - ", session('not_regular_date'));
-                                    print_r($not_regular_date_explode[0].'#############'.$not_regular_date_explode[1]);
+                                    $not_regular_date_begin   = DateTime::createFromFormat('d.m.y', $not_regular_date_explode[0])->format('Y-m-d');
+                                    $not_regular_date_end     = DateTime::createFromFormat('d.m.y', $not_regular_date_explode[1])->format('Y-m-d 23:59:59'); //To get the end date we need to add time
+                                    $generateNotRegularDates  = $this->generateDates($not_regular_date_begin, $not_regular_date_end);
+
+                                    foreach($generateNotRegularDates as $generateNotRegularDate) {
+                                        $not_regular_dates[]  = $generateNotRegularDate->format('Y-m-d');
+                                    }
+
+                                    //print_r($not_regular_dates); //[2017-09-01 2017-09-02], [2017-09-01  2017-09-02, 2017-09-01  2017-09-02], [2017-09-01  2017-09-02, 2017-09-01  2017-09-02, 2017-09-01  2017-09-02]
+                                    //print_r($generateBookingDat); //[2017-09-02, 2017-09-03, 2017-09-04]
+                                    if(in_array($generateBookingDat, $not_regular_dates)) {
+
+                                        $regular_dates_array[] = $generateBookingDat;
+
+                                        if($totalBeds < session('not_regular_beds')) {
+
+                                            $available_not_regular_beds = session('not_regular_beds') - $totalBeds;
+
+                                            if($request->beds <= $available_not_regular_beds) {
+                                                print_r(' Not regular beds available '.' availableBeds ' . $available_not_regular_beds);
+                                            }
+                                            else {
+                                                print_r(' Not regular beds not available '.' availableBeds ' . $available_not_regular_beds);
+                                            }
+                                        }
+                                        else {
+                                            print_r(' Not regular beds not available ');
+                                        }
+
+                                        if($totalDorms < session('not_regular_dorms')) {
+
+                                            $available_not_regular_dorms = session('not_regular_dorms') - $totalDorms;
+
+                                            if($request->dorms <= $available_not_regular_dorms) {
+                                                print_r(' Not regular dorms available '.' availableDorms ' . $available_not_regular_dorms);
+                                            }
+                                            else {
+                                                print_r(' Not regular dorms not available '.' availableDorms ' . $available_not_regular_dorms);
+                                            }
+                                        }
+                                        else {
+                                            print_r(' Not regular dorms not available ');
+                                        }
+
+                                        print_r(' Date '.$generateBookingDat.' not_regular_beds: '.session('not_regular_beds').' totalBeds '. $totalBeds . ' not_regular_dorms: '.session('not_regular_dorms').' totalDorms '. $totalDorms);
+                                    }
+
+                                    // print_r($regular_dates_array); //2017-09-02, 2017-09-02, 2017-09-02
+
+
                                     /*session('not_regular_beds');
                                     session('not_regular_dorms');
                                     session('not_regular_sleeps');*/
@@ -807,269 +857,301 @@ class BookingController extends Controller
 
                                     if($session_mon_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('mon_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_mon_beds = session('mon_beds') - $totalBeds;
+                                            if($totalBeds < session('mon_beds')) {
 
-                                            if($request->beds <= $available_mon_beds) {
-                                                //print_r(' mon beds available '.' available_mon_beds ' . $available_mon_beds);
+                                                $available_mon_beds = session('mon_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_mon_beds) {
+                                                    print_r(' mon beds available '.' available_mon_beds ' . $available_mon_beds);
+                                                }
+                                                else {
+                                                    print_r(' mon beds not available '.' available_mon_beds ' . $available_mon_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' mon beds not available '.' available_mon_beds ' . $available_mon_beds);
+                                                print_r(' mon beds not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' mon beds not available ');
-                                        }
 
-                                        if($totalDorms < session('mon_dorms')) {
+                                            if($totalDorms < session('mon_dorms')) {
 
-                                            $available_mon_dorms = session('mon_dorms') - $totalDorms;
+                                                $available_mon_dorms = session('mon_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_mon_dorms) {
-                                                //print_r(' mon dorms available '.' available_mon_dorms ' . $available_mon_dorms);
+                                                if($request->dorms <= $available_mon_dorms) {
+                                                    print_r(' mon dorms available '.' available_mon_dorms ' . $available_mon_dorms);
+                                                }
+                                                else {
+                                                    print_r(' mon dorms not available '.' available_mon_dorms ' . $available_mon_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' mon dorms not available '.' available_mon_dorms ' . $available_mon_dorms);
+                                                print_r(' mon dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' mon dorms not available ');
+
+                                            print_r(' Date '.$generateBookingDat.' mon_beds: '.session('mon_beds').' totalBeds '. $totalBeds . ' mon_dorms: '.session('mon_dorms').' totalDorms '. $totalDorms);
                                         }
 
-                                        //print_r(' Date '.$generateBookingDat.' mon_beds: '.session('mon_beds').' totalBeds '. $totalBeds . ' mon_dorms: '.session('mon_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_tue_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('tue_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_tue_beds = session('tue_beds') - $totalBeds;
+                                            if($totalBeds < session('tue_beds')) {
 
-                                            if($request->beds <= $available_tue_beds) {
-                                                //print_r(' tue_beds available '.' available_tue_beds ' . $available_tue_beds);
+                                                $available_tue_beds = session('tue_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_tue_beds) {
+                                                    print_r(' tue_beds available '.' available_tue_beds ' . $available_tue_beds);
+                                                }
+                                                else {
+                                                    print_r(' tue_beds not available '.' available_tue_beds ' . $available_tue_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' tue_beds not available '.' available_tue_beds ' . $available_tue_beds);
+                                                print_r(' tue_beds not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' tue_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('tue_dorms')) {
+                                            if($totalDorms < session('tue_dorms')) {
 
-                                            $available_tue_dorms = session('tue_dorms') - $totalDorms;
+                                                $available_tue_dorms = session('tue_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_tue_dorms) {
-                                                //print_r(' tue_dorms available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                                if($request->dorms <= $available_tue_dorms) {
+                                                    print_r(' tue_dorms available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                                }
+                                                else {
+                                                    print_r(' tue_dorms not available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' tue_dorms not available ' .' available_tue_dorms ' . $available_tue_dorms);
+                                                print_r(' tue_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' tue_dorms not available ');
-                                        }
 
-                                        //print_r(' Date '.$generateBookingDat.' tue_beds: '.session('tue_beds').' totalBeds '. $totalBeds . ' tue_dorms: '.session('tue_dorms').' totalDorms '. $totalDorms);
+                                            print_r(' Date '.$generateBookingDat.' tue_beds: '.session('tue_beds').' totalBeds '. $totalBeds . ' tue_dorms: '.session('tue_dorms').' totalDorms '. $totalDorms);
+                                        }
 
                                     }
 
                                     if($session_wed_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('wed_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_wed_beds = session('wed_beds') - $totalBeds;
+                                            if($totalBeds < session('wed_beds')) {
 
-                                            if($request->beds <= $available_wed_beds) {
-                                                //print_r(' wed_beds available '.' available_wed_beds ' . $available_wed_beds);
+                                                $available_wed_beds = session('wed_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_wed_beds) {
+                                                    print_r(' wed_beds available '.' available_wed_beds ' . $available_wed_beds);
+                                                }
+                                                else {
+                                                    print_r(' wed_beds not available '.' available_wed_beds ' . $available_wed_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' wed_beds not available '.' available_wed_beds ' . $available_wed_beds);
+                                                print_r(' wed_beds not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' wed_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('wed_dorms')) {
+                                            if($totalDorms < session('wed_dorms')) {
 
-                                            $available_wed_dorms = session('wed_dorms') - $totalDorms;
+                                                $available_wed_dorms = session('wed_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_wed_dorms) {
-                                                //print_r(' wed_dorms available '.' available_wed_dorms ' . $available_wed_dorms);
+                                                if($request->dorms <= $available_wed_dorms) {
+                                                    print_r(' wed_dorms available '.' available_wed_dorms ' . $available_wed_dorms);
+                                                }
+                                                else {
+                                                    print_r(' wed_dorms not available '.' available_wed_dorms ' . $available_wed_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' wed_dorms not available '.' available_wed_dorms ' . $available_wed_dorms);
+                                                print_r(' wed_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' wed_dorms not available ');
+
+                                            print_r(' Date '.$generateBookingDat.' wed_beds: '.session('wed_beds').' totalBeds '. $totalBeds . ' wed_dorms: '.session('wed_dorms').' totalDorms '. $totalDorms);
                                         }
 
-                                        //print_r(' Date '.$generateBookingDat.' wed_beds: '.session('wed_beds').' totalBeds '. $totalBeds . ' wed_dorms: '.session('wed_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_thu_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('thu_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_thu_beds = session('thu_beds') - $totalBeds;
+                                            if($totalBeds < session('thu_beds')) {
 
-                                            if($request->beds <= $available_thu_beds) {
-                                               // print_r(' thu_beds available '.' available_thu_beds ' . $available_thu_beds);
+                                                $available_thu_beds = session('thu_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_thu_beds) {
+                                                    print_r(' thu_beds available '.' available_thu_beds ' . $available_thu_beds);
+                                                }
+                                                else {
+                                                    print_r(' thu_beds not available '.' available_thu_beds ' . $available_thu_beds);
+                                                }
                                             }
                                             else {
-                                               // print_r(' thu_beds not available '.' available_thu_beds ' . $available_thu_beds);
+                                                print_r(' thu_beds not available ');
                                             }
-                                        }
-                                        else {
-                                           // print_r(' thu_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('thu_dorms')) {
+                                            if($totalDorms < session('thu_dorms')) {
 
-                                            $available_thu_dorms = session('thu_dorms') - $totalDorms;
+                                                $available_thu_dorms = session('thu_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_thu_dorms) {
-                                                //print_r(' thu_dorms available '.' available_thu_dorms ' . $available_thu_dorms);
+                                                if($request->dorms <= $available_thu_dorms) {
+                                                    print_r(' thu_dorms available '.' available_thu_dorms ' . $available_thu_dorms);
+                                                }
+                                                else {
+                                                    print_r(' thu_dorms not available '.' available_thu_dorms ' . $available_thu_dorms);
+                                                }
                                             }
                                             else {
-                                               // print_r(' thu_dorms not available '.' available_thu_dorms ' . $available_thu_dorms);
+                                                print_r(' thu_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                           // print_r(' thu_dorms not available ');
-                                        }
 
-                                        //print_r(' Date '.$generateBookingDat.' thu_beds: '.session('thu_beds').' totalBeds '. $totalBeds . ' thu_dorms: '.session('thu_dorms').' totalDorms '. $totalDorms);
+                                            print_r(' Date '.$generateBookingDat.' thu_beds: '.session('thu_beds').' totalBeds '. $totalBeds . ' thu_dorms: '.session('thu_dorms').' totalDorms '. $totalDorms);
+
+                                        }
 
                                     }
 
                                     if($session_fri_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('fri_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_fri_beds = session('fri_beds') - $totalBeds;
+                                            if($totalBeds < session('fri_beds')) {
 
-                                            if($request->beds <= $available_fri_beds) {
-                                                //print_r(' fri_beds available '.' available_fri_beds ' . $available_fri_beds);
+                                                $available_fri_beds = session('fri_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_fri_beds) {
+                                                    print_r(' fri_beds available '.' available_fri_beds ' . $available_fri_beds);
+                                                }
+                                                else {
+                                                    print_r(' fri_beds not available '.' available_fri_beds ' . $available_fri_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' fri_beds not available '.' available_fri_beds ' . $available_fri_beds);
+                                                print_r(' fri_beds not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' fri_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('fri_dorms')) {
+                                            if($totalDorms < session('fri_dorms')) {
 
-                                            $available_fri_dorms = session('fri_dorms') - $totalDorms;
+                                                $available_fri_dorms = session('fri_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_fri_dorms) {
-                                                //print_r(' fri_dorms available '.' available_fri_dorms ' . $available_fri_dorms);
+                                                if($request->dorms <= $available_fri_dorms) {
+                                                    print_r(' fri_dorms available '.' available_fri_dorms ' . $available_fri_dorms);
+                                                }
+                                                else {
+                                                    print_r(' fri_dorms not available '.' available_fri_dorms ' . $available_fri_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' fri_dorms not available '.' available_fri_dorms ' . $available_fri_dorms);
+                                                print_r(' fri_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' fri_dorms not available ');
-                                        }
 
-                                        //print_r(' Date '.$generateBookingDat.' fri_beds: '.session('fri_beds').' totalBeds '. $totalBeds . ' fri_dorms: '.session('fri_dorms').' totalDorms '. $totalDorms);
+                                            print_r(' Date '.$generateBookingDat.' fri_beds: '.session('fri_beds').' totalBeds '. $totalBeds . ' fri_dorms: '.session('fri_dorms').' totalDorms '. $totalDorms);
+
+                                        }
 
                                     }
 
                                     if($session_sat_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('sat_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_sat_beds = session('sat_beds') - $totalBeds;
+                                            if($totalBeds < session('sat_beds')) {
 
-                                            if($request->beds <= $available_sat_beds) {
-                                                //print_r(' sat_beds available '.' available_sat_beds ' . $available_sat_beds);
+                                                $available_sat_beds = session('sat_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_sat_beds) {
+                                                    print_r(' sat_beds available '.' available_sat_beds ' . $available_sat_beds);
+                                                }
+                                                else {
+                                                    print_r(' sat_beds not available '.' available_sat_beds ' . $available_sat_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' sat_beds not available '.' available_sat_beds ' . $available_sat_beds);
+                                                print_r(' sat_beds not available ');
                                             }
-                                        }
-                                        else {
-                                           // print_r(' sat_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('sat_dorms')) {
+                                            if($totalDorms < session('sat_dorms')) {
 
-                                            $available_sat_dorms = session('sat_dorms') - $totalDorms;
+                                                $available_sat_dorms = session('sat_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_sat_dorms) {
-                                                //print_r(' sat_dorms available '.' available_sat_dorms ' . $available_sat_dorms);
+                                                if($request->dorms <= $available_sat_dorms) {
+                                                    print_r(' sat_dorms available '.' available_sat_dorms ' . $available_sat_dorms);
+                                                }
+                                                else {
+                                                    print_r(' sat_dorms not available '.' available_sat_dorms ' . $available_sat_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' sat_dorms not available '.' available_sat_dorms ' . $available_sat_dorms);
+                                                print_r(' sat_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' sat_dorms not available ');
+
+                                            print_r(' Date '.$generateBookingDat.' sat_beds: '.session('sat_beds').' totalBeds '. $totalBeds . ' sat_dorms: '.session('sat_dorms').' totalDorms '. $totalDorms);
+
                                         }
 
-                                        //print_r(' Date '.$generateBookingDat.' sat_beds: '.session('sat_beds').' totalBeds '. $totalBeds . ' sat_dorms: '.session('sat_dorms').' totalDorms '. $totalDorms);
                                     }
 
                                     if($session_sun_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalBeds < session('sun_beds')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $available_sun_beds = session('sun_beds') - $totalBeds;
+                                            if($totalBeds < session('sun_beds')) {
 
-                                            if($request->beds <= $available_sun_beds) {
-                                                //print_r(' sun_beds available '.' available_sun_beds ' . $available_sun_beds);
+                                                $available_sun_beds = session('sun_beds') - $totalBeds;
+
+                                                if($request->beds <= $available_sun_beds) {
+                                                    print_r(' sun_beds available '.' available_sun_beds ' . $available_sun_beds);
+                                                }
+                                                else {
+                                                    print_r(' sun_beds not available '.' available_sun_beds ' . $available_sun_beds);
+                                                }
                                             }
                                             else {
-                                                //print_r(' sun_beds not available '.' available_sun_beds ' . $available_sun_beds);
+                                                print_r(' sun_beds not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' sun_beds not available ');
-                                        }
 
-                                        if($totalDorms < session('sun_dorms')) {
+                                            if($totalDorms < session('sun_dorms')) {
 
-                                            $available_sun_dorms = session('sun_dorms') - $totalDorms;
+                                                $available_sun_dorms = session('sun_dorms') - $totalDorms;
 
-                                            if($request->dorms <= $available_sun_dorms) {
-                                                //print_r(' sun_dorms available '.' available_sun_dorms ' . $available_sun_dorms);
+                                                if($request->dorms <= $available_sun_dorms) {
+                                                    print_r(' sun_dorms available '.' available_sun_dorms ' . $available_sun_dorms);
+                                                }
+                                                else {
+                                                    print_r(' sun_dorms not available '.' available_sun_dorms ' . $available_sun_dorms);
+                                                }
                                             }
                                             else {
-                                                //print_r(' sun_dorms not available '.' available_sun_dorms ' . $available_sun_dorms);
+                                                print_r(' sun_dorms not available ');
                                             }
-                                        }
-                                        else {
-                                            //print_r(' sun_dorms not available ');
+
+                                            print_r(' Date '.$generateBookingDat.' sun_beds: '.session('sun_beds').' totalBeds '. $totalBeds . ' sun_dorms: '.session('sun_dorms').' totalDorms '. $totalDorms );
                                         }
 
-                                        //print_r(' Date '.$generateBookingDat.' sun_beds: '.session('sun_beds').' totalBeds '. $totalBeds . ' sun_dorms: '.session('sun_dorms').' totalDorms '. $totalDorms );
                                     }
                                 }
                             }
 
                             /* Calculating beds & dorms of normal */
+                            //print_r(array_unique($regular_dates_array)); //[2017-09-02, 2017-09-04] //if not regular has 2017-09-04 and regular has 2017-09-04
+
+                            //print_r($generateBookingDat); //[2017-09-02, 2017-09-03, 2017-09-04]
+
                             if(!in_array($generateBookingDat, $regular_dates_array)) {
 
                                 if($totalBeds < session('beds')) {
@@ -1077,14 +1159,14 @@ class BookingController extends Controller
                                     $availableBeds = session('beds') - $totalBeds;
 
                                     if($request->beds <= $availableBeds) {
-                                        //print_r(' Beds available '.' availableBeds ' . $availableBeds);
+                                        print_r(' Beds available '.' availableBeds ' . $availableBeds);
                                     }
                                     else {
-                                        //print_r(' Beds not available '.' availableBeds ' . $availableBeds);
+                                        print_r(' Beds not available '.' availableBeds ' . $availableBeds);
                                     }
                                 }
                                 else {
-                                    //print_r(' Beds not available ');
+                                    print_r(' Beds not available ');
                                 }
 
                                 if($totalDorms < session('dormitory')) {
@@ -1092,17 +1174,16 @@ class BookingController extends Controller
                                     $availableDorms = session('dormitory') - $totalDorms;
 
                                     if($request->dorms <= $availableDorms) {
-                                        //print_r(' Dorms available '.' availableDorms ' . $availableDorms);
+                                        print_r(' Dorms available '.' availableDorms ' . $availableDorms);
                                     }
                                     else {
-                                        //print_r(' Dorms not available '.' availableDorms ' . $availableDorms);
+                                        print_r(' Dorms not available '.' availableDorms ' . $availableDorms);
                                     }
                                 }
                                 else {
-                                    //print_r(' Dorms not available ');
+                                    print_r(' Dorms not available ');
                                 }
-
-                                //print_r(' Date '.$generateBookingDat.' beds: '.session('beds').' totalBeds '. $totalBeds . ' dormitory: '.session('dormitory').' totalDorms '. $totalDorms );
+                                print_r(' Date '.$generateBookingDat.' beds: '.session('beds').' totalBeds '. $totalBeds . ' dormitory: '.session('dormitory').' totalDorms '. $totalDorms );
                             }
 
 
@@ -1141,6 +1222,21 @@ class BookingController extends Controller
                             // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-11 //mon
                             // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
 
+                            // ###################### Alpenrosenhütte (not regular, regular , normal) ###########################
+                            // Not regular beds available  availableBeds 2 Not regular dorms available  availableDorms 2
+                            // Date 2017-09-02 not_regular_beds: 62 totalBeds 60 not_regular_dorms: 67 totalDorms 65
+                            //
+                            // sun_beds available  available_sun_beds 2 sun_dorms available  available_sun_dorms 9
+                            // Date 2017-09-03 sun_beds: 38 totalBeds 36 sun_dorms: 38 totalDorms 29
+                            //
+                            // Beds available  availableBeds 23 Dorms available  availableDorms 4
+                            // Date 2017-09-04 beds: 50 totalBeds 27 dormitory: 24 totalDorms 20
+                            // #################################################
+
+                            // Alpenrosenhütte (not regular)
+                            // Not regular beds available  availableBeds 35
+                            // Not regular dorms available  availableDorms 20
+                            // Date 2017-09-02 not_regular_beds: 95 totalBeds 60 not_regular_dorms: 85 totalDorms 65
 
                             // Alpenrosenhütte (regular)
                             // sat_beds not available  sat_dorms not available  Date 2017-09-02 sat_beds: 30 totalBeds 60 sat_dorms: 20 totalDorms 65
@@ -1351,6 +1447,7 @@ class BookingController extends Controller
                                     else {
                                         print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
                                     }
+
                                 }
                                 else {
                                     print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
