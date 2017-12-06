@@ -2,6 +2,22 @@
 
 @section('title', 'Cabin API - Cabin Owner: Opening & Closing Time')
 
+@section('css')
+    <style type="text/css">
+
+        .bg-info {
+            text-align: center;
+            width: 69%;
+            margin-left: 10%;
+            margin-top: 3%;
+            padding: 5px 0 !important;
+            float: left;
+            margin-right: 2px;
+        }
+
+        </style>
+@endsection
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
