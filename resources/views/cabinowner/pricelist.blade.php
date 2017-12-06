@@ -70,7 +70,7 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                @lang('Prices')
+                                @lang('pricelist.prices')
                             </h3>
                             <a href="/cabinowner/pricelist/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
                                 @if($count_pricetype == 0)

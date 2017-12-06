@@ -32,15 +32,11 @@
                                 @lang('pricelist.prices')
                             </h3>
                            <br/><br/>
-
-
                             <form class="form-horizontal" role="form" name="imageupload" method="POST" action="{!! url('/cabinowner/pricelist/store') !!}">
                                 {{ csrf_field() }}
                                 <table id="mtable" border="1" class="table table-bordered table-striped table-hover" >
                                     @if ($count_pricetype>0)
-
                                         <tbody>
-
                                         <tr><td style="align: center"></td>
                                             @for ($i=0;$i<=$count_pricetype;$i++)
                                                 <td><button class="icol btn-primary">+</button>
