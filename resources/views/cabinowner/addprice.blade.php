@@ -2,8 +2,10 @@
 
 @section('title', 'Cabin API - Cabin Owner: Opening & Closing Time')
 
-@section('css')
 
+@section('css')
+    <style type="text/css">
+    </style>
 @endsection
 
 @section('content')
@@ -30,6 +32,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 @lang('pricelist.prices')
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Some text as tooltip"></i>
                             </h3>
                            <br/><br/>
                             <form class="form-horizontal" role="form" name="imageupload" method="POST" action="{!! url('/cabinowner/pricelist/store') !!}">
@@ -37,9 +40,9 @@
                                 <table id="mtable" border="1" class="table table-bordered table-striped table-hover" >
                                     @if ($count_pricetype>0)
                                         <tbody>
-                                        <tr><td style="align: center"></td>
+                                        <tr><th style="text-align: center">Liste</th>
                                             @for ($i=0;$i<=$count_pricetype;$i++)
-                                                <td><button class="icol btn-primary">+</button>
+                                                <td class="btnTD"><button class="icol btn-primary">+</button>
                                                 @if($i!=0)
                                                         <input type="button" class='cdel btn-primary' value='-' />
                                                     @endif
@@ -47,7 +50,7 @@
 
                                             @endfor
                                         </tr>
-                                        <tr><td><button class="irow btn-primary">+</button></td>
+                                        <tr><td class="btnTD"><button class="irow btn-primary">+</button></td>
                                             <td></td>
                                             @foreach ($price_type as $each_type)
                                                 <td><input class="form-control" name="price_type[]" value="{{$each_type}}" type="text"></td>
@@ -56,7 +59,7 @@
                                         <?php $j=1;$k=0?>
                                         @foreach ($guest_type as $guest)
                                             <tr>
-                                                <td><button class="irow btn-primary">+</button><input type="button" class='rdel btn-primary' value='-' /></td>
+                                                <td class="btnTD"><button class="irow btn-primary">+</button><input type="button" class='rdel btn-primary' value='-' /></td>
                                                 <td><input class="form-control" name="guest_type[]" value="{{$guest}}" type="text"></td>
                                                 @foreach ($price_type as $each_type)
                                                     <td><input class="form-control" name="price[]" value="{{$price[$k]}}" type="text"></td>
@@ -70,17 +73,17 @@
 
                                         <tbody>
                                             <tr>
-                                                <td style="align: center"></td>
-                                                <td><button class="icol btn-primary">+</button></td>
-                                                <td><button class="icol btn-primary">+</button><input class="cdel btn-primary" value="-" type="button"></td>
+                                                <th style="text-align: center">Liste</th>
+                                                <td class="btnTD"><button class="icol btn-primary">+</button></td>
+                                                <td class="btnTD"><button class="icol btn-primary">+</button><input class="cdel btn-primary" value="-" type="button"></td>
                                             </tr>
                                             <tr>
-                                                <td><button class="irow btn-primary">+</button></td>
+                                                <td class="btnTD"><button class="irow btn-primary">+</button></td>
                                                 <td></td>
                                                 <td><input class="form-control" name="price_type[]" value="" type="text"></td>
                                             </tr>
                                             <tr>
-                                                <td><button class="irow btn-primary">+</button><input class="rdel btn-primary" value="-" type="button"></td>
+                                                <td class="btnTD"><button class="irow btn-primary">+</button><input class="rdel btn-primary" value="-" type="button"></td>
                                                 <td><input class="form-control" name="guest_type[]" value="" type="text"></td>
                                                 <td><input class="form-control" name="price[]" value="" type="text"></td>
                                             </tr>

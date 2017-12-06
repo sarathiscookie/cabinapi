@@ -2,51 +2,6 @@
 
 @section('title', 'Cabin API - Cabin Owner: Opening & Closing Time')
 
-@section('css')
-    <style type="text/css">
-        .nounderline {
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .required{
-            color:red;
-        }
-        .bg-primary {
-            color: #fff;
-            background-color: #337ab7;
-            text-align: center;
-            width: 202px;
-            margin-top: -1%;
-            padding: 1% 0;
-            display: inline-block;
-            margin-bottom: 0px;
-        }
-        .bg-info {
-            text-align: center;
-            width: 69%;
-            margin-left: 10%;
-            margin-top: 3%;
-            padding: 5px 0 !important;
-            float: left;
-            margin-right: 2px;
-        }
-        .btn.btn-success.set_mainimg, .btn.btn-success.set_profileimg {
-            width: 45%;
-            margin-top: -1%;
-            padding: 1% 0;
-            display: inline-block;
-        }
-        .img_button{
-            margin-top: 1%;
-            padding: 1% 3%;
-            display: inline-block;
-        }
-        .thumbnail{
-            text-align: center;
-        }
-    </style>
-@endsection
-
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
