@@ -57,8 +57,8 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('openingClosingSeason.dashboard')</a></li>
-                <li><i class="fa fa-edit"></i> @lang('Price List')</li>
-                <li class="active">@lang('Prices')</li>
+                <li><i class="fa fa-edit"></i> @lang('pricelist.prices')</li>
+                <li class="active">@lang('pricelist.prices')</li>
             </ol>
         </section>
 
