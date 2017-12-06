@@ -44,4 +44,5 @@ return [
     'mUsersMenu'                            => 'Bergschulen',
     'cabinsMenu'                            => 'Hütten',
     'shortVersionMenu'                      => 'Hüttenkennzeichen',
+    'priceListsMenu'                        => 'Preisliste',
 ];
