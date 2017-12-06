@@ -44,4 +44,5 @@ return [
     'mUsersMenu'                            => 'Mountain Schools',
     'cabinsMenu'                            => 'Cabins',
     'shortVersionMenu'                      => 'ShortVersion',
+    'priceListsMenu'                        => 'Price List',
 ];

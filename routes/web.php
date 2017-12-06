@@ -478,5 +478,21 @@ Route::prefix('cabinowner')->group(function () {
         /* Show datatable page */
         Route::post('/msusers/datatables', 'Cabinowner\MountSchoolUsersController@dataTables')->name('msusers.datatables');
 
+        /*
+
+         |--------------------------------------------------------------------------
+         | Routes for Pricelist
+         |--------------------------------------------------------------------------
+         |
+         | Routes for listing, add ,edit
+         */
+
+        /* list Prices */
+        Route::get('/pricelist', 'Cabinowner\PriceListController@index')->name('cabinowner.pricelist');
+        /* list create */
+        Route::get('/pricelist/create', 'Cabinowner\PriceListController@create')->name('cabinowner.pricelist.create');
+        /*save image to storage*/
+        Route::post('/pricelist/store', 'Cabinowner\PriceListController@store')->name('cabinowner.pricelist.store');
+
     });
 });
