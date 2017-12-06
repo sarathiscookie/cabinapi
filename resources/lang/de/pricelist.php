@@ -16,7 +16,7 @@ return [
     |
     */
     'updatePriceButton'                     => 'Preisliste ändern',
-    'addPriceButton'                        => 'Preis hinzufügen',
+    'addPriceButton'                        => 'Preisliste erstellen',
     'pricelistPageHeading'                  => 'Preisliste',
     'prices'                                => 'Preise',
     'confirmDeleteRow'                      => 'Wollen Sie diesen Abschnitt löschen?',
