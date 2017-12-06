@@ -793,7 +793,7 @@ class BookingController extends Controller
                             $totalBeds  = $beds + $msBeds;
                             $totalDorms = $dorms + $msDorms;
 
-                            /* Calculating beds & dorms of regular and not regular */
+                            /* Calculating beds & dorms of regular and not regular booking */
                             if ($request->session()->has('regular') || $request->session()->has('not_regular')) {
 
                                 if(session('not_regular') === 1) {
@@ -1147,7 +1147,7 @@ class BookingController extends Controller
                                 }
                             }
 
-                            /* Calculating beds & dorms of normal */
+                            /* Calculating beds & dorms of normal booking */
                             //print_r(array_unique($regular_dates_array)); //[2017-09-02, 2017-09-04] //if not regular has 2017-09-04 and regular has 2017-09-04
 
                             //print_r($generateBookingDat); //[2017-09-02, 2017-09-03, 2017-09-04]
@@ -1222,6 +1222,7 @@ class BookingController extends Controller
                             // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-11 //mon
                             // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
 
+
                             // ###################### Alpenrosenhütte (not regular, regular , normal) ###########################
                             // Not regular beds available  availableBeds 2 Not regular dorms available  availableDorms 2
                             // Date 2017-09-02 not_regular_beds: 62 totalBeds 60 not_regular_dorms: 67 totalDorms 65
@@ -1269,172 +1270,238 @@ class BookingController extends Controller
                         else {
                             $totalSleeps     = $sleeps + $msSleeps;
 
-                            /* Calculating sleeps of regular and not regular */
+                            /* Calculating sleeps of regular and not regular booking */
+                            if(session('not_regular') === 1) {
+                                $not_regular_date_explode = explode(" - ", session('not_regular_date'));
+                                $not_regular_date_begin   = DateTime::createFromFormat('d.m.y', $not_regular_date_explode[0])->format('Y-m-d');
+                                $not_regular_date_end     = DateTime::createFromFormat('d.m.y', $not_regular_date_explode[1])->format('Y-m-d 23:59:59'); //To get the end date we need to add time
+                                $generateNotRegularDates  = $this->generateDates($not_regular_date_begin, $not_regular_date_end);
+
+                                foreach($generateNotRegularDates as $generateNotRegularDate) {
+                                    $not_regular_dates[]  = $generateNotRegularDate->format('Y-m-d');
+                                }
+
+                                if(in_array($generateBookingDat, $not_regular_dates)) {
+
+                                    $regular_dates_array[] = $generateBookingDat;
+
+                                    if($totalSleeps < session('not_regular_sleeps')) {
+
+                                        $available_not_regular_sleeps = session('not_regular_sleeps') - $totalSleeps;
+
+                                        if($request->sleeps <= $available_not_regular_sleeps) {
+                                            print_r(' Not regular sleeps available '.' availableSleeps' . $available_not_regular_sleeps);
+                                        }
+                                        else {
+                                            print_r(' Not regular sleeps not available '.' availableSleeps' . $available_not_regular_sleeps);
+                                        }
+                                    }
+                                    else {
+                                        print_r(' Not regular sleeps not available ');
+                                    }
+
+                                    print_r(' Date '.$generateBookingDat.' not_regular_sleeps: '.session('not_regular_sleeps').' totalSleeps '. $totalSleeps);
+
+                                }
+                            }
+
                             if ($request->session()->has('regular') || $request->session()->has('not_regular')) {
 
                                 if(session('regular') === 1) {
 
                                     if($session_mon_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('mon_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableMonSleeps = session('mon_sleeps') - $totalSleeps;
+                                            if($totalSleeps < session('mon_sleeps')) {
 
-                                            if($request->sleeps <= $availableMonSleeps) {
-                                                print_r('Mon sleeps available');
+                                                $availableMonSleeps = session('mon_sleeps') - $totalSleeps;
+
+                                                if($request->sleeps <= $availableMonSleeps) {
+                                                    print_r('Mon sleeps available' . ' availableMonSleeps' . $availableMonSleeps);
+                                                }
+                                                else {
+                                                    print_r('Mon sleeps not available'. ' availableMonSleeps' . $availableMonSleeps);
+                                                }
                                             }
                                             else {
                                                 print_r('Mon sleeps not available');
                                             }
-                                        }
-                                        else {
-                                            print_r('Mon sleeps not available');
+
+                                            print_r(' Date '.$generateBookingDat.' mon_sleeps: '.session('mon_sleeps').' totalSleeps '. $totalSleeps);
+
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' mon_sleeps: '.session('mon_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableMonSleeps ' . $availableMonSleeps);
                                     }
 
                                     if($session_tue_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('tue_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableTueSleeps = session('tue_sleeps') - $totalSleeps;
+                                            if($totalSleeps < session('tue_sleeps')) {
 
-                                            if($request->sleeps <= $availableTueSleeps) {
-                                                print_r('Tue sleeps available');
+                                                $availableTueSleeps = session('tue_sleeps') - $totalSleeps;
+
+                                                if($request->sleeps <= $availableTueSleeps) {
+                                                    print_r('Tue sleeps available' . ' availableTueSleeps' . $availableTueSleeps);
+                                                }
+                                                else {
+                                                    print_r('Tue sleeps not available' . ' availableTueSleeps' . $availableTueSleeps);
+                                                }
                                             }
                                             else {
                                                 print_r('Tue sleeps not available');
                                             }
-                                        }
-                                        else {
-                                            print_r('Tue sleeps not available');
+
+                                            print_r(' Date '.$generateBookingDat.' tue_sleeps: '.session('tue_sleeps').' totalSleeps '. $totalSleeps);
+
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' tue_sleeps: '.session('tue_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableTueSleeps ' . $availableTueSleeps);
                                     }
 
                                     if($session_wed_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('wed_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableWedSleeps = session('wed_sleeps') - $totalSleeps;
+                                            if($totalSleeps < session('wed_sleeps')) {
 
-                                            if($request->sleeps <= $availableWedSleeps) {
-                                                print_r('Wed sleeps available');
+                                                $availableWedSleeps = session('wed_sleeps') - $totalSleeps;
+
+                                                if($request->sleeps <= $availableWedSleeps) {
+                                                    print_r('Wed sleeps available'. ' availableWedSleeps ' . $availableWedSleeps);
+                                                }
+                                                else {
+                                                    print_r('Wed sleeps not available'. ' availableWedSleeps ' . $availableWedSleeps);
+                                                }
                                             }
                                             else {
                                                 print_r('Wed sleeps not available');
                                             }
-                                        }
-                                        else {
-                                            print_r('Wed sleeps not available');
+
+                                            print_r(' Date '.$generateBookingDat.' wed_sleeps: '.session('wed_sleeps').' totalSleeps '. $totalSleeps);
+
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' wed_sleeps: '.session('wed_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableWedSleeps ' . $availableWedSleeps);
+
                                     }
 
                                     if($session_thu_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('thu_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableThuSleeps = session('thu_sleeps') - $totalSleeps;
+                                            if($totalSleeps < session('thu_sleeps')) {
 
-                                            if($request->sleeps <= $availableThuSleeps) {
-                                                print_r('Thu sleeps available');
+                                                $availableThuSleeps = session('thu_sleeps') - $totalSleeps;
+
+                                                if($request->sleeps <= $availableThuSleeps) {
+                                                    print_r('Thu sleeps available'. ' availableThuSleeps ' . $availableThuSleeps);
+                                                }
+                                                else {
+                                                    print_r('Thu sleeps not available'. ' availableThuSleeps ' . $availableThuSleeps);
+                                                }
                                             }
                                             else {
-                                                print_r('Thu sleeps not available');
+                                                print_r('Tue sleeps not available');
                                             }
-                                        }
-                                        else {
-                                            print_r('Tue sleeps not available');
-                                        }
 
-                                        print_r(' Date '.$generateBookingDat.' thu_sleeps: '.session('thu_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableThuSleeps ' . $availableThuSleeps);
+                                            print_r(' Date '.$generateBookingDat.' thu_sleeps: '.session('thu_sleeps').' totalSleeps '. $totalSleeps);
+
+                                        }
                                     }
 
                                     if($session_fri_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('fri_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableFriSleeps = session('fri_sleeps') - $totalSleeps;
+                                            if($totalSleeps < session('fri_sleeps')) {
 
-                                            if($request->sleeps <= $availableFriSleeps) {
-                                                print_r('Fri sleeps available');
+                                                $availableFriSleeps = session('fri_sleeps') - $totalSleeps;
+
+                                                if($request->sleeps <= $availableFriSleeps) {
+                                                    print_r('Fri sleeps available' . ' availableFriSleeps ' . $availableFriSleeps);
+                                                }
+                                                else {
+                                                    print_r('Fri sleeps not available' . ' availableFriSleeps ' . $availableFriSleeps);
+                                                }
                                             }
                                             else {
                                                 print_r('Fri sleeps not available');
                                             }
-                                        }
-                                        else {
-                                            print_r('Fri sleeps not available');
+
+                                            print_r(' Date '.$generateBookingDat.' fri_sleeps: '.session('fri_sleeps').' totalSleeps '. $totalSleeps);
+
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' fri_sleeps: '.session('fri_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableFriSleeps ' . $availableFriSleeps);
+
                                     }
 
                                     if($session_sat_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
 
-                                        if($totalSleeps < session('sat_sleeps')) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                            $availableSatSleeps = session('sat_sleeps') - $totalSleeps;
-                                            if($request->sleeps <= $availableSatSleeps) {
-                                                print_r('Sat sleeps available');
+                                            if($totalSleeps < session('sat_sleeps')) {
+
+                                                $availableSatSleeps = session('sat_sleeps') - $totalSleeps;
+                                                if($request->sleeps <= $availableSatSleeps) {
+                                                    print_r('Sat sleeps available' . ' availableSatSleeps ' . $availableSatSleeps);
+                                                }
+                                                else {
+                                                    print_r('Sat sleeps not available' . ' availableSatSleeps ' . $availableSatSleeps);
+                                                }
+
                                             }
                                             else {
                                                 print_r('Sat sleeps not available');
                                             }
 
-                                        }
-                                        else {
-                                            print_r('Sat sleeps not available');
+                                            print_r(' Date '.$generateBookingDat.' sat_sleeps: '.session('sat_sleeps').' totalSleeps '. $totalSleeps);
+
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' sat_sleeps: '.session('sat_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSatSleeps ' . $availableSatSleeps);
+
                                     }
 
                                     if($session_sun_day === $generateBookingDay) {
 
-                                        $regular_dates_array[] = $generateBookingDat;
+                                        if(!in_array($generateBookingDat, $not_regular_dates)) {
+                                            $regular_dates_array[] = $generateBookingDat;
 
-                                        if($totalSleeps < session('sun_sleeps')) {
+                                            if($totalSleeps < session('sun_sleeps')) {
 
-                                            $availableSunSleeps = session('sun_sleeps') - $totalSleeps;
-                                            if($request->sleeps <= $availableSunSleeps) {
-                                                print_r('Sun sleeps available');
+                                                $availableSunSleeps = session('sun_sleeps') - $totalSleeps;
+                                                if($request->sleeps <= $availableSunSleeps) {
+                                                    print_r('Sun sleeps available'. ' availableSunSleeps ' . $availableSunSleeps);
+                                                }
+                                                else {
+                                                    print_r('Sun sleeps not available'. ' availableSunSleeps ' . $availableSunSleeps);
+                                                }
+
                                             }
                                             else {
                                                 print_r('Sun sleeps not available');
                                             }
 
-                                        }
-                                        else {
-                                            print_r('Sat sleeps not available');
+                                            print_r(' Date '.$generateBookingDat.' sun_sleeps: '.session('sun_sleeps').' totalSleeps '. $totalSleeps );
                                         }
 
-                                        print_r(' Date '.$generateBookingDat.' sun_sleeps: '.session('sun_sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSunSleeps ' . $availableSunSleeps);
                                     }
                                 }
 
-                                if(session('not_regular') === 1) {
-                                    //print_r('not regular');
-                                }
                             }
 
-                            /* Calculating sleeps of normal */
+                            /* Calculating sleeps of normal booking */
                             if(!in_array($generateBookingDat, $regular_dates_array)) {
 
                                 if($totalSleeps < session('sleeps')) {
@@ -1442,16 +1509,17 @@ class BookingController extends Controller
                                     $availableSleeps = session('sleeps') - $totalSleeps;
 
                                     if($request->sleeps <= $availableSleeps) {
-                                        print_r(' Sleeps available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                        print_r(' Sleeps available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' availableSleeps ' . $availableSleeps);
                                     }
                                     else {
-                                        print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                        print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' availableSleeps ' . $availableSleeps);
                                     }
 
                                 }
                                 else {
-                                    print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' requestSleeps ' . $request->sleeps . ' availableSleeps ' . $availableSleeps);
+                                    print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' availableSleeps ' . $availableSleeps);
                                 }
+
                             }
 
                             /*print_r(' sleeps: '.$sleeps).'<br>';
