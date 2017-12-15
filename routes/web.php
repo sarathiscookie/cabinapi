@@ -306,12 +306,6 @@ Route::prefix('cabinowner')->group(function () {
         | Routes for listing bookings, send message, cancel booking, create booking
         */
 
-        /* Create bookings */
-        Route::get('/bookings/create', 'Cabinowner\BookingController@create')->name('cabinowner.bookings.create');
-
-        /* Check booking availability */
-        Route::post('/bookings/availability', 'Cabinowner\BookingController@checkAvailability')->name('cabinowner.bookings.availability');
-
         /* Listing bookings */
         Route::get('/bookings/{bookId?}', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
 
@@ -323,6 +317,26 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Cancel booking */
         Route::post('booking/cancel', 'Cabinowner\BookingController@cancelBooking');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for create booking, check booking availability
+        |--------------------------------------------------------------------------
+        |
+        | Routes for view available dates, store and check availability
+        */
+
+        /* Create bookings */
+        Route::get('/create/booking', 'Cabinowner\CreateBookingController@index')->name('cabinowner.create.booking');
+
+        /* Store booking */
+        Route::post('/store/booking', 'Cabinowner\CreateBookingController@store')->name('cabinowner.store.booking');
+
+        /* Check booking availability */
+        Route::post('/check/availability/calendar', 'Cabinowner\CreateBookingController@calendarAvailability')->name('cabinowner.check.availability.calendar');
+
+        /* Show available dates in calendar */
+        Route::post('/check/availability', 'Cabinowner\CreateBookingController@checkAvailability')->name('cabinowner.check.availability');
 
         /*
         |--------------------------------------------------------------------------

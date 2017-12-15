@@ -20,7 +20,8 @@ class Userlist extends Eloquent
      * @var bool
      */
     const UPDATED_AT   = 'usrUpdateDate';
-    public $timestamps = [ "UPDATED_AT" ];
+    const CREATED_AT   = 'usrRegistrationDate';
+    public $timestamps = [ "UPDATED_AT", "CREATED_AT" ];
 
     /**
      * The attributes that are mass assignable.

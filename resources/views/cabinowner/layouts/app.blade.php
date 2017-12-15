@@ -180,7 +180,7 @@
                             <a href=""><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">1</span></span></a>
                         </li>
                         <li>
-                            <a href="/cabinowner/bookings/create"><i class="fa fa-circle-o"></i>Create Booking</a>
+                            <a href="/cabinowner/create/booking"><i class="fa fa-circle-o"></i>Create Booking</a>
                         </li>
                     </ul>
                 </li>

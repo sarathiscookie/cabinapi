@@ -14,6 +14,18 @@
             text-decoration: none;
             cursor: pointer;
         }
+        #flash {
+            position: absolute;
+            top: 53px;
+            right: 20px;
+            z-index: 10;
+            animation: flash-message 6s forwards;
+        }
+
+        @keyframes flash-message {
+            0%   {opacity: 1;}
+            100% {opacity: 0; display:none;}
+        }
     </style>
 @endsection
 
@@ -31,6 +43,15 @@
                 <li class="active">@lang('cabinowner.bookings')</li>
             </ol>
         </section>
+
+        @if (session()->has('successBooking'))
+            <div id="flash" class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session()->get('successBooking') }}
+            </div>
+        @endif
 
         <!-- Main content -->
         <section class="content">

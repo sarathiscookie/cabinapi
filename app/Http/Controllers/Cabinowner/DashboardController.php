@@ -187,6 +187,8 @@ class DashboardController extends Controller
             session(['dormitory' => $cabin->dormitory]);
             session(['sleeps' => $cabin->sleeps]);
             session(['cabin_id' => $cabin->_id]);
+            session(['invoice_autonum' => $cabin->invoice_autonum]);
+            session(['invoice_code' => $cabin->invoice_code]);
 
             session(['not_regular' => $cabin->not_regular]);
 
