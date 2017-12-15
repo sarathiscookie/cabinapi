@@ -197,7 +197,7 @@ class CreateBookingController extends Controller
             $booking->is_delete        = 0;
             $booking->save();
 
-            // cabin update query need to write to update invoice_autonum
+            // cabin update query need to write to update invoice_autonum // check datatype while saving
             /* Storing booking details end */
 
 
