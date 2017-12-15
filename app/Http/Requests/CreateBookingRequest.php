@@ -30,7 +30,7 @@ class CreateBookingRequest extends FormRequest
             'city'      => 'max:255',
             'country'   => 'required',
             'zip'       => 'max:25',
-            'email'     => 'required|max:255|unique:user,usrEmail',
+            'email'     => 'required|max:255',
             'mobile'    => 'max:20',
             'phone'     => 'max:20',
             'comments'  => 'max:300',
