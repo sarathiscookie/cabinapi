@@ -185,10 +185,10 @@ class CreateBookingController extends Controller
             $booking->reserve_to       = $this->getDateUtc(session('dateTo'));
             $booking->user             = new \MongoDB\BSON\ObjectID($user->_id);
             $booking->invoice_number   = $invoiceNumber;
-            $booking->beds             = int($requestBeds);
-            $booking->dormitory        = int($requestDorms);
-            $booking->sleeps           = (session('sleeping_place') == 1) ? int($requestSleeps) : int($requestBeds) + int($requestDorms);
-            $booking->guests           = (session('sleeping_place') == 1) ? int($requestSleeps) : int($requestBeds) + int($requestDorms);
+            $booking->beds             = (int)$requestBeds;
+            $booking->dormitory        = (int)$requestDorms;
+            $booking->sleeps           = (session('sleeping_place') == 1) ? int($requestSleeps) : (int)$requestBeds + (int)$requestDorms;
+            $booking->guests           = (session('sleeping_place') == 1) ? int($requestSleeps) : (int)$requestBeds + (int)$requestDorms;
             $booking->bookingdate      = date('Y-m-d H:i:s');
             $booking->status           = "1";
             $booking->payment_status   = "2";
