@@ -1,3 +1,4 @@
+var fs    = require('fs');
 var app   = require('express')();
 var privateKey  = fs.readFileSync('/etc/letsencrypt/live/dev.huetten-holiday.de/privkey.pem', 'utf8');
 var certificate = fs.readFileSync('/etc/letsencrypt/live/dev.huetten-holiday.de/fullchain.pem', 'utf8');
