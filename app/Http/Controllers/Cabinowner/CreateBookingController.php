@@ -10,6 +10,7 @@ use App\MountSchoolBooking;
 use App\Season;
 use App\Country;
 use App\Userlist;
+use App\Cabin;
 use DateTime;
 use DatePeriod;
 use DateInterval;
@@ -167,7 +168,7 @@ class CreateBookingController extends Controller
 
             /* Create invoice number begin */
             if(session()->has('invoice_autonum') && session('invoice_autonum') != '') {
-                $autoNumber = session('invoice_autonum') + 1;
+                $autoNumber = (int)session('invoice_autonum') + 1;
             }
             else {
                 $autoNumber = 100000;
@@ -197,7 +198,13 @@ class CreateBookingController extends Controller
             $booking->is_delete        = 0;
             $booking->save();
 
-            // cabin update query need to write to update invoice_autonum // check datatype while saving
+            /* Update cabin invoice_autonum begin */
+            Cabin::where('is_delete', 0)
+                ->where('name', session('cabin_name'))
+                ->where('cabin_owner', Auth::user()->_id)
+                ->update(['invoice_autonum' => $autoNumber]);
+            /* Update cabin invoice_autonum end */
+
             /* Storing booking details end */
 
 
