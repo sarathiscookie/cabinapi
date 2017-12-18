@@ -351,8 +351,6 @@ class InquiryBookingsController extends Controller
                             ->orderBy('created_at')
                             ->get();
 
-                        //dd($readPrivateMessages);//4
-
                         if(count($readPrivateMessages) > 0){
                             foreach ($readPrivateMessages as $readPrivateMessage){
                                 if($readPrivateMessage->sender_id == $bookings[$key]['userId'] && $readPrivateMessage->receiver_id == Auth::user()->_id) {
@@ -361,7 +359,6 @@ class InquiryBookingsController extends Controller
                                     $senderLname     = $readPrivateMessage->sender->usrLastname;
                                     $senderFname     = $readPrivateMessage->sender->usrFirstname;
                                     $senderMsg .= '<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$senderFname.' '.$senderLname.'</span><span class="direct-chat-timestamp pull-right">'.$senderCreatedAt.'</span></div><i class="menu-icon bg-light-blue direct-chat-img text-center" style="padding: 9px;">G</i><div class="direct-chat-text">'.$senderTxt.'</div></div>';
-                                    //print_r($senderMsg);
                                 }
 
                                 if($readPrivateMessage->sender_id == Auth::user()->_id && $readPrivateMessage->receiver_id == $bookings[$key]['userId']) {
@@ -370,7 +367,6 @@ class InquiryBookingsController extends Controller
                                     $receiverLname     = $readPrivateMessage->sender->usrLastname;
                                     $receiverFname     = $readPrivateMessage->sender->usrFirstname;
                                     $senderMsg .= '<div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$receiverFname.' '.$receiverLname.'</span><span class="direct-chat-timestamp pull-left">'.$receiverCreatedAt.'</span></div><i class="menu-icon label-default direct-chat-img text-center" style="padding: 9px;">HW</i><div class="direct-chat-text">'.$receiverTxt.'</div></div>';
-                                    //print_r($receiverMsg);
                                 }
                             }
                             $private_messages = '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$booking->_id.'"></i><div class="modal fade" id="msgModal_'.$booking->_id.'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Chat</h3><div class="msgResponse"></div></div><div class="msgHide"><div class="box-body"><div class="direct-chat-messages">'.$senderMsg.'</div></div><div class="box-footer"><div class="input-group margin col-md-12"><input type="hidden" name="sender" id="sender_'.$booking->_id.'" class="form-control" value="'.Auth::user()->_id.'"><input type="hidden" name="receiver" id="receiver_'.$booking->_id.'" class="form-control"  value="'.$bookings[$key]['userId'].'"><input type="hidden" name="bookingId" id="bookingId_'.$booking->_id.'" class="form-control" value="'.$booking->_id.'"><input type="hidden" name="subject" id="subject_'.$booking->_id.'" class="form-control" value="'.$booking->invoice_number.'"><input type="hidden" name="usrEmail" id="usrEmail_'.$booking->_id.'" class="form-control" value="'.$user_email.'"><input type="hidden" name="cabinName" id="cabinName_'.$booking->_id.'" class="form-control" value="'.$booking->cabinname.'"><input type="text" name="message" id="message_'.$booking->_id.'" placeholder="Bitte Antwort hier eingeben..." class="form-control" autocomplete="off"><span class="input-group-btn"><button type="button" class="btn btn-info btn-flat msgSend" data-book="'.$booking->_id.'" data-loading-text="Sending..." autocomplete="off">'.__("inquiry.sendButton").'</button></span></div></div></div></div></div></div></div></div>';
@@ -431,7 +427,7 @@ class InquiryBookingsController extends Controller
         $comment                = $request->message;
         Mail::send('emails.sendMessageToGuest', ['comment' => $comment, 'subject' => 'Nachricht von', 'buttonLabel' => 'Anmelden', 'cabinName' => $request->cabinName, 'email' => $request->usrEmail], function ($message) use ($request) {
             $message->from('no-reply@huetten-holiday.de', 'No-Reply');
-            $message->to('l.linder@huetten-holiday.de')->subject('Nachricht von '.$request->cabinName);
+            $message->to($request->usrEmail)->subject('Nachricht von '.$request->cabinName);
         });
         /* Functionality to send message to guest end */
 
@@ -501,7 +497,7 @@ class InquiryBookingsController extends Controller
         $comment                = 'Sie wandern richtung '.$inquiry->cabinname.'! Ihre Anfrage bezüglich der Übernachtung von: '.($inquiry->checkin_from)->format('d.m.y').', bis: '.($inquiry->reserve_to)->format('d.m.y').' mit insgesamt: '.$inquiry->sleeps.' Personen wurde akzeptiert. Um die Buchung fix und damit auch verpflichtend zu machen, melden Sie sich bitte Online an und leisten Sie die fällige Anzahlung.';
         Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'buttonLabel' => 'Anzahlung leisten', 'subject' => 'Info von', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
             $message->from('no-reply@huetten-holiday.de', 'No-Reply');
-            $message->to('l.linder@huetten-holiday.de')->subject('Info von '.$inquiry->cabinname);
+            $message->to($user_email)->subject('Info von '.$inquiry->cabinname);
         });
         /* Functionality to send inquiry status approval message to guest end */
 
@@ -528,7 +524,7 @@ class InquiryBookingsController extends Controller
         $comment                = 'Ihre Anfrage bezüglich der Übernachtung von: '.($inquiry->checkin_from)->format('d.m.y').', bis: '.($inquiry->reserve_to)->format('d.m.y').' mit insgesamt: '.$inquiry->sleeps.' Personen wurde leider nicht akzeptiert. Vielleicht kommt eine andere Hütte oder ein anderes Datum in Frage? Finden Sie bei uns die passende Hütte!';
         Mail::send('emails.inquiryStatusMessage', ['comment' => $comment, 'cabinName' => $inquiry->cabinname, 'buttonLabel' => 'Hütten buchen', 'subject' => 'Info von', 'email' => $user_email], function ($message) use ($user_email, $inquiry) {
             $message->from('no-reply@huetten-holiday.de', 'No-Reply');
-            $message->to('l.linder@huetten-holiday.de')->subject('Info von '.$inquiry->cabinname);
+            $message->to($user_email)->subject('Info von '.$inquiry->cabinname);
         });
         /* Functionality to send inquiry status approval message to guest end */
         return response()->json(['statusInquiry' => __("inquiry.inquiryStatusRejected")], 201);

@@ -349,8 +349,8 @@ class DashboardController extends Controller
         /*$privateMessage              = new PrivateMessage;
         $privateMessage->sender_id   = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $privateMessage->receiver_id = new \MongoDB\BSON\ObjectID($id); //Cabin owner
-        $privateMessage->booking_id  = new \MongoDB\BSON\ObjectID('59402b1dd2ae67ed2d43beaa');
-        $privateMessage->subject     = 'SWH-17-1000535';
+        $privateMessage->booking_id  = new \MongoDB\BSON\ObjectID('5a37b6e69a892053020f55d0');
+        $privateMessage->subject     = 'SWH-16-333336';
         $privateMessage->text        = 'Message from api';
         $privateMessage->read        = 0;
         $privateMessage->save();*/
@@ -420,7 +420,10 @@ class DashboardController extends Controller
             if(count($inquiryAPIUnreads) > 0) {
                 $inquiryCount .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-flag-o"></i><span class="label label-danger">'.count($inquiryAPIUnreads).'</span></a><ul class="dropdown-menu list-group"><ul class="products-list product-list-in-box">';
                 foreach ($inquiryAPIUnreads as $inquiryAPIUnread) {
-                    $inquiryCount .= '<li class="list-group-item"><a href="/cabinowner/inquiry/'.$inquiryAPIUnread->_id.'/'.$new = "new".'" class="product-title">'.$inquiryAPIUnread->invoice_number.'<span class="label label-info pull-right">'.($inquiryAPIUnread->bookingdate)->format("d.m.Y H:i").'</span></a><span class="product-description">A new inquiry has registered</span></li>';
+                    /*$inquiryCount .= '<li class="list-group-item"><a href="/cabinowner/inquiry/'.$inquiryAPIUnread->_id.'/'.$new = "new".'" class="product-title">'.$inquiryAPIUnread->invoice_number.'<span class="label label-info pull-right">'.($inquiryAPIUnread->bookingdate)->format("d.m.Y H:i").'</span></a><span class="product-description">A new inquiry has registered</span></li>';*/
+
+                    $new = "new";
+                    $inquiryCount .= '<li class="list-group-item"><a href="/cabinowner/inquiry/'.$inquiryAPIUnread->_id.'/'.$new.'" class="product-title" >'.$inquiryAPIUnread->invoice_number.'<span class="label label-info pull-right">'.($inquiryAPIUnread->bookingdate)->format("d.m.Y H:i").'</span></a><span class="product-description">'.__("inquiry.newInquiry").'</span></li>';
                 }
                 $inquiryCount .= '</ul></ul>';
 
