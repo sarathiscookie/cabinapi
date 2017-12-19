@@ -252,7 +252,7 @@
     <!-- Socket io -->
     <script src="{{ asset('plugins/socket/socket.io.min.js') }}"></script>
     <script>
-        var socket = io('https://dev02-lapi.huetten-holiday.de:3000');
+        var socket = io('{{env('APP_URL')}}:3000');
         /* Realtime message notification */
         socket.on('message', function(data){
            if(data){
