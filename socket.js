@@ -24,7 +24,7 @@ redis.on('inquiryCount', function (channel, message) {
     io.emit(channel + ':' + message.event, message.data);
 });
 
-server.listen(4000);
+server.listen(3000);
 
 /*var fs    = require('fs');
 var app   = require('express')();
