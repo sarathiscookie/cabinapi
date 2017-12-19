@@ -16,7 +16,7 @@ var redis = new Redis();
 
 redis.subscribe('inquiryCount');
 
-redis.on('message', function (channel, message) {
+redis.on('inquiryCount', function (channel, message) {
     console.log('Message Receive');
     console.log(message);
     message = JSON.parse(message);
