@@ -4,7 +4,7 @@ var privateKey  = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.d
 var certificate = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/fullchain.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 var https  = require('https').createServer(credentials, app);
-var io    = require('socket.io')(http);
+var io    = require('socket.io')(https);
 var redis = require('redis');
 
 
