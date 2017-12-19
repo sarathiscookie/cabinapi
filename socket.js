@@ -1,8 +1,8 @@
 const fs = require('fs');
 
 const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/dev02-lapi.huetten-holiday.de/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/dev02-lapi.huetten-holiday.de/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/fullchain.pem'),
     NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
 };
 
