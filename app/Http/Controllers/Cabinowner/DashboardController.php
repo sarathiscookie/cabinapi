@@ -389,7 +389,7 @@ class DashboardController extends Controller
     public function inquiryAPIUnreadCount($id)
     {
         /*remove later begin*/
-        $book                = new Booking;
+        /*$book                = new Booking;
         $book->cabinname     = 'Schwarzwasserhütte';
         $book->user          = new \MongoDB\BSON\ObjectID('592a81cbd2ae67a4745f42b0');
         $book->bookingdate   = Carbon::now();
@@ -401,7 +401,7 @@ class DashboardController extends Controller
         $book->status        = '7';
         $book->inquirystatus = 0;
         $book->is_delete     = 0;
-        $book->save();
+        $book->save();*/
         /*remove later end*/
 
         if($id) {
