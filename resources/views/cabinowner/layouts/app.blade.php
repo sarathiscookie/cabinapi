@@ -250,7 +250,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('js/app.min.js') }}"></script>
     <!-- Socket io -->
-    <script src="{{ asset(':3000/plugins/socket/socket.io.min.js') }}"></script>
+    <script src="{{ asset('plugins/socket/socket.io.min.js') }}"></script>
     <script>
         var socket = io('{{env('APP_URL')}}:3000');
         /* Realtime message notification */
