@@ -1,4 +1,4 @@
-const fs = require('fs');
+/*const fs = require('fs');
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem'),
@@ -24,9 +24,9 @@ redis.on('inquiryCount', function (channel, message) {
     io.emit(channel + ':' + message.event, message.data);
 });
 
-server.listen(3000);
+server.listen(3000);*/
 
-/*var fs    = require('fs');
+var fs    = require('fs');
 var app   = require('express')();
 var privateKey  = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem', 'utf8');
 var certificate = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/fullchain.pem', 'utf8');
@@ -41,14 +41,14 @@ io.on('connection', function(socket){
 
     var redisClient = redis.createClient();
 
-    /!* Realtime message subscribe *!/
+    /* Realtime message subscribe */
     redisClient.subscribe('message');
     redisClient.on('message', function(channel, message){
-        /!*console.log('new message in queue', channel, message);*!/
+        /*console.log('new message in queue', channel, message);*/
         socket.emit(channel, message);
     });
 
-    /!* Realtime inquiry subscribe *!/
+    /* Realtime inquiry subscribe */
     redisClient.subscribe('inquiryCount');
     redisClient.on('inquiryCount', function(channel, message){
         console.log('new inquiry in queue', channel, message);
@@ -64,7 +64,7 @@ io.on('connection', function(socket){
 
 https.listen(3000, function(){
     console.log('listening on *:3000');
-});*/
+});
 
 
 /*var app   = require('express')();
