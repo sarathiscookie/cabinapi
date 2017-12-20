@@ -305,7 +305,7 @@
 
 @section('scripts')
     <!-- Hotel Datepicker JS -->
-    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/moment.js') }}"></script>
+    {{--<script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/moment.js') }}"></script>--}}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
 
     <!-- Select2 -->
