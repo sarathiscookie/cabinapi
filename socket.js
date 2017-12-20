@@ -1,31 +1,4 @@
-/*const fs = require('fs');
-
-const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/fullchain.pem'),
-    NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
-};
-
-var server = require('https').Server(options);
-
-var io = require('socket.io')(server);
-
-
-var Redis = require('ioredis');
-var redis = new Redis();
-
-redis.subscribe('inquiryCount');
-
-redis.on('inquiryCount', function (channel, message) {
-    console.log('Message Receive');
-    console.log(message);
-    message = JSON.parse(message);
-
-    io.emit(channel + ':' + message.event, message.data);
-});
-
-server.listen(3000);*/
-
+/* https server working code */
 var fs    = require('fs');
 var app   = require('express')();
 var privateKey  = fs.readFileSync('/etc/letsencrypt/live/dev02.huetten-holiday.de/privkey.pem', 'utf8');
@@ -66,7 +39,7 @@ https.listen(3000, function(){
     console.log('listening on *:3000');
 });
 
-
+/* Local machine working code */
 /*var app   = require('express')();
 var http  = require('http').Server(app);
 var io    = require('socket.io')(http);
