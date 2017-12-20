@@ -190,7 +190,7 @@ class DashboardController extends Controller
             session(['invoice_autonum' => $cabin->invoice_autonum]);
             session(['invoice_code' => $cabin->invoice_code]);
 
-            /*session(['not_regular' => $cabin->not_regular]);
+            session(['not_regular' => $cabin->not_regular]);
 
             session(['not_regular_date' => $cabin->not_regular_date]);
             session(['not_regular_beds' => $cabin->not_regular_beds]);
@@ -232,7 +232,7 @@ class DashboardController extends Controller
             session(['sun_day' => $cabin->sun_day]);
             session(['sun_beds' => $cabin->sun_beds]);
             session(['sun_dorms' => $cabin->sun_dorms]);
-            session(['sun_sleeps' => $cabin->sun_sleeps]);*/
+            session(['sun_sleeps' => $cabin->sun_sleeps]);
 
         }
 
