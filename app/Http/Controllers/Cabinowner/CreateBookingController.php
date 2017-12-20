@@ -134,15 +134,15 @@ class CreateBookingController extends Controller
             $availableSuccess = session('availableSuccess');
 
             if(session()->has('requestBeds') && session('requestBeds') != '') {
-                $requestBeds = session('requestBeds');
+                $requestBeds = (int)session('requestBeds');
             }
 
             if(session()->has('requestDorms') && session('requestDorms') != '') {
-                $requestDorms = session('requestDorms');
+                $requestDorms = (int)session('requestDorms');
             }
 
             if(session()->has('requestSleeps') && session('requestSleeps') != '') {
-                $requestSleeps = session('requestSleeps');
+                $requestSleeps = (int)session('requestSleeps');
             }
 
             /* Storing user details begin */
@@ -186,10 +186,10 @@ class CreateBookingController extends Controller
             $booking->reserve_to       = $this->getDateUtc(session('dateTo'));
             $booking->user             = new \MongoDB\BSON\ObjectID($user->_id);
             $booking->invoice_number   = $invoiceNumber;
-            $booking->beds             = (int)$requestBeds;
-            $booking->dormitory        = (int)$requestDorms;
-            $booking->sleeps           = (session('sleeping_place') == 1) ? int($requestSleeps) : (int)$requestBeds + (int)$requestDorms;
-            $booking->guests           = (session('sleeping_place') == 1) ? int($requestSleeps) : (int)$requestBeds + (int)$requestDorms;
+            $booking->beds             = $requestBeds;
+            $booking->dormitory        = $requestDorms;
+            $booking->sleeps           = (session('sleeping_place') == 1) ? $requestSleeps : $requestBeds + $requestDorms;
+            $booking->guests           = (session('sleeping_place') == 1) ? $requestSleeps : $requestBeds + $requestDorms;
             $booking->bookingdate      = date('Y-m-d H:i:s');
             $booking->status           = "1";
             $booking->payment_status   = "2";
@@ -206,7 +206,6 @@ class CreateBookingController extends Controller
             /* Update cabin invoice_autonum end */
 
             /* Storing booking details end */
-
 
             $request->session()->flash('successBooking', 'Well Done! Booking done successfully.');
             return redirect(url('cabinowner/bookings'));
@@ -362,7 +361,7 @@ class CreateBookingController extends Controller
                         if (!$bookingDateSeasonType)
                         {
                             //print_r($generateBookingDat . ' Sorry not a season time ');
-                            return response()->json(['error' => 'Sorry dates are not in a season time.'], 422);
+                            return response()->json(['error' => 'Sorry selected dates are not in a season time.'], 422);
                         }
                         /*else
                         {
@@ -822,86 +821,10 @@ class CreateBookingController extends Controller
                                 //print_r(' Date '.$generateBookingDat.' beds: '.session('beds').' totalBeds '. $totalBeds . ' dormitory: '.session('dormitory').' totalDorms '. $totalDorms );
                             }
 
-
                             /*print_r(' bookBeds: '.$beds.' BookDorms: '.$dorms).'<br>';
                             print_r(' mschoolBeds: '.$msBeds.' mschoolDorms: '.$msDorms);
                             print_r(' totalBeds: '.$totalBeds.' totalDorms: '.$totalDorms);*/
 
-                            // Alpenrosenhütte (beds:50, dormitory:24)
-                            // bookBeds: 41      BookDorms: 42   mschoolBeds: 19   mschoolDorms: 23     Beds not available    Date 2017-09-02  //sat
-                            // totalBeds: 60     totalDorms: 65                                         Dorms not available
-
-                            // bookBeds: 27      BookDorms: 20   mschoolBeds: 9    mschoolDorms: 9      Beds available        Date 2017-09-03  //sun
-                            // totalBeds: 36     totalDorms: 29  availableBeds 14                       Dorms not available
-
-                            // bookBeds: 27      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-04  //mon
-                            // totalBeds: 27     totalDorms: 20  availableBeds 23  availableDorms 4     Dorms available
-
-                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-05  //tue
-                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
-
-                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-06  //wed
-                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
-
-                            // bookBeds: 12      BookDorms: 20   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-07  //thu
-                            // totalBeds: 12     totalDorms: 20  availableBeds 38  availableDorms 4     Dorms available
-
-                            // bookBeds: 37      BookDorms: 44   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-08  //fri
-                            // totalBeds: 37     totalDorms: 44  availableBeds 13                       Dorms not available
-
-                            // bookBeds: 37      BookDorms: 44   mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-09  //sat
-                            // totalBeds: 37     totalDorms: 44  availableBeds 13                       Dorms not available
-
-                            // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-10  //sun
-                            // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
-
-                            // bookBeds: 31      BookDorms: 0    mschoolBeds: 0    mschoolDorms: 0      Beds available        Date 2017-09-11 //mon
-                            // totalBeds: 31     totalDorms: 0   availableBeds 19  availableDorms 24    Dorms available
-
-
-                            // ###################### Alpenrosenhütte (not regular, regular , normal) ###########################
-                            // Not regular beds available  availableBeds 2 Not regular dorms available  availableDorms 2
-                            // Date 2017-09-02 not_regular_beds: 62 totalBeds 60 not_regular_dorms: 67 totalDorms 65
-                            //
-                            // sun_beds available  available_sun_beds 2 sun_dorms available  available_sun_dorms 9
-                            // Date 2017-09-03 sun_beds: 38 totalBeds 36 sun_dorms: 38 totalDorms 29
-                            //
-                            // Beds available  availableBeds 23 Dorms available  availableDorms 4
-                            // Date 2017-09-04 beds: 50 totalBeds 27 dormitory: 24 totalDorms 20
-                            // #################################################
-
-                            // Alpenrosenhütte (not regular)
-                            // Not regular beds available  availableBeds 35
-                            // Not regular dorms available  availableDorms 20
-                            // Date 2017-09-02 not_regular_beds: 95 totalBeds 60 not_regular_dorms: 85 totalDorms 65
-
-                            // Alpenrosenhütte (regular)
-                            // sat_beds not available  sat_dorms not available  Date 2017-09-02 sat_beds: 30 totalBeds 60 sat_dorms: 20 totalDorms 65
-
-                            // sun_beds not available  sun_dorms not available  Date 2017-09-03 sun_beds: 25 totalBeds 36 sun_dorms: 15 totalDorms 29
-
-                            // mon beds available  available_mon_beds 3 mon dorms not available  Date 2017-09-04 mon_beds: 30 totalBeds 27 mon_dorms: 20 totalDorms 20
-
-                            // tue_beds available  available_tue_beds 13 tue_dorms not available  Date 2017-09-05 tue_beds: 25 totalBeds 12 tue_dorms: 15 totalDorms 20
-
-                            // wed_beds available  available_wed_beds 3 wed_dorms not available  Date 2017-09-06 wed_beds: 15 totalBeds 12 wed_dorms: 5 totalDorms 20
-
-                            // thu_beds available  available_thu_beds 3 thu_dorms not available  Date 2017-09-07 thu_beds: 15 totalBeds 12 thu_dorms: 5 totalDorms 20
-
-                            // fri_beds not available  fri_dorms not available  Date 2017-09-08 fri_beds: 25 totalBeds 37 fri_dorms: 15 totalDorms 44
-
-                            // sat_beds not available  sat_dorms not available  Date 2017-09-09 sat_beds: 30 totalBeds 37 sat_dorms: 20 totalDorms 44
-
-                            // sun_beds not available  sun_dorms available  available_sun_dorms 15 Date 2017-09-10 sun_beds: 25 totalBeds 31 sun_dorms: 15 totalDorms 0
-
-                            // mon beds not available  mon dorms available  available_mon_dorms 20 Date 2017-09-11 mon_beds: 30 totalBeds 31 mon_dorms: 20 totalDorms 0
-
-
-                            // Schwarzwasserhutte (beds:40, dormitory:40)
-                            // Beds not available Dorms available bookBeds: 72 BookDorms: 24
-                            // Beds not available Dorms available bookBeds: 42 BookDorms: 12
-                            // Beds not available Dorms available bookBeds: 57 BookDorms: 21
-                            // No mschool booking these dates so the total will be same
                         }
                         else {
                             $totalSleeps     = $sleeps + $msSleeps;
@@ -1194,30 +1117,6 @@ class CreateBookingController extends Controller
                             print_r(' mschoolsleeps: '.$msSleeps);
                             print_r(' TotalSleeps: '.$totalSleeps);
                             print_r(' AvailableSleeps: '.$availableSleeps);*/
-
-                            // kempter hutte (Sleeps: 255)
-                            // sleeps: 97 mschoolsleeps: 77 TotalSleeps: 174 AvailableSleeps: 81      // 2017-09-02 Sat
-                            // sleeps: 94 mschoolsleeps: 64 TotalSleeps: 158 AvailableSleeps: 97      // 2017-09-03 Sun
-                            // sleeps: 135 mschoolsleeps: 0 TotalSleeps: 135 AvailableSleeps: 120     // 2017-09-04 Mon
-                            // sleeps: 127 mschoolsleeps: 141 TotalSleeps: 268 AvailableSleeps: 120   // 2017-09-05 Tue
-                            // sleeps: 143 mschoolsleeps: 37 TotalSleeps: 180 AvailableSleeps: 75     // 2017-09-06 Wed
-                            // sleeps: 183 mschoolsleeps: 27 TotalSleeps: 210 AvailableSleeps: 45     // 2017-09-07 Thu
-                            // sleeps: 173 mschoolsleeps: 58 TotalSleeps: 231 AvailableSleeps: 24     // 2017-09-08 Fri
-                            // sleeps: 150 mschoolsleeps: 64 TotalSleeps: 214 AvailableSleeps: 41     // 2017-09-09 Sat
-                            // sleeps: 109 mschoolsleeps: 62 TotalSleeps: 171 AvailableSleeps: 84     // 2017-09-10 Sun
-                            // sleeps: 72 mschoolsleeps: 89 TotalSleeps: 161 AvailableSleeps: 94      // 2017-09-11 Mon
-
-                            // kempter hutte (Regular)
-                            // Sat sleeps available Date 2017-09-02 sat_sleeps: 216 totalSleeps 174 requestSleeps 1 availableSatSleeps 42
-                            // Sun sleeps available Date 2017-09-03 sun_sleeps: 174 totalSleeps 158 requestSleeps 1 availableSunSleeps 16
-                            // Mon sleeps available Date 2017-09-04 mon_sleeps: 137 totalSleeps 135 requestSleeps 1 availableMonSleeps 2
-                            // Tue sleeps available Date 2017-09-05 tue_sleeps: 270 totalSleeps 268 requestSleeps 1 availableTueSleeps 2
-                            // Wed sleeps available Date 2017-09-06 wed_sleeps: 182 totalSleeps 180 requestSleeps 1 availableWedSleeps 2
-                            // Thu sleeps available Date 2017-09-07 thu_sleeps: 212 totalSleeps 210 requestSleeps 1 availableThuSleeps 2
-                            // Fri sleeps available Date 2017-09-08 fri_sleeps: 233 totalSleeps 231 requestSleeps 1 availableFriSleeps 2
-                            // Sat sleeps available Date 2017-09-09 sat_sleeps: 216 totalSleeps 214 requestSleeps 1 availableSatSleeps 2
-                            // Sun sleeps available Date 2017-09-10 sun_sleeps: 174 totalSleeps 171 requestSleeps 1 availableSunSleeps 3
-                            // Mon sleeps not available Date 2017-09-11 mon_sleeps: 137 totalSleeps 161 requestSleeps 1 availableMonSleeps 2
                         }
                     }
                     else {
@@ -1236,9 +1135,6 @@ class CreateBookingController extends Controller
                     session(['dateTo' => $request->dateTo]);
                     //session()->flash('availableSuccess', $available);
                 }
-            }
-            else {
-                echo ' please fill from and to date field ';
             }
 
         }
