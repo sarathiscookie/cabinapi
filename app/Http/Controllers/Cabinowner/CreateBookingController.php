@@ -306,22 +306,22 @@ class CreateBookingController extends Controller
 
                 $availableStatus        = [];
 
-                $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                    ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
-                    ->get();
-
                 $dateBegin              = DateTime::createFromFormat('d.m.y', $request->dateFrom)->format('Y-m-d');
                 $dateEnd                = DateTime::createFromFormat('d.m.y', $request->dateTo)->format('Y-m-d');
                 $dateDifference         = date_diff(date_create($dateBegin), date_create($dateEnd));
 
                 $generateBookingDates   = $this->generateDates($dateBegin, $dateEnd);
 
+                $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+                    ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
+                    ->get();
                 foreach ($generateBookingDates as $key => $generateBookingDate) {
 
                     if($dateDifference->format("%a") <= 60) {
 
                         $generateBookingDat   = $generateBookingDate->format('Y-m-d'); //2017-09-02,2017-09-03,2017-09-04,2017-09-05,2017-09-06,2017-09-07,2017-09-08,2017-09-09,2017-09-10,2017-09-11
                         $generateBookingDay   = $generateBookingDate->format('D'); //Sat,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Mon
+                        $bookingDateSeasonType = null;
 
                         /* Checking season begin */
                         foreach($seasons as $season) {
@@ -338,6 +338,8 @@ class CreateBookingController extends Controller
                                     $holiday_prepare[] = ($season->summer_sun === 1) ? 'Sun' : 0;
                                     /* 1   0000 1   0 1   00000 1   1   00000 1 */
                                     /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
+                                    $bookingDateSeasonType = 'summer';
+                                    break;
                                 }
                                 elseif(($generateBookingDat >= ($season->earliest_winter_open)->format('Y-m-d')) && ($generateBookingDat < ($season->latest_winter_close)->format('Y-m-d'))) {
                                     //print_r($generateBookingDat. ' booked on winter season ');
@@ -350,13 +352,22 @@ class CreateBookingController extends Controller
                                     $holiday_prepare[] = ($season->winter_sun === 1) ? 'Sun' : 0;
                                     /* 000000 1   0 1   00000 1   000000 */
                                     /* 000000 Sun 0 Tue 00000 Mon 000000 */
+                                    $bookingDateSeasonType = 'winter';
+                                    break;
                                 }
-                                else {
-                                    return response()->json(['error' => 'Sorry dates are not in a season time.'], 422);
-                                    //print_r($generateBookingDat. ' Sorry not a season time ');
-                                }
+
                             }
                         }
+
+                        if (!$bookingDateSeasonType)
+                        {
+                            //print_r($generateBookingDat . ' Sorry not a season time ');
+                            return response()->json(['error' => 'Sorry dates are not in a season time.'], 422);
+                        }
+                        /*else
+                        {
+                            print_r($generateBookingDat . ' booked on ' . $bookingDateSeasonType . ' season ');
+                        }*/
 
                         $prepareArray           = [$generateBookingDat => $generateBookingDay];
                         $array_unique           = array_unique($holiday_prepare);
