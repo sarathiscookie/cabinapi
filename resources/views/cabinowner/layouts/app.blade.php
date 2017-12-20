@@ -252,7 +252,7 @@
     <!-- Socket io -->
     <script src="{{ asset('plugins/socket/socket.io.min.js') }}"></script>
     <script>
-        //var socket = io('{{env('APP_URL')}}:3000');
+        var socket = io('{{env('APP_URL')}}:3000');
         /* Realtime message notification */
         /*socket.on('message', function(data){
            if(data){
@@ -262,12 +262,12 @@
            }
         });*/
         /* Realtime inquiry notification */
-        /*socket.on('inquiryCount', function(data){
+        socket.on('inquiryCount', function(data){
             if(data){
                 $('.tasks-menu').empty();
                 $('.tasks-menu').html(data);
             }
-        });*/
+        });
     </script>
 
 
