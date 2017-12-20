@@ -24,7 +24,7 @@ io.on('connection', function(socket){
     /* Realtime inquiry subscribe */
     redisClient.subscribe('inquiryCount');
     redisClient.on('inquiryCount', function(channel, message){
-        console.log('new inquiry in queue', channel, message);
+        /*console.log('new inquiry in queue', channel, message);*/
         socket.emit(channel, message);
     });
 
