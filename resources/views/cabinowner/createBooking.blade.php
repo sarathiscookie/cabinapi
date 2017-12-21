@@ -368,7 +368,7 @@
                 start.setDate(start.getDate() + 1); // Here date is setting greater than start date
 
                 var end    = new Date(start);
-                end.setDate(end.getDate() + 60);
+                end.setDate(end.getDate() + 59);
 
                 $("#dateTo").datepicker({
                     autoclose: true,

@@ -324,37 +324,33 @@ class CreateBookingController extends Controller
 
                         /* Checking season begin */
                         foreach($seasons as $season) {
-                            if(($season->summerSeasonStatus === 'open' && $season->summerSeason === 1) || ($season->winterSeasonStatus === 'open' && $season->winterSeason === 1)) {
-                                if(($generateBookingDat >= ($season->earliest_summer_open)->format('Y-m-d')) && ($generateBookingDat < ($season->latest_summer_close)->format('Y-m-d')))
-                                {
-                                    //print_r($generateBookingDat. ' booked on summer season ');
-                                    $holiday_prepare[] = ($season->summer_mon === 1) ? 'Mon' : 0;
-                                    $holiday_prepare[] = ($season->summer_tue === 1) ? 'Tue' : 0;
-                                    $holiday_prepare[] = ($season->summer_wed === 1) ? 'Wed' : 0;
-                                    $holiday_prepare[] = ($season->summer_thu === 1) ? 'Thu' : 0;
-                                    $holiday_prepare[] = ($season->summer_fri === 1) ? 'Fri' : 0;
-                                    $holiday_prepare[] = ($season->summer_sat === 1) ? 'Sat' : 0;
-                                    $holiday_prepare[] = ($season->summer_sun === 1) ? 'Sun' : 0;
-                                    /* 1   0000 1   0 1   00000 1   1   00000 1 */
-                                    /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
-                                    $bookingDateSeasonType = 'summer';
-                                    break;
-                                }
-                                elseif(($generateBookingDat >= ($season->earliest_winter_open)->format('Y-m-d')) && ($generateBookingDat < ($season->latest_winter_close)->format('Y-m-d'))) {
-                                    //print_r($generateBookingDat. ' booked on winter season ');
-                                    $holiday_prepare[] = ($season->winter_mon === 1) ? 'Mon' : 0;
-                                    $holiday_prepare[] = ($season->winter_tue === 1) ? 'Tue' : 0;
-                                    $holiday_prepare[] = ($season->winter_wed === 1) ? 'Wed' : 0;
-                                    $holiday_prepare[] = ($season->winter_thu === 1) ? 'Thu' : 0;
-                                    $holiday_prepare[] = ($season->winter_fri === 1) ? 'Fri' : 0;
-                                    $holiday_prepare[] = ($season->winter_sat === 1) ? 'Sat' : 0;
-                                    $holiday_prepare[] = ($season->winter_sun === 1) ? 'Sun' : 0;
-                                    /* 000000 1   0 1   00000 1   000000 */
-                                    /* 000000 Sun 0 Tue 00000 Mon 000000 */
-                                    $bookingDateSeasonType = 'winter';
-                                    break;
-                                }
-
+                            if( ($season->summerSeasonStatus === 'open') && ($season->summerSeason === 1) && ($generateBookingDat >= ($season->earliest_summer_open)->format('Y-m-d')) && ($generateBookingDat < ($season->latest_summer_close)->format('Y-m-d')) ) {
+                                //print_r($generateBookingDat. ' booked on summer season ');
+                                $holiday_prepare[] = ($season->summer_mon === 1) ? 'Mon' : 0;
+                                $holiday_prepare[] = ($season->summer_tue === 1) ? 'Tue' : 0;
+                                $holiday_prepare[] = ($season->summer_wed === 1) ? 'Wed' : 0;
+                                $holiday_prepare[] = ($season->summer_thu === 1) ? 'Thu' : 0;
+                                $holiday_prepare[] = ($season->summer_fri === 1) ? 'Fri' : 0;
+                                $holiday_prepare[] = ($season->summer_sat === 1) ? 'Sat' : 0;
+                                $holiday_prepare[] = ($season->summer_sun === 1) ? 'Sun' : 0;
+                                /* 1   0000 1   0 1   00000 1   1   00000 1 */
+                                /* Mon 0000 Sat 0 Mon 00000 Sun Mon 00000 Sun */
+                                $bookingDateSeasonType = 'summer';
+                                break;
+                            }
+                            elseif( ($season->winterSeasonStatus === 'open') && ($season->winterSeason === 1) && ($generateBookingDat >= ($season->earliest_winter_open)->format('Y-m-d')) && ($generateBookingDat < ($season->latest_winter_close)->format('Y-m-d')) ) {
+                                //print_r($generateBookingDat. ' booked on winter season ');
+                                $holiday_prepare[] = ($season->winter_mon === 1) ? 'Mon' : 0;
+                                $holiday_prepare[] = ($season->winter_tue === 1) ? 'Tue' : 0;
+                                $holiday_prepare[] = ($season->winter_wed === 1) ? 'Wed' : 0;
+                                $holiday_prepare[] = ($season->winter_thu === 1) ? 'Thu' : 0;
+                                $holiday_prepare[] = ($season->winter_fri === 1) ? 'Fri' : 0;
+                                $holiday_prepare[] = ($season->winter_sat === 1) ? 'Sat' : 0;
+                                $holiday_prepare[] = ($season->winter_sun === 1) ? 'Sun' : 0;
+                                /* 000000 1   0 1   00000 1   000000 */
+                                /* 000000 Sun 0 Tue 00000 Mon 000000 */
+                                $bookingDateSeasonType = 'winter';
+                                break;
                             }
                         }
 
