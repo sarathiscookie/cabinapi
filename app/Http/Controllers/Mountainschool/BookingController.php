@@ -46,7 +46,7 @@ class BookingController extends Controller
 
 
                 $totalData     = MountSchoolBooking::where('is_delete', 0)
-                    ->where('user_id', Auth::user()->_id)
+                    //->where('user_id', Auth::user()->_id)
                     ->count();
                 $totalFiltered = $totalData;
                 $limit         = (int)$request->input('length');
@@ -54,8 +54,8 @@ class BookingController extends Controller
                 $order         = $columns[$params['order'][0]['column']]; //contains column index
                 $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-                $q             = MountSchoolBooking::where('is_delete', 0)
-                    ->where('user_id', Auth::user()->_id);
+                $q             = MountSchoolBooking::where('is_delete', 0);
+                   // ->where('user_id', Auth::user()->_id);
 
                 if(!empty($request->input('search.value')))
                 {
