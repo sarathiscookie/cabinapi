@@ -332,10 +332,10 @@ Route::prefix('cabinowner')->group(function () {
         /* Store booking */
         Route::post('/store/booking', 'Cabinowner\CreateBookingController@store')->name('cabinowner.store.booking');
 
-        /* Check booking availability */
+        /* Show available dates in calendar */
         Route::post('/check/availability/calendar', 'Cabinowner\CreateBookingController@calendarAvailability')->name('cabinowner.check.availability.calendar');
 
-        /* Show available dates in calendar */
+        /* Check booking availability */
         Route::post('/check/availability', 'Cabinowner\CreateBookingController@checkAvailability')->name('cabinowner.check.availability');
 
         /*

@@ -3,10 +3,6 @@
 @section('title', 'Cabin API - Cabin Owner: Create new booking')
 
 @section('css')
-    <!-- Hotel Datepicker CSS -->
-    {{--<link rel="stylesheet" type="text/css" href="{{ asset('plugins/hoteldatepicker/hotel-datepicker.css') }}" />--}}
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css" />
-
     <style type="text/css">
         .required{
             color:red;
@@ -46,11 +42,10 @@
                                     <div class="form-group">
                                         <label>Booking Date</label>
 
-                                        {{--<input type="text" class="form-control" id="daterange" name="daterange" placeholder="" value="{{old('daterange')}}" readonly>--}}
                                         <div class="input-group input-daterange">
-                                            <input type="text" class="form-control" id="dateFrom" name="dateFrom" {{--value="{{old('dateFrom')}}"--}} readonly>
+                                            <input type="text" class="form-control" id="dateFrom" name="dateFrom" readonly>
                                             <div class="input-group-addon">to</div>
-                                            <input type="text" class="form-control" id="dateTo" name="dateTo" {{--value="{{old('dateTo')}}"--}} readonly>
+                                            <input type="text" class="form-control" id="dateTo" name="dateTo" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -304,15 +299,9 @@
 @endsection
 
 @section('scripts')
-    <!-- Hotel Datepicker JS -->
-    {{--<script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/moment.js') }}"></script>--}}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
 
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
-
-    {{--<script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/fecha.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/hoteldatepicker/hotel-datepicker.min.js') }}"></script>--}}
 
     <script>
         $(function(){
@@ -328,54 +317,62 @@
             $(".select2").select2();
 
             /* Calendar booking availability begin */
+            var array = <?php echo json_encode($disableDates);?>;
+            var start_date = '';
+
+            console.log(array);
+
             $("#dateFrom").datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: 'dd.mm.yy',
-                startDate: new Date()
+                dateFormat: "dd.mm.y",
+                monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                minDate: 0,
+                onSelect: function (date) {
+                    var dt2       = $('#dateTo');
+                    var startDate = $(this).datepicker('getDate');
+                    var minDate   = $(this).datepicker('getDate');
+                    $(this).datepicker('option', 'minDate', minDate);
+                    dt2.datepicker('setDate', minDate);
+                    startDate.setDate(startDate.getDate() + 60); //sets dt2 maxDate to the last day of 60 days window
+                    minDate.setDate(minDate.getDate() + 1); //sets dt2 minDate to the +1 day of from date
+                    dt2.datepicker('option', 'maxDate', startDate);
+                    dt2.datepicker('option', 'minDate', minDate);
+                },
+                onChangeMonthYear: function(year,month,inst) {
+                    if (year != undefined && month != undefined) {
+                        start_date = year +'-';
+                        start_date += month +'-';
+                        start_date += '01';
+                    }
+
+                    $.ajax({
+                        url: '/cabinowner/check/availability/calendar',
+                        dataType: 'JSON',
+                        type: 'POST',
+                        async: false,
+                        data: { dateFrom: start_date },
+                        success: function (response) {
+                            //console.log(response.disableDates);
+                            array = response.disableDates;
+                            //array.push(response.disableDates);
+                        },
+                        error: function (err) {
+                            alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('dd.mm.y', date);
+                    return [array.indexOf(string) == -1]
+                }
             });
 
-            /*$("#dateFrom").datepicker().on('show', function(e) {
-                $.ajax({
-                    url: '/cabinowner/check/availability/calendar',
-                    dataType: 'JSON',
-                    type: 'POST'
-                })
-                    .done(function( response ) {
-                        $("#dateFrom").datepicker('setDatesDisabled', response.disableDates);
-                    })
-                    .fail(function(response, jqxhr, textStatus, error) {
-                    });
-            });
-
-            $("#dateFrom").datepicker().on('changeMonth', function(e) {
-                $.ajax({
-                    url: '/cabinowner/check/availability/calendar',
-                    dataType: 'JSON',
-                    type: 'POST',
-                    data: { date : moment(e.date).format('YY-MM-DD') }
-                })
-                    .done(function( response ) {
-                        $("#dateFrom").datepicker('setDatesDisabled', response.disableDates);
-                    })
-                    .fail(function(response, jqxhr, textStatus, error) {
-                    });
-            });*/
-
-            $("#dateFrom").datepicker().on('changeDate', function(e) {
-                var temp   = $(this).datepicker('getDate');
-                var start  = new Date(temp);
-                start.setDate(start.getDate() + 1); // Here date is setting greater than start date
-
-                var end    = new Date(start);
-                end.setDate(end.getDate() + 59);
-
-                $("#dateTo").datepicker({
-                    autoclose: true,
-                    format: 'dd.mm.yy',
-                    startDate: start,
-                    endDate: end
-                });
+            $('#dateTo').datepicker({
+                dateFormat: "dd.mm.y",
+                monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
             });
             /* Calendar booking availability end */
 
@@ -397,8 +394,6 @@
                 e.preventDefault();
                 var dateFrom  = $('#dateFrom').val();
                 var dateTo    = $('#dateTo').val();
-                //var dateFrom  = '03.09.17'; //sat
-                //var dateTo    = '05.09.17'; //tue
                 var beds      = $('#beds').val();
                 var dorms     = $('#dorms').val();
                 var sleeps    = $('#sleeps').val();
@@ -411,7 +406,6 @@
                     data: { dateFrom: dateFrom, dateTo: dateTo, beds: beds, dorms: dorms, sleeps: sleeps, search: search }
                 })
                     .done(function( response ) {
-                        //console.log(response.disableDates);
                         if(response.available === 'success') {
                             $( '#errors' ).hide();
                             $btn.button('reset');

@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Select2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/select2/select2.min.css') }}" />
+    <!-- jQuery-ui -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -233,7 +235,8 @@
     <!-- jQuery 2.2.3 -->
     <script src="{{ asset('plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('plugins/jQuery/jquery-ui.min.js') }}"></script>
+    {{--<script src="{{ asset('plugins/jQuery/jquery-ui.min.js') }}"></script>--}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button);
@@ -256,7 +259,6 @@
         /* Realtime message notification */
         socket.on('message', function(data){
            if(data){
-               /* var res = $.parseJSON(data);*/
                $('.messages-menu').empty();
                $('.messages-menu').html(data);
            }
