@@ -19,30 +19,11 @@ return [
 
     'bookings'                               => 'Buchungen',
     'controlPanel'                           => 'Verwaltungstool',
+    'mountainSchool'                         => 'MountainSchool',
     'dashboard'                              => 'Übersicht',
     'bookingDetails'                         => 'Buchungs Details',
-    /* Model begin */
-    'sendMessageHead'                        => 'Nachricht senden',
-    'enterYourMsg'                           => 'Text hier eingeben',
-    'enterYourMsgAlert'                      => 'Prüfen Sie bitte die E-Mail Adresse und das Kommentarfeld erneut',
-    'sendButton'                             => 'Senden',
-    'sendingProcess'                         => 'Sending...',
-    'wellDone'                               => 'Gut gemacht!',
-    'sendMessageSuccessResponse'             => 'Message versendet!',
-    'moreDetails'                            => 'Mehr Details',
-    'usrZip'                                 => 'Postleizahl',
-    'city'                                   => 'Stadt',
-    'bookingDate'                            => 'Buchungsdatum',
-    'address'                                => 'Addresse',
-    'telephone'                              => 'Telefon',
-    'mobile'                                 => 'Handy',
-    /* Model end */
-
     'bookingNumber'                          => 'Buchungs-Nr.',
     'comment'                                => 'Kommentar',
-    'firstName'                              => 'Vorname',
-    'lastName'                               => 'Nachname',
-    'email'                                  => 'E-Mail',
     'from'                                   => 'Anreise',
     'to'                                     => 'Abreise',
     'beds'                                   => 'Betten',
@@ -76,17 +57,6 @@ return [
     'profileDashboard'                       => 'Profil',
     'logoutDashboard'                        => 'Abmelden',
     /* Dashboard messages end */
-
-    /* Sidebar messages begin */
-    'searchSidebar'                         => 'Suchen…',
-    'menuSidebar'                           => 'Menü',
-    'userMenu'                              => 'Benutzer',
-    'userListMenu'                          => 'Benutzerliste',
-    'userStatisticsMenu'                    => 'Benutzerstatistiken',
-    'bookingMenu'                           => 'Buchungen',
-    'bookingListMenu'                       => 'Buchungsliste',
-    'bookingStatisticsMenu'                 => 'Buchungsstatistiken',
-    /* Sidebar messages end */
 
     /* Alert messages */
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
