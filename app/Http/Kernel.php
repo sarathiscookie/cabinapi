@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'cabinowner' => \App\Http\Middleware\CheckCabinOwner::class,
+        'mountainschool' => \App\Http\Middleware\CheckMountainSchool::class,
         'preventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }
