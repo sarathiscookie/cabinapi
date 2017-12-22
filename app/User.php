@@ -81,4 +81,16 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
             return false;
         }
     }
+    /**
+     * Checking mountainschool role
+     */
+    public function isMountainSchool()
+    {
+        if($this->usrlId === 6) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
