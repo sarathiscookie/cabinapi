@@ -320,8 +320,6 @@
             var array = <?php echo json_encode($disableDates);?>;
             var start_date = '';
 
-            console.log(array);
-
             $("#dateFrom").datepicker({
                 dateFormat: "dd.mm.y",
                 monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -353,9 +351,7 @@
                         async: false,
                         data: { dateFrom: start_date },
                         success: function (response) {
-                            //console.log(response.disableDates);
                             array = response.disableDates;
-                            //array.push(response.disableDates);
                         },
                         error: function (err) {
                             alert(JSON.stringify(err));
@@ -363,7 +359,7 @@
                     });
                 },
                 beforeShowDay: function (date) {
-                    var string = jQuery.datepicker.formatDate('dd.mm.y', date);
+                    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
                     return [array.indexOf(string) == -1]
                 }
             });
@@ -372,7 +368,32 @@
                 dateFormat: "dd.mm.y",
                 monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
                 monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-                dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
+                dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                onChangeMonthYear: function(year,month,inst) {
+                    if (year != undefined && month != undefined) {
+                        start_date = year +'-';
+                        start_date += month +'-';
+                        start_date += '01';
+                    }
+
+                    $.ajax({
+                        url: '/cabinowner/check/availability/calendar',
+                        dataType: 'JSON',
+                        type: 'POST',
+                        async: false,
+                        data: { dateFrom: start_date },
+                        success: function (response) {
+                            array = response.disableDates;
+                        },
+                        error: function (err) {
+                            alert(JSON.stringify(err));
+                        }
+                    });
+                },
+                beforeShowDay: function (date) {
+                    var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                    return [array.indexOf(string) == -1]
+                }
             });
             /* Calendar booking availability end */
 
