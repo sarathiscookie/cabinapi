@@ -496,3 +496,21 @@ Route::prefix('cabinowner')->group(function () {
 
     });
 });
+Route::prefix('mountainschool')->group(function () {
+    Route::group(['middleware' => ['auth','mountainschool']], function () {
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard Routes
+        |--------------------------------------------------------------------------
+        |
+        | Here we define dashboard routes
+        |
+        */
+
+        Route::get('/dashboard', 'Mountainschool\DashboardController@index')->name('mountainschoolDash');
+        /* Listing bookings */
+        Route::get('/bookings/{bookId?}', 'Mountainschool\BookingController@index')->name('mountainschool.bookings');
+        /* Show datatable page */
+        Route::post('/bookings/datatables', 'Mountainschool\BookingController@dataTables')->name('mountainschool.bookings.datatables');
+    });
+});
