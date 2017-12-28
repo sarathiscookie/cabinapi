@@ -250,7 +250,7 @@ class BookingController extends Controller
                 if(!empty($bookings)) {
                     foreach ($bookings as $key => $booking)
                     {
-                        /* Condition for checking who booked bookings. If a booking collection has temp_user_id then show notification (Booked by cabin owner) otherwise user email. begin*/
+                        /* Condition to check who booked bookings. If a booking collection has temp_user_id then show notification (Booked by cabin owner) otherwise user email. */
                         if($booking->temp_user_id != ""){
                             $tempUsers = Tempuser::where('_id', $booking->temp_user_id)
                                 ->get();
@@ -273,7 +273,18 @@ class BookingController extends Controller
                                 ->get();
                             foreach ($users as $user){
                                 $usrEmail                              = $user->usrEmail;
-                                $bookings[$key]['bookedBy']            = '';
+
+                                /* 1) Condition to check who booked bookings. If usrlId is 3 then show notification (Booked by cabin owner)
+                                   2) If usrlId is 3 then this booking was done by cabin owner. So show cancel button */
+                                if($user->usrlId === 3) {
+                                    $bookings[$key]['bookedBy']        = '<span class="badge" data-toggle="tooltip" data-placement="top" title="'.__('cabinowner.bookedByCabinOwner').'">BCO</span>';
+                                    $bookings[$key]['cancel']          = '<div class="row cancelDiv"><div class="col-md-12"><ul class="list-group"><li class="list-group-item"><label>'.__("cabinowner.action").'</label> <button type="button" class="btn btn-danger btn-sm cancel"><span data-cancel="'.$booking->_id.'" class="spanCancel"></span>Stornieren</button></li></ul></div></div>';
+                                }
+                                else {
+                                    $bookings[$key]['bookedBy']        = '';
+                                    $bookings[$key]['cancel']          = '';
+                                }
+
                                 $bookings[$key]['usrEmail']            = $usrEmail;
                                 $bookings[$key]['usrFirstname']        = $user->usrFirstname;
                                 $bookings[$key]['usrLastname']         = $user->usrLastname;
@@ -282,7 +293,7 @@ class BookingController extends Controller
                                 $bookings[$key]['usrTelephone']        = $user->usrTelephone;
                                 $bookings[$key]['usrMobile']           = $user->usrMobile;
                                 $bookings[$key]['usrZip']              = $user->usrZip;
-                                $bookings[$key]['cancel']              = '';
+
                             }
                         }
 

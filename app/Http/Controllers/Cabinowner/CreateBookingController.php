@@ -104,13 +104,13 @@ class CreateBookingController extends Controller
         $country           = Country::select('name')
             ->get();
 
-        $monthBegin             = date("Y-m-d");
-        $monthEnd               = date("Y-m-t 23:59:59");
+        $monthBegin        = date("Y-m-d");
+        $monthEnd          = date("Y-m-t 23:59:59");
 
-        $holiday_prepare        = [];
-        $disableDates           = [];
+        $holiday_prepare   = [];
+        $disableDates      = [];
 
-        $seasons                = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+        $seasons           = Season::where('cabin_owner', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
             ->where('cabin_id', new \MongoDB\BSON\ObjectID(session('cabin_id')))
             ->get();
 
