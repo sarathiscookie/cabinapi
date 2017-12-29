@@ -179,7 +179,7 @@
                             <a href="/cabinowner/inquiry"><i class="fa fa-circle-o"></i> @lang('menu.inquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->inquiryListCount() !!}</span></span></a>
                         </li>
                         <li>
-                            <a href=""><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">1</span></span></a>
+                            <a href="/cabinowner/inquiry/mschool"><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mountSchoolInquiryListCount() !!}</span></span></a>
                         </li>
                         <li>
                             <a href="/cabinowner/create/booking"><i class="fa fa-circle-o"></i>Create Booking</a>

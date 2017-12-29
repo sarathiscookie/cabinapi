@@ -11,19 +11,29 @@
 |
 */
 
+/* Welcome page */
 Route::get('/', function () {
     return view('welcome');
 });
 
 //Auth::routes();
 
-/*Route::get('/home', 'HomeController@index')->name('home');*/
+/*
+ |--------------------------------------------------------------------------
+ | Override Login
+ |--------------------------------------------------------------------------
+ |
+ | Here we define login and logout route
+ |
+*/
 
-//Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {});
-
-// Authentication Routes...
+/* Show login form */
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+
+/* Sign in */
 Route::post('login', 'Auth\LoginController@login');
+
+/* Sign out */
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 
@@ -43,7 +53,6 @@ Route::prefix('admin')->group(function () {
     | Here we define general routes
     |
     */
-
     /* Listing countries */
     Route::get('/countries', 'CountryController@index');
 
@@ -143,7 +152,6 @@ Route::prefix('admin')->group(function () {
     |
     | Routes for listing, delete bookings, update payment, send vouchers
     */
-
     /* Listing bookings */
     Route::get('/bookings/{userId?}/{count?}', 'BookingController@index');
 
@@ -256,7 +264,6 @@ Route::prefix('admin')->group(function () {
     |
     | Routes for listing, delete
     */
-
     /* Listing bookings */
     Route::get('/mschool/bookings', 'MschoolBookingsController@index')->name('admin.mschool.bookings');
 
@@ -266,27 +273,25 @@ Route::prefix('admin')->group(function () {
     /* Delete bookings */
     Route::delete('/mschool/bookings/{id}', 'MschoolBookingsController@destroy')->name('admin.mschool.bookings.delete');
 
-        /*
-       |--------------------------------------------------------------------------
-       | Routes for Cabins Short version View
-       |--------------------------------------------------------------------------
-       |
-       | Routes for listing
-       */
+    /*
+    |--------------------------------------------------------------------------
+    | Routes for Cabins Short version View
+    |--------------------------------------------------------------------------
+    |
+    | Routes for listing
+    */
+    /* Listing cabins */
+    Route::get('/shortversion', 'ShortVersionController@index')->name('admin.cabins.shortversion');
 
-        /* Listing cabins */
-        Route::get('/shortversion', 'ShortVersionController@index')->name('admin.cabins.shortversion');
-
-        /* Show datatable page */
-        Route::post('/shortversion/datatables', 'ShortVersionController@dataTables')->name('admin.cabins.datatables.datatables');
-
-
+    /* Show datatable page */
+    Route::post('/shortversion/datatables', 'ShortVersionController@dataTables')->name('admin.cabins.datatables.datatables');
 
     });
 });
 
 Route::prefix('cabinowner')->group(function () {
     Route::group(['middleware' => ['auth','cabinowner']], function () {
+
         /*
         |--------------------------------------------------------------------------
         | Dashboard Routes
@@ -295,7 +300,6 @@ Route::prefix('cabinowner')->group(function () {
         | Here we define dashboard routes
         |
         */
-
         Route::get('/dashboard', 'Cabinowner\DashboardController@index')->name('cabinOwnerDash');
 
         /*
@@ -305,7 +309,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for listing bookings, send message, cancel booking, create booking
         */
-
         /* Listing bookings */
         Route::get('/bookings/{bookId?}', 'Cabinowner\BookingController@index')->name('cabinowner.bookings');
 
@@ -325,7 +328,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for view available dates, store and check availability
         */
-
         /* Create bookings */
         Route::get('/create/booking', 'Cabinowner\CreateBookingController@index')->name('cabinowner.create.booking');
 
@@ -345,7 +347,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for listing, send message
         */
-
         /* Listing bookings */
         Route::get('/mschool/bookings', 'Cabinowner\MountSchoolBookingsController@index');
 
@@ -357,12 +358,33 @@ Route::prefix('cabinowner')->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Routes for inquiry
+        | Routes for mountain school inquiry
         |--------------------------------------------------------------------------
         |
-        | Routes for listing, approve or reject inquiry, delete, send message
+        | Routes for listing, delete, send message and approve or reject mountain school inquiry
         */
+        /* Listing mountain school inquiry */
+        Route::get('/inquiry/mschool/{bookId?}/{senderId?}', 'Cabinowner\MountSchoolInquiryBookingController@index')->name('cabinowner.inquiry.mschool');
 
+        /* Show datatable page */
+        Route::post('/inquiry/mschool', 'Cabinowner\MountSchoolInquiryBookingController@dataTables')->name('cabinowner.inquiry.mschool.datatables');
+
+        /* Update inquiry status approve */
+        Route::put('/inquiry/mschool/approve', 'Cabinowner\InquiryBookingsController@approveStatus')->name('cabinowner.inquiry.mschool.status.approve');
+
+        /* Update inquiry status reject */
+        Route::put('/inquiry/mschool/reject', 'Cabinowner\InquiryBookingsController@rejectStatus')->name('cabinowner.inquiry.mschool.status.reject');
+
+        /* Reply message */
+        Route::post('/inquiry/mschool/message/send', 'Cabinowner\InquiryBookingsController@sendMessage')->name('cabinowner.inquiry.mschool.message.send');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for normal inquiry
+        |--------------------------------------------------------------------------
+        |
+        | Routes for listing, delete, send message and approve or reject normal inquiry
+        */
         /* Listing inquiry */
         Route::get('/inquiry/{bookId?}/{senderId?}', 'Cabinowner\InquiryBookingsController@index')->name('cabinowner.inquiry');
 
@@ -385,7 +407,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for edit contingent
         */
-
         /* Edit contingent */
         Route::get('/contingent', 'Cabinowner\ContingentController@index')->name('cabinowner.contingent');
 
@@ -398,7 +419,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for view, store, edit, delete seasons
         */
-
         /* Edit season */
         Route::get('/season', 'Cabinowner\OpeningClosingSeasonController@index')->name('cabinowner.season');
 
@@ -426,7 +446,6 @@ Route::prefix('cabinowner')->group(function () {
         /* Update winter season */
         Route::post('/season/winter/update', 'Cabinowner\OpeningClosingSeasonController@updateWinter')->name('cabinowner.winter.season.update');
 
-
         /*
         |--------------------------------------------------------------------------
         | Routes for cabin, contact and bill information
@@ -434,7 +453,6 @@ Route::prefix('cabinowner')->group(function () {
         |
         | Routes for view, store, edit, delete informations
         */
-
         /* List details */
         Route::get('/details', 'Cabinowner\DetailsController@index')->name('cabinowner.details');
 
@@ -455,15 +473,14 @@ Route::prefix('cabinowner')->group(function () {
 
         /* Update billing details */
         Route::post('/details/cabin/update', 'Cabinowner\DetailsController@updateCabinIfo')->name('cabinowner.details.cabin.update');
+
         /*
-
-         |--------------------------------------------------------------------------
-         | Routes for Image Upload
-         |--------------------------------------------------------------------------
-         |
-         | Routes for upload,listing, delete,edit
-         */
-
+        |--------------------------------------------------------------------------
+        | Routes for Image Upload
+        |--------------------------------------------------------------------------
+        |
+        | Routes for upload,listing, delete,edit
+        */
         /* list Image */
         Route::get('/image', 'Cabinowner\ImageController@index')->name('cabinowner.image');
 
@@ -476,16 +493,13 @@ Route::prefix('cabinowner')->group(function () {
         Route::post('/image/setMainImg', 'Cabinowner\ImageController@setMainImg')->name('cabinowner.image.setMainImg');
         Route::post('/image/setProfileImg', 'Cabinowner\ImageController@setProfileImg')->name('cabinowner.image.setProfileImg');
 
-
         /*
-
         |--------------------------------------------------------------------------
         | Routes for MountainSchool Users Listing
         |--------------------------------------------------------------------------
         |
         | Routes for Mountain School Users
         */
-
         /* list Image */
         Route::get('/msusers', 'Cabinowner\MountSchoolUsersController@index')->name('cabinowner.msusers');
 
@@ -493,14 +507,12 @@ Route::prefix('cabinowner')->group(function () {
         Route::post('/msusers/datatables', 'Cabinowner\MountSchoolUsersController@dataTables')->name('msusers.datatables');
 
         /*
-
-         |--------------------------------------------------------------------------
-         | Routes for Pricelist
-         |--------------------------------------------------------------------------
-         |
-         | Routes for listing, add ,edit
-         */
-
+        |--------------------------------------------------------------------------
+        | Routes for Pricelist
+        |--------------------------------------------------------------------------
+        |
+        | Routes for listing, add ,edit
+        */
         /* list Prices */
         Route::get('/pricelist', 'Cabinowner\PriceListController@index')->name('cabinowner.pricelist');
         /* list create */
@@ -510,8 +522,10 @@ Route::prefix('cabinowner')->group(function () {
 
     });
 });
+
 Route::prefix('mountainschool')->group(function () {
     Route::group(['middleware' => ['auth','mountainschool']], function () {
+
         /*
         |--------------------------------------------------------------------------
         | Dashboard Routes
@@ -520,7 +534,6 @@ Route::prefix('mountainschool')->group(function () {
         | Here we define dashboard routes
         |
         */
-
         Route::get('/dashboard', 'Mountainschool\DashboardController@index')->name('mountainschoolDash');
         /* Listing bookings */
         Route::get('/bookings/{bookId?}', 'Mountainschool\BookingController@index')->name('mountainschool.bookings');

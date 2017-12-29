@@ -167,6 +167,32 @@ class DashboardController extends Controller
     }
 
     /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mountSchoolInquiryListCount()
+    {
+        $totalData = '';
+        $cabins = Cabin::where('is_delete', 0)
+            ->where('cabin_owner', Auth::user()->_id)
+            ->get();
+
+        if(count($cabins) > 0) {
+            foreach ($cabins as $cabin) {
+                $cabin_name = $cabin->name;
+                $totalData  = MountSchoolBooking::where('is_delete', 0)
+                    ->where('cabin_name', $cabin_name)
+                    ->where('typeofbooking', 1)
+                    ->where('status', "7")
+                    ->count();
+            }
+            return $totalData;
+        }
+        return $totalData;
+    }
+
+    /**
      * Collecting cabin name.
      *
      * @return \Illuminate\Http\Response
