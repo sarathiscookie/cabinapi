@@ -427,6 +427,10 @@ class CreateBookingController extends Controller
                                     return response()->json(['error' => $array_intersect_values.' is a holiday.'], 422);
                                 }
 
+                                if($array_intersect_key > $dateBegin && $array_intersect_key < $dateEnd) {
+                                    return response()->json(['error' => 'Booking not possible because holidays included.'], 422);
+                                }
+
                             }
                         }
                         /* Checking season end */
