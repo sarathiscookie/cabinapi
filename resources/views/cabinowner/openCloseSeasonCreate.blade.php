@@ -62,7 +62,7 @@
                                                     <option value="0">@lang('openingClosingSeason.summerSeasonChooseSeasonSelect')</option>
                                                     <?php
                                                     $firstYear = (int)date('Y');
-                                                    $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                    $lastYear  = (int)date('Y', strtotime('+2 year'));
                                                     for($i = $firstYear; $i <= $lastYear; $i++)
                                                     {
                                                     ?>
@@ -215,7 +215,7 @@
                                                     <option value="0">@lang('openingClosingSeason.winterSeasonChooseSeasonSelect')</option>
                                                     <?php
                                                         $firstYear = (int)date('Y');
-                                                        $lastYear  = (int)date('Y', strtotime('+3 year'));
+                                                        $lastYear  = (int)date('Y', strtotime('+2 year'));
                                                         for($i = $firstYear; $i <= $lastYear; $i++)
                                                         {
                                                     ?>
