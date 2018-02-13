@@ -212,6 +212,14 @@ class UserlistController extends Controller
 
                 /* Condition to check user details null or not end */
 
+                /* Condition for who booked bookings */
+                if($userList->usrlId === 3) {
+                    $bookedBy = '<span class="badge" data-toggle="tooltip" data-placement="top" title="Booked by cabin owner"> BCO </span>';
+                }
+                else {
+                    $bookedBy = '';
+                }
+
                 /* Condition for money balance begin */
                 if(empty($userList->money_balance)) {
                     $balance = $balanceNull;
@@ -266,7 +274,7 @@ class UserlistController extends Controller
                 $nestedData['usrLastname']    = $last_name;
                 $nestedData['usrFirstname']   = $first_name;
                 $nestedData['usrName']        = '<a class="nounderline" data-toggle="modal" data-target="#userUpdate_'.$userList->_id.'">'.$username.'</a><div class="modal fade" id="userUpdate_'.$userList->_id.'" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("userList.userUpdateModalHeading").'</h4></div><div class="responseUpdateUserMessage"></div><div class="modal-body"><div class="row"><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalFirstName").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_firstname_'.$userList->_id.'" type="text" value="'.$userList->usrFirstname.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalLastName").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_lastname_'.$userList->_id.'" type="text" value="'.$userList->usrLastname.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalEmail").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_email_'.$userList->_id.'" type="text" value="'.$userList->usrEmail.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalTelephone").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_telephone_'.$userList->_id.'" type="text" value="'.$userList->usrTelephone.'"></p></li></ul></div><div class="col-md-6"><ul class="list-group"><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalMobile").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_mobile_'.$userList->_id.'" type="text" value="'.$userList->usrMobile.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalStreet").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_address_'.$userList->_id.'" type="text" value="'.$userList->usrAddress.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalZipcode").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_zip_'.$userList->_id.'" type="text" value="'.$userList->usrZip.'"></p></li><li class="list-group-item"><h4 class="list-group-item-heading">'.__("userList.userUpdateModalCity").'</h4><p class="list-group-item-text"><input class="form-control input-sm" id="user_city_'.$userList->_id.'" type="text" value="'.$userList->usrCity.'"></p></li></ul></div><div class="col-md-12"><button type="button" class="btn btn-block btn-primary updateUserDetails" data-button="'.$userList->_id.'">'.__("userList.userUpdateModalButton").'</button></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>';
-                $nestedData['usrEmail']       = $user_email;
+                $nestedData['usrEmail']       = $user_email . $bookedBy;
                 $nestedData['money_balance']  = $balance;
                 $nestedData['bookings']       = $bookCount;
                 $nestedData['jumpto']         = '<i class="fa fa-fw fa-user"></i>';
