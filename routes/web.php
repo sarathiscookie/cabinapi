@@ -486,11 +486,13 @@ Route::prefix('cabinowner')->group(function () {
 
         /* list create */
         Route::get('/image/create', 'Cabinowner\ImageController@create')->name('cabinowner.image.create');
-
+        /* Store Section*/
         Route::post('/image/store', 'Cabinowner\ImageController@store')->name('cabinowner.image.store');
         /* Delete an image */
         Route::post('/image/delete', 'Cabinowner\ImageController@deleteImage')->name('cabinowner.image.delete');
+        /* Set Main Image */
         Route::post('/image/setMainImg', 'Cabinowner\ImageController@setMainImg')->name('cabinowner.image.setMainImg');
+        /* Set Profile Image*/
         Route::post('/image/setProfileImg', 'Cabinowner\ImageController@setProfileImg')->name('cabinowner.image.setProfileImg');
 
         /*

@@ -13,7 +13,11 @@ class ImageController extends Controller
     public $cabin_name;
     public $image_folder_name;
 
-
+    /**
+     * For storing cabinname , image folder
+     *
+     * @return cabinname and image folder name
+     */
     public function __construct()
     {
 
@@ -36,7 +40,11 @@ class ImageController extends Controller
         $images_arr = $this->getImages();
         return view('cabinowner.image')->with('images', $images_arr);
     }
-
+    /**
+     * Get all images fro older .
+     *
+     * @return \Illuminate\Http\Response -> Image array
+     */
     public function getImages()
     {
 
@@ -313,10 +321,7 @@ class ImageController extends Controller
             $folder = $this->image_folder_name . '/';
             $thumbfolder = $folder . '/thumb/';
             $images = Storage::allFiles($folder . '/thumb');
-
-
             foreach ($images as $image) {
-
                 $img_det = pathinfo($image);
                 /****renaming old main image ***/
                 if (strpos($img_det['basename'], 'profile_') !== false) {
@@ -332,7 +337,6 @@ class ImageController extends Controller
                     Storage::move($folder . $img_det['basename'], $folder . $main_image);
                 }
             }
-
 
             $imgDiv = $this->imageDisplayBox();
             return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success', 'message' => __('image.imagesetMainSuccessResponse')], 201);

@@ -1,15 +1,30 @@
 @extends('cabinowner.layouts.app')
 
-@section('title', 'Cabin API - Cabin Owner: Opening & Closing Time')
+@section('title', 'Cabin API - Cabin Owner: MountainSchool Details')
 @section('css')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables/dataTables.bootstrap.css') }}">
 
     <style type="text/css">
         .nounderline{
             text-decoration: none;
             cursor: pointer;
+        }
+
+
+        .modalvalDisplay{
+            display: inline-block;
+            max-width: 235px;
+            width: 235px;
+            min-height: 30px;
+            border: 1px solid #D2D6DE;
+            background-color: #EEEEEE;
+            padding: 5px;
+            overflow: auto;
+        }
+        .sufixhfour{
+            font-size: 14px;
+            font-weight: bold;
         }
     </style>
 @endsection
@@ -24,7 +39,7 @@
                 <small>@lang('msuserList.controlPanel')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('msuserList.breadcrumbOne')</a></li>
+                <li><a href="/cabinowner/dashboard"><i class="fa fa-dashboard"></i> @lang('msuserList.breadcrumbOne')</a></li>
                 <li class="active">@lang('msuserList.breadcrumbTwo')</li>
             </ol>
         </section>
@@ -46,10 +61,10 @@
                                 <thead>
                                 <tr>
                                     <th>Logo</th>
-                                    <th>@lang('msuserList.usrCompany')</th>
-                                    <th>@lang('msuserList.email')</th>
-                                    <th>@lang('msuserList.lastName')</th>
-                                    <th>@lang('msuserList.firstName')</th>
+                                    <th title="@lang('msuserList.usrCompany')">@lang('msuserList.usrCompany')</th>
+                                    <th  title="@lang('msuserList.email')">@lang('msuserList.email')</th>
+                                    <th  title="@lang('msuserList.lastName')">@lang('msuserList.lastName')</th>
+                                    <th  title="@lang('msuserList.firstName')">@lang('msuserList.firstName')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -65,9 +80,6 @@
                             </table>
 
                             <!-- Export buttons are append here -->
-                            <div class="panel-body">
-                                <div id="buttons"></div>
-                            </div>
 
                         </div>
                         <!-- /.box-body -->
@@ -93,11 +105,6 @@
     <script src="{{ asset('plugins/datatables/jszip.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/pdfmake.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
-
-
-
     <!-- User details Js -->
     <script src="{{ asset('js/msuserList.js') }}"></script>
 @endsection

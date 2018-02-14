@@ -1,9 +1,4 @@
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 28-08-2017
- * Time: 13:44
- */
+
 $(function () {
     /* Checking for the CSRF token */
     $.ajaxSetup({
@@ -20,7 +15,7 @@ $(function () {
     /* Data table functionality begin */
     var user_data = $('#user_data').DataTable({
         "lengthMenu": [10, 50, 100, 250, 500],
-        "order": [[ 2, "asc" ]],
+        "order": [[1, "asc" ]],
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -37,8 +32,8 @@ $(function () {
         ],
         "columnDefs": [
             {
-                "orderable": true,
-                "targets": [0, 1, 2, 3]
+                "orderable": false,
+                "targets": [ 0,2,3,4]
             }
         ],
         "language": {
