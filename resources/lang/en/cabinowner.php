@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 29-06-2017
- * Time: 15:21
- */
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Bookings listing Language Lines
+    | CabinOwner listing Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the alert messages, response message,

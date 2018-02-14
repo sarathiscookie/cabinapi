@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 22-08-2017
- * Time: 12:37
- */
+
 return [
 
     /*
@@ -16,6 +11,9 @@ return [
     |
     */
     /* upload Images */
+    'controlPanel'                           => 'Verwaltungstool',
+    'dashboard'                              => 'Dashboard',
+    'breadcrumbOne'                          => 'Bildbearbeitung',
     'imagePageHeading'                      =>  'Bilder',
     'images'                                =>  'Titel- und Profilbilder',
     'uploadNewImageButton'                  =>  'Bild hochladen',

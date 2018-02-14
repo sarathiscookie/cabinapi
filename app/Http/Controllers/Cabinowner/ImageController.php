@@ -6,8 +6,25 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 Use Carbon\Carbon;
+
 class ImageController extends Controller
 {
+
+    public $cabin_name;
+    public $image_folder_name;
+
+
+    public function __construct()
+    {
+
+        $this->middleware(function ($request, $next) {
+            $this->cabin_name = session()->has('cabin_name') ? session()->get('cabin_name') : [];
+            $this->image_folder_name = 'public/' . $this->cabin_name;
+            return $next($request);
+        });
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -15,23 +32,23 @@ class ImageController extends Controller
      */
     public function index()
     {
-        $cabin_name = session('cabin_name');
-        $folder = 'public/' . $cabin_name;
-        $images_arr = '';
+
+        $images_arr = $this->getImages();
+        return view('cabinowner.image')->with('images', $images_arr);
+    }
+
+    public function getImages()
+    {
+
+        $folder = $this->image_folder_name;
+        $images_arr = [];
         if (Storage::directories($folder)) {
-
             $images = Storage::allFiles($folder . '/thumb');
-            $images_arr = [];
-
-
             foreach ($images as $path) {
-
                 $images_arr[] = pathinfo($path);
             }
-
-
         }
-        return view('cabinowner.image')->with('images', $images_arr);
+        return $images_arr;
     }
 
     /**
@@ -44,34 +61,22 @@ class ImageController extends Controller
         return view('cabinowner.imageCreate');
     }
 
+    /*
+     * getImages for fetch All images based on cabin name
+     *
+     *   * @param
+         * @return images array
+     */
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $cabin_name = session('cabin_name');
-
-
-        $folder = 'public/' . $cabin_name;
-        $images_arr = '';
-        if (Storage::directories($folder)) {
-
-            $images = Storage::allFiles($folder . '/thumb');
-            $images_arr = [];
-
-
-            foreach ($images as $path) {
-
-                $images_arr[] = pathinfo($path);
-            }
-
-
-        }
-
-
+        $cabin_name = $this->cabin_name;
 
         if ($request->hidden_base64Logo != '') {
 
@@ -82,8 +87,8 @@ class ImageController extends Controller
             $current_time = strtotime(Carbon::now());
             $filename = $cabin_name . '_' . $current_time . '.jpg';
 
-            $folder = 'public/' . $cabin_name;
-            $thumb = 'public/' . $cabin_name . '/thumb';
+            $folder = $this->image_folder_name;
+            $thumb = $this->image_folder_name . '/thumb';
 
             if (!(Storage::directories($folder))) {
                 Storage::makeDirectory($folder);
@@ -92,42 +97,65 @@ class ImageController extends Controller
             }
             $file_size = $_FILES["logoUpload"]["size"];
             /***limiting fie size to 400kb****/
-            if($file_size > 409600)
-            {
+            if ($file_size > 409600) {
 
-                return view('cabinowner.imageCreate')->with('imagesStatus',__('image.wrongImageSize') );
+                return view('cabinowner.imageCreate')->with('imagesStatus', __('image.wrongImageSize'));
             }
             Storage::disk('public')->put($cabin_name . '/' . $filename, $code);
 
 
             /**********create thumbnail starts *******************/
 
-            $fname = $_FILES["logoUpload"]["name"];
-             $uploadedfile = $_FILES['logoUpload']['tmp_name'];
-            if (preg_match('/[.](jpg)$/', $fname)) {
-                $src = imagecreatefromjpeg($uploadedfile);
-            } else if (preg_match('/[.](gif)$/', $fname)) {
-                $src = imagecreatefromgif($uploadedfile);
-            } else if (preg_match('/[.](png)$/', $fname)) {
-                $src = imagecreatefrompng($uploadedfile);
-            }
-
-
-            list($width, $height) = getimagesize($uploadedfile);
-            $newwidth1 = 250;
-            $newheight1 = 150;
-            $tmp1 = imagecreatetruecolor($newwidth1, $newheight1);
-            imagecopyresampled($tmp1, $src, 0, 0, 0, 0, $newwidth1, $newheight1, $width, $height);
-            $filename1 = storage_path() . '/app/public/' . $cabin_name . '/thumb/' . $cabin_name . '_' . $current_time . '.jpg';
-            imagejpeg($tmp1, $filename1, 100);
+            $thumb_name = storage_path() . '/app/public/' . $cabin_name . '/thumb/' . $cabin_name . '_' . $current_time;
+            $this->createThumb($request, $thumb_name);
             //create thumbnail ends *******************/
-            return view('cabinowner.image')->with('images', $images_arr)->with('imagesSuccessStatus',__('image.successMsgImageSave') );
 
-
+            return redirect('cabinowner/image')->with('imagesSuccessStatus', __('image.successMsgImageSave'));
         } else
-            return view('cabinowner.imageCreate')->with('imagesStatus',__('image.failedMsgImageSave') );
+            return view('cabinowner.imageCreate')->with('imagesStatus', __('image.failedMsgImageSave'));
 
     }
+
+    /*
+     * function create thumb
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function createThumb($request, $dest)
+    {
+
+        $image = $request->file('logoUpload'); //tmp_name
+        //$uploadedImageName = $request->logoUpload->getClientOriginalName(); // $_FILES["logoUpload"]["name"];
+        $extension = $request->logoUpload->extension();
+        if ($extension == 'jpg' || $extension == 'jpeg') {
+            $src = imagecreatefromjpeg($image);
+        } else if ($extension == 'gif') {
+            $src = imagecreatefromgif($image);
+        } else if ($extension == 'png') {
+            $src = imagecreatefrompng($image);
+        }
+        $old_image = $src;
+        $image_size = getimagesize($image);
+        $image_width = $image_size[0];
+        $image_height = $image_size[1];
+        $new_size = ($image_width + $image_height) / ($image_width * ($image_height / 45));
+        $new_width = $image_width * $new_size;
+        $new_height = $image_height * $new_size;
+        $new_image = imagecreatetruecolor($new_width, $new_height);
+
+        imagecopyresized($new_image, $old_image, 0, 0, 0, 0, $new_width, $new_height, $image_width, $image_height);
+
+        $thumb_name = $dest . '.jpg';
+        imagejpeg($new_image, $thumb_name, 100);
+
+    }
+
+
+    /*
+     *
+     */
+
     public function checkImg(Request $request)
     {
     }
@@ -135,7 +163,7 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -146,7 +174,7 @@ class ImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -157,8 +185,8 @@ class ImageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -169,13 +197,14 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -185,40 +214,55 @@ class ImageController extends Controller
     public function deleteImage(Request $request)
     {
         if ($request->imagename != '') {
-            $cabin_name = session('cabin_name');
-            $thumb = 'public/' . $cabin_name . '/thumb/' . $request->imagename;
-            $img = 'public/' . $cabin_name . '/' . $request->imagename;
+            $thumb = $this->image_folder_name . '/thumb/' . $request->imagename;
+            $img = $this->image_folder_name . '/' . $request->imagename;
             Storage::delete($thumb);
             Storage::delete($img);
-            $folder = 'public/' . $cabin_name;
-
+            $folder = $this->image_folder_name;
             $images = Storage::allFiles($folder . '/thumb');
-            $images_arr = [];
+            if (count($images) <= 0) {
+                Storage::deleteDirectory($folder);
+            }
+            $imgDiv = $this->imageDisplayBox();
+            return response()->json(['images' => $imgDiv, 'imgDeleteStatus' => 'success', 'message' => __('image.imageDeleteSuccessResponse')], 201);
+        }
+    }
 
-
-            $imgDiv = '';
+    /*
+     * function imageDisplayBox for showing images after ajax calll of delete, set profile and set main imange
+     *
+     */
+    public function imageDisplayBox()
+    {
+        $imgDiv = '';
+        $folder = $this->image_folder_name;
+        $images = Storage::allFiles($folder . '/thumb');
+        if (count($images) <= 0) {
+            $imgDiv = ' <p class="bg-info">' . __("image.noImage") . '</p>';
+        } else {
 
             foreach ($images as $eachimage) {
 
                 $image = pathinfo($eachimage);
                 $imgDiv .= '<div class="col-md-4" id="' . $image['filename'] . '" >
+
                                 <a  class = "thumbnail" ><img  src = "' . str_replace('public', '/storage', $image['dirname'] . '/' . $image['basename']) . '" alt = "Generic placeholder thumbnail" >';
 
                 if (strpos($image['basename'], 'main_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
                 } elseif (strpos($image['basename'], 'profile_') !== false) {
                     $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
-                }else {
-                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
+                } else {
+                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button >&nbsp;<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
                 }
 
                 $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
 
             }
-
-            return response()->json(['images' => $imgDiv, 'imgDeleteStatus' => 'success','message' => __('image.imageDeleteSuccessResponse')], 201);
         }
+        return $imgDiv;
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -228,16 +272,10 @@ class ImageController extends Controller
     public function setMainImg(Request $request)
     {
         if ($request->imagename != '') {
-            $cabin_name = session('cabin_name');
-            $thumb = 'public/' . $cabin_name . '/thumb/' . $request->imagename;
-            $img = 'public/' . $cabin_name . '/' . $request->imagename;
 
-            $folder = 'public/' . $cabin_name . '/';
-            $thumbfolder = 'public/' . $cabin_name . '/thumb/';
-
+            $folder = $this->image_folder_name . '/';
+            $thumbfolder = $folder . '/thumb/';
             $images = Storage::allFiles($folder . '/thumb');
-
-
             foreach ($images as $image) {
 
                 $img_det = pathinfo($image);
@@ -258,29 +296,11 @@ class ImageController extends Controller
             }
 
 
-            $thumbimages = Storage::allFiles($folder . '/thumb');
-
-            $imgDiv = '';
-
-            foreach ($thumbimages as $eachimage) {
-                $image = pathinfo($eachimage);
-                $imgDiv .= '<div class="col-md-4" id="' . $image['filename'] . '" ><a  class = "thumbnail" >
-                                <img  src = "' . str_replace('public', '/storage', $image['dirname'] . '/' . $image['basename']) . '" alt = "Generic placeholder thumbnail" >';
-
-                if (strpos($image['basename'], 'main_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
-                } elseif (strpos($image['basename'], 'profile_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
-                }else {
-                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
-                }
-
-                $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
-
-            }
-            return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success','message' => __('image.imagesetMainSuccessResponse')], 201);
+            $imgDiv = $this->imageDisplayBox();
+            return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success', 'message' => __('image.imagesetMainSuccessResponse')], 201);
         }
     }
+
     /**
      * Set profile Image.
      *
@@ -290,13 +310,8 @@ class ImageController extends Controller
     public function setProfileImg(Request $request)
     {
         if ($request->imagename != '') {
-            $cabin_name = session('cabin_name');
-            $thumb = 'public/' . $cabin_name . '/thumb/' . $request->imagename;
-            $img = 'public/' . $cabin_name . '/' . $request->imagename;
-
-            $folder = 'public/' . $cabin_name . '/';
-            $thumbfolder = 'public/' . $cabin_name . '/thumb/';
-
+            $folder = $this->image_folder_name . '/';
+            $thumbfolder = $folder . '/thumb/';
             $images = Storage::allFiles($folder . '/thumb');
 
 
@@ -307,7 +322,6 @@ class ImageController extends Controller
                 if (strpos($img_det['basename'], 'profile_') !== false) {
 
                     $new_image = str_replace("profile_", "", $img_det['basename']);
-
                     Storage::move($thumbfolder . $img_det['basename'], $thumbfolder . $new_image);
                     Storage::move($folder . $img_det['basename'], $folder . $new_image);
                 }
@@ -320,27 +334,8 @@ class ImageController extends Controller
             }
 
 
-            $thumbimages = Storage::allFiles($folder . '/thumb');
-
-            $imgDiv = '';
-
-            foreach ($thumbimages as $eachimage) {
-                $image = pathinfo($eachimage);
-                $imgDiv .= '<div class="col-md-4" id="' . $image['filename'] . '" ><a  class = "thumbnail" >
-                                <img  src = "' . str_replace('public', '/storage', $image['dirname'] . '/' . $image['basename']) . '" alt = "Generic placeholder thumbnail" >';
-
-                if (strpos($image['basename'], 'main_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.mainImg") . '</p >';
-                } elseif (strpos($image['basename'], 'profile_') !== false) {
-                    $imgDiv .= '<p class="bg-primary" >' . __("image.profileImg") . '</p >';
-                }else {
-                    $imgDiv .= '<button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_mainimg" >' . __("image.uploadSetmageButton") . '</button ><button value = "' . $image['basename'] . '" type = "button" class="btn btn-success set_profileimg" >' . __("image.uploadSetProfileButton") . '</button >';
-                }
-
-                $imgDiv .= ' <button class="img_button" type = "submit" value = "' . $image['basename'] . '" ><i class="fa fa-trash-o" aria - hidden = "true" ></i ></button ></a ></div >';
-
-            }
-            return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success','message' => __('image.imagesetMainSuccessResponse')], 201);
+            $imgDiv = $this->imageDisplayBox();
+            return response()->json(['images' => $imgDiv, 'imgsetMainStatus' => 'success', 'message' => __('image.imagesetMainSuccessResponse')], 201);
         }
     }
 }
