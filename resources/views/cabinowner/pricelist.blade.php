@@ -71,7 +71,12 @@ Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an 
                                             <th>{{$each_type}}</th>
                                         @endforeach
                                     </tr>
-                                    <?php $j=1;$k=0?>
+
+                                    @php
+                                        $j=1;
+                                        $k=0;
+                                    @endphp
+
                                     @foreach ($guest_type as $guest)
                                         <tr>
                                             <td style="font-weight: bold;">{{$guest}}</td>
