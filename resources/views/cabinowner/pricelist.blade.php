@@ -97,4 +97,13 @@ Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an 
 
 @section('scripts')
     <script src="{{ asset('js/pricelist.js') }}"></script>
+
+    <!-- Helping object for translation -->
+    <script>
+        window.translations = {
+            deleteRow: '{{ trans('pricelist.confirmDeleteRow') }}',
+            deleteCol: '{{ trans('pricelist.confirmDeleteCol') }}'
+        };
+    </script>
+
 @endsection

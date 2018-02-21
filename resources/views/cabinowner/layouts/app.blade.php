@@ -163,6 +163,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">@lang('cabinowner.menuSidebar')</li>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
@@ -186,11 +187,13 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="treeview">
                     <a href="/cabinowner/pricelist">
                         <i class="fa fa-table"></i> <span>@lang('menu.priceListsMenu')</span>
                     </a>
                 </li>
+
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>@lang('menu.cabinEditMenu')</span>
