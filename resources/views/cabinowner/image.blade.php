@@ -80,16 +80,15 @@
                             <h3 class="box-title">
                                 @lang('image.images')
                             </h3>
-                            <a href="/cabinowner/image/create" class="btn btn-primary btn-sm pull-right"><i
-                                        class="fa fa-fw fa-save"></i> @lang('image.uploadNewImageButton')</a>
+                            <a href="/cabinowner/image/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i> @lang('image.uploadNewImageButton')</a>
                         </div>
                         <div class="responseMessage">
-                                @if (session('imagesSuccessStatus'))
+                            @if (session('imagesSuccessStatus'))
                                 <div class="alert alert-success alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                        &times;
-                                    </button>
-                                    <h4><i class="icon fa fa-check"></i>   {{ session('imagesSuccessStatus') }}  </h4></div>@endif
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <h4><i class="icon fa fa-check"></i> {{ session('imagesSuccessStatus') }} </h4>
+                                </div>
+                            @endif
                         </div>
 
                         <div id="imgDiv" class="row">
@@ -99,20 +98,16 @@
                                 @foreach ($images as $image)
                                     <div class="col-md-4" id="{{$image['filename']}}">
                                         <a class="thumbnail">
-                                            <img src="{{str_replace('public', '/storage', $image['dirname'].'/'.$image['basename'])}}"
-                                                 alt="Generic placeholder thumbnail">
-                                            @if(strpos($image['basename'],'main_') !== false) <p
-                                                    class="bg-primary">@lang('image.mainImg')</p>
-                                            @elseif(strpos($image['basename'],'profile_') !== false) <p
-                                                    class="bg-primary">@lang('image.profileImg')</p>
+                                            <img src="{{str_replace('public', '/storage', $image['dirname'].'/'.$image['basename'])}}" alt="Generic placeholder thumbnail">
+                                            @if(strpos($image['basename'],'main_') !== false)
+                                                <p class="bg-primary">@lang('image.mainImg')</p>
+                                            @elseif(strpos($image['basename'],'profile_') !== false)
+                                                <p class="bg-primary">@lang('image.profileImg')</p>
                                             @else
-                                                <button value="{{$image['basename']}}" type="button"
-                                                        class="btn btn-success set_mainimg">@lang('image.uploadSetmageButton')</button>
-                                                <button value="{{$image['basename']}}" type="button"
-                                                        class="btn btn-success set_profileimg">@lang('image.uploadSetProfileButton')</button>
+                                                <button value="{{$image['basename']}}" type="button" class="btn btn-success set_mainimg">@lang('image.uploadSetmageButton')</button>
+                                                <button value="{{$image['basename']}}" type="button" class="btn btn-success set_profileimg">@lang('image.uploadSetProfileButton')</button>
                                             @endif
-                                            <button class="img_button" type="submit" value="{{$image['basename']}}"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                            <button class="img_button" type="submit" value="{{$image['basename']}}"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         </a>
                                     </div>
                                 @endforeach
