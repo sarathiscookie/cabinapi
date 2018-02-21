@@ -1,24 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 22-08-2017
- * Time: 12:37
- */
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | All Pricelist translations
+    | All Price list translations
     |--------------------------------------------------------------------------
     |
     |
     |
     */
+    'dashboard'                             => 'Dashboard',
     'updatePriceButton'                     => 'Preisliste ändern',
     'addPriceButton'                        => 'Preisliste erstellen',
     'pricelistPageHeading'                  => 'Preisliste',
-    'prices'                                => 'Preise',
+    'prices'                                => 'Preisliste',
+    'priceCreate'                           => 'Create Price',
     'confirmDeleteRow'                      => 'Wollen Sie diesen Abschnitt löschen?',
     'confirmDeleteCol'                      => 'Wollen Sie diesen Abschnitt löschen?',
     'noPricelistAdded'                      => 'Noch keine Preisliste erstellt',

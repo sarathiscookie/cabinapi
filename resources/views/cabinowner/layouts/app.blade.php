@@ -189,7 +189,6 @@
                 <li class="treeview">
                     <a href="/cabinowner/pricelist">
                         <i class="fa fa-table"></i> <span>@lang('menu.priceListsMenu')</span>
-                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                 </li>
                 <li class="treeview">

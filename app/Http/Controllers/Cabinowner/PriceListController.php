@@ -15,7 +15,8 @@ class PriceListController extends Controller
      */
     public function index()
     {
-        $cabin = Cabin::select('price_type','guest_type', 'price')
+        $cabin = Cabin::select('price_type', 'guest_type', 'price')
+            ->where('is_delete', 0)
             ->where('_id', session('cabin_id'))
             ->get();
 
@@ -40,7 +41,8 @@ class PriceListController extends Controller
      */
     public function create()
     {
-        $cabin = Cabin::select('price_type','guest_type', 'price')
+        $cabin = Cabin::select('price_type', 'guest_type', 'price')
+            ->where('is_delete', 0)
             ->where('_id', session('cabin_id'))
             ->get();
 
@@ -67,7 +69,7 @@ class PriceListController extends Controller
      */
     public function store(Request $request)
     {
-        $cabin                 = Cabin::find(session('cabin_id')                                    );
+        $cabin             = Cabin::find(session('cabin_id'));
         $cabin->price_type = $request->price_type;
         $cabin->guest_type = $request->guest_type;
         $cabin->price = $request->price;

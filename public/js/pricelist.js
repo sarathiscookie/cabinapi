@@ -1,6 +1,3 @@
-/**
- * Created by Divya on 07-11-2017.
- */
 $(function() {
     "use strict";
 
@@ -9,14 +6,15 @@ $(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
     if($('.responseMessage').html()!='')
         $('.responseMessage').show().delay(5000).fadeOut();
+
     /* Helping object for translation */
     var translations = {
         deleteCol: window.translations.deleteCol,
-        deleteRow: window.translations.deleteRow,
+        deleteRow: window.translations.deleteRow
     };
-
 
     /* function to delete a row */
     $("body").on("click", ".rdel",function(){
@@ -49,9 +47,9 @@ $(function() {
     $('body').on('click', '.icol', function(){
 
         $('#mtable tr ').append($("<td>"));
-        var i=0;
+        var i = 0;
         $('#mtable tbody tr').each(function() {
-            if (i == 0)
+            if (i === 0)
                 $(this).children('td:last').append($('<button class="icol btn-primary">+</button><input class="cdel btn-primary" value="-" type="button">'))
             else if
             (i == 1) $(this).children('td:last').append($('<input class="form-control" type="text" name="price_type[]">'))
@@ -61,6 +59,5 @@ $(function() {
         });
         return false;
     });
-
 
 });

@@ -1,26 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 22-08-2017
- * Time: 12:37
- */
+
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | All Pricelist translations
+    | All Price list translations
     |--------------------------------------------------------------------------
     |
     |
     |
     */
+    'dashboard'                             => 'Dashboard',
     'updatePriceButton'                     => 'Update Price',
     'addPriceButton'                        => 'Add Price',
     'pricelistPageHeading'                  => 'Price List',
-    'prices'                                => 'Prices',
-    'confirmDeleteRow'                      => 'Do you want to Delete the selected Row?',
-    'confirmDeleteCol'                      => 'Do you want to delete the selected Column?',
-    'noPricelistAdded'                      => 'No Pricelist Added',
+    'prices'                                => 'Price List',
+    'priceCreate'                           => 'Create Price',
+    'confirmDeleteRow'                      => 'Do you want to delete the selected row?',
+    'confirmDeleteCol'                      => 'Do you want to delete the selected column?',
+    'noPricelistAdded'                      => 'No price list Added',
     'Save'                                  => 'Save',
 ];
