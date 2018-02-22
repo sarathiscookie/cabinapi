@@ -17,21 +17,9 @@ class PriceListController extends Controller
     {
         $cabin = Cabin::select('price_type', 'guest_type', 'price')
             ->where('is_delete', 0)
-            ->where('_id', session('cabin_id'))
-            ->get();
+            ->find(session('cabin_id'));
 
-        foreach($cabin as $one)
-        {
-            $price_type         = $one->price_type;
-            $price              = $one->price;
-            $guest_type         = $one->guest_type;
-            $count_pricetype    = count($price_type);
-
-        }
-        return view('cabinowner.pricelist')->with('price_type', $price_type)
-                                                ->with('price', $price)
-                                                ->with('guest_type', $guest_type)
-                                                ->with('count_pricetype', $count_pricetype);
+        return view('cabinowner.pricelist', ['cabin' => $cabin]);
     }
 
     /**
@@ -43,22 +31,9 @@ class PriceListController extends Controller
     {
         $cabin = Cabin::select('price_type', 'guest_type', 'price')
             ->where('is_delete', 0)
-            ->where('_id', session('cabin_id'))
-            ->get();
+            ->find(session('cabin_id'));
 
-        foreach($cabin as $one)
-        {
-            $price_type         = $one->price_type;
-            $price              = $one->price;
-            $guest_type         = $one->guest_type;
-            $count_pricetype    = count($price_type);
-
-        }
-        return view('cabinowner.addprice')->with('price_type', $price_type)
-            ->with('price', $price)
-            ->with('guest_type', $guest_type)
-            ->with('count_pricetype', $count_pricetype);
-
+        return view('cabinowner.addprice', ['cabin' => $cabin]);
     }
 
     /**
@@ -69,12 +44,17 @@ class PriceListController extends Controller
      */
     public function store(Request $request)
     {
-        $cabin             = Cabin::find(session('cabin_id'));
-        $cabin->price_type = $request->price_type;
-        $cabin->guest_type = $request->guest_type;
-        $cabin->price = $request->price;
-
-        $cabin->save();
+        if(!empty($request->price) && !empty($request->price_type) && !empty($request->guest_type)) {
+            $cabin             = Cabin::find(session('cabin_id'));
+            $cabin->price_type = $request->price_type;
+            $cabin->guest_type = $request->guest_type;
+            $cabin->price      = array_map('floatval', $request->price); //Convert all values of an array to floats
+            $cabin->save();
+            $request->session()->flash('success', __('pricelist.success'));
+        }
+        else {
+            $request->session()->flash('failure', __('pricelist.failure'));
+        }
         return redirect('cabinowner/pricelist');
     }
 

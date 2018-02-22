@@ -46,7 +46,7 @@
 Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an der Seitenleiste an. Anschließend können Sie die jeweiligen Preise hinzufügen. Preise bitte immer wie folgt angeben: „ 0,00€ “ ohne €! Mit + können Sie eine weitere Spalte erzeugen und mit – diese wieder entfernen."></i>
                             </h3>
                             <a href="/cabinowner/pricelist/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
-                                @if($count_pricetype === 0)
+                                @if(isset($cabin) && count($cabin->price_type) === 0)
                                     @lang('pricelist.addPriceButton')
                                 @else
                                     @lang('pricelist.updatePriceButton')
@@ -54,42 +54,64 @@ Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an 
                             </a>
                         </div>
 
+                        @if (session()->has('success'))
+                            <div id="flash" class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+
+                        @if (session()->has('failure'))
+                            <div id="flash" class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ session()->get('failure') }}
+                            </div>
+                        @endif
+
                         <div class="box-body table-responsive">
-                            @if($count_pricetype === 0)
-                                <p class="bg-info">@lang('pricelist.noPricelistAdded')</p>
-                            @else
-                                <table id="mtable" border="1" class="table table-bordered table-striped table-hover">
-                                    <tbody>
-                                    <tr><td style="align: center"></td>
-                                        @for ($i = 1; $i <= $count_pricetype; $i++)
-                                            <td></td>
-                                        @endfor
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        @foreach ($price_type as $each_type)
-                                            <th>{{$each_type}}</th>
-                                        @endforeach
-                                    </tr>
-
-                                    @php
-                                        $j=1;
-                                        $k=0;
-                                    @endphp
-
-                                    @foreach ($guest_type as $guest)
+                            @isset($cabin)
+                                @if(!empty($cabin->price_type) && !empty($cabin->guest_type) && !empty($cabin->price) && count($cabin->price_type) > 0)
+                                    <table class="table table-bordered table-striped table-hover table-responsive">
+                                        <thead>
                                         <tr>
-                                            <td style="font-weight: bold;">{{$guest}}</td>
-                                            @foreach ($price_type as $each_type)
-                                                <td>{{$price[$k]}}</td>
-                                                @php $k++; @endphp
+                                            <th></th>
+                                            @foreach ($cabin->price_type as $each_type)
+                                                <th>{{$each_type}}</th>
                                             @endforeach
                                         </tr>
-                                        @php $j++; @endphp
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            @endif
+                                        </thead>
+
+                                        @php
+                                            $j = 1;
+                                            $k = 0;
+                                            setlocale(LC_MONETARY, 'de_DE');
+                                        @endphp
+
+                                        <tbody>
+                                        @foreach ($cabin->guest_type as $guest)
+                                            <tr>
+                                                <td style="font-weight: bold;">{{$guest}}</td>
+                                                @foreach ($cabin->price_type as $each_type)
+                                                    <td>{{ money_format('%i', $cabin->price[$k])}} &euro;</td>
+                                                    @php $k++; @endphp
+                                                @endforeach
+                                            </tr>
+                                            @php $j++; @endphp
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <p class="bg-info">@lang('pricelist.noPricelistAdded')</p>
+                                @endif
+                            @endisset
+
+                            @empty($cabin)
+                                <p class="bg-info">@lang('pricelist.noPricelistAdded')</p>
+                            @endempty
                         </div>
 
                     </div>

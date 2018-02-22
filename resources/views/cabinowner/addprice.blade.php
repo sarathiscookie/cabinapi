@@ -33,84 +33,81 @@ Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an 
 
                         <div class="box-body">
                             <!-- general form elements -->
-                            <form class="form-horizontal" role="form" name="imageupload" method="POST" action="{!! url('/cabinowner/pricelist/store') !!}">
-
-                                {{ csrf_field() }}
-                                <table id="mtable" border="1" class="table table-bordered table-striped table-hover" >
-                                    @if ($count_pricetype > 0)
-                                        <tbody>
-                                        <tr><th style="text-align: center">Liste</th>
-                                            @for ($i = 0; $i <= $count_pricetype; $i++)
-                                                <td class="btnTD"><button class="icol btn-primary">+</button>
-                                                    @if($i != 0)
-                                                        <input type="button" class='cdel btn-primary' value='-' />
-                                                    @endif
-                                                </td>
-
-                                            @endfor
-                                        </tr>
-                                        <tr><td class="btnTD"><button class="irow btn-primary">+</button></td>
-                                            <td></td>
-                                            @foreach ($price_type as $each_type)
-                                                <td><input class="form-control" name="price_type[]" value="{{$each_type}}" type="text"></td>
-                                            @endforeach
-                                        </tr>
-
-                                        @php
-                                            $j = 1;
-                                            $k = 0;
-                                        @endphp
-
-                                        @foreach ($guest_type as $guest)
+                            @isset($cabin)
+                                <form class="form-horizontal" role="form" name="imageupload" method="POST" action="{!! url('/cabinowner/pricelist/store') !!}">
+                                    {{ csrf_field() }}
+                                    <table id="mtable" border="1" class="table table-bordered table-striped table-hover" >
+                                        @if(!empty($cabin->price_type) && !empty($cabin->guest_type) && !empty($cabin->price) && count($cabin->price_type) > 0)
+                                            <tbody>
                                             <tr>
-                                                <td class="btnTD"><button class="irow btn-primary">+</button><input type="button" class='rdel btn-primary' value='-' /></td>
-                                                <td><input class="form-control" name="guest_type[]" value="{{$guest}}" type="text"></td>
-                                                @foreach ($price_type as $each_type)
-                                                    <td><input class="form-control" name="price[]" value="{{$price[$k]}}" type="text"></td>
-                                                    @php $k++; @endphp
+                                                <td></td>
+                                                @for ($i = 0; $i <= count($cabin->price_type); $i++)
+                                                    <td class="btnTD"><button class="icol btn-primary">+</button>
+                                                        @if($i != 0)
+                                                            <input type="button" class='cdel btn-primary' value='-' />
+                                                        @endif
+                                                    </td>
+                                                @endfor
+                                            </tr>
+                                            <tr><td class="btnTD"><button class="irow btn-primary">+</button></td>
+                                                <td></td>
+                                                @foreach ($cabin->price_type as $each_type)
+                                                    <td><input class="form-control" name="price_type[]" value="{{$each_type}}" type="text"></td>
                                                 @endforeach
                                             </tr>
-                                            @php $j++; @endphp
-                                        @endforeach
-                                        </tbody>
-                                    @else
 
-                                        <tbody>
-                                        <tr>
-                                            <th style="text-align: center">Liste</th>
-                                            <td class="btnTD"><button class="icol btn-primary">+</button></td>
-                                            <td class="btnTD"><button class="icol btn-primary">+</button><input class="cdel btn-primary" value="-" type="button"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="btnTD"><button class="irow btn-primary">+</button></td>
-                                            <td></td>
-                                            <td><input class="form-control" name="price_type[]" value="" type="text"></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="btnTD"><button class="irow btn-primary">+</button><input class="rdel btn-primary" value="-" type="button"></td>
-                                            <td><input class="form-control" name="guest_type[]" value="" type="text"></td>
-                                            <td><input class="form-control" name="price[]" value="" type="text"></td>
-                                        </tr>
-                                        </tbody>
 
-                                    @endif
-                                </table>
+                                            @php
+                                                $j = 1;
+                                                $k = 0;
+                                            @endphp
 
-                                <div class="row">
-                                    <div class="col-md-12">
 
-                                        <button type="submit" class="btn btn-primary" name="Add"><i class="fa fa-fw fa-save"></i>@lang('pricelist.Save')</button>
+                                            @foreach ($cabin->guest_type as $guest)
+                                                <tr>
+                                                    <td class="btnTD"><button class="irow btn-primary">+</button><input type="button" class='rdel btn-primary' value='-' /></td>
+                                                    <td><input class="form-control" name="guest_type[]" value="{{$guest}}" type="text"></td>
+                                                    @foreach ($cabin->price_type as $each_type)
+                                                        <td><input class="form-control" name="price[]" value="{{$cabin->price[$k]}}" type="text"></td>
+                                                        @php $k++; @endphp
+                                                    @endforeach
+                                                </tr>
+                                                @php $j++; @endphp
+                                            @endforeach
+                                            </tbody>
+
+                                        @else
+
+                                            <tbody>
+                                            <tr>
+                                                <th style="text-align: center">Liste</th>
+                                                <td class="btnTD"><button class="icol btn-primary">+</button></td>
+                                                <td class="btnTD"><button class="icol btn-primary">+</button><input class="cdel btn-primary" value="-" type="button"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="btnTD"><button class="irow btn-primary">+</button></td>
+                                                <td></td>
+                                                <td><input class="form-control" name="price_type[]" value="" type="text"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="btnTD"><button class="irow btn-primary">+</button><input class="rdel btn-primary" value="-" type="button"></td>
+                                                <td><input class="form-control" name="guest_type[]" value="" type="text"></td>
+                                                <td><input class="form-control" name="price[]" value="" type="text"></td>
+                                            </tr>
+                                            </tbody>
+
+                                        @endif
+                                    </table>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <button type="submit" class="btn btn-primary" name="Add"><i class="fa fa-fw fa-save"></i>@lang('pricelist.Save')</button>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </form>
-
-                            <div class="responseMessage">
-                                @if(isset($imagesSuccessStatus))
-                                    <div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> {{$imagesSuccessStatus}} </h4>
-                                    </div>
-                                @endif
-                            </div>
+                                </form>
+                            @endisset
                         </div>
                     </div>
                 </div>

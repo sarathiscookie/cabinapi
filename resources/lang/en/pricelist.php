@@ -20,4 +20,8 @@ return [
     'confirmDeleteCol'                      => 'Do you want to delete the selected column?',
     'noPricelistAdded'                      => 'No price list Added',
     'Save'                                  => 'Save',
+
+    /* Status messages */
+    'success'                               => 'Well Done! Successfully updated price list',
+    'failure'                               => 'Oh snap! Change a few things up and try submitting again.'
 ];
