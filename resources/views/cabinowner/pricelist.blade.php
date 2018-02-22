@@ -42,8 +42,6 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 @lang('pricelist.prices')
-                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Hier können Sie all Ihre Preise zu den jeweiligen Kategorien eingeben.
-Geben Sie immer eine Überschrift an der oberen Leiste und eine Überschrift an der Seitenleiste an. Anschließend können Sie die jeweiligen Preise hinzufügen. Preise bitte immer wie folgt angeben: „ 0,00€ “ ohne €! Mit + können Sie eine weitere Spalte erzeugen und mit – diese wieder entfernen."></i>
                             </h3>
                             <a href="/cabinowner/pricelist/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
                                 @if(isset($cabin) && count($cabin->price_type) === 0)

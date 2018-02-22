@@ -23,5 +23,5 @@ return [
 
     /* Status messages */
     'success'                               => 'Well Done! Successfully updated price list',
-    'failure'                               => 'Oh snap! Change a few things up and try submitting again.'
+    'failure'                               => 'Oh something is not true! Please fill at least two fields (above and below)'
 ];

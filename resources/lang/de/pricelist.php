@@ -15,7 +15,7 @@ return [
     'addPriceButton'                        => 'Preisliste erstellen',
     'pricelistPageHeading'                  => 'Preisliste',
     'prices'                                => 'Preisliste',
-    'priceCreate'                           => 'Create Price',
+    'priceCreate'                           => 'Preisliste erstellen',
     'confirmDeleteRow'                      => 'Wollen Sie diesen Abschnitt löschen?',
     'confirmDeleteCol'                      => 'Wollen Sie diesen Abschnitt löschen?',
     'noPricelistAdded'                      => 'Noch keine Preisliste erstellt',
@@ -23,6 +23,6 @@ return [
 
     /* Status messages */
     'success'                               => 'Well Done! Successfully updated price list',
-    'failure'                               => 'Oh snap! Change a few things up and try submitting again.'
+    'failure'                               => 'Oh etwas stimmt nicht! Bitte füllen Sie mind. zwei Felder (oben und unten) aus'
 
 ];
