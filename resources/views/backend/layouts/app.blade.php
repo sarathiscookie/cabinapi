@@ -198,7 +198,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/admin/shortversion"><i class="fa fa-circle-o"></i> @lang('menu.shortVersionMenu')</a></li>
+                        <li><a href="/admin/cabinlite"><i class="fa fa-circle-o"></i> @lang('menu.cabinLiteMenu')</a></li>
 
                     </ul>
                 </li>

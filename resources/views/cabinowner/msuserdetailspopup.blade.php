@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">@lang("msuserList.userUpdateModalHeading")  <span class="sufixhfour">  &raquo  {{ $userList->company }} </span> </h4>
+    <h4 class="modal-title">@lang("msuserList.userUpdateModalHeading")  <span class="sufixhfour">  &raquo  {{ $userList->cabin_name_append }} </span> </h4>
 </div>
 <div class="responseUpdateUserMessage"></div>
 <div class="modal-body">
