@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 28-08-2017
- * Time: 13:47
- */
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | User details listing Language Lines
+    |
     |--------------------------------------------------------------------------
     |
     | The following language lines contain the alert messages, response message,
@@ -18,24 +12,26 @@ return [
     |
     */
 
-    'heading'                                => 'Short Version',
-    'controlPanel'                           => 'Short Version',
+    'heading'                                => 'Cabin Lite',
+    'controlPanel'                           => 'Cabin Lite',
     'breadcrumbOne'                          => 'Dashboard',
-    'breadcrumbTwo'                          => 'Short Version',
-    'panelHeading'                           => 'Short Version',
+    'breadcrumbTwo'                          => 'Cabin Lite',
+    'panelHeading'                           => 'Cabin Lite',
 
     'lastName'                               => 'Last Name',
     'firstName'                              => 'First Name',
     'userName'                               => 'Username',
     'email'                                  => 'E-mail',
-    'searchShortVersion'                     => 'Search ShortVersion',
+
+    'CabinCode'                              => 'Cabin Code',
+    'searchCabinLite'                        => 'Search Cabin Code',
     'searchCabin'                            => 'Search Cabin',
 
     'noResult'                               => 'No Result',
     'cabinName'                              => 'Cabin Name',
-    'cabinShortVersion'                      => 'Cabin ShortVersion',
+    'CabinLite'                               => 'Cabin Lite',
     /* Modal for user details update */
-    'userUpdateModalHeading'                 => 'Short Version',
+    'userUpdateModalHeading'                 => 'Cabin Lite',
     'userUpdateModalFirstName'               => 'First Name',
     'userUpdateModalLastName'                => 'Last Name',
     'userUpdateModalEmail'                   => 'Email',

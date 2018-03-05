@@ -281,10 +281,11 @@ Route::prefix('admin')->group(function () {
     | Routes for listing
     */
     /* Listing cabins */
-    Route::get('/shortversion', 'ShortVersionController@index')->name('admin.cabins.shortversion');
 
+        Route::get('/cabinlite', 'CabinLiteController@index')->name('admin.cabins.cabinlite');
+        Route::post('/cabinlite/datatables', 'CabinLiteController@dataTables')->name('admin.cabins.cabinlite.datatables');
     /* Show datatable page */
-    Route::post('/shortversion/datatables', 'ShortVersionController@dataTables')->name('admin.cabins.datatables.datatables');
+
 
     });
 });

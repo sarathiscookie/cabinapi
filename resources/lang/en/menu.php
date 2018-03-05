@@ -43,6 +43,6 @@ return [
     'imageMenu'                             => 'Images',
     'mUsersMenu'                            => 'Mountain Schools',
     'cabinsMenu'                            => 'Cabins',
-    'shortVersionMenu'                      => 'ShortVersion',
+    'cabinLiteMenu'                         => 'Cabin Lite',
     'priceListsMenu'                        => 'Price List',
 ];
