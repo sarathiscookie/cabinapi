@@ -113,16 +113,16 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    @lang('cabinowner.welcomeToDashboard') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
+                                     @lang('cabinowner.welcomeToDashboard') {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
                                 </p>
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn bg-purple btn-flat">@lang('cabinowner.profileDashboard')</a>
+                                    <a href="#" class="btn bg-purple-light btn-flat">@lang('cabinowner.profileDashboard')</a>
                                 </div>
                                 <div class="pull-right">
 
-                                    <a href="{{ route('logout') }}" class="btn bg-purple btn-flat"
+                                    <a href="{{ route('logout') }}" class="btn bg-purple-light btn-flat"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
                                         @lang('cabinowner.logoutDashboard')

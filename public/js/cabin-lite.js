@@ -75,11 +75,7 @@ $(function () {
     $('.search-input-cabin').on( 'keyup change', function () {
         var i =$(this).attr('id');   // getting column index
         var v =$(this).val();   // getting search input value
-        console.log(i);
         user_data.columns(i).search(v).draw();
     });
     /* Data table functionality end */
-
-
-    console.log( 'i =' );
 });

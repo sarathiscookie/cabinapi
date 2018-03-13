@@ -1,6 +1,6 @@
 @extends('mountainschool.layouts.app')
 
-@section('title', 'Cabin API - Cabin Owner: Booking List')
+@section('title', 'Cabin API - Mountain School: Booking List')
 
 @section('css')
     <!-- Date Range Picker -->
@@ -73,8 +73,6 @@
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchBoookingNo')"></th>
                                     <td></td>
                                     <td></td>
-                                    {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
-                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>--}}
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -88,10 +86,6 @@
                                             <option value="5">@lang('mountainschool.bookingWaiting')</option>
                                         </select>
                                     </td>
-
-                                    @if(isset($bookId))
-                                        <input type="hidden" name="parameterId" id="parameterId" value="{{$bookId}}">
-                                    @endif
                                 </tr>
                                 </tfoot>
                             </table>
@@ -101,6 +95,7 @@
                             </div>
                         </div>
                         <!-- /.box-body -->
+
 
                     </div>
                 </div>
@@ -169,7 +164,7 @@
                         { "data": "beds" },
                         { "data": "dormitory" },
                         { "data": "sleeps" },
-                        { "data": "status" },
+                        { "data": "status" }
 
                     ],
                     "columnDefs": [
@@ -239,7 +234,7 @@
                             exportOptions: {
                                 columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                             }
-                        },
+                        }
                     ]
                 }).container().appendTo($('#buttons'));
             }
@@ -287,10 +282,6 @@
             });
 
             /* Date range functionality end */
-
-
-
-
             /* <tfoot> search functionality */
             $('.search-input').on( 'keyup change', function () {
                 var i =$(this).attr('id');  // getting column index

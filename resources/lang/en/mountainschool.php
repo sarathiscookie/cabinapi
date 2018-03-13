@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 29-06-2017
- * Time: 15:21
- */
+
 return [
 
     /*
@@ -17,48 +12,54 @@ return [
     |
     */
 
-    'bookings'                               => 'Buchungen',
-    'controlPanel'                           => 'Verwaltungstool',
+    'bookings'                               => 'Bookings',
+    'controlPanel'                           => 'Control Panel',
     'mountainSchool'                         => 'MountainSchool',
-    'dashboard'                              => 'Übersicht',
-    'bookingDetails'                         => 'Buchungs Details',
-    'bookingNumber'                          => 'Buchungs-Nr.',
-    'comment'                                => 'Kommentar',
-    'from'                                   => 'Anreise',
-    'to'                                     => 'Abreise',
-    'beds'                                   => 'Betten',
-    'dorms'                                  => 'Lager',
-    'guest'                                  => 'Gäste',
-    'sleeps'                                 => 'Plätze',
+    'dashboard'                              => 'Dashboard',
+    'bookingDetails'                         => 'Booking Details',
+    'bookingNumber'                          => 'Booking Num',
+    'cabinname'                              => 'Cabin Name',
+    'tour_name'                              => 'Tour Name',
+    'total_guests'                           =>'Total Guests',
+
+    'comment'                                => 'Comment',
+    'from'                                   => 'From',
+    'to'                                     => 'To',
+    'beds'                                   => 'Beds',
+    'dorms'                                  => 'Dorms',
+    'guest'                                  => 'Guest',
+    'sleeps'                                 => 'Sleeps',
     'status'                                 => 'Status',
-    'amount'                                 => 'Gesamt',
-    'answered'                               => 'Antworten',
-    'action'                                 => 'Klicken Sie hier, um diese Buchung zu stornieren',
-    'notAsked'                               => 'ohne Kommentar',
-    'emptyMessage'                           => 'keine Nachricht',
-    'searchBoookingNo'                       => 'Suche Buchungs-Nr',
-    'searchFirstName'                        => 'Suche Vorname',
-    'searchLastName'                         => 'Suche Nachname',
-    'SearchEmail'                            => 'Suche E-Mail',
-    'SearchStatus'                           => 'Status auswählen',
+    'amount'                                 => 'Amount',
+    'answered'                               => 'Answered',
+    'action'                                 => 'Click here to cancel this booking',
+    'notAsked'                               => 'No comment',
+    'emptyMessage'                           => 'No message',
+    'searchBoookingNo'                       => 'Search Booking No ',
+    'searchFirstName'                        => 'Search First Name',
+    'searchLastName'                         => 'Search Last Name',
+    'SearchEmail'                            => 'Search E-Mail',
+    'SearchStatus'                           => 'Select Status',
     /* Booking status begin */
     'bookingFix'                             => 'Fix',
-    'cancelled'                              => 'Storniert',
-    'completed'                              => 'Abgeschlossen',
+    'cancelled'                              => 'Canceled',
+    'completed'                              => 'Completed',
     'request'                                => 'Request',
-    'bookingWaiting'                         => 'Warten auf Zahlung',
+    'bookingWaiting'                         => 'Waiting for Payment',
     /* Booking status end */
-    'noResult'                               => 'Unbekannt',
-    'bookedByCabinOwner'                     => 'von HW gebucht',
+    'noResult'                               => 'No Result',
+    'bookedByCabinOwner'                     => 'Booked by HW',
 
     /* Dashboard messages begin */
-    'welcomeToDashboard'                     => 'Willkommen',
-    'cabinOwnerDashboard'                    => 'Hüttenwirt/in',
-    'profileDashboard'                       => 'Profil',
-    'logoutDashboard'                        => 'Abmelden',
+    'welcomeToDashboard'                     => 'Welcome',
+    'cabinOwnerDashboard'                    => 'Cabin Owner',
+    'profileDashboard'                       => 'Profile',
+    'logoutDashboard'                        => 'Logout',
     /* Dashboard messages end */
 
     /* Alert messages */
-    'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
-    'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
+    'somethingWrong'                        => 'Something went wrong please try again',
+    'successfullyCancelled'                 => 'Booking cancelled successfully',
+    /* modal popup */
+    'closeBtn'                              =>'Close',
 ];

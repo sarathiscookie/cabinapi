@@ -12,7 +12,6 @@
     <title>@yield('title')</title>
 
     <!-- Styles -->
-{{--<link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
 <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
@@ -39,7 +38,7 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="/mountainschool/bookings" class="logo" {{--style="background-color: #f9fafc;"--}}>
+        <a href="/mountainschool/bookings" class="logo"  >
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>H</b>HD</span>
             <!-- logo for regular state and mobile devices -->
@@ -84,26 +83,21 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    Welcome to dashboard - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
-                                    <small>Last login on 06.19.2017 12:30</small>
-                                    <small>Last login on 05.19.2017 11:30</small>
-                                    <small>Last login on 04.19.2017 10:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
+                                    Welcome {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
+                                 <!--   <small>Last login on 06.19.2017 12:30</small>-->
+
                                 </p>
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-primary btn-flat">Profile</a>
+                                    <a href="#" class="btn btn-primary btn-flat"> @lang('mountainschool.profileDashboard')</a>
                                 </div>
                                 <div class="pull-right">
 
                                     <a href="{{ route('logout') }}" class="btn btn-primary btn-flat"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                                        Logout
+                                          @lang('mountainschool.logoutDashboard')
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -167,7 +161,6 @@
 <!-- ./wrapper -->
 
 <!-- Scripts -->
-{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 <!-- jQuery 2.2.3 -->
 <script src="{{ asset('plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->

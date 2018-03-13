@@ -17,11 +17,9 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($bookId = null)
+    public function index()
     {
-        if($bookId != null){
-            return view('mountainschool.bookings', ['bookId' => $bookId]);
-        }
+
         return view('mountainschool.bookings');
     }
 
@@ -119,30 +117,41 @@ class BookingController extends Controller
                     ->get();
 
                 $data          = array();
-                $noData        = '<span class="label label-default">'.__("cabinownerMountainSchoolBooking.noResult").'</span>';
+                $noData        = '<span class="label label-default">'.__("mountainschool.noResult").'</span>';
                 if(!empty($bookings)) {
                     foreach ($bookings as $key => $booking) {
 
                         /* Condition for booking status */
                         if($booking->status == '1') {
-                            $bookingStatusLabel = '<span class="label label-success">'.__("cabinownerMountainSchoolBooking.bookingFix").'</span>';
+                            $bookingStatustxt = __("mountainschool.bookingFix");
+                            $spanClass = "label-success";
+
                         }
                         else if ($booking->status == '2') {
-                            $bookingStatusLabel = '<span class="label label-danger">'.__("cabinownerMountainSchoolBooking.cancelled").'</span>';
+
+                            $bookingStatustxt = __("mountainschool.cancelled");
+                            $spanClass = "label-danger";
                         }
                         else if ($booking->status == '3') {
-                            $bookingStatusLabel = '<span class="label label-primary">'.__("cabinownerMountainSchoolBooking.completed").'</span>';
+
+                            $bookingStatustxt = __("mountainschool.completed");
+                            $spanClass = "label-primary";
                         }
                         else if ($booking->status == '4') {
-                            $bookingStatusLabel = '<span class="label label-info">'.__("cabinownerMountainSchoolBooking.request").'</span>';
+
+                            $bookingStatustxt = __("mountainschool.request");
+                            $spanClass = "label-info";
                         }
                         else if ($booking->status == '5') {
-                            $bookingStatusLabel = '<span class="label label-warning">'.__("cabinownerMountainSchoolBooking.bookingWaiting").'</span>';
+                            $bookingStatustxt = __("mountainschool.bookingWaiting");
+                            $spanClass = "label-warning";
                         }
                         else {
-                            $bookingStatusLabel = $noData;
-                        }
+                            $bookingStatustxt = __("mountainschool.noResult");
+                            $spanClass = "label-default";
 
+                        }
+                        $bookingStatusLabel = '<span class="label '.$spanClass.'">'. $bookingStatustxt .'</span>';
                         /* Checking check_in, reserve_to and booking date fields are available or not */
                         if(!$booking->check_in){
                             $checkin_from = $noData;
@@ -158,28 +167,6 @@ class BookingController extends Controller
                             $reserve_to = ($booking->reserve_to)->format('d.m.y');
                         }
 
-                        if(!$booking->bookingdate){
-                            $bookingdate = $noData;
-                        }
-                        else {
-                            $bookingdate = ($booking->bookingdate)->format('d.m.y');
-                        }
-
-                        /* Checking comment not empty or not */
-                        if( !empty($booking->ind_notice) ) {
-                            $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a> <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="'.$booking->ind_notice.'"></i>';
-
-
-
-
-
-                        }
-                        else {
-                            $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
-
-                            /*Condition to check cabin owner answered*/
-
-                        }
 
                         /* Condition for beds, dorms and sleeps */
                         if(empty($booking->beds) && empty($booking->dormitory))
@@ -197,6 +184,17 @@ class BookingController extends Controller
                         if(empty($booking->dormitory)){
                             $dormitory = '----';
                         }
+
+                        $booking->checkin_from= $checkin_from;
+                        $booking->checkin_to= $reserve_to;
+                        $booking->bookingStatusLabel = $bookingStatustxt;
+
+                        $view = \View::make('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
+                        $popup_contents = (string)$view;
+                        $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
+
+
+
                         $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                         $nestedData['hash']                    = $checkbox;
                         $nestedData['invoice_number']          = $invoiceNumber_comment;

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 29-06-2017
- * Time: 15:21
- */
+
 return [
 
     /*
@@ -23,6 +18,9 @@ return [
     'bookingDetails'                         => 'Buchungs Details',
     'mountainSchool'                         => 'Bergschulen',
     'bookingNumber'                          => 'Buchungs-Nr.',
+    'cabinname'                              => 'Hüttenname',
+    'tour_name'                              => 'Name der Tour',
+    'total_guests'                           => 'Total Gäste',
     'comment'                                => 'Kommentar',
     'from'                                   => 'Anreise',
     'to'                                     => 'Abreise',
@@ -60,4 +58,6 @@ return [
     /* Alert messages */
     'somethingWrong'                        => 'Hat leider nicht geklappt. Bitte versuchen Sie es erneut',
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
+    /* modal popup */
+    'closeBtn'                               => 'Schließen',
 ];

@@ -85,13 +85,9 @@
                             <li class="user-header">
                                 <p>
                                     Welcome to dashboard - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
-                                    <small>Last login on 06.19.2017 12:30</small>
-                                    <small>Last login on 05.19.2017 11:30</small>
-                                    <small>Last login on 04.19.2017 10:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
-                                    <small>Last login on 03.19.2017 09:30</small>
+                                <!-- <small>Last login on 06.19.2017 12:30</small>
+                                    <small>Last login on 05.19.2017 11:30</small>-->
+
                                 </p>
                             </li>
                             <li class="user-footer">

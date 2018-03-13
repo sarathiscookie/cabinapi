@@ -188,7 +188,6 @@ class CabinLiteController extends Controller
         return response()->json($json_data);
 
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -196,7 +195,7 @@ class CabinLiteController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
