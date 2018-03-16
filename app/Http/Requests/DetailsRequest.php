@@ -50,7 +50,6 @@ class DetailsRequest extends FormRequest
 
         if($this->request->get('updateCabin') == 'updateCabin') {
             $rules = [
-                'cabinname'     => 'required|max:200',
                 'height'        => 'required|max:15',
                 'club'          => 'required|max:200',
                 'cancel'        => 'required|not_in:0',

@@ -59,13 +59,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('cabinname') ? ' has-error' : '' }}">
-                                                <label>@lang('details.cabinBoxLabelName') <span class="required">*</span></label>
+                                                <label>@lang('details.cabinBoxLabelName')</label>
 
-                                                <input type="text" class="form-control" id="cabinname" name="cabinname" placeholder="@lang('details.cabinBoxLabelNamePH')" value="{{old('cabinname', $cabin->name)}}" maxlength="200">
+                                                <input type="text" class="form-control" id="cabinname" name="cabinname" placeholder="@lang('details.cabinBoxLabelNamePH')" value="{{$cabin->name}}" disabled>
 
-                                                @if ($errors->has('cabinname'))
-                                                    <span class="help-block"><strong>{{ $errors->first('cabinname') }}</strong></span>
-                                                @endif
                                             </div>
                                         </div>
 
