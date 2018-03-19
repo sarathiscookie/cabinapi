@@ -343,7 +343,7 @@ class DetailsController extends Controller
             Cabin::where('is_delete', 0)
                 ->where('name', session('cabin_name'))
                 ->where('cabin_owner', Auth::user()->_id)
-                ->update(['height' => $request->height, 'club' => $request->club, 'reservation_cancel' => $request->cancel, 'reachable' => $request->availability, 'tours' => $request->tours, 'checkin_from' => $request->checkin, 'reservation_to' => $request->checkout, 'interior' => $request->facility, 'halfboard' => $request->halfboard, 'halfboard_price' => $request->price, 'payment_type' => $request->payment, 'neighbour_cabin' => $request->neighbour, 'prepayment_amount' => $request->deposit, 'website' => $request->website, 'other_details' => $request->details, 'region' => $request->region, 'latitude' => $request->latitude, 'longitude' => $request->longitude, 'updated_at' => $utcdatetime]);
+                ->update(['height' => $request->height, 'club' => $request->club, 'reservation_cancel' => $request->cancel, 'reachable' => $request->availability, 'tours' => $request->tours, 'checkin_from' => $request->checkin, 'reservation_to' => $request->checkout, 'interior' => $request->facility, 'halfboard' => $request->halfboard, 'halfboard_price' => $request->price, 'payment_type' => $request->payment, 'neighbour_cabin' => $request->neighbour, 'prepayment_amount' => (float)$request->deposit, 'website' => $request->website, 'other_details' => $request->details, 'region' => $request->region, 'latitude' => $request->latitude, 'longitude' => $request->longitude, 'updated_at' => $utcdatetime]);
 
             $request->session()->flash('successCabin', __('details.cabinSuccessMsg'));
             return redirect(url('cabinowner/details'));

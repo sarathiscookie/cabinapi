@@ -54,7 +54,7 @@ class DetailsRequest extends FormRequest
                 'club'          => 'required|max:200',
                 'cancel'        => 'required|not_in:0',
                 'payment'       => 'required',
-                'deposit'       => 'required|max:15',
+                'deposit'       => 'required|numeric',
                 'website'       => 'required|max:100',
                 'region'        => 'required|not_in:0',
                 'latitude'      => 'required|max:100',
