@@ -215,6 +215,8 @@ class DashboardController extends Controller
             session(['cabin_id' => $cabin->_id]);
             session(['invoice_autonum' => $cabin->invoice_autonum]);
             session(['invoice_code' => $cabin->invoice_code]);
+            session(['halfboard' => $cabin->halfboard]);
+            session(['halfboard_price' => $cabin->halfboard_price]);
 
             session(['not_regular' => $cabin->not_regular]);
 

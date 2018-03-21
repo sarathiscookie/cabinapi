@@ -208,17 +208,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Halfboard</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="halfboard" name="halfboard" value="1" @if(old('halfboard') == '1') checked @endif @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
-                                                    Half board available
-                                                </label>
+                                    @if (session()->has('halfboard') && session()->has('halfboard_price'))
+                                        @if(session('halfboard') == '1')
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Halfboard</label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="halfboard" name="halfboard" value="1" @if(old('halfboard') == '1') checked @endif @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                                            Half board available
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        @endif
+                                    @endif
 
                                 </div>
 
