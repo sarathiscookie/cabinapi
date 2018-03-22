@@ -234,6 +234,7 @@ class CreateBookingController extends Controller
 
             $booking                   = new Booking;
             $booking->cabinname        = session('cabin_name');
+            $booking->cabin_id         = new \MongoDB\BSON\ObjectID(session('cabin_id'));
             $booking->checkin_from     = $this->getDateUtc(session('dateFrom'));
             $booking->reserve_to       = $this->getDateUtc(session('dateTo'));
             $booking->user             = new \MongoDB\BSON\ObjectID($user->_id);
