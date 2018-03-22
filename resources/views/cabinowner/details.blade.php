@@ -427,10 +427,10 @@
 
                         @empty($cabin)
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="list-group">
                                         <a href="#" class="list-group-item">
-                                            <p class="list-group-item-text">@lang('details.noResult')</p>
+                                            <p class="list-group-item-text pull-center">@lang('details.noResult')</p>
                                         </a>
                                     </div>
                                 </div>
