@@ -335,7 +335,7 @@
                 };
                 var jsonData = JSON.stringify(JSONObject);
                 $.ajax({
-                    url: '/cabinowner/message/send',
+                    url: '/cabinowner/bookings/message/send',
                     data: { "data": jsonData },
                     dataType: 'JSON',
                     type: 'POST',

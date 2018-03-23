@@ -317,7 +317,7 @@ Route::prefix('cabinowner')->group(function () {
         Route::post('/bookings/datatables', 'Cabinowner\BookingController@dataTables')->name('cabinowner.bookings.datatables');
 
         /* Send message to guest */
-        Route::post('/message/send', 'Cabinowner\BookingController@send');
+        Route::post('/bookings/message/send', 'Cabinowner\BookingController@send');
 
         /* Cancel booking */
         Route::post('booking/cancel', 'Cabinowner\BookingController@cancelBooking');
