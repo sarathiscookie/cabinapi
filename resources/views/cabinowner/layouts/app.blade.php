@@ -179,22 +179,22 @@
                         <li>
                             <a href="/cabinowner/inquiry"><i class="fa fa-circle-o"></i> @lang('menu.inquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->inquiryListCount() !!}</span></span></a>
                         </li>
-                        {{--<li>
+                        <li>
                             <a href="/cabinowner/inquiry/mschool"><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mountSchoolInquiryListCount() !!}</span></span></a>
                         </li>
                         <li>
                             <a href="/cabinowner/create/booking"><i class="fa fa-circle-o"></i>Create Booking</a>
-                        </li>--}}
+                        </li>
                     </ul>
                 </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="/cabinowner/pricelist">
                         <i class="fa fa-table"></i> <span>@lang('menu.priceListsMenu')</span>
                     </a>
-                </li>--}}
+                </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-edit"></i> <span>@lang('menu.cabinEditMenu')</span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -216,7 +216,7 @@
                             <a href="/cabinowner/msusers"><i class="fa fa-circle-o"></i> @lang('menu.mUsersMenu')</a>
                         </li>
                     </ul>
-                </li>--}}
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
