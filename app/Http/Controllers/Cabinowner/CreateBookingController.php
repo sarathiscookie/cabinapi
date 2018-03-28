@@ -359,7 +359,9 @@ class CreateBookingController extends Controller
 
                 $dateBegin              = DateTime::createFromFormat('d.m.y', $request->dateFrom)->format('Y-m-d');
                 $dateEnd                = DateTime::createFromFormat('d.m.y', $request->dateTo)->format('Y-m-d');
-                $dateDifference         = date_diff(date_create($dateBegin), date_create($dateEnd));
+                $d1                     = new DateTime($dateBegin);
+                $d2                     = new DateTime($dateEnd);
+                $dateDifference         = $d2->diff($d1);
 
                 $generateBookingDates   = $this->generateDates($dateBegin, $dateEnd);
 
@@ -369,7 +371,7 @@ class CreateBookingController extends Controller
 
                 foreach ($generateBookingDates as $key => $generateBookingDate) {
 
-                    if($dateDifference->format("%a") <= 60) {
+                    if($dateDifference->days <= 60) {
 
                         $generateBookingDat   = $generateBookingDate->format('Y-m-d'); //2017-09-02,2017-09-03,2017-09-04,2017-09-05,2017-09-06,2017-09-07,2017-09-08,2017-09-09,2017-09-10,2017-09-11
                         $generateBookingDay   = $generateBookingDate->format('D'); //Sat,Sun,Mon,Tue,Wed,Thu,Fri,Sat,Sun,Mon
