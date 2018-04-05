@@ -275,7 +275,7 @@ Route::prefix('admin')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Routes for Cabins Short version View
+    | Routes for Cabins Lite View
     |--------------------------------------------------------------------------
     |
     | Routes for listing
@@ -283,14 +283,83 @@ Route::prefix('admin')->group(function () {
     /* Listing cabins */
 
         Route::get('/cabinlite', 'CabinLiteController@index')->name('admin.cabins.cabinlite');
+
+        /* Show datatable page */
         Route::post('/cabinlite/datatables', 'CabinLiteController@dataTables')->name('admin.cabins.cabinlite.datatables');
-    /* Show datatable page */
+
+         /* Create cabin */
+        Route::get('/cabinlite/create', 'CabinLiteController@create')->name('admin.cabinlite.create');
+
+        /* store cabin */
+        Route::post('/cabinlite/store', 'CabinLiteController@store')->name('admin.cabinlite.store');
+        /* update cabin */
+        Route::post('/cabinlite/update', 'CabinLiteController@update')->name('admin.cabinlite.update');
+
+        /* Update contact details */
+        Route::post('/cabinlite/updatecontactinfo', 'CabinLiteController@updateContactinfo')->name('admin.cabinlite.updatecontactinfo');
+
+        /* Update Billing details */
+        Route::post('/cabinlite/updatebillinginfo', 'CabinLiteController@updateBillingInfo')->name('admin.cabinlite.updatebillinginfo');
+
+        /* Update Cabin details */
+        Route::post('/cabinlite/updatecabininfo', 'CabinLiteController@updateCabinInfo')->name('admin.cabinlite.updatecabininfo');
+
+        /* get cabin Owners */
+        Route::get('/cabinlite/getcabinowners', 'CabinLiteController@getCabinOwners') ;
+        /* get Country */
+        Route::get('/cabinlite/getcountry', 'CabinLiteController@getCountry') ;
+        /*   editcabin view*/
+        Route::get('/cabinlite/edit/{id}', 'CabinLiteController@edit');
+
+
+        /*   edit contingent cabin view */
+        Route::get('/cabinlite/contingent/{id}', 'ContingentController@edit');
+        /*   update contingent  */
+        Route::post('/cabinlite/contingent/update', 'ContingentController@update')->name('admin.cabinlite.updatecontingent');
+
+
+        /*   edit Season Details   */
+        Route::get('/cabinlite/seasondetails/{id}', 'CabinLiteOpenCloseSeasonController@index');
+        Route::post('/cabinlite/seasondetails/store', 'CabinLiteOpenCloseSeasonController@store')->name('admin.cabinlite.season.store');
+        Route::post('/cabinlite/seasondetails/lists', 'CabinLiteOpenCloseSeasonController@lists');
+        Route::get('/cabinlite/seasondetails/summer/edit', 'CabinLiteOpenCloseSeasonController@editSummer');
+
+        Route::get('/cabinlite/seasondetails/winter/edit', 'CabinLiteOpenCloseSeasonController@editWinter');
+        /*   update summer Season Details   */
+        Route::post('/cabinlite/seasondetails/summer/update', 'CabinLiteOpenCloseSeasonController@updateSummer')->name('admin.cabinlite.season.summer.update');
+        /*   update winter Season Details   */
+        Route::post('/cabinlite/seasondetails/winter/update', 'CabinLiteOpenCloseSeasonController@updateWinter')->name('admin.cabinlite.season.winter.update');
+        /*   delete summer Season    */
+        Route::post('/cabinlite/seasondetails/summer/delete', 'CabinLiteOpenCloseSeasonController@deleteSummer')->name('admin.cabinlite.season.summer.delete');
+        /*   delete winter Season    */
+        Route::post('/cabinlite/seasondetails/winter/delete', 'CabinLiteOpenCloseSeasonController@deleteWinter')->name('admin.cabinlite.season.winter.delete');
+        /*
+       |--------------------------------------------------------------------------
+       | Routes for Image Upload
+       |--------------------------------------------------------------------------
+       |
+       | Routes for upload,listing, delete,edit
+       */
+        /* list Image */
+        Route::get('/cabinlite/image/{id}', 'CabinLiteImageController@index')->name('cabin.image');
+
+        /* list create */
+        Route::get('/cabinlite/image/{id}/create', 'CabinLiteImageController@create')->name('cabin.image.create');
+        /* Store Section*/
+        Route::post('/cabinlite/image/{id}/store', 'CabinLiteImageController@store')->name('cabin.image.store');
+        /* Delete an image */
+        Route::post('/cabinlite/image/{id}/delete', 'CabinLiteImageController@deleteImage')->name('cabin.image.delete');
+        /* Set Main Image */
+        Route::post('/cabinlite/image/{id}/setMainImg', 'CabinLiteImageController@setMainImg')->name('cabin.image.setMainImg');
+        /* Set Profile Image*/
+        Route::post('/cabinlite/image/{id}/setProfileImg', 'CabinLiteImageController@setProfileImg')->name('cabin.image.setProfileImg');
+
 
 
     });
 });
 
-Route::prefix('cabinowner')->group(function () {
+  Route::prefix('cabinowner')->group(function () {
     Route::group(['middleware' => ['auth','cabinowner']], function () {
 
         /*
