@@ -28,8 +28,8 @@ $(function () {
             { "data": "cabinname" },
             { "data": "usrEmail" },
             { "data": "usrName" },
-            { "data": "usrLastname" },
-            { "data": "usrFirstname" }
+            { "data": "cabinType" },
+            { "data": "usrUpdate" }
         ],
         "columnDefs": [
             {
@@ -79,3 +79,4 @@ $(function () {
     });
     /* Data table functionality end */
 });
+

@@ -43,6 +43,14 @@
             </ol>
         </section>
 
+        @if (session()->has('successMsgSave'))
+            <div id="flash" class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ session()->get('successMsgSave') }}
+            </div>
+    @endif
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -51,20 +59,24 @@
 
                         <div class="box-header">
                             <h3 class="box-title">@lang('cabins.panelHeading')</h3>
+                            <a href="/admin/cabinlite/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
+                                Create New Cabin        </a>
                         </div>
                         <!-- /.box-header -->
 
                         <div class="box-body table-responsive">
                             <div class="responseStatusMessage"></div>
+
                             <table id="user_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>@lang('cabins.CabinCode')</th>
                                     <th>@lang('cabins.cabinName')</th>
                                     <th>@lang('cabins.email')</th>
-                                    <th>@lang('cabins.userName')</th>
-                                    <th>@lang('cabins.lastName')</th>
-                                    <th>@lang('cabins.firstName')</th>
+                                    <th>@lang('cabins.name') </th>
+                                    <th>@lang('cabins.cabinType')</th>
+                                    <th>@lang('cabins.update')</th>
+
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -90,6 +102,11 @@
 
                         <!-- modal -->
                         <div class="modalUserList"></div>
+
+                        <!-- Modal -->
+                        <div id="owner_info" class="modal fade" role="dialog">
+
+                        </div>
                         <!-- /.modal -->
 
                     </div>

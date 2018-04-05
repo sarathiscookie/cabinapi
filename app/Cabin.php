@@ -20,7 +20,16 @@ class Cabin extends Eloquent
      * @var bool
      */
     public $timestamps = false;
-
+    /**
+     * Set the cabin code as upper case.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setinvoice_codeAttribute($value)
+    {
+        $this->attributes['invoice_code'] = strtoupper($value);
+    }
     /**
      * The attributes that are mass assignable.
      *

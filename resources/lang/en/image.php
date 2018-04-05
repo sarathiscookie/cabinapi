@@ -21,6 +21,7 @@ return [
     'mainImg'                               =>'Main Image',
     'imageDeleteSuccessResponse'            =>'Selected Image is deleted Successfully!',
     'imagesetMainSuccessResponse'           =>'Main image is set Successfully!',
+    'imagesetprofileSuccessResponse'        =>'Profile image is set Successfully!',
     'imageUploadPreview'                    =>'Image Upload with Preview',
     'noImage'                               =>'No Image Found',
     'uploadSetProfileButton'                =>'Set as Profile Image',
