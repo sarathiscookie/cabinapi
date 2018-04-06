@@ -32,6 +32,7 @@ class CabinLiteContingentRequest extends FormRequest
             'normal_ms_inquiry_guest' => 'numeric|nullable',
 
         ];
+
         if($this->request->get('notRegularCheckbox') === '1') {
             $rules_app =  [
                 'not_regular_date'             => 'required_if:notRegularCheckbox,1',

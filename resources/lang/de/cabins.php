@@ -21,7 +21,7 @@ return [
     'firstName'                              => 'Vorname',
     'userName'                               => 'Benutzername',
     'email'                                  => 'E-Mail',
-    'CabinCode'                              => 'Hütte Kürzel',
+    'CabinCode'                              => 'Hüttenkürzel',
     'searchCabinLite'                        => 'Suche Kürzel',
     'searchCabin'                            => 'Suche Hütte',
     'noResult'                               => 'Unbekannt',
