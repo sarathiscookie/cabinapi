@@ -145,7 +145,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section>   <!-- /.End section  -->
     </div>
 @endsection
 @section('scripts')

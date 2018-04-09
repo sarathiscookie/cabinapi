@@ -59,7 +59,7 @@ class CabinLiteImageController extends Controller
         $images_arr = $this->getImages();
         $images   = $images_arr ;
          $cabin  = Cabin::where('_id', $id)->first();
-     return view('backend.cabinLiteImage' , array('images' =>$images  , 'cabin'=>$cabin));
+     return view('backend.cabinLiteImages' , array('images' =>$images  , 'cabin'=>$cabin));
     }
     /**
      * Get all images fro older .
