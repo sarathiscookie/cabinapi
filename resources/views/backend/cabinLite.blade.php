@@ -60,7 +60,7 @@
                         <div class="box-header">
                             <h3 class="box-title">@lang('cabins.panelHeading')</h3>
                             <a href="/admin/cabinlite/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
-                                Create New Cabin        </a>
+                                @lang('cabins.crtNewCanin')        </a>
                         </div>
                         <!-- /.box-header -->
 

@@ -72,7 +72,7 @@ class CabinLiteRequest extends FormRequest
              $rules = array(
                  'firstname' => 'required',
                  'lastname' => 'required',
-                 'mobile' => 'required',
+                // 'mobile' => 'required',
                  'usrCountry' => 'required',
                  'telephone' => 'required',
                  'usrZip' => 'required',

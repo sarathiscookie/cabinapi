@@ -1,5 +1,4 @@
 
-
 @extends('backend.layouts.app')
 @section('title', 'Cabin API - Admin:Images')
 

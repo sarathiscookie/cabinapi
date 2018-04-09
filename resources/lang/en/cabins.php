@@ -50,7 +50,7 @@ return [
     'failure'                                => 'OOPS! Something went wrong',
     /*    create cabin               */
 
-
+   'crtNewCanin'                             =>'Create New Cabin',
     'crtHeading'                             =>'Cabin',
     'crtHeadingSub'                          =>'New',
     'breadcrumbThree'                        =>'Create',
