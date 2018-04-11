@@ -161,13 +161,17 @@ class CabinLiteContingentRequest extends FormRequest
         if (\Lang::locale() == 'de') {
             return [
                 'numeric' => 'Bitte Zahl angeben',
-                'not_regular_date.required_if'=>'Dieses Feld nicht reguläres Datum ist erforderlich, wenn das Ankreuzfeld nicht regulär markiert ist.',
-                'reservation_type.not_in'        => 'Die gewählte Reservierungsart ist ungültig.'
+                'not_regular_date.required_if'=>'Dieses Feld Datumsbereich ist erforderlich, wenn das Kontrollkästchen "Nicht regelmäßig" aktiviert ist.',
+                'reservation_type.not_in'        => 'Die gewählte Reservierungsart ist ungültig.',
+                'not_regular_beds.required' => 'Die Anzahl der Betten wird benötigt, wenn das Kontrollkästchen "Nicht regulär" aktiviert ist.',
+                 'not_regular_dorms.required' => 'Die Anzahl der Matratzenlager wird benötigt, wenn das Kontrollkästchen "Nicht regulär" aktiviert ist.'
             ];
         }
         else{
             return [
-                'not_regular_date.required_if'=>'The Date range field is required when not regular checkbox is checked.'
+                'not_regular_date.required_if'=>'The Date range field is required when "Not Regular" checkbox is checked.',
+                 'not_regular_beds.required_if' => 'The  No of beds field is required when "Not Regular" checkbox is checked.',
+                 'not_regular_dorms.required_if' => 'The  No of dorms field is required when "Not Regular" checkbox is checked.'
             ];
 
         }
