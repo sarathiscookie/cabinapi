@@ -19,7 +19,7 @@
                     <th>@lang('cabins.labelLatestOpen') </th>
                     <th>@lang('cabins.labelLatestClose')</th>
                     <th>@lang('cabins.labelHoliday')</th>
-                    <th>@lang('cabins.labelAction')</th>
+                    <th> @lang('cabins.labelAction') </th>
                 </tr>
                 @if(isset($seasons))
                     @foreach ($seasons as $season)
@@ -64,8 +64,8 @@
                                     @endif
                                 </td>
                                 <td> <a href="javascript:void(0)"
-                                       class="btn  btn-primary btn-sm edit-season"><i class="fa fa-fw fa-edit"></i></a>
-                                    <a   style="margin:2%" href="javascript:void(0)" onclick="deleteSesonSummer('{{$season->_id}}' , '{{ csrf_token() }}')" class="btn  btn-danger btn-sm delete-season"><i class="fa fa-fw fa-trash"></i></a>
+                                       class="btn  btn-primary btn-sm edit-season" style="padding: 0px 0px !important;"><i class="fa fa-fw fa-edit"></i></a>
+                                    <a   style="margin:2% ; padding: 0px 0px !important;" href="javascript:void(0)" onclick="deleteSesonSummer('{{$season->_id}}' , '{{ csrf_token() }}')" class="btn  btn-danger btn-sm delete-season"   ><i class="fa fa-fw fa-trash"></i></a>
 
                                 </td>
                             </tr>
@@ -106,7 +106,7 @@
                     <th>@lang('cabins.labelLatestOpen') </th>
                     <th>@lang('cabins.labelLatestClose') </th>
                     <th>@lang('cabins.labelHoliday')</th>
-                    <th>@lang('cabins.labelAction')</th>
+                    <th> @lang('cabins.labelAction')  </th>
                 </tr>
 
                 @if(isset($seasons))
@@ -152,8 +152,8 @@
                                     @endif
                                 </td>
                             <td> <a href="javascript:void(0)"
-                                    class="btn  btn-primary btn-sm edit-winter-season"><i class="fa fa-fw fa-edit"></i></a>
-                                <a  style="margin:2%" href="javascript:void(0)" onclick="deleteSesonWinter('{{$season->_id}}' , '{{ csrf_token() }}')" class="btn  btn-danger btn-sm delete-season"><i class="fa fa-fw fa-trash"></i></a>
+                                    class="btn  btn-primary btn-sm edit-winter-season" style=" padding: 0px 0px !important;"><i class="fa fa-fw fa-edit"></i></a>
+                                <a  style="margin:2%; padding: 0px 0px !important;" href="javascript:void(0)" onclick="deleteSesonWinter('{{$season->_id}}' , '{{ csrf_token() }}')" class="btn  btn-danger btn-sm delete-season"><i class="fa fa-fw fa-trash"></i></a>
 
                             </td>
                             </tr>

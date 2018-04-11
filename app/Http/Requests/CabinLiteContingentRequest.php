@@ -25,8 +25,8 @@ class CabinLiteContingentRequest extends FormRequest
     {
         $rules =  [
             'reservation_type'        => 'required|not_in:2',
-            'normal_beds'             => 'required|numeric',
-            'normal_dorms'            => 'required|numeric',
+            'normal_beds'             => 'nullable|numeric',
+            'normal_dorms'            => 'nullable|numeric',
             'normal_emergency_rooms'  => 'numeric|nullable',
             'normal_inquiry_guest'    => 'numeric|nullable',
             'normal_ms_inquiry_guest' => 'numeric|nullable',
@@ -122,5 +122,55 @@ class CabinLiteContingentRequest extends FormRequest
         }
 
         return $rules;
+    }
+    /**
+     * Get the validation attribute that apply to the request.
+     *
+     * @return array
+     */
+    public function   attributes(){
+        if (\Lang::locale() == 'de') {
+            $number_of_beds = 'Anzahl der Betten' ;
+            $number_of_norms= 'Anzahl der Matratzenlager' ;
+        }
+        else{
+            $number_of_beds = 'No of beds' ;
+            $number_of_norms= 'No of dorms' ;
+        }
+
+            return ['normal_beds' =>  $number_of_beds, 'normal_dorms' => $number_of_norms,
+                'mon_beds' =>$number_of_beds, 'mon_dorms' => $number_of_norms,
+                'tue_beds' => $number_of_beds, 'tue_dorms' => $number_of_norms,
+                'wed_beds' =>$number_of_beds, 'wed_dorms' =>$number_of_norms,
+                'thu_beds' => $number_of_beds, 'thu_dorms' => $number_of_norms,
+                'fri_beds' => $number_of_beds, 'fri_dorms' => $number_of_norms,
+                'sat_beds' => $number_of_beds, 'sat_dorms' => $number_of_norms,
+                'sun_beds' => $number_of_beds, 'sun_dorms' => $number_of_norms,
+
+            ];
+
+
+    }
+    /**
+     * Get the validation message.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        if (\Lang::locale() == 'de') {
+            return [
+                'numeric' => 'Bitte Zahl angeben',
+                'not_regular_date.required_if'=>'Dieses Feld nicht reguläres Datum ist erforderlich, wenn das Ankreuzfeld nicht regulär markiert ist.',
+                'reservation_type.not_in'        => 'Die gewählte Reservierungsart ist ungültig.'
+            ];
+        }
+        else{
+            return [
+                'not_regular_date.required_if'=>'The Date range field is required when not regular checkbox is checked.'
+            ];
+
+        }
+
     }
 }

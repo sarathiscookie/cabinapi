@@ -88,8 +88,10 @@ class CabinLiteImageController extends Controller
     public function create()
     {
         $id   =  $this->cabin_id;
+        $cabin  = Cabin::where('_id', $id)->first();
+        $data = [ 'id' =>  $id, 'cabin' =>$cabin];
+      return view('backend.cabinLiteImageCreate') ->with($data);
 
-        return view('backend.cabinLiteImageCreate') ->with('id',   $id );
     }
 
     /*

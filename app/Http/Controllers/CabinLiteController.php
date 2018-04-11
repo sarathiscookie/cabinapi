@@ -20,6 +20,7 @@ class CabinLiteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         return view('backend.cabinLite');
@@ -184,10 +185,11 @@ class CabinLiteController extends Controller
                     $nestedData['cabinAbbr'] = $short_version;
                     $nestedData['cabinname'] = $cabin_name;
                     $nestedData['usrEmail'] = $usrEmail;
+
                     //$nestedData['usrName'] = '<a class="nounderline" data-toggle="modal" data-target="#userUpdate_' . $user->_id . '">' . $usrName . '</a><div class="modal fade" id="userUpdate_' . $user->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
                     $nestedData['usrName'] = $usrFirstname . ' ' . $usrLastname;
-                    $nestedData['usrUpdate'] = '<a href="/admin/cabinlite/edit/' . $cabin_id . '"   ><span class="label label-info">Info</span> </a><a href="/admin/cabinlite/contingent/' . $cabin_id . '"><span class="label label-default">Contingent</span> </a>
-                                                <a href="/admin/cabinlite/seasondetails/' . $cabin_id . '"><span class="label label-info">Season Details</span></a> <a   href="/admin/cabinlite/image/' . $cabin_id . '" > <span class="label label-primary">Images</span> </a>';
+                    $nestedData['usrUpdate'] = '<a href="/admin/cabinlite/edit/' . $cabin_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a href="/admin/cabinlite/contingent/' . $cabin_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
+                                                <a href="/admin/cabinlite/seasondetails/' . $cabin_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a> <a   href="/admin/cabinlite/image/' . $cabin_id . '" > <span class="label label-primary">'. __('cabins.menuImages'). '</span> </a>';
                     $nestedData['cabinType'] = $this->getCabinType($cabinList->booking_type);
                     $data[] = $nestedData;
                 }
@@ -212,9 +214,9 @@ class CabinLiteController extends Controller
      */
     public function getCabinType($id = false)
     {
-        $type = [0 => 'Reservation',
-            1 => 'Booking',
-            2 => 'Mail'
+        $type = [0 => __('cabins.optResev'),
+            1 => __('cabins.optBooking'),
+            2 => __('cabins.optMail')
 
         ];
         $result = [];

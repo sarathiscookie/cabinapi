@@ -96,7 +96,7 @@
                                             @endif
                                         </div>
                                         <div class="form-group {{ $errors->has('normal_beds') ? ' has-error' : '' }}">
-                                            <label for="normal_beds">@lang('cabins.noOfBedsLabel') <span class="required">*</span></label>
+                                            <label for="normal_beds">@lang('cabins.noOfBedsLabel')  </label>
 
                                             <input type="text" class="form-control" id="normal_beds" name="normal_beds" placeholder="@lang('cabins.noOfBedsPlaceholder')" maxlength="10" value="{{old('normal_beds', $cabin->beds)}}">
 
@@ -105,7 +105,7 @@
                                             @endif
                                         </div>
                                         <div class="form-group {{ $errors->has('normal_dorms') ? ' has-error' : '' }}">
-                                            <label for="normal_dorms">@lang('cabins.noOfDormsLabel') <span class="required">*</span></label>
+                                            <label for="normal_dorms">@lang('cabins.noOfDormsLabel') </label>
 
                                             <input type="text" class="form-control" id="normal_dorms" name="normal_dorms" placeholder="@lang('cabins.noOfDormsPlaceholder')" maxlength="10" value="{{old('normal_dorms', $cabin->dormitory)}}">
 

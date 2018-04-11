@@ -286,7 +286,7 @@
                                                         <div class=" checkbox">
                                                             <label> <input type="checkbox" id="halfboard"
                                                                            name="halfboard" {{( old('halfboard') == '1')? 'checked="checked"' :'' }} >
-                                                                Half board available </label></div>
+                                                                @lang('cabins.half_board_available')     </label></div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9" style="display: none" id="divHafPrice">

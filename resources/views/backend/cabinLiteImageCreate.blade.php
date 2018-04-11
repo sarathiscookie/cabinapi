@@ -46,6 +46,29 @@
             <ol class="breadcrumb">
                 <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('cabins.breadcrumbOne')</a></li>
                 <li><a href="/admin/cabinlite" ><i class="fa fa-edit"></i> @lang('cabins.breadcrumbTwo')</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
+                       data-close-others="false">
+                        <i class="fa fa-home fa-fw" aria-hidden="true"></i>{{$cabin->name}} <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="#">{{$cabin->name}} </a></li>
+                        <li class="divider"></li>
+                        <li>
+                        <li class="fa fa-edit" style="margin: 8px "></li>
+                        <a tabindex="-1" href="/admin/cabinlite/edit/{{$cabin->_id}}">@lang('cabins.menuInfo')</a>
+                        </li>
+                        <li>
+                        <li class="fa fa-edit" style="margin: 8px "></li>
+                        <a tabindex="-1"
+                           href="/admin/cabinlite/contingent/{{$cabin->_id}}">@lang('cabins.menuContigent')</a></li>
+                        <li>
+                         <li class="fa fa-edit" style="margin: 8px "></li><a tabindex="-1" href="/admin/cabinlite/image/{{$cabin->_id}}">@lang('cabins.menuImages')</a></li>
+                       <li> <li class="fa fa-edit" style="margin: 8px "></li>
+                        <a tabindex="-1"
+                           href="/admin/cabinlite/seasondetails/{{$cabin->_id}}">@lang('cabins.menuSeason')</a></li>
+                    </ul>
+                </li>
                 <li class="active">@lang('cabins.imagePageHeading')</li>
 
             </ol>

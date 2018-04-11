@@ -567,7 +567,7 @@
                                                         <label>
                                                             <input type="checkbox" id="halfboard"
                                                                    name="halfboard" {{( old('halfboard') == '1' || $cabin->halfboard =="1" )? 'checked="checked"' :'' }} >
-                                                            Half board available </label></div>
+                                                            @lang('cabins.half_board_available')</label></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-9" style="display: none" id="divHafPrice">
@@ -735,7 +735,7 @@
                                                     <img src="/img/add1.png" alt="Add More" class="add-more-dynamic"
                                                          title="Add More" width="25px" height="25px"
                                                          style=" margin-top: 15px; "/>
-                                                    <label class="addNeighbourlbl">Add New Neighbour Cabin</label>
+                                                    <label class="addNeighbourlbl">@lang('cabins.lblNewNeighbourCabin')</label>
                                                 </div>
                                             </div>
                                         </div>

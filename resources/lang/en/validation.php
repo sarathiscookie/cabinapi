@@ -114,6 +114,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'usrCity'=> 'City',
+        'usrStreet' => 'Street',
+        'usrAddress' => 'Street',
+        'usrCountry' => 'Country',
+        'usrZip' => 'Zip',
+         ],
 
 ];

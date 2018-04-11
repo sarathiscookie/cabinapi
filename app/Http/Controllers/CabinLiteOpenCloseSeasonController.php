@@ -32,6 +32,8 @@ class CabinLiteOpenCloseSeasonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index($id)
     {
         $seasons = Season::select('_id', 'summerSeason', 'summerSeasonYear', 'summerSeasonStatus', 'earliest_summer_open', 'earliest_summer_close', 'latest_summer_open', 'latest_summer_close', 'summer_next_season', 'summer_mon', 'summer_tue', 'summer_wed', 'summer_thu', 'summer_fri', 'summer_sat', 'summer_sun', 'winterSeason', 'winterSeasonYear', 'winterSeasonStatus', 'earliest_winter_open', 'earliest_winter_close', 'latest_winter_open', 'latest_winter_close', 'winter_next_season', 'winter_mon', 'winter_tue', 'winter_wed', 'winter_thu', 'winter_fri', 'winter_sat', 'winter_sun')
