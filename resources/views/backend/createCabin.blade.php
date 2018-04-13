@@ -308,7 +308,19 @@
 
                                     <!---- ---->
                                     <div class="row">
-                                        <div class="col-md-6">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group   {{ $errors->has('sleeping_place') ? ' has-error' : '' }}">
+                                                <label>@lang('cabins.lblSleepingPlace')  </label>
+                                                <div class=" checkbox">
+                                                    <label> <input type="checkbox" id="sleeping_place" value="1"
+                                                                   name="sleeping_place" {{( old('sleeping_place') == '1')? 'checked="checked"' :'' }} >
+                                                        @lang('cabins.lblSleepingPlace')     </label></div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="form-group   {{ $errors->has('booking_type') ? ' has-error' : '' }}">
                                                 <label>@lang('cabins.lblBookingType') <span
                                                             class="required">*</span></label>

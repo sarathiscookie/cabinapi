@@ -589,7 +589,20 @@
 
                                 <!---- ---->
                                 <div class="row">
-                                    <div class="col-md-3">
+
+                                    <div class="col-md-2">
+                                        <div class="form-group   {{ $errors->has('sleeping_place') ? ' has-error' : '' }}">
+                                            <label>@lang('cabins.lblSleepingPlace')  </label>
+                                            <div class=" checkbox">
+                                                <label> <input type="checkbox" id="sleeping_place" value="1"
+                                                               {{( old('sleeping_place') == '1' || $cabin->sleeping_place =="1" )? 'checked="checked"' :'' }}        name="sleeping_place"  >
+                                                    @lang('cabins.lblSleepingPlace')     </label></div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
                                         <div class="form-group   {{ $errors->has('booking_type') ? ' has-error' : '' }}">
                                             <label>@lang('cabins.lblBookingType') <span
                                                         class="required">*</span></label>
@@ -608,22 +621,7 @@
                                             <span class="help-block"><strong>  {{ $errors->first('booking_type') }}</strong></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group {{ $errors->has('cancel') ? ' has-error' : '' }}">
-                                            <label>@lang('cabins.lblCancel')  </label>
 
-                                            <select class="form-control" id="cancel" name="cancel">
-                                                @foreach($cabinInfo->reservationCancel() as $key => $type)
-                                                    <option value="{{ $key }}"
-                                                            @if(  old('cancel') == $key || $cabin->reservation_cancel == $key ) selected="selected" @endif>{{ $type }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @if ($errors->has('cancel'))
-                                                <span class="help-block"><strong>{{ $errors->first('cancel') }}</strong></span>
-                                            @endif
-                                        </div>
-                                    </div>
 
 
                                     <div class="col-md-6">
@@ -671,40 +669,54 @@
                                                 </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('latitude') ? ' has-error' : '' }}">
-                                                    <label>@lang('cabins.lblLatitude')  </label>
-                                                    <input type="text" class="form-control" id="latitude"
-                                                           name="latitude"
-                                                           placeholder="@lang('cabins.lblLatitudePH')"
-                                                           value="{{old('latitude' , $cabin->latitude)}}"
-                                                           maxlength="100">
+                                        <div class="form-group {{ $errors->has('cancel') ? ' has-error' : '' }}">
+                                            <label>@lang('cabins.lblCancel')  </label>
 
-                                                    @if ($errors->has('latitude'))
-                                                        <span class="help-block"><strong>{{ $errors->first('latitude') }}</strong></span>
-                                                    @endif
-                                                </div>
+                                            <select class="form-control" id="cancel" name="cancel">
+                                                @foreach($cabinInfo->reservationCancel() as $key => $type)
+                                                    <option value="{{ $key }}"
+                                                            @if(  old('cancel') == $key || $cabin->reservation_cancel == $key ) selected="selected" @endif>{{ $type }}</option>
+                                                @endforeach
+                                            </select>
 
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group {{ $errors->has('longitude') ? ' has-error' : '' }}">
-                                                    <label>@lang('cabins.lblLongitude')  </label>
-                                                    <input type="text" class="form-control" id="longitude"
-                                                           name="longitude"
-                                                           placeholder="@lang('cabins.lblLongitudePH')"
-                                                           value="{{old('longitude', $cabin->longitude )}}"
-                                                           maxlength="100">
-
-                                                    @if ($errors->has('longitude'))
-                                                        <span class="help-block"><strong>{{ $errors->first('longitude') }}</strong></span>
-                                                    @endif
-                                                </div>
-
-                                            </div>
+                                            @if ($errors->has('cancel'))
+                                                <span class="help-block"><strong>{{ $errors->first('cancel') }}</strong></span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group {{ $errors->has('latitude') ? ' has-error' : '' }}">
+                                                <label>@lang('cabins.lblLatitude')  </label>
+                                                <input type="text" class="form-control" id="latitude"
+                                                       name="latitude"
+                                                       placeholder="@lang('cabins.lblLatitudePH')"
+                                                       value="{{old('latitude' , $cabin->latitude)}}"
+                                                       maxlength="100">
+
+                                                @if ($errors->has('latitude'))
+                                                    <span class="help-block"><strong>{{ $errors->first('latitude') }}</strong></span>
+                                                @endif
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group {{ $errors->has('longitude') ? ' has-error' : '' }}">
+                                                <label>@lang('cabins.lblLongitude')  </label>
+                                                <input type="text" class="form-control" id="longitude"
+                                                       name="longitude"
+                                                       placeholder="@lang('cabins.lblLongitudePH')"
+                                                       value="{{old('longitude', $cabin->longitude )}}"
+                                                       maxlength="100">
+
+                                                @if ($errors->has('longitude'))
+                                                    <span class="help-block"><strong>{{ $errors->first('longitude') }}</strong></span>
+                                                @endif
+                                            </div>
+
+                                        </div>
+                                    </div>
 
 
                                 <div class="row">

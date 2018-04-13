@@ -116,6 +116,7 @@ return [
     'lblMoreDetails'                         => 'Weitere Details',
     'moreDetailsPH'                          => 'Weitere Details…',
     'lblNewNeighbourCabin'                   => 'Neue Nachbarhütten Erstellen',
+    'lblSleepingPlace'                       =>'Schlafplätze anzeigen',
 
 
     'lblBillingCity'                         => 'Stadt',

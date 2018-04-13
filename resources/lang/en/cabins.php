@@ -116,6 +116,7 @@ return [
     'lblMoreDetails'                         =>'More Details',
     'moreDetailsPH'                          =>'Enter More Details',
      'lblNewNeighbourCabin'                  =>'Add New Neighbour Cabin',
+    'lblSleepingPlace'                       =>'Sleeping Place',
 
     'lblBillingCity'                         => 'City',
     'billingcityPH'                          => 'Enter City' ,

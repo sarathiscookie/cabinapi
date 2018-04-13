@@ -347,7 +347,7 @@ class CabinLiteController extends Controller
         $cabin->fax = $request->fax;
         $cabin->vat = $request->vat;
         $cabin->legal = $request->legal;
-
+        $cabin->sleeping_place = $request->sleeping_place;
         $cabin->other_cabin = "0"; // should be string
         $cabin->invoice_autonum = 100000;
         $cabin->is_delete = 0;
@@ -546,6 +546,7 @@ class CabinLiteController extends Controller
                         'country' => $request->country,
                         'website' => $request->website,
                         'booking_type' => $request->booking_type,
+                        'sleeping_place'=> $request->sleeping_place,
                         'other_details' => $request->details,
                         'region' => $request->region,
                         'latitude' => $request->latitude,
