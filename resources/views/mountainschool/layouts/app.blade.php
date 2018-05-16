@@ -18,7 +18,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<style>
+    .required{
+        color:red;
+    }
 
+    #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        filter: alpha(opacity=70);
+        -moz-opacity: 0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+        z-index: 10000;
+        background-color: #ECF0F5;
+
+    }
+</style>
 @yield('css')
 
 <!-- Theme style -->
@@ -84,7 +104,7 @@
                             <li class="user-header">
                                 <p>
                                     Welcome {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
-                                 <!--   <small>Last login on 06.19.2017 12:30</small>-->
+                         <!--    <small>Last login on 10.19.2017 12:30</small> -->
 
                                 </p>
                             </li>
@@ -143,9 +163,43 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
+                    </ul>
+                    <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu')</a></li>
                     </ul>
                 </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-map-o"></i> <span>@lang('menu.tourMenu')</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/mountainschool/tours"><i class="fa fa-circle-o"></i> @lang('menu.tourListMenu')</a></li>
+                    </ul>
+                    <ul class="treeview-menu">
+                        <li><a href="/mountainschool/tours/createtour"><i class="fa fa-circle-o"></i> @lang('menu.tourCreateMenu')</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa fa-user"></i> <span>@lang('menu.myDataMenu')</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/mountainschool/mydata"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a></li>
+                    </ul>
+
+                    <ul class="treeview-menu">
+                        <li><a href="/mountainschool/editpassword"><i class="fa fa-circle-o"></i> @lang('menu.changePwd')</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </section>
         <!-- /.sidebar -->

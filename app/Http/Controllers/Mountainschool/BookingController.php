@@ -228,7 +228,11 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+
+        $userDetails = Userlist::where('is_delete', 0)
+            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->first();
+        return view('mountainschool.newBooking', array('user' => $userDetails));
     }
 
     /**

@@ -45,4 +45,6 @@ return [
     'cabinsMenu'                            => 'Hütten',
     'cabinLiteMenu'                         => 'Hüttenliste',
     'priceListsMenu'                        => 'Preisliste',
+    'tourCreateMenu'                        => 'Create Tour',
+    'tourMenu'                              => 'Tour List',
 ];

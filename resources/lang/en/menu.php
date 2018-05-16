@@ -21,6 +21,7 @@ return [
 
     'bookingMenu'                           => 'Booking',
     'bookingListMenu'                       => 'Booking List',
+    'bookingCreateMenu'                     => 'New Booking',
     'bookingStatisticsMenu'                 => 'Booking Statistics',
 
     'bookingMschoolMenu'                    => 'Mschool Booking',
@@ -39,10 +40,14 @@ return [
     'openTimeMenu'                          => 'Opening Hours',
 
     'myDataMenu'                            => 'My Data',
+    'changePwd'                             => 'Change Password',
 
     'imageMenu'                             => 'Images',
     'mUsersMenu'                            => 'Mountain Schools',
     'cabinsMenu'                            => 'Cabins',
     'cabinLiteMenu'                         => 'Cabin Lite',
     'priceListsMenu'                        => 'Price List',
+    'tourCreateMenu'                        => 'Create Tour',
+    'tourMenu'                              => 'Tours',
+    'tourListMenu'                          => 'Tour List',
 ];

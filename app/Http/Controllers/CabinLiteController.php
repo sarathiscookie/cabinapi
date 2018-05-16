@@ -546,7 +546,7 @@ class CabinLiteController extends Controller
                         'country' => $request->country,
                         'website' => $request->website,
                         'booking_type' => $request->booking_type,
-                        'sleeping_place'=> $request->sleeping_place,
+                        'sleeping_place'=>(int)$request->sleeping_place,
                         'other_details' => $request->details,
                         'region' => $request->region,
                         'latitude' => $request->latitude,

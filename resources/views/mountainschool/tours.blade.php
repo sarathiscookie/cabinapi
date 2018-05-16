@@ -1,6 +1,8 @@
-@extends('backend.layouts.app')
+@extends('mountainschool.layouts.app')
 
-@section('title', 'Cabin API - Admin: Cabin Lite List')
+@section('title', 'Cabin API - Mountain School: Tour List')
+
+
 @section('css')
     <!-- DataTables -->
 
@@ -11,20 +13,7 @@
             text-decoration: none;
             cursor: pointer;
         }
-        .modalvalDisplay{
-            display: inline-block;
-            max-width: 235px;
-            width: 235px;
-            min-height: 30px;
-            border: 1px solid #D2D6DE;
-            background-color: #EEEEEE;
-            padding: 5px;
-            overflow: auto;
-        }
-        .sufixhfour{
-            font-size: 14px;
-            font-weight: bold;
-        }
+      
     </style>
 @endsection
 
@@ -34,60 +23,62 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                @lang('cabins.heading')
-                <small>@lang('cabins.controlPanel')</small>
+                @lang('tours.heading')
+                <small>@lang('tours.smHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('cabins.breadcrumbOne')</a></li>
-                <li class="active">@lang('cabins.breadcrumbTwo')</li>
+                <li><a href="/mountainschool/dashboard"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a></li>
+                <li class="active">@lang('tours.breadcrumbTwo')</li>
             </ol>
         </section>
 
-        @if (session()->has('successMsgSave'))
-            <div id="flash" class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ session()->get('successMsgSave') }}
-            </div>
-    @endif
-        <!-- Main content -->
+
+    <!-- Main content -->
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
+              <!---- Flash message-->
+                    @if (session()->has('successMsgSave'))
+                        <div id="flash" class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session()->get('successMsgSave') }}
+                        </div>
+                    @endif
+                <!---- Flash message-->
+
                     <div class="box">
 
                         <div class="box-header">
-                            <h3 class="box-title">@lang('cabins.panelHeading')</h3>
-                            <a href="/admin/cabinlite/create" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
-                                @lang('cabins.crtNewCanin')        </a>
+                            <h3 class="box-title">@lang('tours.panelHeading')</h3>
+                            <a href="/mountainschool/tours/createtour" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
+                                @lang('tours.crtNewTour')        </a>
                         </div>
                         <!-- /.box-header -->
 
                         <div class="box-body table-responsive">
                             <div class="responseStatusMessage"></div>
 
-                            <table id="user_data" class="table table-bordered table-striped table-hover">
+                            <table id="tour_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>@lang('cabins.CabinCode')</th>
-                                    <th>@lang('cabins.cabinName')</th>
-                                    <th>@lang('cabins.email')</th>
-                                    <th>@lang('cabins.name') </th>
-                                    <th>@lang('cabins.cabinType')</th>
-                                    <th>@lang('cabins.update')</th>
-
+                                    <th>@lang('tours.tourNo')</th>
+                                    <th>@lang('tours.tourName')</th>
+                                    <th>@lang('tours.no_cabins')</th>
+                                    <th>@lang('tours.cabins') </th>
+                                    <th>@lang('tours.edit')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabins.searchCabinLite')"></th>
-                                    <th><input type="text" id="2"  class="form-control input-sm search-input-cabin" placeholder="@lang('cabins.searchCabin')"></th>
+                                    <th><input type="text" id="0"  class="form-control input-sm search-input" placeholder="@lang('tours.searchTourCode')"></th>
+                                    <th><input type="text" id="1"  class="form-control input-sm search-input-tourname" placeholder="@lang('tours.searchTourName')"></th>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+
                                 </tr>
                                 </tfoot>
                             </table>
@@ -125,8 +116,6 @@
     <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
 
 
-
-
-    <!-- Cabin details Js -->
-    <script src="{{ asset('js/cabin-lite.js') }}"></script>
+    <!-- Tours details Js -->
+    <script src="{{ asset('js/tours.js') }}"></script>
 @endsection
