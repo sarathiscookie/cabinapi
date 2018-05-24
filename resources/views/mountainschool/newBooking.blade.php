@@ -215,8 +215,8 @@
 
                         } else {
                             //data = JSON.parse(data);
-                            // console.log(data.successMsg);
-                            if (data.successMsg != "undefined") {
+                        console.log(data.failureMsg);
+                            if (data.successMsg !== undefined) {
                                 var msgClass = 'alert-success';
                                 var msgText = data.successMsg;
                             }
@@ -224,6 +224,7 @@
                                 var msgClass = 'alert-danger';
                                 var msgText = data.failureMsg;
                             }
+
                             $(window).scrollTop(10);
                             var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
                             $("#tour_name").trigger("change");

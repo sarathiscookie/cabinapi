@@ -582,6 +582,8 @@ class TourController extends Controller
                     if ($cabinDetails->invoice_code && $cabinDetails->invoice_code != '') {
                         $invoiceCode = $cabinDetails->invoice_code;
                         $invoiceNumber = $invoiceCode . "-" . date("y") . "-" . $autoNumber;
+                    }else{
+                        $invoiceNumber =   date("y") . "-" . $autoNumber;
                     }
                     /* Create invoice number end */
                     /* Getting tour  from mschool collection  */

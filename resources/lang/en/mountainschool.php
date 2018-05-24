@@ -94,6 +94,8 @@ return [
     'lblCheckInPH'=> 'Enter Date From',
     'lblMountainDays'=> 'Days',
     'lblMountainDaysPH'=> 'Select Days',
+    'indTourNumber'                          =>'Individual Tour Num',
+    'searchIndTourNo'                        =>'Search Individual Tour No'
 
 
 ];

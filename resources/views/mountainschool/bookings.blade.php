@@ -58,6 +58,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('mountainschool.bookingNumber')</th>
+                                    <th>@lang('mountainschool.indTourNumber')</th>
                                     <th>@lang('mountainschool.from')</th>
                                     <th>@lang('mountainschool.to')</th>
                                     <th>@lang('mountainschool.beds')</th>
@@ -71,6 +72,7 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchBoookingNo')"></th>
+                                    <td><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchIndTourNo')"></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -159,6 +161,7 @@
                     "columns": [
                         { "data": "hash" },
                         { "data": "invoice_number" },
+                        { "data": "ind_tour_no" },
                         { "data": "check_in" },
                         { "data": "reserve_to" },
                         { "data": "beds" },
@@ -170,7 +173,7 @@
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7]
+                            "targets": [0, 3, 4, 5, 8]
                         }
                     ],
                     "language": {
@@ -223,6 +226,7 @@
                                 $(col[5]).attr('width', 8);
                                 $(col[6]).attr('width', 5);
                                 $(col[7]).attr('width', 5);
+                                $(col[8]).attr('width', 5);
 
                                 $('row c[r^="B"]', sheet).attr( 's', '55' );
                                 $('row c[r^="C"]', sheet).attr( 's', '55' );
@@ -232,7 +236,7 @@
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8,9]
                             }
                         }
                     ]

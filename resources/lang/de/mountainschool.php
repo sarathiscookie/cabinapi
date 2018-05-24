@@ -60,4 +60,6 @@ return [
     'successfullyCancelled'                 => 'Die Buchung wurde Storniert',
     /* modal popup */
     'closeBtn'                               => 'Schließen',
+    'indTourNumber'                          =>'Individual Tour Num',
+    'searchIndTourNo'                        =>'Search Individual Tour No'
 ];

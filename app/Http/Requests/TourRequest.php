@@ -224,15 +224,26 @@ class TourRequest extends FormRequest
             $rlApp['days' . $j .'.*'] = 'required';
         }
         if (\Lang::locale() == 'de') {
-            return [
-                'no_cabins.required' => 'Please select at least one Cabin for this Tour.',
+            for($j=1 ; $j<=$k ; $j++) {
+                $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
+                $msgApp[ 'guests'.$j.'.*.required']  = 'No of Guest field is required.';
+                $msgApp[ 'check_in'.$j.'.*.required']  = 'Check In field is required.';
+                $msgApp[ 'days'.$j.'.*.required']  = 'Days field is required.';
+
+            }
+
+            $messages =  ['no_cabins.required' => 'Please select at least one Cabin for this Tour.',
                 'no_cabins.not_in' => 'Please select at least one Cabin for this Tour.',
                 'ind_tour_no.*.required' => 'Individual Tour No field is required.',
                 'ind_notice.*.required' => 'Individual Notice field is required.',
+                'tour_guide.*.required' => 'Tour Guide field is required.',
                 'ind_tour_no.*.unique' =>  'The Individual Tour No has already been taken.',
 
+                //   'usrZip.required' => 'The Zip field is required.',
 
             ];
+            $msg = array_merge($msgApp,$messages);
+            return $msg;
         } else {
 
             for($j=1 ; $j<=$k ; $j++) {

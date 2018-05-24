@@ -246,12 +246,14 @@ $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "
                 },
                 error: function (err) {
                     $('#newBooking').attr('disabled', 'disabled');
-                    $('#hidProceed').val('no');
+                   $('#hidProceed').val('no');
                     datefromInput.next('.help-block').html(' <strong>' + err.responseJSON.error + '</strong> ');
                     datefromInput.parent('.form-group').addClass('has-error');
                     ovelayLoading('remove');
                 }
             });
+        }else{
+            $('#hidProceed').val('valSuccess');
         }
     }
 
