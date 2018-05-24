@@ -103,7 +103,6 @@
                             <div class="box-header with-border">
                                 <h4 class="box-title"> @lang('mountainschool.nbBoxHeading')  </h4>
                             </div>
-
                             <div class="box-body" id="tourbox">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -165,7 +164,6 @@
     <script>
         /*  Duplicating Deatils*/
         $('#duplicatingBooking').click(function () {
-            //   $('.cabinPart').children().clone(). find("input[name=ind_tour_no").val("").insertBefore("#appendDup"); //.insertAfter("div.cabinPart:last");
             var $clone = $('.cabinPart:last').clone();
             $clone.find('input[name="ind_tour_no[]"]').val('');
             $clone.find('.has-error').removeClass('has-error');
@@ -176,7 +174,6 @@
             $clone.find('select').each(function (index, item) {
                 //set new select to value of old select
                 $(item).val($originalSelects.eq(index).val());
-
             });
             /* clone the selet box option too */
             $clone.appendTo('#appendDup');
@@ -199,13 +196,11 @@
                 $('#' + divId).find('.has-error').removeClass('has-error');
                 $('#' + divId).find('.help-block').html('<strong></strong>');
                 $btn.button('loading');
-
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: $("form").serialize() + '&' + $.param({'formPart': $btn.val()}),
                     success: function (data) {
-
                         //    ovelayLoading('remove');//remove loading effect
                         $btn.button('reset');
                         if ((data.errors)) {
@@ -237,22 +232,6 @@
                             setTimeout(function () {
                                 $('#tourBookingFrm #flash').fadeOut()
                             }, 2000);
-                            /*   data = JSON.parse(data);
-                               //  append success message
-                               if(data.errorMsg != undefined){
-                                   var msgClass= 'alert-danger' ;
-                                   var msgText = data.errorMsg ;
-
-                               }
-                               else {
-                                   var msgClass= 'alert-success' ;
-                                   var msgText = data.successMsg ;
-                               }
-                               var msg = '<div id="flash" class="alert '+ msgClass +'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
-
-                               $(msg).prependTo('#'+divId).fadeIn(100);
-                               setTimeout(function(){ $('#'+divId +' #flash').fadeOut() }, 2000);
-                               */
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
