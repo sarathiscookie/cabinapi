@@ -613,7 +613,7 @@ Route::prefix('mountainschool')->group(function () {
         Route::post('/bookings/datatables', 'Mountainschool\BookingController@dataTables')->name('mountainschool.bookings.datatables');
 
         /* new booking */
-        Route::get('/bookings/create', 'Mountainschool\BookingController@create') ;
+        Route::get('/bookings/create', 'Mountainschool\TourController@createTourNewBooking') ;
 
         /* get tours for  booking */
         Route::get('/tours/gettour', 'Mountainschool\TourController@getTourForBooking');

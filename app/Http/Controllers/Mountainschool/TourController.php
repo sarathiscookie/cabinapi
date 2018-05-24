@@ -136,6 +136,19 @@ class TourController extends Controller
         }
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createTourNewBooking()
+    {
+
+        $userDetails = Userlist::where('is_delete', 0)
+            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->first();
+        return view('mountainschool.newBooking', array('user' => $userDetails));
+    }
 
     /**
      * Show the form for creating a new resource.
