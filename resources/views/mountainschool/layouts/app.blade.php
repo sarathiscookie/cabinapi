@@ -198,6 +198,9 @@
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/editpassword"><i class="fa fa-circle-o"></i> @lang('menu.changePwd')</a></li>
                     </ul>
+                    <ul class="treeview-menu">
+                        <li><a href="/mountainschool/basicsettings"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
+                    </ul>
                 </li>
 
             </ul>

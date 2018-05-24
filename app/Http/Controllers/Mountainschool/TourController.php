@@ -472,6 +472,7 @@ class TourController extends Controller
         //
     }
 
+
     /**
      * Get Tour for booking
      *
@@ -480,7 +481,6 @@ class TourController extends Controller
      */
     public function getTourForBooking(TourRequest $request)
     {
-
 
         /* Get Basic settings data */
           $userId=   (Auth::user()->_id);
@@ -509,6 +509,9 @@ class TourController extends Controller
                 }
                 if (isset($cabinDetails->dormitory)) {
                     $cabin_array[$key]['dormitory'] = $cabinDetails->dormitory;
+                }
+                if (isset($cabinDetails->other_cabin)) {
+                    $cabin_array[$key]['other_cabin'] = $cabinDetails->other_cabin;
                 }
                 $tours->cabins = $cabin_array;
             }
@@ -596,7 +599,7 @@ class TourController extends Controller
                     $tour->is_delete = 0;
                     $tour->bookingdate = $utcdatetime;
                     $halfboardVal = '';
-                    if ($request->$halfboard[$tb] == "on") {
+                    if ($request->$halfboard[$tb] == "on" || $request->$halfboard[$tb] == "1") {
                         $halfboardVal = "1";
                     }
                     $tour->half_board = $halfboardVal;
@@ -650,6 +653,58 @@ class TourController extends Controller
 
         dd($msBookings);
     }
+    /**
+     * basicSettings
+     *
+     * @param Request
+     * @return \Illuminate\Http\Response
+     */
+    protected function basicSettings(TourRequest $request)
+    {
+        /* Get Basic settings data */
+        $userId=   (Auth::user()->_id);
+        $basic_settings = Settings::where('is_delete', "0")
+            ->where('user_id', $userId)->first();
+      //  dd($basic_settings);
+        return view('mountainschool.basicSettings', array('basicsettings' => $basic_settings));
+
+    }
+    protected function updateBasicSettings(TourRequest $request)
+    {
+
+      /*  "no_guides" => "1"
+    "contact_person" => "Elisabeth Reiter"
+    "notice" => ""
+    "is_delete" => "0"
+    "user_id" => "5888da46d2ae67ec3efb5f7a"
+    "createdate" => UTCDateTime {#437 ▶}
+        "half_board" => "1"
+        */
+        /* Get Basic settings data */
+      //  $userId=   (Auth::user()->_id);
+     //   $basic_settings = Settings::where('is_delete', "0")
+       //     ->where('user_id', $userId)->first();
+      //  return view('mountainschool.basicSettings', array('basicsettings' => $basic_settings));
+       // dd($basic_settings);
+
+        $obj_user = Userlist::where('is_delete', 0)
+            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->first();
+        $userId=   (Auth::user()->_id);
+          $basic_settings = Settings::where('is_delete', "0")
+       ->where('user_id', $userId)->first();
+
+           $basic_settings->no_guides = $request->no_guides;
+           $basic_settings->contact_person = $request->contact_person;
+           $basic_settings->notice = $request->notice;
+           $basic_settings->half_board = $request->half_board;
+           $basic_settings->save();
+            return back()->with('success', __('tours.successMsgbsUpt'));
+
+
+    }
+
+
     /**
      * To generate date format as mongo.
      *

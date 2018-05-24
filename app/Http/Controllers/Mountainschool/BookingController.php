@@ -189,7 +189,7 @@ class BookingController extends Controller
                         $booking->checkin_to= $reserve_to;
                         $booking->bookingStatusLabel = $bookingStatustxt;
 
-                        $view = \View::make('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
+                        $view =  view('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
                         $popup_contents = (string)$view;
                         $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
 
@@ -197,7 +197,7 @@ class BookingController extends Controller
 
                         $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                         $nestedData['hash']                    = $checkbox;
-                        $nestedData['invoice_number']          = $invoiceNumber_comment;
+                        $nestedData['invoice_number']          = $invoiceNumber_comment  ;
                         $nestedData['check_in']                = $checkin_from;
                         $nestedData['reserve_to']              = $reserve_to;
                         $nestedData['beds']                    = $beds;

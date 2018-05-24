@@ -5,7 +5,6 @@
 
 @section('css')
 
-
     <!-- jQuery-ui -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -166,14 +165,21 @@
     <script>
         /*  Duplicating Deatils*/
         $('#duplicatingBooking').click(function () {
-
-         //   $('.cabinPart').children().clone(). find("input[name=ind_tour_no").val("").insertBefore("#appendDup"); //.insertAfter("div.cabinPart:last");
-
-
+            //   $('.cabinPart').children().clone(). find("input[name=ind_tour_no").val("").insertBefore("#appendDup"); //.insertAfter("div.cabinPart:last");
             var $clone = $('.cabinPart:last').clone();
             $clone.find('input[name="ind_tour_no[]"]').val('');
-            $clone.appendTo('#appendDup');
+            $clone.find('.has-error').removeClass('has-error');
+            $clone.find('.help-block').html('');
+            /* clone the selet box option too */
+            //get original selects into a jq object
+            var $originalSelects = $('.cabinPart:last').find('select');
+            $clone.find('select').each(function (index, item) {
+                //set new select to value of old select
+                $(item).val($originalSelects.eq(index).val());
 
+            });
+            /* clone the selet box option too */
+            $clone.appendTo('#appendDup');
             var posts = document.getElementsByClassName("cabinIndividuals");
             for (var i = 0; i < posts.length; i++) {
                 posts[i].style["background-color"] = i % 2 === 0 ? "#FFFFFF" : "#F9FAFC";
@@ -186,97 +192,99 @@
         /*  New booking functionality*/
         $('#newBooking').click(function () {
             //  ovelayLoading('add', divId); //adding loading effect
+            if (checkIndivTourNumDup() != false) {
+                var divId = 'tourbox';
+                var url = '/mountainschool/bookingStore';
+                var $btn = $(this);
+                $('#' + divId).find('.has-error').removeClass('has-error');
+                $('#' + divId).find('.help-block').html('<strong></strong>');
+                $btn.button('loading');
 
-            var divId = 'tourbox';
-            var url = '/mountainschool/bookingStore';
-            var $btn = $(this);
-            $('#' + divId).find('.has-error').removeClass('has-error');
-            $('#' + divId).find('.help-block').html('<strong></strong>');
-            $btn.button('loading');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("form").serialize() + '&' + $.param({'formPart': $btn.val()}),
+                    success: function (data) {
 
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: $("form").serialize() + '&' + $.param({'formPart': $btn.val()}),
-                success: function (data) {
-
-                    //    ovelayLoading('remove');//remove loading effect
-                    $btn.button('reset');
-                    if ((data.errors)) {
-                        $.each(data.errors, function (i, item) {
-
-                            $("select[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
-                            $("select[name='" + i + "']").parent('.form-group').addClass('has-error');
-                            $("input[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
-                            $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
-
-                        });
-
-                    } else {
-                        //data = JSON.parse(data);
-                        // console.log(data.successMsg);
-                        if (data.successMsg != "undefined") {
-                            var msgClass = 'alert-success';
-                            var msgText = data.successMsg;
-                        }
-                        else {
-                            var msgClass = 'alert-danger';
-                            var msgText = data.failureMsg;
-                        }
-
-                        var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
-
-                        $(msg).prependTo('#tourBookingFrm').fadeIn(100);
-                        setTimeout(function () {
-                            $('#tourBookingFrm #flash').fadeOut()
-                        }, 2000);
-                        /*   data = JSON.parse(data);
-                           //  append success message
-                           if(data.errorMsg != undefined){
-                               var msgClass= 'alert-danger' ;
-                               var msgText = data.errorMsg ;
-
-                           }
-                           else {
-                               var msgClass= 'alert-success' ;
-                               var msgText = data.successMsg ;
-                           }
-                           var msg = '<div id="flash" class="alert '+ msgClass +'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
-
-                           $(msg).prependTo('#'+divId).fadeIn(100);
-                           setTimeout(function(){ $('#'+divId +' #flash').fadeOut() }, 2000);
-                           */
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
-                    // ovelayLoading('remove');//remove loading effect
-                    if (jqXHR.status == 422) {
-                        var errData = jqXHR.responseJSON;
-                        $.each(errData, function (i, item) {
-                            var spliKey = i.split('.');
-                            var fname = spliKey[0];
-                            $('input[name^="' + fname + '" ]').each(function (k, v) {
-                                if (spliKey[1] == k) {
-                                    $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
-                                    $(this).parent('.form-group').addClass('has-error');
-
-                                }
-
-                            });
-                            $('select[name^="' + fname + '" ]').each(function (k, v) {
-                                if (spliKey[1] == k) {
-                                    $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
-                                    $(this).parent('.form-group').addClass('has-error');
-                                }
-
-                            });
-
-                        });
-
+                        //    ovelayLoading('remove');//remove loading effect
                         $btn.button('reset');
+                        if ((data.errors)) {
+                            $.each(data.errors, function (i, item) {
+
+                                $("select[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
+                                $("select[name='" + i + "']").parent('.form-group').addClass('has-error');
+                                $("input[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
+                                $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
+
+                            });
+
+                        } else {
+                            //data = JSON.parse(data);
+                            // console.log(data.successMsg);
+                            if (data.successMsg != "undefined") {
+                                var msgClass = 'alert-success';
+                                var msgText = data.successMsg;
+                            }
+                            else {
+                                var msgClass = 'alert-danger';
+                                var msgText = data.failureMsg;
+                            }
+                            $(window).scrollTop(10);
+                            var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
+                            $("#tour_name").trigger("change");
+
+                            $(msg).prependTo('#tourBookingFrm').fadeIn(100);
+                            setTimeout(function () {
+                                $('#tourBookingFrm #flash').fadeOut()
+                            }, 2000);
+                            /*   data = JSON.parse(data);
+                               //  append success message
+                               if(data.errorMsg != undefined){
+                                   var msgClass= 'alert-danger' ;
+                                   var msgText = data.errorMsg ;
+
+                               }
+                               else {
+                                   var msgClass= 'alert-success' ;
+                                   var msgText = data.successMsg ;
+                               }
+                               var msg = '<div id="flash" class="alert '+ msgClass +'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
+
+                               $(msg).prependTo('#'+divId).fadeIn(100);
+                               setTimeout(function(){ $('#'+divId +' #flash').fadeOut() }, 2000);
+                               */
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
+                        // ovelayLoading('remove');//remove loading effect
+                        if (jqXHR.status == 422) {
+                            var errData = jqXHR.responseJSON;
+                            $.each(errData, function (i, item) {
+                                var spliKey = i.split('.');
+                                var fname = spliKey[0];
+                                $('input[name^="' + fname + '" ]').each(function (k, v) {
+                                    if (spliKey[1] == k) {
+                                        $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
+                                        $(this).parent('.form-group').addClass('has-error');
+
+                                    }
+
+                                });
+                                $('select[name^="' + fname + '" ]').each(function (k, v) {
+                                    if (spliKey[1] == k) {
+                                        $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
+                                        $(this).parent('.form-group').addClass('has-error');
+                                    }
+
+                                });
+
+                            });
+
+                            $btn.button('reset');
+                        }
                     }
-                }
-            });
+                });
+            }
         });
         /* ------------------------------------- */
         $('#tour_name').change(function () {
@@ -293,6 +301,36 @@
             });
         });
 
+        /* checking checkIndivTourNum duplication*/
+
+        function checkIndivTourNumDup() {
+
+            var array = $("input[name='ind_tour_no[]']")
+                .map(function () {
+                    return this.value; // $(this).val()
+                }).get();
+
+            var res = true;
+            var temp = [];
+            $.each(array, function (key, value) {
+                // console.log(     key );
+                if ($.inArray(value, temp) === -1) {
+                    temp.push(value);
+                } else {
+                    $.each($("input[name='ind_tour_no[]']"), function (inkey, invalue) {
+                        if (key == inkey) {
+
+                            $(this).parent('.form-group').children('.help-block').html(' <strong>"' + value + '" Individual Tour No is a duplicate value' + '</strong> ');
+                            $(this).parent('.form-group').addClass('has-error');
+
+                        }
+                    });
+                    //  console.log(value +" is a duplicate value");
+                    res = false;
+                }
+            });
+            return res;
+        }
 
         /* Overlay after submit */
         function ovelayLoading(arg, appendDiv) {

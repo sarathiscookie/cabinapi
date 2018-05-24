@@ -661,7 +661,13 @@ Route::prefix('mountainschool')->group(function () {
         Route::post('/bookingStore', 'Mountainschool\TourController@bookingStore')->name('mountainschool.tours.bookingStore');
 
         /*duplicatingBooking Tour */
-        Route::get('/duplicatingBooking', 'Mountainschool\TourController@duplicatingBooking') ;
+       // Route::get('/duplicatingBooking', 'Mountainschool\TourController@duplicatingBooking') ;
+        /*basicsettings Tour */
+        Route::get('/basicsettings', 'Mountainschool\TourController@basicSettings') ;
+
+
+           /*mydata user deatils update */
+        Route::post('/updateBasicSettings', 'Mountainschool\TourController@updateBasicSettings')->name('mountainschool.updatebasicsettings');
 
 
     });

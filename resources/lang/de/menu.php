@@ -47,4 +47,5 @@ return [
     'priceListsMenu'                        => 'Preisliste',
     'tourCreateMenu'                        => 'Create Tour',
     'tourMenu'                              => 'Tour List',
+    'basicsettings'                         => 'Basic Settings'
 ];

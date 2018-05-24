@@ -140,6 +140,15 @@ class TourRequest extends FormRequest
             ];
         }
 
+         /* updateBasicSettings  - Bassic Settings */
+
+          if ($this->request->get('updateBasicSettings') == 'updateBasicSettings') {
+              $rules = [
+                  'no_guides'     => 'required',
+                  'contact_person'   => 'required',
+                  'notice'         => 'required',
+              ];
+          }
             if ($this->request->get('formPart') == 'newBooking') {
 
 
@@ -153,7 +162,14 @@ class TourRequest extends FormRequest
                     $rlApp['days' . $j .'.*'] = 'required';
                 }
 
-                $rules1 = [  'ind_tour_no.*' => 'required',
+                $rules1 = [
+                    'ind_tour_no.*' => [
+                        'required',
+                        Rule::unique('mschool', 'ind_tour_no')->where(function($query) {
+                            $query->where('is_delete', 0);
+                        }),
+                    ],
+                  //  'ind_tour_no.*' => 'required',
                             'tour_guide.*'  => 'required',
                             'ind_notice.*'  => 'required',
 
@@ -213,6 +229,8 @@ class TourRequest extends FormRequest
                 'no_cabins.not_in' => 'Please select at least one Cabin for this Tour.',
                 'ind_tour_no.*.required' => 'Individual Tour No field is required.',
                 'ind_notice.*.required' => 'Individual Notice field is required.',
+                'ind_tour_no.*.unique' =>  'The Individual Tour No has already been taken.',
+
 
             ];
         } else {
@@ -230,6 +248,7 @@ class TourRequest extends FormRequest
                 'ind_tour_no.*.required' => 'Individual Tour No field is required.',
                 'ind_notice.*.required' => 'Individual Notice field is required.',
                 'tour_guide.*.required' => 'Tour Guide field is required.',
+                'ind_tour_no.*.unique' =>  'The Individual Tour No has already been taken.',
 
              //   'usrZip.required' => 'The Zip field is required.',
 
