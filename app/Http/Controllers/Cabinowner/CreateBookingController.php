@@ -102,6 +102,7 @@ class CreateBookingController extends Controller
         $noBedsDormsSleeps = $this->noBedsDormsSleeps();
 
         $country           = Country::select('name')
+            ->where('is_delete', 0)
             ->get();
 
         $monthBegin        = date("Y-m-d");
