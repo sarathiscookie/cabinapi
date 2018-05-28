@@ -140,17 +140,26 @@
                                                 @endif
                                             </div>
                                         </div>
+
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('country') ? ' has-error' : '' }}">
                                                 <label>@lang('details.contactLabelCountry') <span class="required">*</span></label>
 
-                                                <input type="text" class="form-control" id="country" name="country" placeholder="@lang('details.contactLabelCountryPH')" value="{{old('country', $userDetails->usrCountry)}}" maxlength="255">
+                                                <select class="form-control select2" id="country" name="country">
+                                                    <option value=""> @lang('details.contactLabelCountryPH') </option>
+                                                    @if(isset($country))
+                                                        @foreach($country as $land)
+                                                            <option value="{{$land->name}}" @if(old('country') === $land->name || $userDetails->usrCountry === $land->name) selected="selected" @endif> {{$land->name}} </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
 
                                                 @if ($errors->has('country'))
                                                     <span class="help-block"><strong>{{ $errors->first('country') }}</strong></span>
                                                 @endif
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <!-- /.box-body -->

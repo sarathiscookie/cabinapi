@@ -23,6 +23,8 @@ class DetailsRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = [];
+
         if($this->request->get('updateContact') == 'updateContact') {
             $rules = [
                 'firstname'     => 'required|max:100',
@@ -32,7 +34,7 @@ class DetailsRequest extends FormRequest
                 'zip'           => 'required|max:25',
                 'city'          => 'required|max:255',
                 'street'        => 'required|max:255',
-                'country'       => 'required|max:255',
+                'country'       => 'required',
             ];
         }
 

@@ -8,6 +8,7 @@ use App\Http\Requests\DetailsRequest;
 use App\Cabin;
 use App\Region;
 use App\Userlist;
+use App\Country;
 use Auth;
 use DateTime;
 
@@ -220,7 +221,11 @@ class DetailsController extends Controller
             ->first();
 
         if(count($userDetails) > 0) {
-            return view('cabinowner.detailsContactUpdate', ['userDetails' => $userDetails]);
+            $country     = Country::select('name')
+                ->where('is_delete', 0)
+                ->get();
+
+            return view('cabinowner.detailsContactUpdate', ['userDetails' => $userDetails, 'country' => $country]);
         }
         return redirect()->back();
     }
