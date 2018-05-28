@@ -179,20 +179,20 @@
                         <li>
                             <a href="/cabinowner/inquiry"><i class="fa fa-circle-o"></i> @lang('menu.inquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->inquiryListCount() !!}</span></span></a>
                         </li>
-                        <li>
+                        {{--<li>
                             <a href="/cabinowner/inquiry/mschool"><i class="fa fa-circle-o"></i> @lang('menu.msInquiryList') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mountSchoolInquiryListCount() !!}</span></span></a>
                         </li>
                         <li>
                             <a href="/cabinowner/create/booking"><i class="fa fa-circle-o"></i>Create Booking</a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
 
-                <li class="treeview">
+                {{--<li class="treeview">
                     <a href="/cabinowner/pricelist">
                         <i class="fa fa-table"></i> <span>@lang('menu.priceListsMenu')</span>
                     </a>
-                </li>
+                </li>--}}
 
                 <li class="treeview">
                     <a href="#">
@@ -209,12 +209,12 @@
                         <li>
                             <a href="/cabinowner/details"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a>
                         </li>
-                        <li>
+                        {{--<li>
                             <a href="/cabinowner/image"><i class="fa fa-circle-o"></i> @lang('menu.imageMenu')</a>
                         </li>
                         <li>
                             <a href="/cabinowner/msusers"><i class="fa fa-circle-o"></i> @lang('menu.mUsersMenu')</a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
             </ul>

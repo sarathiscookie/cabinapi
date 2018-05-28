@@ -106,17 +106,17 @@ class LoginController extends Controller
                         ->update(['lastlogin' => $utcdatetime]);
                     return redirect('cabinowner/bookings');
                 }
-                else if ($login->usrlId === 6) {
+                /*else if ($login->usrlId === 6) {*/
                     /* Functionality to generate date format as mongo begin */
-                    $date_now    = date("Y-m-d H:i:s");
+                    /*$date_now    = date("Y-m-d H:i:s");
                     $orig_date   = new DateTime($date_now);
                     $orig_date   = $orig_date->getTimestamp();
-                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
+                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);*/
                     /* Functionality to generate date format as mongo end */
-                    User::where('_id', $login->_id)
+                    /*User::where('_id', $login->_id)
                         ->update(['lastlogin' => $utcdatetime]);
                     return redirect('mountainschool/bookings');
-                }
+                }*/
                 else {
                     $request->session()->flush();
                     $request->session()->regenerate();
