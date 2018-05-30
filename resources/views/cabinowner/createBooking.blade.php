@@ -15,13 +15,13 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Booking
-                <small>New</small>
+            <h1> @lang('cabinownerBooking.heading')
+
+                <small> @lang('cabinownerBooking.headingsm')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('details.breadcrumbOne')</a></li>
-                <li class="fa fa-edit active">New Booking</li>
+                <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('cabinownerBooking.breadcrumbOne')</a></li>
+                <li class="fa fa-edit active"> @lang('cabinownerBooking.breadcrumbNewBooking')</li>
             </ol>
         </section>
 
@@ -32,7 +32,7 @@
                 <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h4 class="box-title">Check Availability</h4>
+                            <h4 class="box-title"> @lang('cabinownerBooking.checkAvailability')</h4>
                         </div>
 
                         <div id="errors"></div>
@@ -40,11 +40,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Booking Date</label>
+                                        <label> @lang('cabinownerBooking.bookingDate')</label>
 
                                         <div class="input-group input-daterange">
                                             <input type="text" class="form-control" id="dateFrom" name="dateFrom" readonly>
-                                            <div class="input-group-addon">to</div>
+                                            <div class="input-group-addon">   @lang('cabinownerBooking.to')</div>
                                             <input type="text" class="form-control" id="dateTo" name="dateTo" readonly>
                                         </div>
                                     </div>
@@ -56,10 +56,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>No of beds</label>
+                                                <label>   @lang('cabinownerBooking.lblnoOfBeds')</label>
 
                                                 <select class="form-control" id="beds" name="beds">
-                                                    <option value=""> Select no of beds </option>
+                                                    <option value="">   @lang('cabinownerBooking.lblnoOfBedsPH')</option>
                                                     @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
                                                         <option value="{{$bedsDormsSleepKey}}" {{--@if(old('beds') == $bedsDormsSleepKey) selected="selected" @endif--}}> {{$noBedsDormsSleep}} </option>
                                                     @endforeach
@@ -69,10 +69,10 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>No of dorms</label>
+                                                <label>  @lang('cabinownerBooking.lblnoOfDorms')</label>
 
                                                 <select class="form-control" id="dorms" name="dorms">
-                                                    <option value=""> Select no of dorms </option>
+                                                    <option value="">   @lang('cabinownerBooking.lblnoOfDormsPH')</option>
                                                     @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
                                                         <option value="{{$bedsDormsSleepKey}}" {{--@if(old('dorms') == $bedsDormsSleepKey) selected="selected" @endif--}}> {{$noBedsDormsSleep}} </option>
                                                     @endforeach
@@ -84,10 +84,10 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>No of sleeps</label>
+                                                <label>   @lang('cabinownerBooking.lblnoOfSleeps')</label>
 
                                                 <select class="form-control" id="sleeps" name="sleeps">
-                                                    <option value=""> Select no of sleeps </option>
+                                                    <option value="">   @lang('cabinownerBooking.lblnoOfSleepsPH') </option>
                                                     @foreach($noBedsDormsSleeps as $bedsDormsSleepKey => $noBedsDormsSleep)
                                                         <option value="{{$bedsDormsSleepKey}}" {{--@if(old('sleeps') == $bedsDormsSleepKey) selected="selected" @endif--}}> {{$noBedsDormsSleep}} </option>
                                                     @endforeach
@@ -102,7 +102,7 @@
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary pull-right" id="searchAvailability" name="searchAvailability" value="searchAvailability" data-loading-text="Loading..." autocomplete="off"><i class="fa fa-fw fa-search"></i>Check Availability</button>
+                                    <button class="btn btn-primary pull-right" id="searchAvailability" name="searchAvailability" value="searchAvailability" data-loading-text="Loading..." autocomplete="off"><i class="fa fa-fw fa-search"></i> @lang('cabinownerBooking.checkAvailability')</button>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                     <div class="col-md-9">
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h4 class="box-title">Create Booking</h4>
+                                <h4 class="box-title"> @lang('cabinownerBooking.lblcreateBooking')</h4>
                             </div>
 
                             <div class="box-body">
@@ -124,7 +124,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                                            <label>First Name <span class="required">*</span></label>
+                                            <label>  @lang('cabinownerBooking.firstName') <span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" maxlength="100" value="{{old('firstname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
 
@@ -136,7 +136,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                                            <label>Last Name <span class="required">*</span></label>
+                                            <label>   @lang('cabinownerBooking.lastName')<span class="required">*</span></label>
 
                                             <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" maxlength="100" value="{{old('lastname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
 
@@ -151,7 +151,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('street') ? ' has-error' : '' }}">
-                                            <label>Street</label>
+                                            <label>   @lang('cabinownerBooking.street')</label>
 
                                             <input type="text" class="form-control" id="street" name="street" placeholder="Enter street" maxlength="255" value="{{old('street')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
@@ -163,7 +163,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('city') ? ' has-error' : '' }}">
-                                            <label>City</label>
+                                            <label>   @lang('cabinownerBooking.city')</label>
 
                                             <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" maxlength="255" value="{{old('city')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
@@ -179,10 +179,10 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('country') ? ' has-error' : '' }}">
-                                            <label>Country <span class="required">*</span></label>
+                                            <label>   @lang('cabinownerBooking.country')<span class="required">*</span></label>
 
                                             <select class="form-control select2" id="country" name="country" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required style="width: 100%;">
-                                                <option value=""> Choose country </option>
+                                                <option value="">   @lang('cabinownerBooking.countryPH') </option>
                                                 @if(isset($country))
                                                     @foreach($country as $land)
                                                         <option value="{{$land->name}}" @if(old('country') == $land->name) selected="selected" @endif> {{$land->name}} </option>
@@ -198,7 +198,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
-                                            <label>Zip Code</label>
+                                            <label>   @lang('cabinownerBooking.Zip')</label>
 
                                             <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter zip code" maxlength="25" value="{{old('zip')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
@@ -212,11 +212,11 @@
                                         @if(session('halfboard') == '1')
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Halfboard</label>
+                                                    <label>  @lang('cabinownerBooking.halfBoard')</label>
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="checkbox" id="halfboard" name="halfboard" value="1" @if(old('halfboard') == '1') checked @endif @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
-                                                            Half board available
+                                                           @lang('cabinownerBooking.halfBoardAvail')
                                                         </label>
                                                     </div>
                                                 </div>
@@ -229,11 +229,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
-                                            <label>Email <span class="required">*</span></label>
-
+                                            <label>   @lang('cabinownerBooking.email') <span class="required">*</span></label>
                                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" maxlength="255" value="{{old('email')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
-
-                                            @if ($errors->has('zip'))
+                                             @if ($errors->has('zip'))
                                                 <span class="help-block"><strong>{{ $errors->first('zip') }}</strong></span>
                                             @endif
                                         </div>
@@ -241,10 +239,8 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group {{ $errors->has('mobile') ? ' has-error' : '' }}">
-                                            <label>Mobile</label>
-
+                                            <label>   @lang('cabinownerBooking.mobile')</label>
                                             <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile" maxlength="20" value="{{old('mobile')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
-
                                             @if ($errors->has('mobile'))
                                                 <span class="help-block"><strong>{{ $errors->first('mobile') }}</strong></span>
                                             @endif
@@ -253,7 +249,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group {{ $errors->has('phone') ? ' has-error' : '' }}">
-                                            <label>Phone</label>
+                                            <label>   @lang('cabinownerBooking.telephone')</label>
 
                                             <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone" maxlength="20" value="{{old('phone')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
@@ -268,7 +264,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group {{ $errors->has('comments') ? ' has-error' : '' }}">
-                                            <label>Comments </label>
+                                            <label>   @lang('cabinownerBooking.comments')  </label>
 
                                             <textarea class="form-control" rows="3" id="comments" name="comments" placeholder="Comments ..." maxlength="300" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif> {{old('comments')}} </textarea>
                                             <div id="textarea_feedback"></div>
@@ -285,8 +281,8 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary pull-right" name="createBooking" value="createBooking" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled="disabled" @endif><i class="fa fa-fw fa-save"></i>Create Bookings</button>
-                                    </div>
+                                        <button type="submit" class="btn btn-primary pull-right" name="createBooking" value="createBooking" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled="disabled" @endif><i class="fa fa-fw fa-save"></i>  @lang('cabinownerBooking.btnCreateBooking')</button>
+                                       </div>
                                 </div>
                             </div>
 
@@ -404,13 +400,13 @@
             /* Character limit for comments begin */
             var text_max = 300;
             $('#textarea_feedback').css('color', 'red');
-            $('#textarea_feedback').html(text_max + ' characters remaining');
+            $('#textarea_feedback').html(text_max + "  @lang('cabinownerBooking.charactersRemaining')   ");
 
             $('#comments').keyup(function() {
                 var text_length = $('#comments').val().length;
                 var text_remaining = text_max - text_length;
 
-                $('#textarea_feedback').html(text_remaining + ' characters remaining');
+                $('#textarea_feedback').html(text_remaining + "  @lang('cabinownerBooking.charactersRemaining')   ");
             });
             /* Character limit for comments end */
 

@@ -149,7 +149,8 @@
                                         value="newBooking"><i
                                             class="fa fa-fw fa-save"></i>@lang('tours.btnSave')
                                 </button>
-                            </div>
+
+                                </div>
                         </div>
                     </div>
 
@@ -157,15 +158,39 @@
             </form>
         </section>
     </div>
+
     <!-- /.content-wrapper -->
 @endsection
 
 @section('scripts')
     <script>
+
+
+        var count = 0;
+        var datePickerOption = {
+          //  showOtherMonths: true,
+           // selectOtherMonths: true,
+            dateFormat: "dd.mm.y",
+            minDate: 0,
+            onSelect: function(selectedDate) {}
+        }
         /*  Duplicating Deatils*/
-        $('#duplicatingBooking').click(function () {
+        $('#duplicatingBooking').click(function (e) {
+            e.preventDefault();
+            count++;
             var $clone = $('.cabinPart:last').clone();
             $clone.find('input[name="ind_tour_no[]"]').val('');
+            $clone.find('.checkInCls').attr('id' ,'');
+            $clone.find('#removeDup').remove();
+            var removeHtml = '<div class="row" id="removeDup"> <div class="col-md-12"> <img src="/img/delete.png" class="removeDupCls" alt="Remove" hight="25" style="float: right  " width="25">' +
+                             ' </div></div>';
+            $clone.find('.cabinIndividuals'). prepend(removeHtml);
+            $($clone.find('.checkInCls')).each(function (k,item) {
+                 $(this).attr('id', 'check_in' + count+k)
+            });
+
+           //.datepicker(datePickerOption);
+            $clone.find('.checkInCls').removeClass('hasDatepicker');
             $clone.find('.has-error').removeClass('has-error');
             $clone.find('.help-block').html('');
             /* clone the selet box option too */
@@ -181,11 +206,65 @@
             for (var i = 0; i < posts.length; i++) {
                 posts[i].style["background-color"] = i % 2 === 0 ? "#FFFFFF" : "#F9FAFC";
             }
+            calendaerDisp();
+
         });
+
+         /* Remove Duplicate Booking  */
+
+        $('#cabindtls').on('click', '.removeDupCls', function() {
+          $(this).parents('.cabinPart').remove();
+        });
+
+
         /*  When click on New button */
         $('#loadNew').click(function () {
             $("#tour_name").trigger("change");
         });
+
+        function calendaerDisp() {
+           $('.checkInCls').each(function () {
+               $(this).datepicker({
+                        dateFormat: "dd.mm.y",
+                        monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                        monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+                        dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                        minDate: 0,
+
+                        onSelect: function (date) {
+                            if ($(this).parent('.form-group').closest('.row').find('.dayscls').val() != "") {
+                                aviablityCheck($(this));
+                                changeNextCabinFromDate($(this), $(this).parent('.form-group').closest('.row').find('.dayscls').val());
+                            }
+                        },
+                        onChangeMonthYear: function (year, month, inst) {
+                            if (year != undefined && month != undefined) {
+                                start_date = year + '-';
+                                start_date += month + '-';
+                                start_date += '01';
+                            }
+
+                            $.ajax({
+                                url: '/mountainschool/calendarAvailability',
+                                dataType: 'JSON',
+                                type: 'POST',
+                                async: false,
+                                data: {dateFrom: start_date, cabinId: $(this).data('cabinid')},
+                                success: function (response) {
+                                    //  console.log(response);
+                                    unavailableDates = response.disableDates;
+                                },
+                                error: function (err) {
+                                    alert(JSON.stringify(err));
+                                }
+                            });
+                        },
+                        // beforeShowDay: colorize,
+                    });
+             });
+        //  });
+        }
+
         /*  New booking functionality*/
         $('#newBooking').click(function () {
             //  ovelayLoading('add', divId); //adding loading effect
@@ -215,7 +294,7 @@
 
                         } else {
                             //data = JSON.parse(data);
-                        console.log(data.failureMsg);
+                      //  console.log(data.failureMsg);
                             if (data.successMsg !== undefined) {
                                 var msgClass = 'alert-success';
                                 var msgText = data.successMsg;
@@ -224,7 +303,7 @@
                                 var msgClass = 'alert-danger';
                                 var msgText = data.failureMsg;
                             }
-
+                        
                             $(window).scrollTop(10);
                             var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
                             $("#tour_name").trigger("change");
@@ -246,20 +325,15 @@
                                     if (spliKey[1] == k) {
                                         $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                                         $(this).parent('.form-group').addClass('has-error');
-
                                     }
-
                                 });
                                 $('select[name^="' + fname + '" ]').each(function (k, v) {
                                     if (spliKey[1] == k) {
                                         $(this).parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                                         $(this).parent('.form-group').addClass('has-error');
                                     }
-
                                 });
-
                             });
-
                             $btn.button('reset');
                         }
                     }
@@ -284,7 +358,6 @@
         /* checking checkIndivTourNum duplication*/
 
         function checkIndivTourNumDup() {
-
             var array = $("input[name='ind_tour_no[]']")
                 .map(function () {
                     return this.value; // $(this).val()
@@ -299,10 +372,8 @@
                 } else {
                     $.each($("input[name='ind_tour_no[]']"), function (inkey, invalue) {
                         if (key == inkey) {
-
                             $(this).parent('.form-group').children('.help-block').html(' <strong>"' + value + '" Individual Tour No is a duplicate value' + '</strong> ');
                             $(this).parent('.form-group').addClass('has-error');
-
                         }
                     });
                     //  console.log(value +" is a duplicate value");
@@ -314,7 +385,6 @@
 
         /* Overlay after submit */
         function ovelayLoading(arg, appendDiv) {
-
             if (arg == 'add') {
                 var overlay = jQuery('<div id="overlay"> </div>');
                 overlay.appendTo('#' + appendDiv);
@@ -324,5 +394,4 @@
             }
         }
     </script>
-
 @endsection

@@ -1,7 +1,7 @@
 
         <div class="box box-solid box-primary" id="newcabinRowID">
             <div class="box-header">
-                <h3 class="box-title">Add New Cabin</h3>
+                <h3 class="box-title"> @lang('tours.lblAddNewCab')</h3>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <div id="new_cabin">

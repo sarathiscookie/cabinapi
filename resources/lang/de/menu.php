@@ -45,7 +45,10 @@ return [
     'cabinsMenu'                            => 'Hütten',
     'cabinLiteMenu'                         => 'Hüttenliste',
     'priceListsMenu'                        => 'Preisliste',
-    'tourCreateMenu'                        => 'Create Tour',
-    'tourMenu'                              => 'Tour List',
-    'basicsettings'                         => 'Basic Settings'
+
+    'bookingCreateMenu'                         => 'Neue Buchung',
+    'tourCreateMenu'                        => 'Tour erstellen',
+    'tourMenu'                              => 'Tourenliste',
+    'tourListMenu'                          => 'Tourenliste',
+    'basicsettings'                         => 'Grundeinstellungen'
 ];

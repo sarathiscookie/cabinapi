@@ -82,20 +82,27 @@ return [
     'lblInd_notice' => 'Comments',
     'lblInd_noticePH' => 'Enter Comments',
     'lblNoOfnGuides'=> 'No of Guides',
-    'lblNoOfnGuidesPH'=> 'Enter no of Guides',
+    'lblNoOfnGuidesPH'=> 'Select no of Guides',
 
     'lblNoOfGuests'=> 'No of Guests',
-    'lblNoOfGuestsPH'=> 'Enter no of Guests',
+    'lblNoOfGuestsPH'=> 'Select no of Guests',
+    'lblMountaindorm'  => 'Dormitory',
+    'lblMountaindormPH'  => 'Select Dormitory',
     'lblSleepingPlace'=> 'Sleeping Place',
-    'lblSleepingPlacePH'=> 'Enter Sleeping Place',
+    'lblSleepingPlacePH'=> 'Select Sleeping Place',
     'lblMountainbeds'=> 'Beds',
-    'lblMountainbedsPH'=> 'Enter Beds',
+    'lblMountainbedsPH'=> 'Select Beds',
     'lblCheckIn'=> 'From',
-    'lblCheckInPH'=> 'Enter Date From',
+    'lblCheckInPH'=> 'Select Date From',
     'lblMountainDays'=> 'Days',
     'lblMountainDaysPH'=> 'Select Days',
     'indTourNumber'                          =>'Individual Tour Num',
-    'searchIndTourNo'                        =>'Search Individual Tour No'
+    'searchIndTourNo'                        =>'Search Individual Tour No',
+    'lblOptGuides' => 'Guide(s)',
+    'lblOptGuests' => 'Guest(s)',
+    'lblOptDorms' => 'Dorm(s)',
+    'lblOptBeds' =>'Bed(s)',
+    'lblOptSleepPlaz' => 'Sleepingplace(s)',
 
 
 ];
