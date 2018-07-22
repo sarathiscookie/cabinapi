@@ -16,8 +16,14 @@ use DatePeriod;
 use DateInterval;
 use Auth;
 
+
+
+
+
 class CreateBookingController extends Controller
 {
+
+
     /**
      * No of beds, dorms and sleeps.
      *
@@ -261,7 +267,7 @@ class CreateBookingController extends Controller
 
             /* Storing booking details end */
 
-            $request->session()->flash('successBooking', 'Well Done! Booking done successfully.');
+            $request->session()->flash('successBooking',  __('cabinownerBooking.MsgBookingSuccess'));
             return redirect(url('cabinowner/bookings'));
         }
         else {
@@ -414,7 +420,7 @@ class CreateBookingController extends Controller
                             if (!$bookingDateSeasonType)
                             {
                                 //print_r($generateBookingDat . ' Sorry not a season time ');
-                                return response()->json(['error' => 'Sorry selected dates are not in a season time.'], 422);
+                                return response()->json(['error' => __('cabinownerBooking.msgNotInSeasonTime')], 422);
                             }
                             /*else
                             {
@@ -428,11 +434,11 @@ class CreateBookingController extends Controller
                             foreach ($array_intersect as $array_intersect_key => $array_intersect_values) {
 
                                 if($dateBegin === $array_intersect_key) {
-                                    return response()->json(['error' => $array_intersect_values.' is a holiday.'], 422);
+                                    return response()->json(['error' => $array_intersect_values.   __('cabinownerBooking.msgisAHoliday')], 422);
                                 }
 
                                 if($array_intersect_key > $dateBegin && $array_intersect_key < $dateEnd) {
-                                    return response()->json(['error' => 'Booking not possible because holidays included.'], 422);
+                                    return response()->json(['error' =>__('cabinownerBooking.msgHolidayInc')  ], 422);
                                 }
 
                             }
@@ -513,7 +519,7 @@ class CreateBookingController extends Controller
                                             else {
                                                 //print_r(' Not regular beds not available '.' availableBeds ' . $available_not_regular_beds);
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsNotAvalOn').  $generateBookingDat], 422);
                                             }
 
                                             $available_not_regular_dorms = session('not_regular_dorms') - $totalDorms;
@@ -525,12 +531,12 @@ class CreateBookingController extends Controller
                                             else {
                                                 //print_r(' Not regular dorms not available '.' availableDorms ' . $available_not_regular_dorms);
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgDormsNotAvalOn').  ''.$generateBookingDat], 422);
                                             }
                                         }
                                         else {
                                             $availableStatus[] = 'notAvailable';
-                                            return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                            return response()->json(['error' => __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                         }
 
                                         //print_r(' Date '.$generateBookingDat.' not_regular_beds: '.session('not_regular_beds').' totalBeds '. $totalBeds . ' not_regular_dorms: '.session('not_regular_dorms').' totalDorms '. $totalDorms);
@@ -563,7 +569,7 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r(' mon beds not available '.' available_mon_beds ' . $available_mon_beds);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_mon_dorms = session('mon_dorms') - $totalDorms;
@@ -575,12 +581,12 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r(' mon dorms not available '.' available_mon_dorms ' . $available_mon_dorms);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' mon_beds: '.session('mon_beds').' totalBeds '. $totalBeds . ' mon_dorms: '.session('mon_dorms').' totalDorms '. $totalDorms);
@@ -605,7 +611,7 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r(' tue_beds not available '.' available_tue_beds ' . $available_tue_beds);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_tue_dorms = session('tue_dorms') - $totalDorms;
@@ -617,13 +623,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r(' tue_dorms not available ' .' available_tue_dorms ' . $available_tue_dorms);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' tue_beds: '.session('tue_beds').' totalBeds '. $totalBeds . ' tue_dorms: '.session('tue_dorms').' totalDorms '. $totalDorms);
@@ -647,7 +653,7 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_wed_dorms = session('wed_dorms') - $totalDorms;
@@ -658,12 +664,12 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' wed_beds: '.session('wed_beds').' totalBeds '. $totalBeds . ' wed_dorms: '.session('wed_dorms').' totalDorms '. $totalDorms);
@@ -687,7 +693,7 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_thu_dorms = session('thu_dorms') - $totalDorms;
@@ -698,13 +704,13 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' thu_beds: '.session('thu_beds').' totalBeds '. $totalBeds . ' thu_dorms: '.session('thu_dorms').' totalDorms '. $totalDorms);
@@ -728,7 +734,7 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_fri_dorms = session('fri_dorms') - $totalDorms;
@@ -739,13 +745,13 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' fri_beds: '.session('fri_beds').' totalBeds '. $totalBeds . ' fri_dorms: '.session('fri_dorms').' totalDorms '. $totalDorms);
@@ -769,7 +775,7 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_sat_dorms = session('sat_dorms') - $totalDorms;
@@ -780,13 +786,13 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' sat_beds: '.session('sat_beds').' totalBeds '. $totalBeds . ' sat_dorms: '.session('sat_dorms').' totalDorms '. $totalDorms);
                                         }
@@ -809,7 +815,7 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                                 $available_sun_dorms = session('sun_dorms') - $totalDorms;
@@ -820,13 +826,13 @@ class CreateBookingController extends Controller
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' sun_beds: '.session('sun_beds').' totalBeds '. $totalBeds . ' sun_dorms: '.session('sun_dorms').' totalDorms '. $totalDorms );
                                         }
@@ -852,7 +858,7 @@ class CreateBookingController extends Controller
                                     }
                                     else {
                                         $availableStatus[] = 'notAvailable';
-                                        return response()->json(['error' => 'Beds not available on '.$generateBookingDat], 422);
+                                        return response()->json(['error' =>  __('cabinownerBooking.msgBedsNotAvalOn').$generateBookingDat], 422);
                                     }
 
                                     $availableDorms = session('dormitory') - $totalDorms;
@@ -863,13 +869,13 @@ class CreateBookingController extends Controller
                                     }
                                     else {
                                         $availableStatus[] = 'notAvailable';
-                                        return response()->json(['error' => 'Dorms not available on '.$generateBookingDat], 422);
+                                        return response()->json(['error' =>  __('cabinownerBooking.msgDormsNotAvalOn').$generateBookingDat], 422);
                                     }
 
                                 }
                                 else {
                                     $availableStatus[] = 'notAvailable';
-                                    return response()->json(['error' => 'Beds and Dorms already filled on '.$generateBookingDat], 422);
+                                    return response()->json(['error' =>  __('cabinownerBooking.msgBedsDormsFilled').$generateBookingDat], 422);
                                 }
                                 //print_r(' Date '.$generateBookingDat.' beds: '.session('beds').' totalBeds '. $totalBeds . ' dormitory: '.session('dormitory').' totalDorms '. $totalDorms );
                             }
@@ -911,13 +917,13 @@ class CreateBookingController extends Controller
                                             else {
                                                 //print_r(' Not regular sleeps not available '.' availableSleeps' . $available_not_regular_sleeps);
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                return response()->json(['error' =>  __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                             }
 
                                         }
                                         else {
                                             $availableStatus[] = 'notAvailable';
-                                            return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                            return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                         }
                                         //print_r(' Date '.$generateBookingDat.' not_regular_sleeps: '.session('not_regular_sleeps').' totalSleeps '. $totalSleeps);
                                     }
@@ -943,13 +949,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Mon sleeps not available'. ' availableMonSleeps' . $availableMonSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' mon_sleeps: '.session('mon_sleeps').' totalSleeps '. $totalSleeps);
                                         }
@@ -973,13 +979,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Tue sleeps not available' . ' availableTueSleeps' . $availableTueSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' tue_sleeps: '.session('tue_sleeps').' totalSleeps '. $totalSleeps);
                                         }
@@ -1003,13 +1009,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Wed sleeps not available'. ' availableWedSleeps ' . $availableWedSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' wed_sleeps: '.session('wed_sleeps').' totalSleeps '. $totalSleeps);
@@ -1036,12 +1042,12 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Thu sleeps not available'. ' availableThuSleeps ' . $availableThuSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' thu_sleeps: '.session('thu_sleeps').' totalSleeps '. $totalSleeps);
                                         }
@@ -1064,13 +1070,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Fri sleeps not available' . ' availableFriSleeps ' . $availableFriSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
 
                                             //print_r(' Date '.$generateBookingDat.' fri_sleeps: '.session('fri_sleeps').' totalSleeps '. $totalSleeps);
@@ -1096,13 +1102,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Sat sleeps not available' . ' availableSatSleeps ' . $availableSatSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' sat_sleeps: '.session('sat_sleeps').' totalSleeps '. $totalSleeps);
                                         }
@@ -1125,13 +1131,13 @@ class CreateBookingController extends Controller
                                                 else {
                                                     //print_r('Sun sleeps not available'. ' availableSunSleeps ' . $availableSunSleeps);
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                                 }
 
                                             }
                                             else {
                                                 $availableStatus[] = 'notAvailable';
-                                                return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                                return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                             }
                                             //print_r(' Date '.$generateBookingDat.' sun_sleeps: '.session('sun_sleeps').' totalSleeps '. $totalSleeps );
                                         }
@@ -1155,13 +1161,13 @@ class CreateBookingController extends Controller
                                     else {
                                         //print_r(' Sleeps not available '.' Date '.$generateBookingDat.' sleeps: '.session('sleeps').' totalSleeps '. $totalSleeps . ' availableSleeps ' . $availableSleeps);
                                         $availableStatus[] = 'notAvailable';
-                                        return response()->json(['error' => 'Sleeps not available on '.$generateBookingDat], 422);
+                                        return response()->json(['error' => __('cabinownerBooking.msgSleepsNotAvalOn').$generateBookingDat], 422);
                                     }
 
                                 }
                                 else {
                                     $availableStatus[] = 'notAvailable';
-                                    return response()->json(['error' => 'Sleeps already filled on '.$generateBookingDat], 422);
+                                    return response()->json(['error' => __('cabinownerBooking.msgSleepsFilled').$generateBookingDat], 422);
                                 }
 
                             }
@@ -1173,7 +1179,7 @@ class CreateBookingController extends Controller
                         }
                     }
                     else {
-                        return response()->json(['error' => 'Quota exceeded! Maximum 60 days you can book'], 422);
+                        return response()->json(['error' => __('cabinownerBooking.msgQuotaExceed')], 422);
                     }
                     /* Checking bookings available end */
                 }

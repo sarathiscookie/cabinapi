@@ -18,6 +18,7 @@
             </div>
             <div class="cabinPart">
                 <div class="cabinIndividuals">
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group {{ $errors->has('ind_tour_no') ? ' has-error' : '' }}">
@@ -47,13 +48,11 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group {{ $errors->has('ind_notice') ? ' has-error' : '' }}">
-                                <label>  @lang('mountainschool.lblInd_notice')<span class="required">*</span></label>
+                                <label>  @lang('mountainschool.lblInd_notice')<span class="required"></span></label>
                                 <input type="text" class="form-control daterange" id="ind_notice" name="ind_notice[]"
                                        placeholder="@lang('mountainschool.lblInd_noticePH')"
                                        value="{{old('ind_notice'  )}}"
                                        maxlength="255">
-
-
                                 <span class="help-block"><strong>{{ $errors->first('ind_notice') }}</strong></span>
 
                             </div>
@@ -83,12 +82,19 @@
                                             <div class="form-group {{ $errors->has('no_guides') ? ' has-error' : '' }}">
                                                 <label>  @lang('mountainschool.lblNoOfnGuides')<span
                                                             class="required">*</span></label>
-                                                <input type="text" class="form-control guidesInputCls "
+                                                <select class="form-control guidesInputCls "   id="no_guides{{ $c}}"
+                                                          name="no_guides{{ $c}}[]" >
+                                                    <option value="0">@lang('mountainschool.lblNoOfnGuidesPH')</option>
+                                                    @for ($n=1; $n<=8; $n++)
+                                                    <option     @if(  old('no_guides') == $n ||  $tour->basic_settings->no_guides == $n ) selected="selected"
+                                                                @endif value="{{$n}}" >{{$n}}   @lang('mountainschool.lblOptGuides')</option>
+                                                    @endfor
+                                                </select>
+                                               <!--<input type="text" class="form-control guidesInputCls "
                                                        id="no_guides{{ $c}}"
                                                        name="no_guides{{ $c}}[]"
                                                        placeholder="@lang('mountainschool.lblNoOfnGuidesPH')"
-                                                       value="{{old('no_guides' ,$tour->basic_settings->no_guides )}}">
-
+                                                       value="{{old('no_guides' ,$tour->basic_settings->no_guides )}}"> -->
 
                                                 <span class="help-block"><strong>{{ $errors->first('no_guides') }}</strong></span>
 
@@ -98,10 +104,17 @@
                                             <div class="form-group {{ $errors->has('guests') ? ' has-error' : '' }}">
                                                 <label>  @lang('mountainschool.lblNoOfGuests')<span
                                                             class="required">*</span></label>
-                                                <input type="text" class="form-control guestsInputCls"
+                                                <select class="form-control guestsInputCls "   id="guests{{ $c}}" name="guests{{ $c}}[]">
+                                                    <option value="0">@lang('mountainschool.lblNoOfGuestsPH')</option>
+                                                    @for ($n=1; $n<=30; $n++)
+                                                        <option     @if(  old('guests') == $n  ) selected="selected"
+                                                                    @endif value="{{$n}}" >{{$n}}  @lang('mountainschool.lblOptGuests')  </option>
+                                                    @endfor
+                                                </select>
+                                               <!-- <input type="text" class="form-control guestsInputCls"
                                                        id="guests{{ $c}}" name="guests{{ $c}}[]"
                                                        placeholder="@lang('mountainschool.lblNoOfGuestsPH')"
-                                                       value="{{old('guests'  )}}">
+                                                       value="{{old('guests'  )}}">-->
                                                 <span class="help-block"><strong>{{ $errors->first('guests') }}</strong></span>
 
                                             </div>
@@ -111,11 +124,19 @@
                                                 <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
                                                     <label>  @lang('mountainschool.lblSleepingPlace')<span
                                                                 class="required">*</span></label>
-                                                    <input type="text" class="form-control sleepsInputCls"
+                                                    <select class="form-control sleepsInputCls "        id="sleeps{{ $c}}"
+                                                            name="sleeps{{ $c}}[]" >
+                                                        <option value="">@lang('mountainschool.lblSleepingPlacePH')</option>
+                                                        @for ($n=1; $n<=40; $n++)
+                                                            <option     @if(  old('sleeps') == $n ||  $tour->basic_settings->no_guides == $n ) selected="selected"
+                                                                        @endif value="{{$n}}" >{{$n}}  @lang('mountainschool.lblOptSleepPlaz')  </option>
+                                                        @endfor
+                                                    </select>
+                                                   <!-- <input type="text" class="form-control sleepsInputCls"
                                                            id="sleeps{{ $c}}"
                                                            name="sleeps{{ $c}}[]"
                                                            placeholder="@lang('mountainschool.lblSleepingPlacePH')"
-                                                           value="{{old('sleeps',$tour->basic_settings->no_guides  )}}">
+                                                           value="{{old('sleeps',$tour->basic_settings->no_guides  )}}">-->
 
 
                                                     <span class="help-block"><strong>{{ $errors->first('sleeps') }}</strong></span>
@@ -128,10 +149,18 @@
                                                     <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
                                                         <label>  @lang('mountainschool.lblMountainbeds')<span
                                                                     class="required">*</span></label>
-                                                        <input type="text" class="form-control bedsInputCls"
+                                                        <select class="form-control bedsInputCls "      id="beds{{ $c}}" name="beds{{ $c}}[]" >
+                                                            <option value="">@lang('mountainschool.lblMountainbedsPH')</option>
+                                                            @for ($n=1; $n<=40; $n++)
+                                                                <option     @if(  old('beds') == $n ||  $tour->basic_settings->no_guides == $n ) selected="selected"
+                                                                            @endif value="{{$n}}" >{{$n}}  @lang('mountainschool.lblOptBeds')</option>
+                                                            @endfor
+                                                        </select>
+
+                                                       <!-- <input type="text" class="form-control bedsInputCls"
                                                                id="beds{{ $c}}" name="beds{{ $c}}[]"
                                                                placeholder="@lang('mountainschool.lblMountainbedsPH')"
-                                                               value="{{old('beds'  ,$tour->basic_settings->no_guides )}}">
+                                                               value="{{old('beds'  ,$tour->basic_settings->no_guides )}}">-->
 
 
                                                         <span class="help-block"><strong>{{ $errors->first('beds') }}</strong></span>
@@ -139,13 +168,38 @@
                                                     </div>
                                                 </div>
                                             @endif
+
+                                                @if(isset($valArray['dormitory'])  )
+                                                    <div class="col-md-2">
+                                                        <div class="form-group {{ $errors->has('dormitory') ? ' has-error' : '' }}">
+                                                            <label>  @lang('mountainschool.lblMountaindorm')<span
+                                                                        class="required"></span></label>
+
+                                                            <select class="form-control dormitoryInputCls "   id="dormitory{{ $c}}" name="dormitory{{ $c}}[]" >
+                                                                <option value="">@lang('mountainschool.lblMountaindormPH')</option>
+                                                                @for ($n=1; $n<=40; $n++)
+                                                                    <option     @if(  old('dormitory') == $n  ) selected="selected"
+                                                                                @endif value="{{$n}}" >{{$n}}    @lang('mountainschool.lblOptDorms')</option>
+                                                                @endfor
+                                                            </select>
+
+
+                                                           <!-- <input type="text" class="form-control dormitoryInputCls"
+                                                                   id="dormitory{{ $c}}" name="dormitory{{ $c}}[]"
+                                                                   placeholder="@lang('mountainschool.lblMountaindormPH')"
+                                                                   value="{{old('dormitory')}}">-->
+                                                            <span class="help-block"><strong>{{ $errors->first('dormitory') }}</strong></span>
+
+                                                        </div>
+                                                    </div>
+                                                @endif
                                         @endif
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
                                                 <label>  @lang('mountainschool.lblCheckIn')<span
                                                             class="required">*</span></label>
-                                                <input type="text" class="form-control checkInCls" id="check_in{{ $c}}"
-                                                       name="check_in{{ $c}}[]" data-cabinId="{{$valArray['cId']}}"
+                                                <input type="text" class="form-control checkInCls"
+                                                       id="check_in{{ $c}}"   name="check_in{{ $c}}[]" data-cabinId="{{$valArray['cId']}}"
                                                        placeholder="@lang('mountainschool.lblCheckInPH')"
                                                        value="{{old('check_in')}}">
                                                 <span class="help-block"><strong>{{ $errors->first('check_in') }}</strong></span>
@@ -173,9 +227,10 @@
                                                 <label>@lang('cabins.lblHalfboard')   </label>
                                                 <div class=" checkbox">
                                                     <label>
+                                                        <input type="hidden"  name="hidHalfboard{{ $c}}[]"  class="HidHalfboardCls"value="">
                                                         <input type="checkbox" id="halfboard{{ $c}}" class="halfboardCls"
                                                                name="halfboard{{ $c}}[]"
-                                                               {{( old('halfboard') == '1'  )? 'checked="checked"' :'' }} value="1">
+                                                               {{( old('halfboard') == '1'  )? 'checked="checked"' :'' }}   >
                                                         @lang('cabins.half_board_available')</label></div>
                                             </div>
                                         </div>
@@ -202,12 +257,17 @@ $disableDates = array("2-5-2018", "4-5-2018", "15-5-2018");
 $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "18-6-2018"); ?>
 <script>
 
-    $('.halfboardCls').click(function () {
+   // $('.halfboardCls').click(function () {
+        $('#cabindtls').on('click', '.halfboardCls', function() {
         if ($(this).is(':checked')) {
             $(this).val('1');
+            $(this).prev('.HidHalfboardCls').val('1');
+
         } else {
             $(this).val('');
+            $(this).prev('.HidHalfboardCls').val('');
         }
+        console.log( $(this).val());
     });
 
     function aviablityCheck(arg) {
@@ -259,8 +319,10 @@ $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "
 
     $(function () {
 
-        $('.dayscls ').on("change", function () {
+    //    $('.dayscls ').on("change", function () {
+        $('#cabindtls').on('change', '.dayscls', function() {
             var datefromInput = $(this).parent('.form-group').closest('.row').find('.checkInCls');
+
             changeNextCabinFromDate(datefromInput, $(this).val());
 
                 aviablityCheck($(this));
@@ -286,53 +348,8 @@ $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "
 
 
     var start_date = '';
-    $('.checkInCls').each(function () {
 
-        $(this).datepicker({
-            dateFormat: "dd.mm.y",
-            monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-            monthNamesShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-            dayNamesMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-            minDate: 0,
-
-            onSelect: function (date) {
-
-                if ($(this).parent('.form-group').closest('.row').find('.dayscls').val() != "") {
-
-                    aviablityCheck($(this));
-                    changeNextCabinFromDate($(this), $(this).parent('.form-group').closest('.row').find('.dayscls').val());
-                }
-
-
-            },
-            onChangeMonthYear: function (year, month, inst) {
-                if (year != undefined && month != undefined) {
-                    start_date = year + '-';
-                    start_date += month + '-';
-                    start_date += '01';
-                }
-
-                $.ajax({
-                    url: '/mountainschool/calendarAvailability',
-                    dataType: 'JSON',
-                    type: 'POST',
-                    async: false,
-                    data: {dateFrom: start_date, cabinId: $(this).data('cabinid')},
-                    success: function (response) {
-                        //  console.log(response);
-                        unavailableDates = response.disableDates;
-                    },
-                    error: function (err) {
-                        alert(JSON.stringify(err));
-                    }
-                });
-
-            },
-            // beforeShowDay: colorize,
-
-
-        });
-    });
+    calendaerDisp();
 
     /*  changeNextCabinFromDate when select days and change  date after selet days*/
     function changeNextCabinFromDate(datefromInput, daysVal) {
@@ -340,7 +357,6 @@ $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "
 
 
         var selectedDate = $('#' + datePicId).datepicker('getDate');
-
 
         var msecsInADay = daysVal * 86400000;
         var endDate = new Date(selectedDate.getTime() + msecsInADay);
@@ -377,11 +393,11 @@ $partialAvailDates = array("12-5-2018", "14-5-2018", "16-5-2018", "17-5-2018", "
     /* */
 
     //$('.guestsInputCls').keyup(function (data) {
-    $('#cabindtls').on('keyup', '.guestsInputCls', function() {
+    $('#cabindtls').on('change', '.guestsInputCls', function() {
         calcSleeps($(this), 'guidesInputCls');
     });
 
-     $('#cabindtls').on('keyup', '.guidesInputCls', function() {
+     $('#cabindtls').on('change ', '.guidesInputCls', function() {
         calcSleeps($(this), 'guestsInputCls');
     });
 

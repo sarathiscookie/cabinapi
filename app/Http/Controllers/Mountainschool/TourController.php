@@ -23,6 +23,8 @@ use Carbon\Carbon;
 
 class TourController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -564,8 +566,9 @@ class TourController extends Controller
                     $guests = 'guests' . $i;
                     $check_in = 'check_in' . $i;
                     $days = 'days' . $i;
-
-                    $halfboard = 'halfboard' . $i;
+                    $halfboard = 'hidHalfboard' . $i;
+                    $dormitory = 'dormitory' . $i;
+                    $beds = 'beds' . $i;
 
                     /* Cabin Details*/
                     $cabinDetails = Cabin::where('is_delete', 0)
@@ -591,7 +594,7 @@ class TourController extends Controller
 
 
                     /* */
-                    //dd($cabinDetails);
+
                     $tour->tour_name = $tourName->tour_name;
                     $tour->ind_tour_no = $request->ind_tour_no[$tb];
                     $tour->tour_guide = $request->tour_guide[$tb];
@@ -613,17 +616,19 @@ class TourController extends Controller
                     $tour->reserve_to = $this->getDateUtc($reserve_to);
                     $tour->is_delete = 0;
                     $tour->bookingdate = $utcdatetime;
-                    $halfboardVal = '';
-                    if ($request->$halfboard[$tb] == "on" || $request->$halfboard[$tb] == "1") {
+                  //  $halfboardVal = '';
+                   // if (isset($request->$halfboard[$tb] ) && ($request->$halfboard[$tb] == "on" || $request->$halfboard[$tb] == "1")) {
                         $halfboardVal = "1";
-                    }
-                    $tour->half_board = $halfboardVal;
+                   // }
+                    $tour->half_board = $request->$halfboard[$tb];
 
                     $tour->other_cabin = $cabinDetails->other_cabin;
                     $tour->invoice_number = $invoiceNumber;
                     $sleeps = $request->$no_guides[$tb] + $request->$guests[$tb];
                     $tour->sleeps = $sleeps;
                     $tour->status = 1;
+                    $tour->beds = $request->$beds[$tb];
+                    $tour->dorms = $request->$dormitory[$tb];
                     $tour->user_id = new \MongoDB\BSON\ObjectID(Auth::user()->_id);
 
                     $tour->save();

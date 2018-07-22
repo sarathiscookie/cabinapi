@@ -94,7 +94,6 @@
                                             @foreach($cabins  as $Key => $val )
                                             <option value="{{$val->name}}">{{$val->name}}</option>
                                             @endforeach
-                                            <option>Test3</option>
                                         </select>
                                             <input type="hidden" name="no_cabins" id="no_cabins">
                                     </div>

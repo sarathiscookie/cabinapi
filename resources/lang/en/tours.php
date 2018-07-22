@@ -39,6 +39,7 @@ return [
     'lblTourNamePH' => 'Enter Tour Name',
     'lblTourNo' => 'Tour Number',
     'lblTourNoPH' => 'Enter Tour Number',
+    'lblAddNewCab' => 'Add New Cabin',
     'lblCabinName' => 'Cabin Name',
     'lblCabinNamePH' => 'Enter Cabin Name',
     'lblWebsite' => 'Website',

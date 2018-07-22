@@ -157,7 +157,7 @@ class TourRequest extends FormRequest
                 $rlApp =[];
                 for($j=1 ; $j<=$k ; $j++) {
                     $rlApp['no_guides' . $j .'.*'] = 'required';
-                    $rlApp['guests' . $j .'.*'] = 'required';
+                    $rlApp['guests' . $j .'.*'] = 'required|not_in:0';
                     $rlApp['check_in' . $j.'.*' ] = 'required';
                     $rlApp['days' . $j .'.*'] = 'required';
                 }
@@ -171,7 +171,7 @@ class TourRequest extends FormRequest
                     ],
                   //  'ind_tour_no.*' => 'required',
                             'tour_guide.*'  => 'required',
-                            'ind_notice.*'  => 'required',
+                        //    'ind_notice.*'  => 'required',
 
 
                           ];
@@ -193,10 +193,13 @@ class TourRequest extends FormRequest
     public function attributes()
     {
         if (\Lang::locale() == 'de') {
-            return [ 'current_pwd'     => 'Current Password',
-                'new_pwd'      => 'New Password',
-                'con_pwd'     => 'Confirm Password',
-                 ];
+
+            return [ 'current_pwd'     => 'Aktuelles Passwort',
+                'new_pwd'      => 'Neues Passwort',
+                'con_pwd'     => 'Passwort bestätigen',
+              'ind_tour_no' =>'Individuelle Tour Nr.',
+              'ind_notice' =>'Kommentar',
+               ];
         } else {
             return [
                 'current_pwd'     => 'Current Password',
@@ -226,22 +229,19 @@ class TourRequest extends FormRequest
         if (\Lang::locale() == 'de') {
             for($j=1 ; $j<=$k ; $j++) {
                 $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
-                $msgApp[ 'guests'.$j.'.*.required']  = 'No of Guest field is required.';
-                $msgApp[ 'check_in'.$j.'.*.required']  = 'Check In field is required.';
-                $msgApp[ 'days'.$j.'.*.required']  = 'Days field is required.';
+                $msgApp[ 'guests'.$j.'.*.required']  = 'Anzahl der Gäste muss eingetragen sein';
+                $msgApp[ 'guests'.$j.'.*.not_in']    = 'Anzahl der Gäste muss eingetragen sein';
+                $msgApp[ 'check_in'.$j.'.*.required']  = 'Anreisetag muss eingetragen sein';
+                $msgApp[ 'days'.$j.'.*.required']  = 'Tage müssen eingetragen werden';
 
             }
 
-            $messages =  ['no_cabins.required' => 'Please select at least one Cabin for this Tour.',
-                'no_cabins.not_in' => 'Please select at least one Cabin for this Tour.',
-                'ind_tour_no.*.required' => 'Individual Tour No field is required.',
-                'ind_notice.*.required' => 'Individual Notice field is required.',
-                'tour_guide.*.required' => 'Tour Guide field is required.',
-                'ind_tour_no.*.unique' =>  'The Individual Tour No has already been taken.',
-
-                //   'usrZip.required' => 'The Zip field is required.',
-
-            ];
+            $messages =  ['no_cabins.required' => 'Mindestens eine Hütte muss ausgewählt werden',
+                'no_cabins.not_in' => 'Mindestens eine Hütte muss ausgewählt werden',
+                'ind_tour_no.*.required' => 'Individuelle Tour Nr. muss eingetragen sein',
+                'ind_notice.*.required' => 'Individuelle Bemerkung muss eingetragen sein',
+                'tour_guide.*.required' => 'Bergführer muss eingetragen sein',
+                'ind_tour_no.*.unique' =>  'Diese Tournummer gibt es bereits'];
             $msg = array_merge($msgApp,$messages);
             return $msg;
         } else {
@@ -249,6 +249,7 @@ class TourRequest extends FormRequest
             for($j=1 ; $j<=$k ; $j++) {
                 $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
                 $msgApp[ 'guests'.$j.'.*.required']  = 'No of Guest field is required.';
+                $msgApp[ 'guests'.$j.'.*.not_in']    = 'No of Guest field is required.';
                 $msgApp[ 'check_in'.$j.'.*.required']  = 'Check In field is required.';
                 $msgApp[ 'days'.$j.'.*.required']  = 'Days field is required.';
 
