@@ -50,5 +50,6 @@ return [
     'tourCreateMenu'                        => 'Create Tour',
     'tourMenu'                              => 'Tours',
     'tourListMenu'                          => 'Tour List',
-    'basicsettings'                         => 'Basic Settings'
+    'basicsettings'                         => 'Basic Settings',
+    'createBooking'                         => 'Create Booking',
 ];
