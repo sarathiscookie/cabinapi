@@ -50,5 +50,6 @@ return [
     'tourCreateMenu'                        => 'Tour erstellen',
     'tourMenu'                              => 'Tourenliste',
     'tourListMenu'                          => 'Tourenliste',
-    'basicsettings'                         => 'Grundeinstellungen'
+    'basicsettings'                         => 'Grundeinstellungen',
+    'createBooking'                         => 'Buchung erstellen',
 ];
