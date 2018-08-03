@@ -592,6 +592,19 @@ Route::prefix('admin')->group(function () {
         /*save image to storage*/
         Route::post('/pricelist/store', 'Cabinowner\PriceListController@store')->name('cabinowner.pricelist.store');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Routes for Statistics
+        |--------------------------------------------------------------------------
+        |
+        | Statistics to show guests count
+        */
+        /* View statistics chart */
+        Route::get('/statistics/guests', 'Cabinowner\StatisticsGuestsController@index')->name('cabinowner.statistics.guests');
+
+        /* Listing count of guests statistics */
+        Route::post('/statistics/guests/count', 'Cabinowner\StatisticsGuestsController@store')->name('cabinowner.statistics.guests.count');
+
     });
 });
 
