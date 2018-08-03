@@ -14,7 +14,6 @@
         <section class="content-header">
             <h1>
                 @lang('statisticsGuests.heading')
-                <small>@lang('statisticsGuests.subHeading')</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/cabinowner/bookings"><i class="fa fa-dashboard"></i> @lang('statisticsGuests.breadcrumbOne')</a></li>

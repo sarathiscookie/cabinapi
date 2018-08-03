@@ -79,7 +79,7 @@ $(function () {
                             xAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Date"
+                                    labelString: "Datum"
                                 }
                             }],
                             yAxes: [{
@@ -88,18 +88,18 @@ $(function () {
                                 },
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "No of guests"
+                                    labelString: "Anzahl Gäste"
                                 }
                             }]
                         }
                     }
                 });
 
-                $('.response_array_sum').html('<span class="label label-default">Total Guests: <span class="badge">'+response.sleeps_sum+'</span>');
+                $('.response_array_sum').html('<span class="label label-default">Gäste gesamt im ausgewählten Zeitraum: <span class="badge">'+response.sleeps_sum+'</span>');
                 $btn.button('reset');
             })
             .fail(function() {
-                $('.alertGuestsCountStat').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS!</strong> Something went wrong please try again.</div>');
+                $('.alertGuestsCountStat').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>WHOOPS!</strong> Something went wrong please try again.</div>');
                 $btn.button('reset');
             });
     }
