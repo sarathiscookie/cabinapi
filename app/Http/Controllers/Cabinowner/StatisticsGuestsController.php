@@ -236,7 +236,7 @@ class StatisticsGuestsController extends Controller
         $totalSleepsNormalBooking = array_values($sleeps);
 
         $chartData[] =[
-            'label'=> 'Gesamtzahl Gäste',
+            'label'=> __('statisticsGuests.labelGuest'),
             'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
             'borderColor'=> 'rgba(54, 162, 235, 1)',
             'borderWidth'=> 1,
@@ -255,7 +255,7 @@ class StatisticsGuestsController extends Controller
         $totalSleepsMsBooking = array_values($msSleeps);
 
         $chartData[] =[
-            'label'=> 'Gesamtzahl Bergschulen',
+            'label'=> __('statisticsGuests.labelMSchool'),
             'backgroundColor' => 'rgba(153, 102, 255, 0.2)',
             'borderColor'=> 'rgba(153, 102, 255, 1)',
             'borderWidth'=> 1,
