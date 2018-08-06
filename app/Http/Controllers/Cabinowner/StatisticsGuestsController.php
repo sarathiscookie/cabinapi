@@ -52,39 +52,22 @@ class StatisticsGuestsController extends Controller
      * @param  string  $daterange
      * @return array
      */
-    protected function getDateLabels($daterange = null, $monthBegin = null, $monthEnd = null)
+    protected function getDateLabels($daterange)
     {
-        $labels       = [];
-        if($daterange === null) {
-            $begin    = new DateTime( $monthBegin );
-            $end      = new DateTime( $monthEnd );
-            $end      = $end->modify( '+1 day' );
+        $labels                  = [];
+        $dateFromTo              = explode("-", $daterange);
+        if($dateFromTo[0]!='' && $dateFromTo[1]!='')
+        {
+            $begin = new DateTime( $dateFromTo[0] );
+            $end = new DateTime( $dateFromTo[1] );
+            $end = $end->modify( '+1 day' );
 
             $interval = new DateInterval('P1D');
-            $period   = new DatePeriod($begin, $interval ,$end);
-
+            $period = new DatePeriod($begin, $interval ,$end);
             foreach ($period as $date) {
                 $labels[] = $date->format('Ymd');
             }
         }
-        else {
-            $dateFromTo   = explode("-", $daterange);
-
-            if($dateFromTo[0] != '' && $dateFromTo[1] != '')
-            {
-                $begin    = new DateTime( $dateFromTo[0] );
-                $end      = new DateTime( $dateFromTo[1] );
-                $end      = $end->modify( '+1 day' );
-
-                $interval = new DateInterval('P1D');
-                $period   = new DatePeriod($begin, $interval ,$end);
-
-                foreach ($period as $date) {
-                    $labels[] = $date->format('Ymd');
-                }
-            }
-        }
-
         return $labels;
     }
 
@@ -121,16 +104,17 @@ class StatisticsGuestsController extends Controller
      */
     public function store(Request $request)
     {
-        $array_sleeps_normal_booking = [];
-        $array_sleeps_ms_booking     = [];
-        $xCoord                      = [];
-        $sleeps_sum                  = 0;
-        $explode_dateRange           = explode("-", $request->daterange);
-        $monthBegin                  = DateTime::createFromFormat("d.m.Y", $explode_dateRange[0])->format('Y-m-d');
-        $monthEnd                    = DateTime::createFromFormat("d.m.Y", $explode_dateRange[1])->format('Y-m-d');
-        $generateBookingDates        = $this->generateDates($monthBegin, $monthEnd);
-        $labels                      = $this->getDateLabels($daterange = null, $monthBegin, $monthEnd);
-        $cabin                       = Cabin::select('name')
+        $total_normal_booking = [];
+        $total_ms_booking     = [];
+        $xCoord               = [];
+        $sleeps_sum           = 0;
+        $chartData            = [];
+        $requestDateRange     = $request->daterange;
+        $explode_dateRange    = explode("-", $requestDateRange);
+        $dateBegin            = new \MongoDB\BSON\UTCDateTime(strtotime($explode_dateRange[0])*1000);
+        $dateEnd              = new \MongoDB\BSON\UTCDateTime(strtotime($explode_dateRange[1])*1000);
+        $labels               = $this->getDateLabels($requestDateRange);
+        $cabin                = Cabin::select('name')
             ->where('is_delete', 0)
             ->where('cabin_owner', Auth::user()->_id)
             ->first();
@@ -140,98 +124,52 @@ class StatisticsGuestsController extends Controller
             $xCoord[] = date('d.m.y', strtotime($day));
         }
 
-        foreach ($generateBookingDates as $generateBookingDate) {
-            /* Normal booking chart */
-            $normalBookings        = Booking::raw(function($collection) use ($generateBookingDate, $cabin){
-                return $collection->aggregate([
-                   [
-                       '$match' => [
-                           'is_delete' => 0,
-                           'cabinname' => $cabin->name,
-                           'status' => '1',
-                           'checkin_from' => ['$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
-                           'reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y'))]
-                       ]
-                   ],
-                   [
-                       '$group' => [
-                           '_id' => ['checkin_from' => '$checkin_from'],
-                           'sleeps' => ['$sum' => '$sleeps'],
-                           'count' => ['$sum' => 1]
-                       ]
-                   ],
-                   [
-                       '$project' => [
-                           'checkin_from' => '$_id.checkin_from',
-                           'sleeps' => 1,
-                           'count' => 1
-                       ]
-                   ],
-                   [
-                       '$sort' => [
-                               'checkin_from' => 1
-                       ]
-                   ]
-                ]);
-            });
-
-            foreach ($normalBookings as $normalBooking){
-                $checkinFrom                   = $normalBooking->checkin_from->format('Ymd');
-                $sleeps[$checkinFrom]          = $normalBooking->sleeps;
-                $array_sleeps_normal_booking[] = $normalBooking->sleeps;
-            }
-
-            /* Mountain school booking chart */
-            $msBookings        = MountSchoolBooking::raw(function($collection) use ($generateBookingDate, $cabin){
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'is_delete' => 0,
-                            'cabin_name' => $cabin->name,
-                            'status' => '1',
-                            'check_in' => ['$lte' => $this->getDateUtc($generateBookingDate->format('d.m.y'))],
-                            'reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDate->format('d.m.y'))]
-                        ]
-                    ],
-                    [
-                        '$group' => [
-                            '_id' => ['check_in' => '$check_in'],
-                            'sleeps' => ['$sum' => '$sleeps'],
-                            'count' => ['$sum' => 1]
-                        ]
-                    ],
-                    [
-                        '$project' => [
-                            'check_in' => '$_id.check_in',
-                            'sleeps' => 1,
-                            'count' => 1
-                        ]
-                    ],
-                    [
-                        '$sort' => [
-                            'check_in' => 1
-                        ]
+        /* Normal booking functionality begin */
+        $normalBookings        = Booking::raw(function($collection) use ($dateBegin, $dateEnd, $cabin){
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        'is_delete' => 0,
+                        'cabinname' => $cabin->name,
+                        'status' => '1',
+                        'checkin_from' => ['$gte' => $dateBegin, '$lte' => $dateEnd]
                     ]
-                ]);
-            });
+                ],
+                [
+                    '$group' => [
+                        '_id' => ['checkin_from' => '$checkin_from'],
+                        'sleeps' => ['$sum' => '$sleeps'],
+                        'count' => ['$sum' => 1]
+                    ]
+                ],
+                [
+                    '$project' => [
+                        'checkin_from' => '$_id.checkin_from',
+                        'sleeps' => 1,
+                        'count' => 1
+                    ]
+                ],
+                [
+                    '$sort' => [
+                        'checkin_from' => 1
+                    ]
+                ]
+            ]);
+        });
 
-            foreach ($msBookings as $msBooking){
-                $check_in                  = $msBooking->check_in->format('Ymd');
-                $msSleeps[$check_in]       = $msBooking->sleeps;
-                $array_sleeps_ms_booking[] = $msBooking->sleeps;
-            }
-
-            $sleeps_sum   = round(array_sum($array_sleeps_ms_booking) + array_sum($array_sleeps_normal_booking), 2);
+        foreach ($normalBookings as $normalBooking){
+            $checkinFrom            = $normalBooking->checkin_from->format('Ymd');
+            $sleeps[$checkinFrom]   = $normalBooking->sleeps;
+            $total_normal_booking[] = $normalBooking->sleeps;
         }
 
-        /* y- axis graph data */
+        /* y- axis graph data for normal booking */
         foreach ($labels as $xlabel){
             if(!isset($sleeps[$xlabel])){
                 $sleeps[$xlabel] = "0";
             }
         }
 
-        /* Normal booking chart */
         ksort($sleeps,1);
         $totalSleepsNormalBooking = array_values($sleeps);
 
@@ -243,8 +181,48 @@ class StatisticsGuestsController extends Controller
             'data' => $totalSleepsNormalBooking,
         ];
 
-        /* Ms booking chart */
-        /* y- axis graph data */
+        /* Mountain School Functionality Begin */
+        $msBookings        = MountSchoolBooking::raw(function($collection) use ($dateBegin, $dateEnd, $cabin){
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        'is_delete' => 0,
+                        'cabin_name' => $cabin->name,
+                        'status' => '1',
+                        'check_in' =>  ['$gte' => $dateBegin, '$lte' => $dateEnd]
+                    ]
+                ],
+                [
+                    '$group' => [
+                        '_id' => ['check_in' => '$check_in'],
+                        'sleeps' => ['$sum' => '$sleeps'],
+                        'count' => ['$sum' => 1]
+                    ]
+                ],
+                [
+                    '$project' => [
+                        'check_in' => '$_id.check_in',
+                        'sleeps' => 1,
+                        'count' => 1
+                    ]
+                ],
+                [
+                    '$sort' => [
+                        'check_in' => 1
+                    ]
+                ]
+            ]);
+        });
+
+        foreach ($msBookings as $msBooking){
+            $check_in             = $msBooking->check_in->format('Ymd');
+            $msSleeps[$check_in]  = $msBooking->sleeps;
+            $total_ms_booking[]   = $msBooking->sleeps;
+        }
+
+        $sleeps_sum   = round(array_sum($total_normal_booking) + array_sum($total_ms_booking), 2);
+
+        /* y- axis graph data for ms school */
         foreach ($labels as $xlabel){
             if(!isset($msSleeps[$xlabel])){
                 $msSleeps[$xlabel] = "0";
@@ -261,7 +239,6 @@ class StatisticsGuestsController extends Controller
             'borderWidth'=> 1,
             'data' => $totalSleepsMsBooking,
         ];
-
         return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'sleeps_sum' => $sleeps_sum]);
     }
 
