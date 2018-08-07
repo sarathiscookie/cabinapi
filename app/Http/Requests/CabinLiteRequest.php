@@ -27,7 +27,6 @@ class CabinLiteRequest extends FormRequest
         $rules = [];
         if($this->request->get('createCabin') == 'createCabin') {
             $rules = [
-
                 'cabin_name' => [
                     'required',
                     Rule::unique('cabins', 'name')->where(function($query) {
@@ -41,19 +40,14 @@ class CabinLiteRequest extends FormRequest
                         $query->where('is_delete', 0);
                     }),
                 ],
-
                 'height'          => 'required',
-               // 'availability'    => 'required|max:200',
-                //'club'            => 'required|max:200',
                 'check_in'        => 'required|max:100',
                 'check_out'       => 'required|max:100',
                 'deposit'         => 'required|numeric',
                 'cabin_owner'     => 'required',
                 'country'         => 'required',
-                //  'zip'             => 'required|max:25',
-                // 'city'            => 'required|max:255',
                 'halfboard_price' => 'required_if:halfboard,1',
-                'booking_type'  => 'required',
+                'booking_type'    => 'required',
             ];
         }
 

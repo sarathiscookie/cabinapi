@@ -282,16 +282,17 @@ Route::prefix('admin')->group(function () {
     */
     /* Listing cabins */
 
-        Route::get('/cabinlite', 'CabinLiteController@index')->name('admin.cabins.cabinlite');
+    Route::get('/cabinlite', 'CabinLiteController@index')->name('admin.cabins.cabinlite');
 
-        /* Show datatable page */
-        Route::post('/cabinlite/datatables', 'CabinLiteController@dataTables')->name('admin.cabins.cabinlite.datatables');
+    /* Show datatable page */
+    Route::post('/cabinlite/datatables', 'CabinLiteController@dataTables')->name('admin.cabins.cabinlite.datatables');
 
-         /* Create cabin */
-        Route::get('/cabinlite/create', 'CabinLiteController@create')->name('admin.cabinlite.create');
+    /* Create cabin */
+    Route::get('/cabinlite/create', 'CabinLiteController@create')->name('admin.cabinlite.create');
 
-        /* store cabin */
-        Route::post('/cabinlite/store', 'CabinLiteController@store')->name('admin.cabinlite.store');
+    /* store cabin */
+    Route::post('/cabinlite/store', 'CabinLiteController@store')->name('admin.cabinlite.store');
+
         /* update cabin */
         Route::post('/cabinlite/update', 'CabinLiteController@update')->name('admin.cabinlite.update');
 

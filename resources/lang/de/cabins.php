@@ -50,7 +50,7 @@ return [
     'failure'                                => 'Etwas ist schief gegangen',
     /*    create cabin               */
 
-    'crtNewCanin'                            =>' Neue Hütte anlegen',
+    'crtNewCabin'                            =>'Neue Hütte anlegen',
     'crtHeading'                             =>'Hütte',
     'crtHeadingSub'                          =>'Neue',
     'breadcrumbThree'                        =>'Erstellen',

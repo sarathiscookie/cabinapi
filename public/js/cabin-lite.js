@@ -1,4 +1,3 @@
-
 $(function () {
     /* Checking for the CSRF token */
     $.ajaxSetup({
@@ -9,8 +8,6 @@ $(function () {
 
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
-
-
 
     /* Data table functionality begin */
     var user_data = $('#user_data').DataTable({
@@ -62,16 +59,13 @@ $(function () {
         }
     });
 
-
-
-
     /* <tfoot> search functionality */
     $('.search-input').on( 'keyup change', function () {
         var i =$(this).attr('id');   // getting column index
         var v =$(this).val();  // getting search input value
         user_data.columns(i).search(v).draw();
     });
-    /* <tfoot> search functionality */
+
     $('.search-input-cabin').on( 'keyup change', function () {
         var i =$(this).attr('id');   // getting column index
         var v =$(this).val();   // getting search input value

@@ -1,7 +1,7 @@
 /* Add more functinality for neighbour cabins */
 $(document).ready(function () {
- /* for add other neibhour cabins*/
     var next = 0;
+
     $(".add-more-dynamic , .addNeighbourlbl").click(function (e) {
         e.preventDefault();
         $('#add_more').hide();
@@ -36,41 +36,43 @@ $(document).ready(function () {
             return false;
         });
     });
+
 });
 
-
-
 $(document).ready(function () {
-
-
     /* Multiple select for neighbour cabins */
     if ($(".neighbour")[0]){
         $(".neighbour").select2();
     }
+
     /* Multiple select for facility of cabins */
     if ($("#facility")[0]){
         $("#facility").select2();
     }
+
     /* Multiple select for payment   */
     if ($("#payment")[0]){
-            $("#payment").select2();
-        }
+        $("#payment").select2();
+    }
+
     /* Editor for listing cabin more details*/
     if ($(".otherDetails")[0]) {
         $(".otherDetails").wysihtml5({
             locale: 'de-DE',
             toolbar: {
                 "image": false,
-                "link": false,
+                "link": false
             }
         });
     }
+
     /* for Half Board price textbox toggle
      If half board check should show price field*/
     if ($('#halfboard').is(':checked')) {
         $('#divHafPrice').fadeIn();
         $('#halfboard').val('1');
     }
+
     $('#halfboard').click(function () {
         if ($(this).is(':checked')) {
             $('#divHafPrice').fadeIn();
@@ -81,13 +83,7 @@ $(document).ready(function () {
         }
     });
 
-    //----------------------------------
-
-    $('#cabin_owner').change(function () {
-
-    });
-}); // documet.ready close
-//--------------------------------//
+});
 
 $(document).ready(function () {
     /* for make cabin code text in upper case */
@@ -95,46 +91,21 @@ $(document).ready(function () {
         this.value = this.value.toUpperCase();
     });
 
-    /*  script for country listing in dropdown country
-    $.ajax({
-        type: "GET",
-        url: '/admin/cabinlite/getcountry',
-        data: {title: ''},
-        success: function (data) {
-            items = JSON.parse(data);
-            $.each(items, function (i, item) {
-                var optTxt = item.name;
-                var optVal = item.name;
-                $('#country').append($('<option>', {
-                    value: optVal,
-                    text: optTxt,
-                }));
-            });
-
-            callbackCheck();
-        },
-        error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
-            console.log(" error: " + textStatus + ' : ' + errorThrown);
-        }
-    });
-*/
-                      /*  Edit Section */
+    /*  Edit Section */
     $('#updateContactInfo').click(function (e) {
         e.preventDefault();
         updateCabin('contactInfoBox','/admin/cabinlite/updatecontactinfo' , this) ;
     });
+
     $('#updateCabin').click(function () {
         updateCabin('CabinInfoBox','/admin/cabinlite/updatecabininfo' , this) ;
     });
-
 
     $('#updateBillingInfo').click(function () {
         updateCabin('billingInfoBox','/admin/cabinlite/updatebillinginfo' , this) ;
     });
 
-
-
-});// documet.ready close
+});
 
 function updateCabin(divId,url,thisArg){
 

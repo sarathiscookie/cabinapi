@@ -186,7 +186,7 @@
                     </ul>
                 </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-home"></i> <span>@lang('menu.cabinsMenu')</span>
                         <span class="pull-right-container">
@@ -197,7 +197,7 @@
                         <li><a href="/admin/cabinlite"><i class="fa fa-circle-o"></i> @lang('menu.cabinLiteMenu')</a></li>
 
                     </ul>
-                </li>--}}
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->

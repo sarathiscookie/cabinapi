@@ -37,4 +37,11 @@ class Cabin extends Eloquent
      */
     protected $guarded = ['id'];
 
+    /**
+     * Eloquent allows you to work with Carbon/DateTime objects instead of MongoDate objects.
+     * Internally, these dates will be converted to MongoDate objects when saved to the database.
+     */
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_on'];
+
 }

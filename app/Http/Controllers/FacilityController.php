@@ -13,7 +13,6 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        dd( __('facilityMessages.Wifi'));
         $facilities = array(
             'wifi'                                     => __('facilityMessages.Wifi'),
             'shower'                                   => __('facilityMessages.shower available'),
