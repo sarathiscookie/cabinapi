@@ -25,13 +25,13 @@
             <form role="form" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
 
-                <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback">
-                    <input id="username" type="text" class="form-control" name="username" placeholder="Username" value="{{ old('username') }}" autofocus>
+                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
+                    <input id="username" type="email" class="form-control" name="email" placeholder="E-Mail Adresse" value="{{ old('email') }}" autofocus>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
 
-                    @if ($errors->has('username'))
+                    @if ($errors->has('email'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('username') }}</strong>
+                            <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
                 </div>

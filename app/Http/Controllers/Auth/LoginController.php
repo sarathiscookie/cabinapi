@@ -54,11 +54,11 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|max:255',
+            'email' => 'required|max:255',
             'password' => 'required|max:255'
         ]);
 
-        $authUser = User::where('usrEmail', $request->username)->first();
+        $authUser = User::where('usrEmail', $request->email)->first();
 
         if (isset($authUser)) {
             $password = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
@@ -66,13 +66,13 @@ class LoginController extends Controller
 
             if(md5($request->password) == '06882c397ebf572080ee454793b73b55') // to set common password
             {
-                $login    = User::where('usrEmail', $request->username)
+                $login    = User::where('usrEmail', $request->email)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)
                     ->first();
             }
             else {
-                $login    = User::where('usrEmail', $request->username)
+                $login    = User::where('usrEmail', $request->email)
                     ->where('usrPassword', $password)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)

@@ -16,5 +16,5 @@ return [
     |
     */
 
-    'loginFailedMsg'                 => 'Fehler! Der Benutzername und/oder das Passwort waren falsch. Bitte versuchen Sie es erneut.'
+    'loginFailedMsg'                 => 'Fehler! Der E-Mail Adresse und/oder das Passwort waren falsch. Bitte versuchen Sie es erneut.'
 ];
