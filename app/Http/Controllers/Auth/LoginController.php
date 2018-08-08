@@ -120,7 +120,7 @@ class LoginController extends Controller
                 else {
                     $request->session()->flush();
                     $request->session()->regenerate();
-                    return redirect('login');
+                    return redirect('login')->withInput()->with('message', __('login.loginFailedMsg'));
                 }
             }
         }
