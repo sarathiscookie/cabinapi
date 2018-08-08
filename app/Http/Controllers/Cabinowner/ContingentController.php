@@ -7,6 +7,7 @@ use App\Http\Requests\ContingentRequest;
 use App\Http\Controllers\Controller;
 use App\Cabin;
 use Auth;
+use Validator;
 
 class ContingentController extends Controller
 {
@@ -76,7 +77,7 @@ class ContingentController extends Controller
     public function update(ContingentRequest $request)
     {
         $notRegular                   = 0;
-        $not_regular_date             = 0;
+        $not_regular_date             = '';
         $not_regular_beds             = 0;
         $not_regular_dorms            = 0;
         $not_regular_emergency_rooms  = 0;
@@ -152,83 +153,194 @@ class ContingentController extends Controller
 
         /* Not regular Rule */
         if($request->notRegularCheckbox === '1') {
-            $notRegular                    = 1;
-            $not_regular_date              = $request->not_regular_date;
-            $not_regular_beds              = (int)$request->not_regular_beds;
-            $not_regular_dorms             = (int)$request->not_regular_dorms;
-            $not_regular_emergency_rooms   = (isset($request->not_regular_emergency_rooms)) ? (int)$request->not_regular_emergency_rooms : 0;
-            $not_regular_inquiry_guest     = (isset($request->not_regular_inquiry_guest)) ? (int)$request->not_regular_inquiry_guest : 0;
-            $not_regular_ms_inquiry_guest  = (isset($request->not_regular_ms_inquiry_guest)) ? (int)$request->not_regular_ms_inquiry_guest : 0;
-            $not_regular_sleeps            = ($not_regular_beds + $not_regular_dorms);
+            $validator = Validator::make($request->all(), [
+                'not_regular_date'             => 'required',
+                'not_regular_beds'             => 'required|numeric',
+                'not_regular_dorms'            => 'required|numeric',
+                'not_regular_emergency_rooms'  => 'numeric|nullable',
+                'not_regular_inquiry_guest'    => 'numeric|nullable',
+                'not_regular_ms_inquiry_guest' => 'numeric|nullable'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            else {
+                $notRegular                    = 1;
+                $not_regular_date              = $request->not_regular_date;
+                $not_regular_beds              = (int)$request->not_regular_beds;
+                $not_regular_dorms             = (int)$request->not_regular_dorms;
+                $not_regular_emergency_rooms   = (isset($request->not_regular_emergency_rooms)) ? (int)$request->not_regular_emergency_rooms : 0;
+                $not_regular_inquiry_guest     = (isset($request->not_regular_inquiry_guest)) ? (int)$request->not_regular_inquiry_guest : 0;
+                $not_regular_ms_inquiry_guest  = (isset($request->not_regular_ms_inquiry_guest)) ? (int)$request->not_regular_ms_inquiry_guest : 0;
+                $not_regular_sleeps            = ($not_regular_beds + $not_regular_dorms);
+            }
         }
 
         /* Regular rule */
         if($request->regularCheckbox === '1') {
-            $regular                  = 1;
+            $regular = 1;
             if($request->monday === '1') {
-                $mon_day              = 1;
-                $mon_beds             = (int)$request->mon_beds;
-                $mon_dorms            = (int)$request->mon_dorms;
-                $mon_emergency_rooms  = (isset($request->mon_emergency_rooms)) ? (int)$request->mon_emergency_rooms : 0;
-                $mon_inquiry_guest    = (isset($request->mon_inquiry_guest)) ? (int)$request->mon_inquiry_guest : 0;
-                $mon_ms_inquiry_guest = (isset($request->mon_ms_inquiry_guest)) ? (int)$request->mon_ms_inquiry_guest : 0;
-                $mon_sleeps           = ($mon_beds + $mon_dorms);
-            }
-            if($request->tuesday === '1') {
-                $tue_day              = 1;
-                $tue_beds             = (int)$request->tue_beds;
-                $tue_dorms            = (int)$request->tue_dorms;
-                $tue_emergency_rooms  = (isset($request->tue_emergency_rooms)) ? (int)$request->tue_emergency_rooms : 0;
-                $tue_inquiry_guest    = (isset($request->tue_inquiry_guest)) ? (int)$request->tue_inquiry_guest : 0;
-                $tue_ms_inquiry_guest = (isset($request->tue_ms_inquiry_guest)) ? (int)$request->tue_ms_inquiry_guest : 0;
-                $tue_sleeps           = ($tue_beds + $tue_dorms);
+                $validator = Validator::make($request->all(), [
+                    'mon_beds'             => 'required|numeric',
+                    'mon_dorms'            => 'required|numeric',
+                    'mon_emergency_rooms'  => 'numeric|nullable',
+                    'mon_inquiry_guest'    => 'numeric|nullable',
+                    'mon_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
 
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $mon_day              = 1;
+                    $mon_beds             = (int)$request->mon_beds;
+                    $mon_dorms            = (int)$request->mon_dorms;
+                    $mon_emergency_rooms  = (isset($request->mon_emergency_rooms)) ? (int)$request->mon_emergency_rooms : 0;
+                    $mon_inquiry_guest    = (isset($request->mon_inquiry_guest)) ? (int)$request->mon_inquiry_guest : 0;
+                    $mon_ms_inquiry_guest = (isset($request->mon_ms_inquiry_guest)) ? (int)$request->mon_ms_inquiry_guest : 0;
+                    $mon_sleeps           = ($mon_beds + $mon_dorms);
+                }
             }
+
+            if($request->tuesday === '1') {
+                $validator = Validator::make($request->all(), [
+                    'tue_beds'             => 'required|numeric',
+                    'tue_dorms'            => 'required|numeric',
+                    'tue_emergency_rooms'  => 'numeric|nullable',
+                    'tue_inquiry_guest'    => 'numeric|nullable',
+                    'tue_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $tue_day              = 1;
+                    $tue_beds             = (int)$request->tue_beds;
+                    $tue_dorms            = (int)$request->tue_dorms;
+                    $tue_emergency_rooms  = (isset($request->tue_emergency_rooms)) ? (int)$request->tue_emergency_rooms : 0;
+                    $tue_inquiry_guest    = (isset($request->tue_inquiry_guest)) ? (int)$request->tue_inquiry_guest : 0;
+                    $tue_ms_inquiry_guest = (isset($request->tue_ms_inquiry_guest)) ? (int)$request->tue_ms_inquiry_guest : 0;
+                    $tue_sleeps           = ($tue_beds + $tue_dorms);
+                }
+            }
+
             if($request->wednesday === '1') {
-                $wed_day              = 1;
-                $wed_beds             = (int)$request->wed_beds;
-                $wed_dorms            = (int)$request->wed_dorms;
-                $wed_emergency_rooms  = (isset($request->wed_emergency_rooms)) ? (int)$request->wed_emergency_rooms : 0;
-                $wed_inquiry_guest    = (isset($request->wed_inquiry_guest)) ? (int)$request->wed_inquiry_guest : 0;
-                $wed_ms_inquiry_guest = (isset($request->wed_ms_inquiry_guest)) ? (int)$request->wed_ms_inquiry_guest : 0;
-                $wed_sleeps           = ($wed_beds + $wed_dorms);
+                $validator = Validator::make($request->all(), [
+                    'wed_beds'             => 'required|numeric',
+                    'wed_dorms'            => 'required|numeric',
+                    'wed_emergency_rooms'  => 'numeric|nullable',
+                    'wed_inquiry_guest'    => 'numeric|nullable',
+                    'wed_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $wed_day              = 1;
+                    $wed_beds             = (int)$request->wed_beds;
+                    $wed_dorms            = (int)$request->wed_dorms;
+                    $wed_emergency_rooms  = (isset($request->wed_emergency_rooms)) ? (int)$request->wed_emergency_rooms : 0;
+                    $wed_inquiry_guest    = (isset($request->wed_inquiry_guest)) ? (int)$request->wed_inquiry_guest : 0;
+                    $wed_ms_inquiry_guest = (isset($request->wed_ms_inquiry_guest)) ? (int)$request->wed_ms_inquiry_guest : 0;
+                    $wed_sleeps           = ($wed_beds + $wed_dorms);
+                }
             }
+
             if($request->thursday === '1') {
-                $thu_day              = 1;
-                $thu_beds             = (int)$request->thu_beds;
-                $thu_dorms            = (int)$request->thu_dorms;
-                $thu_emergency_rooms  = (isset($request->thu_emergency_rooms)) ? (int)$request->thu_emergency_rooms : 0;
-                $thu_inquiry_guest    = (isset($request->thu_inquiry_guest)) ? (int)$request->thu_inquiry_guest : 0;
-                $thu_ms_inquiry_guest = (isset($request->thu_ms_inquiry_guest)) ? (int)$request->thu_ms_inquiry_guest : 0;
-                $thu_sleeps           = ($thu_beds + $thu_dorms);
+                $validator = Validator::make($request->all(), [
+                    'thu_beds'             => 'required|numeric',
+                    'thu_dorms'            => 'required|numeric',
+                    'thu_emergency_rooms'  => 'numeric|nullable',
+                    'thu_inquiry_guest'    => 'numeric|nullable',
+                    'thu_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $thu_day              = 1;
+                    $thu_beds             = (int)$request->thu_beds;
+                    $thu_dorms            = (int)$request->thu_dorms;
+                    $thu_emergency_rooms  = (isset($request->thu_emergency_rooms)) ? (int)$request->thu_emergency_rooms : 0;
+                    $thu_inquiry_guest    = (isset($request->thu_inquiry_guest)) ? (int)$request->thu_inquiry_guest : 0;
+                    $thu_ms_inquiry_guest = (isset($request->thu_ms_inquiry_guest)) ? (int)$request->thu_ms_inquiry_guest : 0;
+                    $thu_sleeps           = ($thu_beds + $thu_dorms);
+                }
             }
+
             if($request->friday === '1') {
-                $fri_day              = 1;
-                $fri_beds             = (int)$request->fri_beds;
-                $fri_dorms            = (int)$request->fri_dorms;
-                $fri_emergency_rooms  = (isset($request->fri_emergency_rooms)) ? (int)$request->fri_emergency_rooms : 0;
-                $fri_inquiry_guest    = (isset($request->fri_inquiry_guest)) ? (int)$request->fri_inquiry_guest : 0;
-                $fri_ms_inquiry_guest = (isset($request->fri_ms_inquiry_guest)) ? (int)$request->fri_ms_inquiry_guest : 0;
-                $fri_sleeps           = ($fri_beds + $fri_dorms);
+                $validator = Validator::make($request->all(), [
+                    'fri_beds'              => 'required|numeric',
+                    'fri_dorms'             => 'required|numeric',
+                    'fri_emergency_rooms'   => 'numeric|nullable',
+                    'fri_inquiry_guest'     => 'numeric|nullable',
+                    'fri_ms_inquiry_guest'  => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $fri_day              = 1;
+                    $fri_beds             = (int)$request->fri_beds;
+                    $fri_dorms            = (int)$request->fri_dorms;
+                    $fri_emergency_rooms  = (isset($request->fri_emergency_rooms)) ? (int)$request->fri_emergency_rooms : 0;
+                    $fri_inquiry_guest    = (isset($request->fri_inquiry_guest)) ? (int)$request->fri_inquiry_guest : 0;
+                    $fri_ms_inquiry_guest = (isset($request->fri_ms_inquiry_guest)) ? (int)$request->fri_ms_inquiry_guest : 0;
+                    $fri_sleeps           = ($fri_beds + $fri_dorms);
+                }
             }
+
             if($request->saturday === '1') {
-                $sat_day              = 1;
-                $sat_beds             = (int)$request->sat_beds;
-                $sat_dorms            = (int)$request->sat_dorms;
-                $sat_emergency_rooms  = (isset($request->sat_emergency_rooms)) ? (int)$request->sat_emergency_rooms : 0;
-                $sat_inquiry_guest    = (isset($request->sat_inquiry_guest)) ? (int)$request->sat_inquiry_guest : 0;
-                $sat_ms_inquiry_guest = (isset($request->sat_ms_inquiry_guest)) ? (int)$request->sat_ms_inquiry_guest : 0;
-                $sat_sleeps           = ($sat_beds + $sat_dorms);
+                $validator = Validator::make($request->all(), [
+                    'sat_beds'             => 'required|numeric',
+                    'sat_dorms'            => 'required|numeric',
+                    'sat_emergency_rooms'  => 'numeric|nullable',
+                    'sat_inquiry_guest'    => 'numeric|nullable',
+                    'sat_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $sat_day              = 1;
+                    $sat_beds             = (int)$request->sat_beds;
+                    $sat_dorms            = (int)$request->sat_dorms;
+                    $sat_emergency_rooms  = (isset($request->sat_emergency_rooms)) ? (int)$request->sat_emergency_rooms : 0;
+                    $sat_inquiry_guest    = (isset($request->sat_inquiry_guest)) ? (int)$request->sat_inquiry_guest : 0;
+                    $sat_ms_inquiry_guest = (isset($request->sat_ms_inquiry_guest)) ? (int)$request->sat_ms_inquiry_guest : 0;
+                    $sat_sleeps           = ($sat_beds + $sat_dorms);
+                }
             }
+
             if($request->sunday === '1') {
-                $sun_day              = 1;
-                $sun_beds             = (int)$request->sun_beds;
-                $sun_dorms            = (int)$request->sun_dorms;
-                $sun_emergency_rooms  = (isset($request->sun_emergency_rooms)) ? (int)$request->sun_emergency_rooms : 0;
-                $sun_inquiry_guest    = (isset($request->sun_inquiry_guest)) ? (int)$request->sun_inquiry_guest : 0;
-                $sun_ms_inquiry_guest = (isset($request->sun_ms_inquiry_guest)) ? (int)$request->sun_ms_inquiry_guest : 0;
-                $sun_sleeps           = ($sun_beds + $sun_dorms);
+                $validator = Validator::make($request->all(), [
+                    'sun_beds'             => 'required|numeric',
+                    'sun_dorms'            => 'required|numeric',
+                    'sun_emergency_rooms'  => 'numeric|nullable',
+                    'sun_inquiry_guest'    => 'numeric|nullable',
+                    'sun_ms_inquiry_guest' => 'numeric|nullable'
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                else {
+                    $sun_day              = 1;
+                    $sun_beds             = (int)$request->sun_beds;
+                    $sun_dorms            = (int)$request->sun_dorms;
+                    $sun_emergency_rooms  = (isset($request->sun_emergency_rooms)) ? (int)$request->sun_emergency_rooms : 0;
+                    $sun_inquiry_guest    = (isset($request->sun_inquiry_guest)) ? (int)$request->sun_inquiry_guest : 0;
+                    $sun_ms_inquiry_guest = (isset($request->sun_ms_inquiry_guest)) ? (int)$request->sun_ms_inquiry_guest : 0;
+                    $sun_sleeps           = ($sun_beds + $sun_dorms);
+                }
             }
+
         }
 
         $cabin = Cabin::where('is_delete', 0)

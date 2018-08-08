@@ -650,7 +650,7 @@
                                                     <div class="form-group {{ $errors->has('not_regular_date') ? ' has-error' : '' }}">
                                                         <label>@lang('contingent.daterangepickerButtonLabel') <span class="required">*</span></label>
 
-                                                        <input type="text" class="form-control" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}">
+                                                        <input type="text" class="form-control" id="daterange" name="not_regular_date" value="{{old('not_regular_date', $cabin->not_regular_date)}}" autocomplete="off" readonly>
 
                                                         @if ($errors->has('not_regular_date'))
                                                             <span class="help-block"><strong>{{ $errors->first('not_regular_date') }}</strong></span>
