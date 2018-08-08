@@ -298,7 +298,7 @@ class CabinLiteController extends Controller
         $cabin->fax                     = $request->fax;
         $cabin->vat                     = $request->vat;
         $cabin->legal                   = $request->legal;
-        $cabin->sleeping_place          = $request->sleeping_place;
+        $cabin->sleeping_place          = (int)$request->sleeping_place;
         $cabin->other_cabin             = "0";
         $cabin->invoice_autonum         = 100000;
         $cabin->is_delete               = 0;

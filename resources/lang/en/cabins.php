@@ -133,7 +133,7 @@ return [
     'legalkg'                                => 'KG',
     'legalohg'                               => 'OHGlegal',
     'legalsingle'                            => 'One Man Business',
-    'lblBillingVat'                          => 'Var',
+    'lblBillingVat'                          => 'Vat',
     'billingVatPH'                           => 'Enter Vat',
 
 
