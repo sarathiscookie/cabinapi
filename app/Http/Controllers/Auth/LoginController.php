@@ -58,7 +58,7 @@ class LoginController extends Controller
             'password' => 'required|max:255'
         ]);
 
-        $authUser = User::where('usrEmail', $request->email)->whereIn('usrlId', [1, 5])->first();
+        $authUser = User::where('usrEmail', $request->email)->whereIn('usrlId', [1, 5, 6])->first();
 
         if (isset($authUser)) {
             $password          = md5('aFGQ475SDsdfsaf2342' . $request->password . $authUser->usrPasswordSalt);
@@ -70,7 +70,7 @@ class LoginController extends Controller
                 $login    = User::where('usrEmail', $request->email)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)
-                    ->whereIn('usrlId', [1, 5])
+                    ->whereIn('usrlId', [1, 5, 6])
                     ->first();
             }
             else {
@@ -78,7 +78,7 @@ class LoginController extends Controller
                     ->where('usrPassword', $password)
                     ->where('usrActive', '1')
                     ->where('is_delete', 0)
-                    ->whereIn('usrlId', [1, 5])
+                    ->whereIn('usrlId', [1, 5, 6])
                     ->first();
             }
 
@@ -109,17 +109,17 @@ class LoginController extends Controller
                         ->update(['lastlogin' => $utcdatetime]);
                     return redirect('cabinowner/bookings');
                 }
-               /* else if ($login->usrlId === 6) {*/
+                else if ($login->usrlId === 6) {
                     /* Functionality to generate date format as mongo begin */
-                    /*$date_now    = date("Y-m-d H:i:s");
+                    $date_now    = date("Y-m-d H:i:s");
                     $orig_date   = new DateTime($date_now);
                     $orig_date   = $orig_date->getTimestamp();
-                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);*/
+                    $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
                     /* Functionality to generate date format as mongo end */
-                    /*User::where('_id', $login->_id)
+                    User::where('_id', $login->_id)
                         ->update(['lastlogin' => $utcdatetime]);
                     return redirect('mountainschool/bookings');
-                }*/
+                }
                 else {
                     $request->session()->flush();
                     $request->session()->regenerate();
