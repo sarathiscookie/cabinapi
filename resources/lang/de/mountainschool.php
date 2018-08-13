@@ -22,6 +22,8 @@ return [
     'tour_name'                              => 'Name der Tour',
     'total_guests'                           => 'Gäste',
     'bookingdate'                            => 'Buchungsdatum',
+    'yes'                                    => 'Ja',
+    'no'                                     => 'Nein',
     'halfboard'                              => 'Halbpension',
     'noofguides'                             => 'Anzahl Bergführer',
     'comment'                                => 'Kommentar',

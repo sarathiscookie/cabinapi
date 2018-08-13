@@ -30,7 +30,7 @@
                 <li class="list-group-item">
                     <h4 class="list-group-item-heading">@lang("mountainschool.halfboard")</h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">@if ($booking->half_board === '1') Yes @endif</span>
+                        <span class="modalvalDisplay">@if ($booking->half_board === '1') @lang("mountainschool.yes") @else @lang("mountainschool.no") @endif</span>
                     </p>
                 </li>
             </ul>

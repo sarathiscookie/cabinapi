@@ -22,6 +22,8 @@ return [
     'tour_name' => 'Tour Name',
     'total_guests' => 'Total Guests',
     'bookingdate' => 'Booking Date',
+    'yes' => 'Yes',
+    'no' => 'No',
     'halfboard' => 'Halfboard',
     'noofguides' => 'No of guides',
     'comment' => 'Comment',
