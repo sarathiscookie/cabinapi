@@ -14,52 +14,47 @@
         <div class="col-md-6">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <h4  class="list-group-item-heading">@lang("mountainschool.bookingNumber")</h4>
-                    <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->invoice_number }} </span>
-                    </p></li>
-                <li class="list-group-item">
                     <h4 class="list-group-item-heading">@lang("mountainschool.cabinname") </h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->cabin_name }} </span>
+                        <span class="modalvalDisplay">{{ $booking->cabin_name }}</span>
 
-                    </p></li>
+                    </p>
+                </li>
 
                 <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.tour_name")</h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->tour_name }} </span>
-                    </p></li>
-                @if ( $booking->ind_notice )
+                        <span class="modalvalDisplay">{{ $booking->tour_name }}</span>
+                    </p>
+                </li>
+
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading"> </h4>
+                    <h4 class="list-group-item-heading">@lang("mountainschool.halfboard")</h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->ind_notice }} </span>
-                    </p></li>
-                  @endif
+                        <span class="modalvalDisplay">@if ($booking->half_board === '1') Yes @endif</span>
+                    </p>
+                </li>
             </ul>
         </div>
         <div class="col-md-6">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <h4 class="list-group-item-heading">@lang("mountainschool.from") - @lang("mountainschool.to") </h4>
+                    <h4 class="list-group-item-heading">@lang("mountainschool.bookingdate")</h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->checkin_from }} -   {{ $booking->checkin_to }} </span>
+                        <span class="modalvalDisplay">{{ $booking->bookingdate->format('d.m.y') }}</span>
+                    </p>
+                </li>
 
-                    </p></li>
+                <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.total_guests")</h4>
+                    <p class="list-group-item-text">
+                        <span class="modalvalDisplay">{{ $booking->total_guests }} </span>
+                    </p>
+                </li>
 
-                <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.total_guests"):</h4>
+                <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.noofguides")</h4>
                     <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->total_guests }} </span>
-                    </p></li>
-                <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.sleeps")</h4>
-                    <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->sleeps }} </span>
-                    </p></li>
-                <li class="list-group-item"><h4  class="list-group-item-heading">@lang("mountainschool.status")</h4>
-                    <p class="list-group-item-text">
-                        <span class="modalvalDisplay">   {{ $booking->bookingStatusLabel  }}   </span>
-                    </p></li>
-
+                        <span class="modalvalDisplay">{{ $booking->no_guides }} </span>
+                    </p>
+                </li>
             </ul>
         </div>
     </div>

@@ -43,60 +43,62 @@ class BookingController extends Controller
             8 => 'status'
         );
 
+        $totalData     = MountSchoolBooking::where('is_delete', 0)
+            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->count();
 
-                $totalData     = MountSchoolBooking::where('is_delete', 0)
-                    ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-                    ->count();
-                $totalFiltered = $totalData;
-                $limit         = (int)$request->input('length');
-                $start         = (int)$request->input('start');
-                $order         = $columns[$params['order'][0]['column']]; //contains column index
-                $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
+        $totalFiltered = $totalData;
+        $limit         = (int)$request->input('length');
+        $start         = (int)$request->input('start');
+        $order         = $columns[$params['order'][0]['column']]; //contains column index
+        $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-                $q             = MountSchoolBooking::where('is_delete', 0)
-                    ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id));
+        $q             = MountSchoolBooking::where('is_delete', 0)
+            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id));
 
-                if(!empty($request->input('search.value')))
-                {
-                    $search   = $request->input('search.value');
+        if(!empty($request->input('search.value')))
+        {
+            $search   = $request->input('search.value');
 
-                        $q->where(function($query) use ($search) {
-                            $query->where('invoice_number', 'like', "%{$search}%");
-                        });
+            $q->where(function($query) use ($search) {
+                $query->where('invoice_number', 'like', "%{$search}%")
+                    ->orWhere('ind_tour_no', 'like', "%{$search}%");
+            });
 
-                        $totalFiltered = $q->where(function($query) use ($search) {
-                            $query->where('invoice_number', 'like', "%{$search}%");
-                        })
-                            ->count();
-                    }
-                /* Date range func begin */
-                if($request->input('is_date_search') == 'yes')
-                {
-                    //if extension=mongodb.so in server use \MongoDB\BSON\UTCDateTime otherwise use MongoDate
-                    $checkin_from           = explode("-", $request->input('daterange'));
-                    $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
-                    $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
+            $totalFiltered = $q->where(function($query) use ($search) {
+                $query->where('invoice_number', 'like', "%{$search}%")
+                    ->orWhere('ind_tour_no', 'like', "%{$search}%");
+            })
+                ->count();
+        }
 
-                    $q->whereBetween('check_in', [$dateBegin, $dateEnd]);
+        /* Date range func begin */
+        if($request->input('is_date_search') == 'yes')
+        {
+            $checkin_from           = explode("-", $request->input('daterange'));
+            $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[0])*1000);
+            $dateEnd                = new \MongoDB\BSON\UTCDateTime(strtotime($checkin_from[1])*1000);
 
-                    $totalFiltered = $q->whereBetween('check_in', [$dateBegin, $dateEnd])
-                        ->count();
-                }
-                /* Date range func end */
+            $q->whereBetween('check_in', [$dateBegin, $dateEnd]);
 
-                /* thead search functionality for booking number, email, status begin */
-                if( !empty($params['columns'][1]['search']['value']))
-                {
-                    $q->where(function($query) use ($params) {
-                        $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
-                    });
+            $totalFiltered = $q->whereBetween('check_in', [$dateBegin, $dateEnd])
+                ->count();
+        }
+        /* Date range func end */
 
-                    $totalFiltered = $q->where(function($query) use ($params) {
-                        $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
-                    })
-                        ->count();
-                }
-        /* thead search functionality for individual number*/
+        /* tfoot search functionality for booking number, email, status begin */
+        if( !empty($params['columns'][1]['search']['value']))
+        {
+            $q->where(function($query) use ($params) {
+                $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('invoice_number', 'like', "%{$params['columns'][1]['search']['value']}%");
+            })
+                ->count();
+        }
+
         if( !empty($params['columns'][2]['search']['value']))
         {
             $q->where(function($query) use ($params) {
@@ -108,120 +110,118 @@ class BookingController extends Controller
             })
                 ->count();
         }
-        /* status */
-                if( isset($params['columns'][8]['search']['value']) )
-                {
-                    $q->where(function($query) use ($params) {
-                        $query->where('status', "{$params['columns'][8]['search']['value']}");
-                    });
 
-                    $totalFiltered = $q->where(function($query) use ($params) {
-                        $query->where('status', "{$params['columns'][8]['search']['value']}");
-                    })
-                        ->count();
+        if( isset($params['columns'][8]['search']['value']) )
+        {
+            $q->where(function($query) use ($params) {
+                $query->where('status', "{$params['columns'][8]['search']['value']}");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('status', "{$params['columns'][8]['search']['value']}");
+            })
+                ->count();
+        }
+        /* tfoot search functionality for booking number, email, status end */
+
+        $bookings      = $q->skip($start)
+            ->take($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+        $data          = array();
+        $noData        = '<span class="label label-default">'.__("mountainschool.noResult").'</span>';
+
+        if(!empty($bookings)) {
+            foreach ($bookings as $key => $booking) {
+
+                /* Condition for booking status */
+                if($booking->status == '1') {
+                    $bookingStatustxt = __("mountainschool.bookingFix");
+                    $spanClass = "label-success";
+
+                }
+                else if ($booking->status == '2') {
+
+                    $bookingStatustxt = __("mountainschool.cancelled");
+                    $spanClass = "label-danger";
+                }
+                else if ($booking->status == '3') {
+
+                    $bookingStatustxt = __("mountainschool.completed");
+                    $spanClass = "label-primary";
+                }
+                else if ($booking->status == '4') {
+
+                    $bookingStatustxt = __("mountainschool.request");
+                    $spanClass = "label-info";
+                }
+                else if ($booking->status == '5') {
+                    $bookingStatustxt = __("mountainschool.bookingWaiting");
+                    $spanClass = "label-warning";
+                }
+                else {
+                    $bookingStatustxt = __("mountainschool.noResult");
+                    $spanClass = "label-default";
+
+                }
+                $bookingStatusLabel = '<span class="label '.$spanClass.'">'. $bookingStatustxt .'</span>';
+                /* Checking check_in, reserve_to and booking date fields are available or not */
+                if(!$booking->check_in){
+                    $checkin_from = $noData;
+                }
+                else {
+                    $checkin_from = ($booking->check_in)->format('d.m.y');
+                }
+
+                if(!$booking->reserve_to){
+                    $reserve_to = $noData;
+                }
+                else {
+                    $reserve_to = ($booking->reserve_to)->format('d.m.y');
                 }
 
 
-                /* tfoot search functionality for booking number, email, status end */
+                /* Condition for beds, dorms and sleeps */
+                if(empty($booking->beds) && empty($booking->dormitory))
+                {
+                    $sleeps    = $booking->sleeps;
+                }
+                else {
+                    $beds      = $booking->beds;
+                    $dormitory = $booking->dormitory;
+                    $sleeps    = '----';
+                }
+                if(empty($booking->beds)){
+                    $beds      = '----';
+                }
+                if(empty($booking->dormitory)){
+                    $dormitory = '----';
+                }
 
-                $bookings      = $q->skip($start)
-                    ->take($limit)
-                    ->orderBy($order, $dir)
-                    ->get();
+                $ind_tour_no                 = $booking->ind_tour_no;
+                $booking->checkin_from       = $checkin_from;
+                $booking->checkin_to         = $reserve_to;
+                $booking->bookingStatusLabel = $bookingStatustxt;
 
-                $data          = array();
-                $noData        = '<span class="label label-default">'.__("mountainschool.noResult").'</span>';
-                if(!empty($bookings)) {
-                    foreach ($bookings as $key => $booking) {
+                $view                        =  view('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
+                $popup_contents              = (string)$view;
+                $invoiceNumber_comment       = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
 
-                        /* Condition for booking status */
-                        if($booking->status == '1') {
-                            $bookingStatustxt = __("mountainschool.bookingFix");
-                            $spanClass = "label-success";
+                $checkbox                     = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
+                $nestedData['hash']           = $checkbox;
+                $nestedData['invoice_number'] = $invoiceNumber_comment  ;
+                $nestedData['ind_tour_no']    = $ind_tour_no  ;
+                $nestedData['check_in']       = $checkin_from;
+                $nestedData['reserve_to']     = $reserve_to;
+                $nestedData['beds']           = $beds;
+                $nestedData['dormitory']      = $dormitory;
+                $nestedData['sleeps']         = $sleeps;
+                $nestedData['status']         = $bookingStatusLabel;
+                $data[]                       = $nestedData;
+            }
 
-                        }
-                        else if ($booking->status == '2') {
-
-                            $bookingStatustxt = __("mountainschool.cancelled");
-                            $spanClass = "label-danger";
-                        }
-                        else if ($booking->status == '3') {
-
-                            $bookingStatustxt = __("mountainschool.completed");
-                            $spanClass = "label-primary";
-                        }
-                        else if ($booking->status == '4') {
-
-                            $bookingStatustxt = __("mountainschool.request");
-                            $spanClass = "label-info";
-                        }
-                        else if ($booking->status == '5') {
-                            $bookingStatustxt = __("mountainschool.bookingWaiting");
-                            $spanClass = "label-warning";
-                        }
-                        else {
-                            $bookingStatustxt = __("mountainschool.noResult");
-                            $spanClass = "label-default";
-
-                        }
-                        $bookingStatusLabel = '<span class="label '.$spanClass.'">'. $bookingStatustxt .'</span>';
-                        /* Checking check_in, reserve_to and booking date fields are available or not */
-                        if(!$booking->check_in){
-                            $checkin_from = $noData;
-                        }
-                        else {
-                            $checkin_from = ($booking->check_in)->format('d.m.y');
-                        }
-
-                        if(!$booking->reserve_to){
-                            $reserve_to = $noData;
-                        }
-                        else {
-                            $reserve_to = ($booking->reserve_to)->format('d.m.y');
-                        }
-
-
-                        /* Condition for beds, dorms and sleeps */
-                        if(empty($booking->beds) && empty($booking->dormitory))
-                        {
-                            $sleeps    = $booking->sleeps;
-                        }
-                        else {
-                            $beds      = $booking->beds;
-                            $dormitory = $booking->dormitory;
-                            $sleeps    = '----';
-                        }
-                        if(empty($booking->beds)){
-                            $beds      = '----';
-                        }
-                        if(empty($booking->dormitory)){
-                            $dormitory = '----';
-                        }
-                        $ind_tour_no      = $booking->ind_tour_no;
-                        $booking->checkin_from= $checkin_from;
-                        $booking->checkin_to= $reserve_to;
-                        $booking->bookingStatusLabel = $bookingStatustxt;
-
-                        $view =  view('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
-                        $popup_contents = (string)$view;
-                        $invoiceNumber_comment = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
-
-
-
-                        $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
-                        $nestedData['hash']                    = $checkbox;
-                        $nestedData['invoice_number']          = $invoiceNumber_comment  ;
-                        $nestedData['ind_tour_no']             = $ind_tour_no  ;
-                        $nestedData['check_in']                = $checkin_from;
-                        $nestedData['reserve_to']              = $reserve_to;
-                        $nestedData['beds']                    = $beds;
-                        $nestedData['dormitory']               = $dormitory;
-                        $nestedData['sleeps']                  = $sleeps;
-                        $nestedData['status']                  = $bookingStatusLabel;
-                        $data[]                                = $nestedData;
-                    }
-
-            $json_data     = array(
+            $json_data = array(
                 'draw'            => (int)$params['draw'],
                 'recordsTotal'    => (int)$totalData,
                 'recordsFiltered' => (int)$totalFiltered,

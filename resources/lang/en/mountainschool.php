@@ -21,7 +21,9 @@ return [
     'cabinname' => 'Cabin Name',
     'tour_name' => 'Tour Name',
     'total_guests' => 'Total Guests',
-
+    'bookingdate' => 'Booking Date',
+    'halfboard' => 'Halfboard',
+    'noofguides' => 'No of guides',
     'comment' => 'Comment',
     'from' => 'From',
     'to' => 'To',

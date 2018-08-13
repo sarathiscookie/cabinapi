@@ -79,7 +79,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <select class="form-control input-sm search-input" id="7">
+                                        <select class="form-control input-sm search-input" id="8">
                                             <option value="">(@lang('mountainschool.SearchStatus'))</option>
                                             <option value="1">@lang('mountainschool.bookingFix')</option>
                                             <option value="2">@lang('mountainschool.cancelled')</option>
@@ -168,12 +168,11 @@
                         { "data": "dormitory" },
                         { "data": "sleeps" },
                         { "data": "status" }
-
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 3, 4, 5, 8]
+                            "targets": [0, 3, 4, 5, 6, 7, 8]
                         }
                     ],
                     "language": {
@@ -207,13 +206,13 @@
                         {
                             extend: 'csv',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                             }
                         },
                         {
                             extend: 'excel',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                             },
                             customize: function( xlsx ) {
                                 var sheet = xlsx.xl.worksheets['sheet1.xml'];
@@ -236,7 +235,7 @@
                         {
                             extend: 'print',
                             exportOptions: {
-                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8,9]
+                                columns: [ 1, 2, 3, 4, 5, 6, 7, 8]
                             }
                         }
                     ]
