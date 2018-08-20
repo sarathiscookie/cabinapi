@@ -356,11 +356,15 @@ Route::prefix('admin')->group(function () {
         Route::post('/cabinlite/image/{id}/setProfileImg', 'CabinLiteImageController@setProfileImg')->name('cabin.image.setProfileImg');
 
 
-
+        /* Temporary purpose */
+        /* To list deleted cart via api */
+        Route::get('/deletedCartViaApi', function () {
+            return view('backend.cartDeletedTemporary');
+        });
     });
 });
 
-  Route::prefix('cabinowner')->group(function () {
+Route::prefix('cabinowner')->group(function () {
     Route::group(['middleware' => ['auth','cabinowner']], function () {
 
         /*
@@ -676,7 +680,7 @@ Route::prefix('mountainschool')->group(function () {
         /*duplicatingBooking Tour */
        // Route::get('/duplicatingBooking', 'Mountainschool\TourController@duplicatingBooking') ;
         /*basicsettings Tour */
-        Route::get('/basicsettings', 'Mountainschool\TourController@basicSettings') ;
+        Route::get('/basicsettings', 'Mountainschool\TourController@basicSettings');
 
 
            /*mydata user deatils update */
