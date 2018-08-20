@@ -51,9 +51,11 @@
 											if ($header) {
 												$header = false;
 											} else {
-												if( $csvLine[13] == $user->usrEmail);
-												$exceltext = "User gefunden: ";
-												$excelfounds++;
+												if( $csvLine[13] == $user->usrEmail){
+													$exceltext = "User gefunden: ";
+													$excelfounds++;												
+												}
+
 											}
 										}
 									
