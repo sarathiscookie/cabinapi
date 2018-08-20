@@ -34,7 +34,7 @@
                                 <tfoot>
                                 @php
                                     $i = 1;
-                                    $bookings = \App\Booking::where('is_delete', 0)->where('status', '8')->paginate(100);
+                                    $bookings = \App\Booking::where('is_delete', 1)->where('status', '8')->paginate(100);
                                 @endphp
                                 @foreach($bookings as $booking)
                                     @php $user = \App\Userlist::where('is_delete', 0)->find($booking->user); @endphp
