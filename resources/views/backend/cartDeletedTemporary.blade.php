@@ -41,22 +41,22 @@
                                     @php $user = \App\Userlist::where('is_delete', 0)->find($booking->user); @endphp
 									<!-- Some quick and dirty stuff from Daniel to compare against the data from PMI / PAYONE EXPORT !-->
 									@php 
-										/*$handle = fopen('completepmibookings.csv', "r");
+										$handle = fopen('../resources/tempbookings/completepmibookings.csv', "r");
 										$header = true;
 
-										while ($csvLine = fgetcsv($handle, 1000, ",")) {
-
+										$exceltext = "";
+										$excelfounds = 0;
+										
+										while ($csvLine = fgetcsv($handle, 1000, ";")) {
 											if ($header) {
 												$header = false;
 											} else {
-												Character::create([
-													'name' => $csvLine[0] . ' ' . $csvLine[1],
-													'job' => $csvLine[2],
-												]);
+												if( $csvLine[13] == $user->usrEmail);
+												$exceltext = "User gefunden: ";
+												$excelfounds++;
 											}
 										}
-									*/
-									echo getcwd();
+									
 									@endphp
 									
                                 <tr>
@@ -66,7 +66,7 @@
                                     <td>{{ $user->usrLastname }}</td>
                                     <td>{{ $user->usrEmail }}</td>
                                     <td>{{ $booking->txid }}</td>
-									<td>Test</td>
+									<td>{{ $exceltext }} {{ $excelfounds }} x</td>
                                 </tr>
                                 @endforeach
                                 </tfoot>
