@@ -60,7 +60,7 @@
 										}
 									
 									@endphp
-									@if(excelfounds > 0)
+									@if($excelfounds > 0)
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $booking->invoice_number }}</td>
