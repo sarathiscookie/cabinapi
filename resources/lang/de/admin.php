@@ -69,6 +69,8 @@ return [
     'completed'                              => 'Abgeschlossen',
     'request'                                => 'Request',
     'bookingWaiting'                         => 'Warten auf Zahlung',
+    'onProcessing'                           => 'In Bearbeitung',
+    'cart'                                   => 'Hüttenkorb',
     /* Booking status end */
 
     /* Payment status begin */

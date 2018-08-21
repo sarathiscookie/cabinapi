@@ -142,6 +142,8 @@
                                             <option value="3">@lang('admin.completed')</option>
                                             <option value="4">@lang('admin.request')</option>
                                             <option value="5">@lang('admin.bookingWaiting')</option>
+                                            <option value="8">@lang('admin.cart')</option>
+                                            <option value="11">@lang('admin.onProcessing')</option>
                                         </select>
                                     </td>
                                     <td>

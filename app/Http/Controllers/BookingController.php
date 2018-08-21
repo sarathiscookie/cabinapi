@@ -57,13 +57,17 @@ class BookingController extends Controller
         {
             $totalData = Booking::where('is_delete', 0)
                 ->where('user', new \MongoDB\BSON\ObjectID($request->parameterId))
+                ->whereIn('status', ['1', '2', '3', '4', '5', '8', '11'])
                 ->count();
             $q         = Booking::where('is_delete', 0)
+                ->whereIn('status', ['1', '2', '3', '4', '5', '8', '11'])
                 ->where('user', new \MongoDB\BSON\ObjectID($request->parameterId));
         }
         else {
-            $totalData = Booking::where('is_delete', 0)->count();
-            $q         = Booking::where('is_delete', 0);
+            $totalData = Booking::where('is_delete', 0)
+                ->whereIn('status', ['1', '2', '3', '4', '5', '8', '11']) /* 1=> Fix, 2=> Cancel, 3=> Completed, 4=> Request (Reservation), 5=> Waiting for payment, 8=> Cart, 11=> On Processing */
+                ->count();
+            $q         = Booking::where('is_delete', 0)->whereIn('status', ['1', '2', '3', '4', '5', '8', '11']);
         }
 
         $totalFiltered = $totalData;
@@ -286,6 +290,12 @@ class BookingController extends Controller
                 }
                 else if ($booking->status == '5') {
                     $bookingStatusLabel = '<span class="label label-warning">'.__("admin.bookingWaiting").'</span>';
+                }
+                else if ($booking->status == '8') {
+                    $bookingStatusLabel = '<span class="label label-info">'.__("admin.cart").'</span>';
+                }
+                else if ($booking->status == '11') {
+                    $bookingStatusLabel = '<span class="label label-info">'.__("admin.onProcessing").'</span>';
                 }
                 else {
                     $bookingStatusLabel = $noData;

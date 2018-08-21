@@ -69,6 +69,8 @@ return [
     'completed'                              => 'Completed',
     'request'                                => 'Request',
     'bookingWaiting'                         => 'Waiting for payment',
+    'onProcessing'                           => 'On Processing',
+    'cart'                                   => 'Cart',
     /* Booking status end */
 
     /* Payment status begin */
