@@ -52,7 +52,7 @@
 												$header = false;
 											} else {
 												if( $csvLine[13] == $user->usrEmail){
-													$exceltext = "User gefunden: ";
+													$exceltext = "Zahlungen gefunden: ";
 													$excelfounds++;												
 												}
 
@@ -60,7 +60,7 @@
 										}
 									
 									@endphp
-									
+									@if(excelfounds > 0)
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td>{{ $booking->invoice_number }}</td>
@@ -70,6 +70,7 @@
                                     <td>{{ $booking->txid }}</td>
 									<td>{{ $exceltext }} {{ $excelfounds }} x</td>
                                 </tr>
+									@endif
                                 @endforeach
                                 </tfoot>
 
