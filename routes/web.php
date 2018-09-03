@@ -636,17 +636,15 @@ Route::prefix('mountainschool')->group(function () {
         Route::get('/tours/gettour', 'Mountainschool\TourController@getTourForBooking');
 
         /* Listing tours */
-
         Route::get('/tours', 'Mountainschool\TourController@index')->name('mountainschool.tours');
         Route::post('/tours/datatables', 'Mountainschool\TourController@datatables')->name('mountainschool.tours.datatables');
 
-        /*   add new cabin */
+        /* Add new cabin */
         Route::post('/tours/createtour/createnewcabin', 'Mountainschool\TourController@createNewCabin')->name('mountainschool.tours.createnewcabin');
-        /* get Cabin  * */
+        /* Get cabins */
         Route::get('/tours/addnewcabin', 'Mountainschool\TourController@addNewCabin')->name('mountainschool.tours.addnewcabin');
         /* Create tours * */
         Route::get('/tours/createtour', 'Mountainschool\TourController@createTour')->name('mountainschool.createtour');
-
         /* Edit tours * */
         Route::get('/tours/edittour/{id}', 'Mountainschool\TourController@editTour')->name('mountainschool.edittour');
 

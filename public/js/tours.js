@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 $(function () {
     /* Checking for the CSRF token */
     $.ajaxSetup({
@@ -84,55 +76,48 @@ $(function () {
         });
     }
     /* Data table functionality end */
-
-
-    /***********************/
 });
 
-/* create ne cabin  */
+/* create new cabin  */
 $('#createCabin').click(function (e) {
-    var divId = 'new_cabin';
+    var divId     = 'new_cabin';
     ovelayLoading('add', divId); //adding loading effect
-    var $btn = $(this);
+    var $btn      = $(this);
+
     $('#' + divId).find('.has-error').removeClass('has-error');
     $('#' + divId).find('.help-block').html('<strong></strong>');
+
     $btn.button('loading');
     $.ajax({
         type: "POST",
         url: '/mountainschool/tours/createtour/createnewcabin',
         data: $("#addcabinFrm").serialize() + '&' + $.param({'formPart': $btn.val()}),
         success: function (data) {
-
             ovelayLoading('remove');//remove loading effect
             $btn.button('reset');
             if ((data.errors)) {
                 $.each(data.errors, function (i, item) {
-
                     $("input[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                     $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
-
                 });
-
-            } else {
-
+            }
+            else {
                 data = JSON.parse(data);
-                //  append success message
+
                 if (data.errorMsg != undefined) {
                     var msgClass = 'alert-danger';
                     var msgText = data.errorMsg;
-
                 }
                 else {
                     var msgClass = 'alert-success';
                     var msgText = data.successMsg;
                 }
-                //----------------------Replace with Textbox ----------------------
+
                 var rowId = $("#createCabin").parents('.box-solid').closest('.row').attr('rid');
                 var html = ' <div class="row" id="crowid' + rowId + '" rid="' + rowId + '"><div class="col-md-6"  >    <div class="form-group"  >      <label> ' + lblCabin + rowId + lblReqSpanCabin + '</label><input type="text" name="cabins[]" class="form-control" value="' + $('#cabin_name').val() + '" readonly="readonly">  </div>   </div><div class="col-md-1"  ><a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative; bottom: -30px;"></a>  </div> </div>';
                 // cabinCountFilter(rowId);
                 $("#newcabinRowID").closest('div[class^="row"]').remove();
                 $(html).insertBefore("#tour_cabins_row");
-                //---------------------------------------------
 
                 var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
 
@@ -142,16 +127,14 @@ $('#createCabin').click(function (e) {
                 }, 2000);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) { // What to do if we fail
-            ovelayLoading('remove');//remove loading effect
+        error: function (jqXHR, textStatus, errorThrown) {
+            ovelayLoading('remove');
+
             if (jqXHR.status == 422) {
                 var errData = jqXHR.responseJSON;
                 $.each(errData, function (i, item) {
-
                     $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
                     $("input[name='" + i + "']").after(' <span class="help-block"> <strong>' + item[0] + '</strong></span> ');
-
-
                 });
 
                 $btn.button('reset');
@@ -161,9 +144,9 @@ $('#createCabin').click(function (e) {
 });
 
 /* check new cabin add section exits */
-
-function checkNewCabinSection(){
-    if ($('#newcabinRowID').length)         // use this if you are using id to check
+function checkNewCabinSection()
+{
+    if ($('#newcabinRowID').length)
     {
         alert("Please add new cabin first.");
         $('#newcabinRowID').addClass(' box-danger');
@@ -174,10 +157,9 @@ function checkNewCabinSection(){
 }
 
 
-/*  Add new cabin UI*/
-
-function addNewCabin(i) {
-
+/* Add new cabin UI */
+function addNewCabin(i)
+{
     $.ajax({
         type: "GET",
         url: '/mountainschool/tours/addnewcabin',
@@ -186,17 +168,17 @@ function addNewCabin(i) {
             var html = '<div class="row" id="crowid' + i + '" rid="' + i + '"><div class="col-md-6"   ><div class="form-group"  >      <label> ' + lblCabin + i + '</label> ' + data + ' </div> </div> <div class="col-md-1"   > <a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative;   bottom:-30px;"></a> </div>   </div> ';
             $(html).insertBefore("#tour_cabins_row");
         }
-
     });
 }
 
 /* Overlay after submit */
-function ovelayLoading(arg, appendDiv) {
-
+function ovelayLoading(arg, appendDiv)
+{
     if (arg == 'add') {
         var overlay = jQuery('<div id="overlay">  </div>');
         overlay.appendTo('#' + appendDiv);
     }
+
     if (arg == 'remove') {
         $("#overlay").remove();
     }

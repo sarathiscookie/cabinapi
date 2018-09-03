@@ -8,9 +8,6 @@ use Illuminate\Validation\Rule;
 
 class TourRequest extends FormRequest
 {
-
-
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,66 +25,43 @@ class TourRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [];
+        $rules     = [];
+
         if ($this->request->get('formPart') == 'createCabin') {
             $rules = [
-
-                'cabin_name' => [
+                'cabin_name'     => [
                     'required',
                     Rule::unique('cabins', 'name')->where(function($query) {
                         $query->where('is_delete', 0);
                     }),
                 ],
                 'contact_person' => 'required',
-                'email' => 'required',
-
-
-             //   'no_cabins' => 'required|not_in:0',
-                /*   'height'          => 'required',
-                   // 'availability'    => 'required|max:200',
-                    //'club'            => 'required|max:200',
-                    'check_in'        => 'required|max:100',
-                    'check_out'       => 'required|max:100',
-                    'deposit'         => 'required|numeric',
-                    'cabin_owner'     => 'required',
-                    'country'         => 'required',
-                    //  'zip'             => 'required|max:25',
-                    // 'city'            => 'required|max:255',
-                    'halfboard_price' => 'required_if:halfboard,1',
-                    'booking_type'  => 'required',
-                    */
+                'email'          => 'required',
             ];
         }
 
-
         if ($this->request->get('formPart') == 'createTour') {
             $rules = [
-
                 'tour_name' => [
                     'required',
                     Rule::unique('tour', 'tour_name')->where(function ($query) {
                         $query->where('is_delete', 0);
                     }),
                 ],
-                'tour_no' => [
+                'tour_no'   => [
                     'required',
                     Rule::unique('tour', 'tour_no')->where(function ($query) {
                         $query->where('is_delete', 0);
                     }),
-                ],
-
-               // 'tour_cabins' => 'required_if:no_cabins,0',
-
+                ]
             ];
 
-        if($this->request->get('no_cabins') == 0 ){
-            $rules['no_cabins'] = 'required|not_in:0';
+            if($this->request->get('no_cabins') == 0 ){
+                $rules['no_cabins'] = 'required|not_in:0';
+            }
         }
 
-
-        }
-
- /* updateTour */
+        /* Update Tour */
         if ($this->request->get('formPart') == 'updateTour') {
             $rules = [
                 'tour_name' => [
@@ -112,8 +86,8 @@ class TourRequest extends FormRequest
                 $rules['no_cabins'] = 'required|not_in:0';
             }
         }
- /* updateTour ends */
-        /* updateContact */
+
+        /* Update contact */
         if ($this->request->get('updatePwd') == 'updateContact') {
             $rules = [
                 'firstname'     => 'required',
@@ -127,11 +101,11 @@ class TourRequest extends FormRequest
                 'birthDay'      => 'required',
                 'userName'      => 'required',
                 'usrPassword'   => 'required',
-                'usrLogo'       => 'image|mimes:jpeg,bmp,png|size:2000',
-
+                'usrLogo'       => 'image|mimes:jpeg,bmp,png|size:2000'
             ];
         }
-        /* updatePwd - password */
+
+        /* Update password */
         if ($this->request->get('updatePwd') == 'updatePwd') {
             $rules = [
                 'current_pwd'     => 'required',
@@ -140,46 +114,38 @@ class TourRequest extends FormRequest
             ];
         }
 
-         /* updateBasicSettings  - Bassic Settings */
+        /* Update basic settings */
+        if ($this->request->get('updateBasicSettings') == 'updateBasicSettings') {
+            $rules = [
+                'no_guides'      => 'required',
+                'contact_person' => 'required',
+                'notice'         => 'required',
+            ];
+        }
 
-          if ($this->request->get('updateBasicSettings') == 'updateBasicSettings') {
-              $rules = [
-                  'no_guides'     => 'required',
-                  'contact_person'   => 'required',
-                  'notice'         => 'required',
-              ];
-          }
-            if ($this->request->get('formPart') == 'newBooking') {
+        if ($this->request->get('formPart') == 'newBooking') {
+            $k     =  $this->request->get('no_cabins') ;
 
-
-
-              $k =  $this->request->get('no_cabins') ;
-                $rlApp =[];
-                for($j=1 ; $j<=$k ; $j++) {
-                    $rlApp['no_guides' . $j .'.*'] = 'required';
-                    $rlApp['guests' . $j .'.*'] = 'required|not_in:0';
-                    $rlApp['check_in' . $j.'.*' ] = 'required';
-                    $rlApp['days' . $j .'.*'] = 'required';
-                }
-
-                $rules1 = [
-                    'ind_tour_no.*' => [
-                        'required',
-                        Rule::unique('mschool', 'ind_tour_no')->where(function($query) {
-                            $query->where('is_delete', 0);
-                        }),
-                    ],
-                  //  'ind_tour_no.*' => 'required',
-                            'tour_guide.*'  => 'required',
-                        //    'ind_notice.*'  => 'required',
-
-
-                          ];
-
-
-
-                $rules = array_merge($rlApp,$rules1);
+            $rlApp = [];
+            for($j=1 ; $j<=$k ; $j++) {
+                $rlApp['no_guides' . $j .'.*']  = 'required';
+                $rlApp['guests' . $j .'.*']     = 'required|not_in:0';
+                $rlApp['check_in' . $j.'.*' ]   = 'required';
+                $rlApp['days' . $j .'.*']       = 'required';
             }
+
+            $rules1 = [
+                'ind_tour_no.*' => [
+                    'required',
+                    Rule::unique('mschool', 'ind_tour_no')->where(function($query) {
+                        $query->where('is_delete', 0);
+                    }),
+                ],
+                'tour_guide.*'  => 'required',
+            ];
+
+            $rules = array_merge($rlApp,$rules1);
+        }
 
         return $rules;
     }
@@ -192,21 +158,21 @@ class TourRequest extends FormRequest
      */
     public function attributes()
     {
-        if (\Lang::locale() == 'de') {
-
-            return [ 'current_pwd'     => 'Aktuelles Passwort',
-                'new_pwd'      => 'Neues Passwort',
-                'con_pwd'     => 'Passwort bestätigen',
-              'ind_tour_no' =>'Individuelle Tour Nr.',
-              'ind_notice' =>'Kommentar',
-               ];
-        } else {
+        if (\App::isLocale(env('APP_LOCALE')) === 'de') {
+            return [ 'current_pwd'  => 'Aktuelles Passwort',
+                     'new_pwd'      => 'Neues Passwort',
+                     'con_pwd'      => 'Passwort bestätigen',
+                     'ind_tour_no'  => 'Individuelle Tour Nr.',
+                     'ind_notice'   => 'Kommentar'
+            ];
+        }
+        else {
             return [
-                'current_pwd'     => 'Current Password',
-                'new_pwd'      => 'New Password',
+                'current_pwd' => 'Current Password',
+                'new_pwd'     => 'New Password',
                 'con_pwd'     => 'Confirm Password',
-                'ind_tour_no' =>'Individual Tour No',
-                'ind_notice' =>'Comments',
+                'ind_tour_no' => 'Individual Tour No',
+                'ind_notice'  => 'Comments'
             ];
         }
     }
@@ -218,56 +184,58 @@ class TourRequest extends FormRequest
      */
     public function messages()
     {
-        $k =  $this->request->get('no_cabins') ;
-      $msgApp=[];
-        for($j=1 ; $j<=$k ; $j++) {
+        $k       =  $this->request->get('no_cabins') ;
+        $msgApp  = [];
+
+        for($j = 1 ; $j <= $k ; $j++) {
             $rlApp['no_guides' . $j .'.*'] = 'required';
-            $rlApp['guests' . $j .'.*'] = 'required';
-            $rlApp['check_in' . $j.'.*' ] = 'required';
-            $rlApp['days' . $j .'.*'] = 'required';
+            $rlApp['guests' . $j .'.*']    = 'required';
+            $rlApp['check_in' . $j.'.*' ]  = 'required';
+            $rlApp['days' . $j .'.*']      = 'required';
         }
-        if (\Lang::locale() == 'de') {
+
+        if (\App::isLocale(env('APP_LOCALE')) === 'de') {
             for($j=1 ; $j<=$k ; $j++) {
-                $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
-                $msgApp[ 'guests'.$j.'.*.required']  = 'Anzahl der Gäste muss eingetragen sein';
-                $msgApp[ 'guests'.$j.'.*.not_in']    = 'Anzahl der Gäste muss eingetragen sein';
+                $msgApp[ 'no_guides'.$j.'.*.required'] = 'No of Guide field is required.';
+                $msgApp[ 'guests'.$j.'.*.required']    = 'Anzahl der Gäste muss eingetragen sein';
+                $msgApp[ 'guests'.$j.'.*.not_in']      = 'Anzahl der Gäste muss eingetragen sein';
                 $msgApp[ 'check_in'.$j.'.*.required']  = 'Anreisetag muss eingetragen sein';
-                $msgApp[ 'days'.$j.'.*.required']  = 'Tage müssen eingetragen werden';
+                $msgApp[ 'days'.$j.'.*.required']      = 'Tage müssen eingetragen werden';
 
             }
 
             $messages =  ['no_cabins.required' => 'Mindestens eine Hütte muss ausgewählt werden',
-                'no_cabins.not_in' => 'Mindestens eine Hütte muss ausgewählt werden',
-                'ind_tour_no.*.required' => 'Individuelle Tour Nr. muss eingetragen sein',
-                'ind_notice.*.required' => 'Individuelle Bemerkung muss eingetragen sein',
-                'tour_guide.*.required' => 'Bergführer muss eingetragen sein',
-                'ind_tour_no.*.unique' =>  'Diese Tournummer gibt es bereits'];
+                'no_cabins.not_in'             => 'Mindestens eine Hütte muss ausgewählt werden',
+                'ind_tour_no.*.required'       => 'Individuelle Tour Nr. muss eingetragen sein',
+                'ind_notice.*.required'        => 'Individuelle Bemerkung muss eingetragen sein',
+                'tour_guide.*.required'        => 'Bergführer muss eingetragen sein',
+                'ind_tour_no.*.unique'         =>  'Diese Tournummer gibt es bereits'];
+
             $msg = array_merge($msgApp,$messages);
-            return $msg;
-        } else {
 
-            for($j=1 ; $j<=$k ; $j++) {
-                $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
-                $msgApp[ 'guests'.$j.'.*.required']  = 'No of Guest field is required.';
-                $msgApp[ 'guests'.$j.'.*.not_in']    = 'No of Guest field is required.';
-                $msgApp[ 'check_in'.$j.'.*.required']  = 'Check In field is required.';
-                $msgApp[ 'days'.$j.'.*.required']  = 'Days field is required.';
-
-            }
-
-            $messages =  ['no_cabins.required' => 'Please select at least one Cabin for this Tour.',
-                 'no_cabins.not_in' => 'Please select at least one Cabin for this Tour.',
-                'ind_tour_no.*.required' => 'Individual Tour No field is required.',
-                'ind_notice.*.required' => 'Individual Notice field is required.',
-                'tour_guide.*.required' => 'Tour Guide field is required.',
-                'ind_tour_no.*.unique' =>  'The Individual Tour No has already been taken.',
-
-             //   'usrZip.required' => 'The Zip field is required.',
-
-            ];
-            $msg = array_merge($msgApp,$messages);
             return $msg;
         }
+        else
+            {
+            for($j=1 ; $j<=$k ; $j++) {
+                $msgApp[ 'no_guides'.$j.'.*.required']  = 'No of Guide field is required.';
+                $msgApp[ 'guests'.$j.'.*.required']     = 'No of Guest field is required.';
+                $msgApp[ 'guests'.$j.'.*.not_in']       = 'No of Guest field is required.';
+                $msgApp[ 'check_in'.$j.'.*.required']   = 'Check In field is required.';
+                $msgApp[ 'days'.$j.'.*.required']       = 'Days field is required.';
+            }
 
+            $messages =  ['no_cabins.required'  => 'Please select at least one Cabin for this Tour.',
+                 'no_cabins.not_in'             => 'Please select at least one Cabin for this Tour.',
+                'ind_tour_no.*.required'        => 'Individual Tour No field is required.',
+                'ind_notice.*.required'         => 'Individual Notice field is required.',
+                'tour_guide.*.required'         => 'Tour Guide field is required.',
+                'ind_tour_no.*.unique'          =>  'The Individual Tour No has already been taken.',
+            ];
+
+            $msg = array_merge($msgApp,$messages);
+
+            return $msg;
+        }
     }
 }

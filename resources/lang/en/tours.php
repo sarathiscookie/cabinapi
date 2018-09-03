@@ -44,6 +44,8 @@ return [
     'lblCabinNamePH' => 'Enter Cabin Name',
     'lblWebsite' => 'Website',
     'lblWebsitePH' => 'Enter Website',
+    'CreateNewCabinLabel' => 'New Cabin',
+    'creatingLoader' => 'Creating...',
 
     'lblContactPerson' => 'Contact Person',
     'lblContactPersonPH' => 'Enter Contact Person',

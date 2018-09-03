@@ -44,6 +44,8 @@ return [
     'lblCabinNamePH' => 'Hüttenname eingeben',
     'lblWebsite' => 'Webseite',
     'lblWebsitePH' => 'Webseiten url eingeben',
+    'CreateNewCabinLabel' => 'New Cabin',
+    'creatingLoader' => 'Creating...',
 
     'lblContactPerson' => 'Kontakt Person',
     'lblContactPersonPH' => 'Kontakt Person eingeben',

@@ -223,38 +223,37 @@ class TourController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\TourRequest
      * @return \Illuminate\Http\Response
      */
     public function store(TourRequest $request)
     {
         if (isset($request->formPart) && $request->formPart == 'createTour') {
-            $tour = new Tour;
             /* Mongo UTCDateTime begin */
-            $date_now = date("Y-m-d H:i:s");
-            $orig_date = new DateTime($date_now);
-            $orig_date = $orig_date->getTimestamp();
-            $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date * 1000);
+            $date_now     = date("Y-m-d H:i:s");
+            $orig_date    = new DateTime($date_now);
+            $orig_date    = $orig_date->getTimestamp();
+            $utcdatetime  = new \MongoDB\BSON\UTCDateTime($orig_date * 1000);
             /* Mongo UTCDateTime end */
 
-
-            $tour->tour_name = $request->tour_name;
-            $tour->tour_no = $request->tour_no;
-            $tour->cabins = $request->cabins;
-            $tour->no_cabins = $request->no_cabins;
-            $tour->status = 1;
-            $tour->is_delete = 0;
+            $tour             = new Tour;
+            $tour->tour_name  = $request->tour_name;
+            $tour->tour_no    = $request->tour_no;
+            $tour->cabins     = $request->cabins;
+            $tour->no_cabins  = $request->no_cabins;
+            $tour->status     = 1;
+            $tour->is_delete  = 0;
             $tour->createdate = $utcdatetime;
-            $tour->user_id = Auth::user()->_id;
-
+            $tour->user_id    = Auth::user()->_id;
             $tour->save();
+
             $request->session()->flash('successMsgSave', __('tours.successMsgSave'));
             $request->session()->flash('message-type', 'success');
 
-            echo json_encode(array('successMsg' => __('tours.successMsgSave')));
-
-        } else {
-            echo json_encode(array('errorMsg' => __('tours.failure')));
+            echo json_encode(['successMsg' => __('tours.successMsgSave')]);
+        }
+        else {
+            echo json_encode(['errorMsg' => __('tours.failure')]);
         }
     }
 

@@ -170,7 +170,7 @@
                     </ul>
                 </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-map-o"></i> <span>@lang('menu.tourMenu')</span>
                         <span class="pull-right-container">
@@ -201,7 +201,7 @@
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/basicsettings"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
                     </ul>
-                </li>--}}
+                </li>
 
             </ul>
         </section>
