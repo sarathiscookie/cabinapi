@@ -22,7 +22,7 @@ return [
     'dashboard'                              => 'Dashboard',
     'breadcrumbOne'                          => 'Hütte bearbeiten',
     'breadcrumbTwo'                          => 'Kontingent',
-    'formHeading'                            => 'Reservation Details',
+    'formHeading'                            => 'Buchungsinformationen',
 
     /* Form */
     'reservationType'                        => 'Reservation Type',

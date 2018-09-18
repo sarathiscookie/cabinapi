@@ -238,8 +238,7 @@
     @yield('content')
 
     <footer class="main-footer">
-        <strong>Copyright &copy; {{ date('Y') }} <a href="#">Huetten-Holiday</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; {{ date('Y') }} <a href="#">Huetten-Holiday</a>.</strong> Alle Rechte vorbehalten.
     </footer>
 
 </div>

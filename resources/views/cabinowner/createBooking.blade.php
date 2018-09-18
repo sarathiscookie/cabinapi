@@ -116,7 +116,7 @@
                     <div class="col-md-9">
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h4 class="box-title"> @lang('cabinownerBooking.lblcreateBooking')</h4>
+                                <h4 class="box-title">@lang('cabinownerBooking.lblcreateBooking')</h4>
                             </div>
 
                             <div class="box-body">
@@ -124,9 +124,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                                            <label>  @lang('cabinownerBooking.firstName') <span class="required">*</span></label>
+                                            <label>@lang('cabinownerBooking.firstName') <span class="required">*</span></label>
 
-                                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" maxlength="100" value="{{old('firstname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
+                                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="@lang('cabinownerBooking.firstnamePlaceholder')" maxlength="100" value="{{old('firstname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
 
                                             @if ($errors->has('firstname'))
                                                 <span class="help-block"><strong>{{ $errors->first('firstname') }}</strong></span>
@@ -136,9 +136,9 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                                            <label>   @lang('cabinownerBooking.lastName')<span class="required">*</span></label>
+                                            <label>@lang('cabinownerBooking.lastName')<span class="required">*</span></label>
 
-                                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" maxlength="100" value="{{old('lastname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
+                                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="@lang('cabinownerBooking.lastnamePlaceholder')" maxlength="100" value="{{old('lastname')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
 
                                             @if ($errors->has('lastname'))
                                                 <span class="help-block"><strong>{{ $errors->first('lastname') }}</strong></span>
@@ -151,9 +151,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('street') ? ' has-error' : '' }}">
-                                            <label>   @lang('cabinownerBooking.street')</label>
+                                            <label>@lang('cabinownerBooking.street')</label>
 
-                                            <input type="text" class="form-control" id="street" name="street" placeholder="Enter street" maxlength="255" value="{{old('street')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                            <input type="text" class="form-control" id="street" name="street" placeholder="@lang('cabinownerBooking.streetPlaceholder')" maxlength="255" value="{{old('street')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
                                             @if ($errors->has('street'))
                                                 <span class="help-block"><strong>{{ $errors->first('street') }}</strong></span>
@@ -163,9 +163,9 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('city') ? ' has-error' : '' }}">
-                                            <label>   @lang('cabinownerBooking.city')</label>
+                                            <label>@lang('cabinownerBooking.city')</label>
 
-                                            <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" maxlength="255" value="{{old('city')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                            <input type="text" class="form-control" id="city" name="city" placeholder="@lang('cabinownerBooking.cityPlaceholder')" maxlength="255" value="{{old('city')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
                                             @if ($errors->has('city'))
                                                 <span class="help-block"><strong>{{ $errors->first('city') }}</strong></span>
@@ -182,7 +182,7 @@
                                             <label>   @lang('cabinownerBooking.country')<span class="required">*</span></label>
 
                                             <select class="form-control select2" id="country" name="country" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required style="width: 100%;">
-                                                <option value="">   @lang('cabinownerBooking.countryPH') </option>
+                                                <option value="">@lang('cabinownerBooking.countryPH')</option>
                                                 @if(isset($country))
                                                     @foreach($country as $land)
                                                         <option value="{{$land->name}}" @if(old('country') == $land->name) selected="selected" @endif> {{$land->name}} </option>
@@ -200,7 +200,7 @@
                                         <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
                                             <label>   @lang('cabinownerBooking.Zip')</label>
 
-                                            <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter zip code" maxlength="25" value="{{old('zip')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                            <input type="text" class="form-control" id="zip" name="zip" placeholder="@lang('cabinownerBooking.zipPlaceholder')" maxlength="25" value="{{old('zip')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
                                             @if ($errors->has('zip'))
                                                 <span class="help-block"><strong>{{ $errors->first('zip') }}</strong></span>
@@ -230,7 +230,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group {{ $errors->has('zip') ? ' has-error' : '' }}">
                                             <label>   @lang('cabinownerBooking.email') <span class="required">*</span></label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" maxlength="255" value="{{old('email')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="@lang('cabinownerBooking.emailPlaceholder')" maxlength="255" value="{{old('email')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif required>
                                              @if ($errors->has('zip'))
                                                 <span class="help-block"><strong>{{ $errors->first('zip') }}</strong></span>
                                             @endif
@@ -240,7 +240,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group {{ $errors->has('mobile') ? ' has-error' : '' }}">
                                             <label>   @lang('cabinownerBooking.mobile')</label>
-                                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile" maxlength="20" value="{{old('mobile')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="@lang('cabinownerBooking.mobilePlaceholder')" maxlength="20" value="{{old('mobile')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
                                             @if ($errors->has('mobile'))
                                                 <span class="help-block"><strong>{{ $errors->first('mobile') }}</strong></span>
                                             @endif
@@ -251,7 +251,7 @@
                                         <div class="form-group {{ $errors->has('phone') ? ' has-error' : '' }}">
                                             <label>   @lang('cabinownerBooking.telephone')</label>
 
-                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone" maxlength="20" value="{{old('phone')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
+                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="@lang('cabinownerBooking.telephonePlaceholder')" maxlength="20" value="{{old('phone')}}" @if( (session()->has('availableSuccess')) && (session('availableSuccess') === 'success') ) disabled="" @else disabled @endif>
 
                                             @if ($errors->has('phone'))
                                                 <span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>

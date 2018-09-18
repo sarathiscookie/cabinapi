@@ -19,7 +19,7 @@ return [
     'contactLabelEmail'                      => 'E-mail',
     'contactLabelMobile'                     => 'Handynummer',
     'contactLabelPhone'                      => 'Telefon',
-    'contactLabelZip'                        => 'Zip Code',
+    'contactLabelZip'                        => 'Postleizahl',
     'contactLabelCity'                       => 'Stadt',
     'contactLabelStreet'                     => 'Straße',
     'contactLabelCountry'                    => 'Land',
@@ -49,7 +49,7 @@ return [
     'billingLabelStreet'                     => 'Straße',
     'billingLabelLegal'                      => 'Rechtsform',
     'billingLabelTax'                        => 'Tax',
-    'billingLabelVat'                        => 'Ust-id Nr.',
+    'billingLabelVat'                        => 'Ust-ID Nr.',
     'billingLabelFax'                        => 'Faxnummer',
 
     /* Billing Update Form */

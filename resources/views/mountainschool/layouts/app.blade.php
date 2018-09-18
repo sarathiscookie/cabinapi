@@ -211,7 +211,7 @@
     @yield('content')
 
     <footer class="main-footer">
-        <strong>Copyright &copy; 2017-2018 <a href="#">Huetten-Holiday</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2017-2018 <a href="#">Huetten-Holiday</a>.</strong> Alle Rechte vorbehalten.
     </footer>
 
 </div>
