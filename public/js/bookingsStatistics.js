@@ -16,7 +16,12 @@ $(function () {
 
     /* Helping object for translation */
     var translations = {
-        cabinPlaceholder: window.translations.cabinPlaceholder
+        cabinPlaceholder: window.translations.cabinPlaceholder,
+        fixSumLabel: window.translations.fixSumLabel,
+        cancelledSumLabel: window.translations.cancelledSumLabel,
+        waitingSumLabel: window.translations.waitingSumLabel,
+        userGotMoneySumLabel: window.translations.userGotMoneySumLabel,
+        userNotGetMoneySumLabel: window.translations.userNotGetMoneySumLabel
     };
 
     //Initialize Select2 Elements
@@ -123,7 +128,7 @@ $(function () {
                     }
                 });
 
-                $('.status_sum').html('<label>Total</label><div class="input-group"><span class="label label-default">Fix <span class="badge">€'+response.total_fix+'</span></span> <span class="label label-default">Cancelled <span class="badge">€'+response.total_cancelled+'</span></span> <span class="label label-default">Waiting <span class="badge">€'+response.total_waiting+'</span></span></div>');
+                $('.status_sum').html('<label>Total</label><div class="input-group"><span class="label label-default">'+translations.fixSumLabel+' <span class="badge">€ ' + response.total_fix + '</span></span> <span class="label label-default">'+translations.cancelledSumLabel+' <span class="badge">€ ' + response.total_cancelled + '</span></span> <span class="label label-default">'+translations.waitingSumLabel+' <span class="badge">€ ' + response.total_waiting + '</span></span></div>');
 
                 $btn.button('reset');
             })

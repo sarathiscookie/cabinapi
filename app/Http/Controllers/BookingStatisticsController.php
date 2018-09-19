@@ -77,6 +77,9 @@ class BookingStatisticsController extends Controller
     {
         if(!empty($request->cabin) && !empty($request->daterange))
         {
+            $sum_of_fix             = [];
+            $sum_of_cancelled       = [];
+            $sum_of_waiting         = [];
             $cabinName              = $request->cabin;
             $daterange              = explode("-", $request->daterange);
             $dateBegin              = new \MongoDB\BSON\UTCDateTime(strtotime($daterange[0])*1000);
@@ -164,25 +167,23 @@ class BookingStatisticsController extends Controller
             }
 
 
-            $fix = [];
-            $cancelled = [];
-            $waiting = [];
+
             foreach ($bookings as $row){
                 $checkinFrom          = $row->checkin_from->format('Ymd');
                 if($row->status == "1")
                 {
-                    $count[$checkinFrom] = $row->count;
-                    $fix[] = $row->prepayment_amount;
+                    $count[$checkinFrom]      = $row->count;
+                    $sum_of_fix[$checkinFrom] = $row->prepayment_amount;
                 }
                 if($row->status == "2")
                 {
-                    $cancelled[$checkinFrom] = $row->count;
-                    $cancelled[] = $row->prepayment_amount;
+                    $cancelled[$checkinFrom]        = $row->count;
+                    $sum_of_cancelled[$checkinFrom] = $row->prepayment_amount;
                 }
                 if($row->status == "5")
                 {
-                    $waiting[$checkinFrom] = $row->count;
-                    $waiting[] = $row->prepayment_amount;
+                    $waiting[$checkinFrom]        = $row->count;
+                    $sum_of_waiting[$checkinFrom] = $row->prepayment_amount;
                 }
                 /*if($row->status == "3")
                 {
@@ -190,9 +191,9 @@ class BookingStatisticsController extends Controller
                 }*/
             }
 
-            $total_fix   = array_sum($fix);
-            $total_cancelled   = array_sum($cancelled);
-            $total_waiting   = array_sum($waiting);
+            $total_fix       = array_sum($sum_of_fix);
+            $total_cancelled = array_sum($sum_of_cancelled);
+            $total_waiting   = array_sum($sum_of_waiting);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){

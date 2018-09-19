@@ -27,7 +27,7 @@ return [
     'panelLabelDateRange'          => 'Date Range',
     'graphFixLabel'                => 'Fix',
     'graphCancelLabel'             => 'Storniert',
-    'graphWaitingLabel'            => 'Waiting For Paymenr',
+    'graphWaitingLabel'            => 'Waiting For Payment',
     'graphGotMoneyLabel'           => 'User got money',
     'graphNotGetMoneyLabel'        => 'User not get money',
     'cabinLabel'                   => 'Cabin',

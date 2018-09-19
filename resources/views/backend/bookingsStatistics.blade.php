@@ -133,7 +133,12 @@
     <!-- Helping object for translation -->
     <script>
         window.translations = {
-            cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}'
+            cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}',
+            fixSumLabel: '{{ trans('bookingStatistics.graphFixLabel') }}',
+            cancelledSumLabel: '{{ trans('bookingStatistics.graphCancelLabel') }}',
+            waitingSumLabel: '{{ trans('bookingStatistics.graphWaitingLabel') }}',
+            userGotMoneySumLabel: '{{ trans('bookingStatistics.graphGotMoneyLabel') }}',
+            userNotGetMoneySumLabel: '{{ trans('bookingStatistics.graphNotGetMoneyLabel') }}'
         };
     </script>
 
