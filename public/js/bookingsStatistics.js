@@ -123,6 +123,8 @@ $(function () {
                     }
                 });
 
+                $('.status_sum').html('<label>Total</label><div class="input-group"><span class="label label-default">Fix <span class="badge">€'+response.total_fix+'</span></span> <span class="label label-default">Cancelled <span class="badge">€'+response.total_cancelled+'</span></span> <span class="label label-default">Waiting <span class="badge">€'+response.total_waiting+'</span></span></div>');
+
                 $btn.button('reset');
             })
             .fail(function() {

@@ -103,6 +103,7 @@ class BookingStatisticsController extends Controller
                             '$group' =>
                                 [
                                     '_id' => ['checkin_from' => '$checkin_from','status' => '$status'],
+                                    'prepayment_amount' => ['$sum' => '$prepayment_amount'],
                                     'count' => ['$sum' => 1]
                                 ],
                         ],
@@ -111,6 +112,7 @@ class BookingStatisticsController extends Controller
                                 [
                                     'checkin_from' => '$_id.checkin_from',
                                     'status' => '$_id.status',
+                                    'prepayment_amount' => 1,
                                     'count' => 1,
                                 ],
                         ],
@@ -137,6 +139,7 @@ class BookingStatisticsController extends Controller
                             '$group' =>
                                 [
                                     '_id' => ['checkin_from' => '$checkin_from','cabinname' => '$cabinname','status' => '$status'],
+                                    'prepayment_amount' => ['$sum' => '$prepayment_amount'],
                                     'count' => ['$sum' => 1]
                                 ],
                         ],
@@ -146,6 +149,7 @@ class BookingStatisticsController extends Controller
                                     'checkin_from' => '$_id.checkin_from',
                                     'cabinname' => '$_id.cabinname',
                                     'status' => '$_id.status',
+                                    'prepayment_amount' => 1,
                                     'count' => 1,
                                 ],
                         ],
@@ -160,25 +164,35 @@ class BookingStatisticsController extends Controller
             }
 
 
+            $fix = [];
+            $cancelled = [];
+            $waiting = [];
             foreach ($bookings as $row){
                 $checkinFrom          = $row->checkin_from->format('Ymd');
                 if($row->status == "1")
                 {
                     $count[$checkinFrom] = $row->count;
+                    $fix[] = $row->prepayment_amount;
                 }
                 if($row->status == "2")
                 {
                     $cancelled[$checkinFrom] = $row->count;
+                    $cancelled[] = $row->prepayment_amount;
                 }
                 if($row->status == "5")
                 {
                     $waiting[$checkinFrom] = $row->count;
+                    $waiting[] = $row->prepayment_amount;
                 }
                 /*if($row->status == "3")
                 {
                     $completed[$checkinFrom] = $row->count;
                 }*/
             }
+
+            $total_fix   = array_sum($fix);
+            $total_cancelled   = array_sum($cancelled);
+            $total_waiting   = array_sum($waiting);
 
             /* y- axis graph data */
             foreach ($labels as $xlabel){
@@ -368,7 +382,7 @@ class BookingStatisticsController extends Controller
             ];
             /* Cancelled positive and negative end */
 
-            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord]);
+            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'total_fix' => $total_fix, 'total_cancelled' => $total_cancelled, 'total_waiting' => $total_waiting]);
         }
     }
 
