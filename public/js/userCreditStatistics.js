@@ -57,6 +57,13 @@ $(function () {
 
     $('#generateUserStatusStat').on('click', function() {
 
+        // Create our number formatter.
+        var formatter = new Intl.NumberFormat('de-DE', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        });
+
         var $btn      = $(this).button('loading');
         var dates     = $('#date_user_status_stat').val();
         var daterange = dates.replace(/\s/g, '');
@@ -127,7 +134,7 @@ $(function () {
                     }
                 });
 
-                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">'+translations.labelOne+' <span class="badge">€'+response.total_balance_used_array_sum+'</span></span><span class="label label-default">'+translations.labelTwo+' <span class="badge">€'+response.total_money_balance_array_sum+'</span></span><span class="label label-default">'+translations.labelThree+' <span class="badge">€'+response.total_money_deleted_array_sum+'</span></span></div></div>');
+                $('.response_array_sum').html('<label>Total</label><div class="input-group"> <div class=""><span class="label label-default">'+translations.labelOne+' <span class="badge">'+formatter.format(response.total_balance_used_array_sum)+'</span></span><span class="label label-default">'+translations.labelTwo+' <span class="badge">'+formatter.format(response.total_money_balance_array_sum)+'</span></span><span class="label label-default">'+translations.labelThree+' <span class="badge">'+formatter.format(response.total_money_deleted_array_sum)+'</span></span></div></div>');
 
                 $btn.button('reset');
             })
