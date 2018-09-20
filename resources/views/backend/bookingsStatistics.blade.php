@@ -95,7 +95,7 @@
                             <div class="col-md-4 pull-right alertBookingStat">
                             </div>
 
-                            <div class="col-md-3 pull-right">
+                            <div class="col-md-12 pull-right">
                                 <div class="form-group pull-right status_sum">
                                 </div>
                                 <!-- /.form group -->

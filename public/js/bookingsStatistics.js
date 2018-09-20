@@ -64,6 +64,13 @@ $(function () {
     $('#graphBookingStatus').hide();
 
     $('#generateBookingStat').on('click', function() {
+        // Create our number formatter.
+        var formatter = new Intl.NumberFormat('de-DE', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2
+        });
+
         var $btn      = $(this).button('loading');
         var cabin     = $('.cabins_book_statistics').val();
         var dates     = $('#daterange_book_statistics').val();
@@ -128,7 +135,7 @@ $(function () {
                     }
                 });
 
-                $('.status_sum').html('<label>Total</label><div class="input-group"><span class="label label-default">'+translations.fixSumLabel+' <span class="badge">€ ' + response.total_fix + '</span></span> <span class="label label-default">'+translations.cancelledSumLabel+' <span class="badge">€ ' + response.total_cancelled + '</span></span> <span class="label label-default">'+translations.waitingSumLabel+' <span class="badge">€ ' + response.total_waiting + '</span></span></div>');
+                $('.status_sum').html('<div class="input-group"><span class="label label-default">'+translations.fixSumLabel+' <span class="badge">'+formatter.format(response.total_fix)+'</span></span> <span class="label label-default">'+translations.cancelledSumLabel+' <span class="badge">'+formatter.format(response.total_cancelled)+'</span></span> <span class="label label-default">'+translations.waitingSumLabel+' <span class="badge">'+formatter.format(response.total_waiting)+'</span></span> <span class="label label-default">'+translations.userGotMoneySumLabel+' <span class="badge">'+formatter.format(response.total_gotMoney)+'</span></span> <span class="label label-default">'+translations.userNotGetMoneySumLabel+' <span class="badge">'+formatter.format(response.total_notGetMoney)+'</span></span></div>');
 
                 $btn.button('reset');
             })
