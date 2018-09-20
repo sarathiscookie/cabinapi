@@ -328,13 +328,13 @@ class BookingStatisticsController extends Controller
                 if($row_negative_positive->cancel_status == 1)
                 {
                     $gotMoney[$checkin_cancel_status]        = $row_negative_positive->count;
-                    $sum_of_gotMoney[$checkin_cancel_status] = $row->prepayment_amount;
+                    $sum_of_gotMoney[$checkin_cancel_status] = $row_negative_positive->prepayment_amount;
                 }
 
                 if($row_negative_positive->cancel_status == 0)
                 {
                     $notGetMoney[$checkin_cancel_status]        = $row_negative_positive->count;
-                    $sum_of_notGetMoney[$checkin_cancel_status] = $row->prepayment_amount;
+                    $sum_of_notGetMoney[$checkin_cancel_status] = $row_negative_positive->prepayment_amount;
                 }
             }
 
