@@ -109,6 +109,20 @@ Route::prefix('admin')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | User credit statistics Routes
+    |--------------------------------------------------------------------------
+    |
+    | Here we define user credit statistics routes
+    | Routes for user credit statistics chart
+    */
+    /* Show user credit statistics page */
+    Route::get('/bookings/user/sales/statistics', 'SalesStatisticsController@index')->name('booking.user.sales.statistics');
+
+    /* Show user credit graph */
+    Route::post('/bookings/user/sales/statistics', 'SalesStatisticsController@show')->name('booking.user.sales.statistics.graph');
+
+    /*
+    |--------------------------------------------------------------------------
     | Routes for users
     |--------------------------------------------------------------------------
     |

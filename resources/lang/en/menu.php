@@ -52,5 +52,6 @@ return [
     'tourListMenu'                          => 'Tour List',
     'basicsettings'                         => 'Basic Settings',
     'createBooking'                         => 'Create Booking',
-    'guestStatistics'                       => 'Guest Statistics'
+    'guestStatistics'                       => 'Guest Statistics',
+    'salesStatistics'                       => 'Sales Statistics',
 ];

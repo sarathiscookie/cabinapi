@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="{{ asset('plugins/datepicker/datepicker3.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
-    <!-- Date Range Picker -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}" />
-    <!-- Select2 -->
-    <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
 @endsection
 
 @inject('dashboard', 'App\Http\Controllers\DashboardController')
@@ -97,82 +93,6 @@
                 <!-- ./col -->
             </div>
             <!-- /.row -->
-
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-12 connectedSortable">
-
-                    <div class="box box-primary box-solid">
-                        <div class="box-header with-border">
-                            <i class="fa fa-th"></i>
-                            <h3 class="box-title">@lang('statisticsAdmin.salesLabel')</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-
-                        <!-- Select box for cabins or regions -->
-                        <div class="box-body">
-                            <div class="col-md-3 pull-left">
-                                <div class="form-group">
-                                    <label>@lang('bookingStatistics.cabinLabel'): </label>
-                                    <select class="form-control cabins" style="width: 100%;" id="cabin">
-                                        <option></option>
-                                        <option value="allCabins">All Cabins</option>
-                                        <optgroup label="Cabins">
-                                            @foreach($dashboard->cabins() as $cabin )
-                                                <option>{{$cabin->name}}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                </div>
-                                <!-- /.form-group -->
-                            </div>
-
-                            <!-- Date range -->
-                            <div class="col-md-3 pull-left">
-                                <div class="form-group">
-                                    <label>@lang('bookingStatistics.daterangeLabel'): </label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control pull-right" id="daterange" placeholder="@lang('bookingStatistics.dateRangePlaceholder')">
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-                                <!-- /.form group -->
-                            </div>
-
-                            <div class="col-md-2 pull-left">
-                                <div class="form-group">
-                                    <label></label>
-                                    <div class="input-group">
-                                        <button type="button" class="btn btn-primary" id="generate" data-loading-text="Generating..." autocomplete="off">@lang('statisticsAdmin.generateButton')</button>
-                                    </div>
-                                </div>
-                                <!-- /.form group -->
-                            </div>
-
-                            <div class="col-md-4 pull-right alert-graph">
-                            </div>
-
-                        </div>
-                        <!-- /.box-body -->
-
-                        <!-- Chart JS - Sales -->
-                        <div class="box-footer" id="graph-container">
-                        </div>
-                        <!-- /.box-footer -->
-                    </div>
-
-                </section>
-            </div>
 
             <!-- Main row -->
             <div class="row">
@@ -304,21 +224,6 @@
     <script src="{{ asset('plugins/datepicker/locales/bootstrap-datepicker.de.js') }}" charset="UTF-8"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
-    <!-- Chart.js -->
-    <script src="{{ asset('plugins/chartJS/Chart.min.js') }}"></script>
-    <!-- Date Range Picker -->
-    <script type="text/javascript" src="{{ asset('plugins/daterangepicker/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
-
-    <!-- Helping object for translation -->
-    <script>
-        window.translations = {
-            cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}'
-        };
-    </script>
-
     <!-- Dashboard Js -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
 @endsection

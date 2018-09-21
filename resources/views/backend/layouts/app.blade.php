@@ -183,6 +183,7 @@
                     <ul class="treeview-menu">
                         <li><a href="/admin/bookings/statistics"><i class="fa fa-circle-o"></i> @lang('menu.bookingStatisticsMenu')</a></li>
                         <li><a href="/admin/bookings/user/credit/statistics"><i class="fa fa-circle-o"></i> @lang('menu.userCreditStatisticsMenu')</a></li>
+                        <li><a href="/admin/bookings/user/sales/statistics"><i class="fa fa-circle-o"></i> @lang('menu.salesStatistics')</a></li>
                     </ul>
                 </li>
 
