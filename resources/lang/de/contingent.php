@@ -25,7 +25,7 @@ return [
     'formHeading'                            => 'Buchungsinformationen',
 
     /* Form */
-    'reservationType'                        => 'Reservation Type',
+    'reservationType'                        => 'Buchungsart',
     'selectReservationType'                  => 'Reservation Type auswählen',
     'reservationTypeBeds'                    => 'Betten & Matratzenlager',
     'reservationTypeSleeps'                  => 'Schlafplätze',
