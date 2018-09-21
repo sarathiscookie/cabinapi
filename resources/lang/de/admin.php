@@ -18,7 +18,7 @@ return [
     */
 
     'bookings'                               => 'Buchungen',
-    'controlPanel'                           => 'Verwaltungstool',
+    'controlPanel'                           => 'Steuertafel',
     'dashboard'                              => 'Übersicht',
     'paymentStatusUpdate'                    => 'Zahlungsstatus aktualisieren',
     'cabinLabel'                             => 'Hütte',
@@ -48,7 +48,7 @@ return [
     'referenceNumber'                        => 'Reference No',
     'clubMember'                             => 'Vereins-Mitglieder',
     'bookingDate'                            => 'Buchungs Date',
-    'voucher'                                => 'Voucher',
+    'voucher'                                => 'Gutschein',
     'firstName'                              => 'Vorname',
     'lastName'                               => 'Nachname',
     'address'                                => 'Addresse',
@@ -64,6 +64,7 @@ return [
     'sendingProcess'                         => 'Sending...',
 
     /* Booking status begin */
+    'bookingStatusChoose'                    => 'Status wählen',
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Storniert',
     'completed'                              => 'Abgeschlossen',
@@ -74,6 +75,7 @@ return [
     /* Booking status end */
 
     /* Payment status begin */
+    'paymentStatusChoose'                    => 'Zahlung wählen',
     'paymentStatusDone'                      => 'Erfolgreich',
     'paymentStatusFailed'                    => 'Fehlerhaft',
     'paymentStatusCabinOwner'                => 'Nicht vorhanden',
@@ -89,4 +91,19 @@ return [
     'sendVoucherSuccessResponse'             => 'Voucher versendet!',
     'bookingDeleteSuccessResponse'           => 'Buchung erfolgreich gelöscht!',
     /* Alert message end */
+
+    'profileLabel'                           => 'Profil',
+    'logoutLabel'                            => 'Abmelden',
+    'welcomeMessage'                         => 'Herzlich Willkommen',
+    'searchPlaceholder'                      => 'Suchen...',
+    'moreInfoLabel'                          => 'Mehr Infos',
+    'salesLabel'                             => 'Umsatz',
+    'userLabel'                              => 'Benutzer',
+    'emailToLabel'                           => 'Empfänger',
+    'subjectLabel'                           => 'Betreff',
+    'messageLabel'                           => 'Nachricht',
+    'sendButtonLabel'                        => 'Senden',
+    'calendarLabel'                          => 'Kalender',
+
+    'chooseAllCabins'                        => 'Alle Hütten'
 ];

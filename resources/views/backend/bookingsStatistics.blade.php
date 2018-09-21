@@ -28,7 +28,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> @lang('bookingStatistics.dashboardLabel')</a></li>
-                <li><a href="/admin/bookings"><i class="fa fa-table"></i> @lang('bookingStatistics.bookingBreadcrumb')</a></li>
+                <li><a href="/admin/bookings/statistics"><i class="fa fa-table"></i> @lang('bookingStatistics.bookingsHeading')</a></li>
                 <li class="active">@lang('bookingStatistics.statisticsBreadcrumb')</li>
             </ol>
         </section>
@@ -55,7 +55,7 @@
                                     <label>@lang('bookingStatistics.cabinLabel'): </label>
                                     <select class="form-control cabins_book_statistics" style="width: 100%;" id="cabin">
                                         <option></option>
-                                        <option value="allCabins">All Cabins</option>
+                                        <option value="allCabins">@lang('admin.chooseAllCabins')</option>
                                         <optgroup label="Cabins">
                                             @foreach($dashboard->cabins() as $cabin )
                                                 <option>{{$cabin->name}}</option>

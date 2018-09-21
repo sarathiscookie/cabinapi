@@ -41,11 +41,12 @@ return [
     'deletedOn'                              => 'Gelöscht am',
 
     'selectrole'                             => 'Berechtigung auswählen',
-    'adminuser'                              => 'Admin User',
-    'guest'                                  => 'Guest',
+    'adminuser'                              => 'Admin',
+    'guest'                                  => 'Gast',
     'cabinowner'                             => 'Hüttenwirt',
     'mschool'                                => 'Bergschule',
     'public'                                 => 'Öffentliche Einrichtung',
+    'tempUser'                               => 'Temp User',
 
     'selectstatus'                           => 'Status auswählen',
     'active'                                 => 'Aktiviert',

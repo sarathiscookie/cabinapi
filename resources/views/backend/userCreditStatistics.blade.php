@@ -111,7 +111,9 @@
         window.translations = {
             labelOne: '{{ trans('userCreditStatistics.labelOne') }}',
             labelTwo: '{{ trans('userCreditStatistics.labelTwo') }}',
-            labelThree: '{{ trans('userCreditStatistics.labelThree') }}'
+            labelThree: '{{ trans('userCreditStatistics.labelThree') }}',
+            xLabel: '{{ trans('userCreditStatistics.xLabel') }}',
+            yLabel: '{{ trans('userCreditStatistics.yLabel') }}'
         };
     </script>
 

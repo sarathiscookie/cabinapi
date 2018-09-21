@@ -81,6 +81,7 @@
                                             <option value="5">@lang('userList.cabinowner')</option>
                                             <option value="6">@lang('userList.mschool')</option>
                                             <option value="8">@lang('userList.public')</option>
+                                            <option value="3">@lang('userList.tempUser')</option>
                                         </select>
                                     </th>
                                     <th>

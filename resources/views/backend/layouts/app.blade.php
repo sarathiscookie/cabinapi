@@ -84,7 +84,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    Welcome to dashboard - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
+                                    @lang('admin.welcomeMessage') - {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
                                 <!-- <small>Last login on 06.19.2017 12:30</small>
                                     <small>Last login on 05.19.2017 11:30</small>-->
 
@@ -92,14 +92,14 @@
                             </li>
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-primary btn-flat">Profile</a>
+                                    <a href="#" class="btn btn-primary btn-flat">@lang('admin.profileLabel')</a>
                                 </div>
                                 <div class="pull-right">
 
                                     <a href="{{ route('logout') }}" class="btn btn-primary btn-flat"
                                        onclick="event.preventDefault();
                                        document.getElementById('logout-form').submit();">
-                                        Logout
+                                        @lang('admin.logoutLabel')
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -126,7 +126,7 @@
             <!-- search form -->
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <input type="text" name="q" class="form-control" placeholder="@lang('admin.searchPlaceholder')">
                     <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -136,7 +136,7 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="header">NAVIGATION</li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>@lang('menu.userMenu')</span>
@@ -206,7 +206,7 @@
     @yield('content')
 
     <footer class="main-footer">
-        <strong>Copyright &copy; {{ date('Y') }} <a href="#">Huetten-Holiday</a>.</strong> Alle Rechte vorbehalten.
+        <strong>Copyright &copy; {{ date('Y') }} <a href="#">Hütten-Holiday</a>.</strong> Alle Rechte vorbehalten.
     </footer>
 
 </div>

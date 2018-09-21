@@ -55,7 +55,7 @@
                                     <label>@lang('admin.cabinLabel'): </label>
                                     <select class="form-control admin_cabins_list" style="width: 100%;" id="admin_cabins_list">
                                         <option></option>
-                                        <option value="allCabins">All Cabins</option>
+                                        <option value="allCabins">@lang('admin.chooseAllCabins')</option>
                                         @foreach($dashboard->cabins() as $cabin )
                                             <option>{{$cabin->name}}</option>
                                         @endforeach
@@ -136,7 +136,7 @@
                                     <td></td>
                                     <td>
                                         <select class="form-control input-sm search-input" id="8">
-                                            <option value="">(Select a status)</option>
+                                            <option value="">@lang('admin.bookingStatusChoose')</option>
                                             <option value="1">@lang('admin.bookingFix')</option>
                                             <option value="2">@lang('admin.cancelled')</option>
                                             <option value="3">@lang('admin.completed')</option>
@@ -148,7 +148,7 @@
                                     </td>
                                     <td>
                                         <select class="form-control input-sm search-input" id="9">
-                                            <option value="">(Select a pay status)</option>
+                                            <option value="">@lang('admin.paymentStatusChoose')</option>
                                             <option value="0">@lang('admin.paymentStatusFailed')</option>
                                             <option value="1">@lang('admin.paymentStatusDone')</option>
                                             <option value="2">@lang('admin.paymentStatusCabinOwner')</option>

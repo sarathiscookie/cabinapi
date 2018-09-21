@@ -31,4 +31,6 @@ return [
     'labelThree'                   => 'Deleted Amount',
 
     'generateButton'               => 'Generate',
+    'xLabel'                       => 'Date',
+    'yLabel'                       => 'Amount',
 ];

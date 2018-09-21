@@ -64,6 +64,7 @@ return [
     'sendingProcess'                         => 'Sending...',
 
     /* Booking status begin */
+    'bookingStatusChoose'                    => 'Select a status',
     'bookingFix'                             => 'Fix',
     'cancelled'                              => 'Cancelled',
     'completed'                              => 'Completed',
@@ -74,6 +75,7 @@ return [
     /* Booking status end */
 
     /* Payment status begin */
+    'paymentStatusChoose'                    => 'Choose Payment',
     'paymentStatusDone'                      => 'Success',
     'paymentStatusFailed'                    => 'Failed',
     'paymentStatusCabinOwner'                => 'Not set',
@@ -89,5 +91,20 @@ return [
     'sendVoucherSuccessResponse'             => 'Invoice send successfully',
     'bookingDeleteSuccessResponse'           => 'Booking deleted successfully',
     /* Alert message end */
+
+    'profileLabel'                           => 'Profile',
+    'logoutLabel'                            => 'Logout',
+    'welcomeMessage'                         => 'Welcome to dashboard',
+    'searchPlaceholder'                      => 'Search...',
+    'moreInfoLabel'                          => 'More Info',
+    'salesLabel'                             => 'Sales',
+    'userLabel'                              => 'Users',
+    'emailToLabel'                           => 'Email To',
+    'subjectLabel'                           => 'Subject',
+    'messageLabel'                           => 'Message',
+    'sendButtonLabel'                        => 'Send',
+    'calendarLabel'                          => 'Calendar',
+
+    'chooseAllCabins'                        => 'All Cabins'
 
 ];

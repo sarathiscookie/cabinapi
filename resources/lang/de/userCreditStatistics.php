@@ -31,4 +31,6 @@ return [
     'labelThree'                   => 'Guthaben ausgezahlt',
 
     'generateButton'               => 'Bestätigen',
+    'xLabel'                       => 'Datum',
+    'yLabel'                       => 'Guthaben',
 ];

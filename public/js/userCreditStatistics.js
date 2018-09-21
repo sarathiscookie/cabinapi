@@ -18,7 +18,9 @@ $(function () {
     var translations = {
         labelOne: window.translations.labelOne,
         labelTwo: window.translations.labelTwo,
-        labelThree: window.translations.labelThree
+        labelThree: window.translations.labelThree,
+        xLabel: window.translations.xLabel,
+        yLabel: window.translations.yLabel,
     };
 
     /* Date range functionality begin */
@@ -115,7 +117,7 @@ $(function () {
                             xAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Date"
+                                    labelString: translations.xLabel
                                 }
                             }],
                             yAxes: [{
@@ -127,7 +129,7 @@ $(function () {
                                 },
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Amount"
+                                    labelString: translations.yLabel
                                 }
                             }]
                         }

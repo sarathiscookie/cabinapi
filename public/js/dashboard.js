@@ -139,5 +139,7 @@ $(function () {
 
 
   /* Calender */
-  $("#calendar").datepicker();
+  $("#calendar").datepicker({
+      language: 'de'
+  });
 });

@@ -47,6 +47,7 @@ return [
     'cabinowner'                             => 'Cabin Owner',
     'mschool'                                => 'Mountain School',
     'public'                                 => 'Public',
+    'tempUser'                               => 'Temp User',
 
     'selectstatus'                           => 'Select Status',
     'active'                                 => 'Active',

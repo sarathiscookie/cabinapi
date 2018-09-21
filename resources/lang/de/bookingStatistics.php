@@ -21,7 +21,7 @@ return [
     'controlPanelHeading'          => 'Verwaltungstool',
     'dashboardLabel'               => 'Übersicht',
     'bookingBreadcrumb'            => 'Buchungen',
-    'statisticsBreadcrumb'         => 'Statistics',
+    'statisticsBreadcrumb'         => 'Statistiken',
     'panelHeading'                 => 'Buchungen Statistics',
     'panelLabelCabin'              => 'Hütte Auswahl',
     'panelLabelDateRange'          => 'Zeitraum Auswahl',

@@ -28,7 +28,7 @@ class UserlistController extends Controller
      */
     public function roles()
     {
-        $roles = Role::where('is_delete', 0)
+        $roles = Role::where('is_delete', 0)->where('role_id', '<>',  3)
             ->get();
 
         return $roles;
