@@ -353,7 +353,7 @@ class InquiryBookingsController extends Controller
 
                         if(count($readPrivateMessages) > 0){
                             foreach ($readPrivateMessages as $readPrivateMessage){
-                                if($readPrivateMessage->sender_id == $bookings[$key]['userId'] && $readPrivateMessage->receiver_id == Auth::user()->_id) {
+                                if($readPrivateMessage->sender_id == $bookings[$key]['userId'] && $readPrivateMessage->receiver_id == Auth::user()->_id && !empty($readPrivateMessage->text)) {
                                     $senderTxt       = $readPrivateMessage->text; //3
                                     $senderCreatedAt = ($readPrivateMessage->created_at)->format('d M H:i:s A'); //23 Jan 2:00 pm
                                     $senderLname     = $readPrivateMessage->sender->usrLastname;
@@ -361,7 +361,7 @@ class InquiryBookingsController extends Controller
                                     $senderMsg .= '<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$senderFname.' '.$senderLname.'</span><span class="direct-chat-timestamp pull-right">'.$senderCreatedAt.'</span></div><i class="menu-icon bg-light-blue direct-chat-img text-center" style="padding: 9px;">G</i><div class="direct-chat-text">'.$senderTxt.'</div></div>';
                                 }
 
-                                if($readPrivateMessage->sender_id == Auth::user()->_id && $readPrivateMessage->receiver_id == $bookings[$key]['userId']) {
+                                if($readPrivateMessage->sender_id == Auth::user()->_id && $readPrivateMessage->receiver_id == $bookings[$key]['userId'] && !empty($readPrivateMessage->text)) {
                                     $receiverTxt       = $readPrivateMessage->text; //1
                                     $receiverCreatedAt = ($readPrivateMessage->created_at)->format('d M H:i:s A'); //23 Jan 2:00 pm
                                     $receiverLname     = $readPrivateMessage->sender->usrLastname;
