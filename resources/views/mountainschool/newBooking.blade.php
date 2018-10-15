@@ -2,12 +2,10 @@
 
 @section('title', 'Cabin API - Mountain School: New Booking')
 
-
 @section('css')
 
     <!-- jQuery-ui -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 
     <style type="text/css">
         .ui-datepicker td.ui-state-disabled {
@@ -60,7 +58,9 @@
         }
     </style>
 @endsection
+
 @inject('tours', 'App\Http\Controllers\mountainschool\TourController')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -88,32 +88,32 @@
                 </button>
                 {{ session()->get('successMsgSave') }}
             </div>
-    @endif
-    <!-- Main content -->
+        @endif
+
+        <!-- Main content -->
         <section class="content">
-
-
             <!--- form for add new Booking -->
-            <form role="form" method="post" id="tourBookingFrm" name="tourBookingFrm"
-                  action="{{ route('mountainschool.tours.bookingStore') }}">
+            <form role="form" method="post" id="tourBookingFrm" name="tourBookingFrm" action="{{ route('mountainschool.tours.bookingStore') }}">
+
                 {{ csrf_field() }}
+
                 <div class="box box-primary">
                     <div class="row">
                         <div class="col-md-12">
+
                             <div class="box-header with-border">
                                 <h4 class="box-title"> @lang('mountainschool.nbBoxHeading')  </h4>
                             </div>
+
                             <div class="box-body" id="tourbox">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group   {{ $errors->has('tour_name') ? ' has-error' : '' }}">
-                                            <label>@lang('mountainschool.lblTourName') <span
-                                                        class="required">*</span></label>
+                                        <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
+                                            <label>@lang('mountainschool.lblTourName') <span class="required">*</span></label>
                                             <select class="form-control" id="tour_name" name="tour_name">
                                                 <option value="">@lang('mountainschool.lblTourNamePH')</option>
                                                 @foreach($tours->toursList() as $key => $type)
-                                                    <option value="{{ $type->_id  }}"
-                                                    >{{ $type->tour_name }}</option>
+                                                    <option value="{{ $type->_id  }}">{{ $type->tour_name }}</option>
                                                 @endforeach
                                             </select>
 
@@ -131,26 +131,10 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-primary  "
-                                        name="duplicatingBooking" id="duplicatingBooking"
-                                        data-loading-text="Loading..."
-                                        value="duplicatingBooking"><i
-                                            class="fa fa-fw fa-copy"></i>@lang('tours.btnDuplicatingBooking')
-                                </button>
-                                <button type="button" class="btn btn-primary "
-                                        name="loadNew" id="loadNew"
-                                        data-loading-text="Loading..."
-                                        value="loadNew"><i
-                                            class="fa fa-fw fa-table"></i>@lang('tours.btnNew')
-                                </button>
-                                <button type="button" class="btn btn-primary pull-right"
-                                        name="newBooking" id="newBooking"
-                                        data-loading-text="Adding..."
-                                        value="newBooking"><i
-                                            class="fa fa-fw fa-save"></i>@lang('tours.btnSave')
-                                </button>
-
-                                </div>
+                                <button type="button" class="btn btn-primary" name="duplicatingBooking" id="duplicatingBooking" data-loading-text="Loading..." value="duplicatingBooking"><i class="fa fa-fw fa-copy"></i>@lang('tours.btnDuplicatingBooking')</button>
+                                <button type="button" class="btn btn-primary " name="loadNew" id="loadNew" data-loading-text="Loading..." value="loadNew"><i class="fa fa-fw fa-table"></i>@lang('tours.btnNew')</button>
+                                <button type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="Adding..." value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                            </div>
                         </div>
                     </div>
 
@@ -158,7 +142,6 @@
             </form>
         </section>
     </div>
-
     <!-- /.content-wrapper -->
 @endsection
 
@@ -350,7 +333,6 @@
                 success: function (data) {
                     ovelayLoading('remove');
                     $('#cabindtls').html(data);
-//console.log(data);
                 },
             });
         });

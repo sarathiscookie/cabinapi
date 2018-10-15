@@ -145,11 +145,7 @@ class TourController extends Controller
      */
     public function createTourNewBooking()
     {
-
-        $userDetails = Userlist::where('is_delete', 0)
-            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-            ->first();
-        return view('mountainschool.newBooking', array('user' => $userDetails));
+        return view('mountainschool.newBooking');
     }
 
     /**
@@ -445,9 +441,14 @@ class TourController extends Controller
 
     public function toursList()
     {
-        $tours = Tour::where('is_delete', 0)->whereNotNull('tour_name')
-            ->where('user_id', Auth::user()->_id)->get();
-        return $tours;
+        $tours = Tour::where('is_delete', 0)
+            ->where('user_id', Auth::user()->_id)
+            ->orderBy('createdate', 'desc')
+            ->get();
+
+        if($tours) {
+            return $tours;
+        }
     }
 
 
@@ -495,17 +496,17 @@ class TourController extends Controller
      */
     public function getTourForBooking(TourRequest $request)
     {
-
         /* Get Basic settings data */
-          $userId=   (Auth::user()->_id);
         $basic_settings = Settings::where('is_delete', "0")
-            ->where('user_id', $userId)->first();
+            ->where('user_id', Auth::user()->_id)
+            ->first();
 
         /* Get tour */
-        $tourId = $request->tourId;
-        $tours = Tour::where('is_delete', 0)->whereNotNull('tour_name')
-            ->where('_id', $tourId)
-            ->where('user_id', Auth::user()->_id)->first();
+        $tours          = Tour::where('is_delete', 0)->whereNotNull('tour_name')
+            ->where('_id', new \MongoDB\BSON\ObjectID($request->tourId))
+            ->where('user_id', Auth::user()->_id)
+            ->first();
+
         if (isset($tours->cabins)) {
             $cabin_array = [];
             foreach ($tours->cabins as $key => $val) {

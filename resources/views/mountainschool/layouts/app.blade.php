@@ -162,15 +162,15 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    {{--<ul class="treeview-menu">
+                    <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
-                    </ul>--}}
+                    </ul>
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu')</a></li>
                     </ul>
                 </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="#">
                         <i class="fa fa-map-o"></i> <span>@lang('menu.tourMenu')</span>
                         <span class="pull-right-container">
@@ -183,7 +183,7 @@
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/tours/createtour"><i class="fa fa-circle-o"></i> @lang('menu.tourCreateMenu')</a></li>
                     </ul>
-                </li>--}}
+                </li>
                 {{--<li class="treeview">
                     <a href="#">
                         <i class="fa fa fa-user"></i> <span>@lang('menu.myDataMenu')</span>
