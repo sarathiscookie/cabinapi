@@ -25,6 +25,7 @@ return [
     'edit'                                      => 'Edit',
     'tourNo'                                    => 'Tour Number',
     'tourName'                                  => 'Tour Name',
+    'createDate'                                => 'Date',
     'no_cabins'                                 => 'No. of Cabins',
     'cabins'                                    => 'Cabins',
     'status'                                    => 'Status',

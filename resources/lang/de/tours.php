@@ -25,6 +25,7 @@ return [
     'edit'                                      => 'Bearbeiten',
     'tourNo'                                    => 'Tournummer',
     'tourName'                                  => 'Tourname',
+    'createDate'                                => 'Daten',
     'no_cabins'                                 => 'Anzahl der Hütten',
     'cabins'                                    => 'Hütten',
     'status'                                    => 'Status',

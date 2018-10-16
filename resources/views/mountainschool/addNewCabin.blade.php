@@ -43,7 +43,7 @@
     <div class="box-footer">
         <div class="row">
             <div class="col-md-12">
-                <button type="button" class="btn btn-primary pull-right" name="createCabin" id="createCabin" data-loading-text="Adding..." value="createCabin"><i class="fa fa-fw fa-save"></i> @lang('tours.btnSave')
+                <button type="button" class="btn btn-primary pull-right" name="createCabin" id="createCabin" data-loading-text="loading..." value="createCabin"><i class="fa fa-fw fa-save"></i> @lang('tours.btnSave')
                 </button>
             </div>
         </div>

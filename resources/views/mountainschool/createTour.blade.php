@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a>
                 </li>
-                <li><a href="/mountainschool/tours"><i class="fa fa-map-o"></i> @lang('tours.breadcrumbtourList')</a>
+                <li><a href="/mountainschool/tours"><i class="fa fa-map-marker"></i> @lang('tours.breadcrumbtourList')</a>
                 </li>
                 <li class="active">@lang('tours.breadcrumbCreateTour')</li>
             </ol>
@@ -154,7 +154,9 @@
 
         /* Create tour function*/
         $(document).on('click', '#createTour', function (e) {
+
             var divId = 'tourbox';
+
             $('#' + divId).find('.has-error').removeClass('has-error');
             $('#' + divId).find('.help-block').html('<strong></strong>');
 
@@ -172,8 +174,10 @@
                     data: $("#addTourFrm").serialize() + '&' + $.param({'formPart': $btn.val()}),
                     success: function (data) {
                         ovelayLoading('remove');
+
                         $btn.button('reset');
-                        if ((data.errors)) {
+
+                        if((data.errors)) {
                             $.each(data.errors, function (i, item) {
                                 $("input[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                                 $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
@@ -182,22 +186,20 @@
                             });
                         }
                         else {
-                            data = JSON.parse(data);
-
                             if (data.errorMsg != undefined) {
                                 var msgClass = 'alert-danger';
-                                var msgText = data.errorMsg;
-
+                                var msgText  = data.errorMsg;
                             }
                             else {
                                 var msgClass = 'alert-success';
-                                var msgText = data.successMsg;
+                                var msgText  = data.successMsg;
                                 window.location.href = "/mountainschool/tours";
                             }
 
                             var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
 
                             $(msg).prependTo('#' + divId).fadeIn(100);
+
                             setTimeout(function () {
                                 $('#' + divId + ' #flash').fadeOut()
                             }, 2000);

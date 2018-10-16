@@ -15,11 +15,12 @@ class Tour extends Eloquent
     protected $collection = 'tour';
 
     /**
-     * Indicates if the model should be timestamped.
+     * Indicates if the model should be timestamped. Updating only the usrUpdateDate
      *
      * @var bool
      */
-    public $timestamps = false;
+    const CREATED_AT   = 'createdate';
+    public $timestamps = [ "CREATED_AT" ];
 
     /**
      * The attributes that are mass assignable.
@@ -27,5 +28,4 @@ class Tour extends Eloquent
      * @var array
      */
     protected $guarded = ['id'];
-
 }

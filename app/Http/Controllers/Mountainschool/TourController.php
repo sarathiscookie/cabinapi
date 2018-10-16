@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Mountainschool;
 use Illuminate\Http\Request;
 use App\Http\Requests\TourRequest;
 use App\Http\Controllers\Controller;
-
 use App\Tour;
 use App\Userlist;
 use App\Settings;
@@ -17,14 +16,9 @@ use DateTime;
 use DatePeriod;
 use DateInterval;
 use Auth;
-use Hash;
-use Crypt;
-use Carbon\Carbon;
 
 class TourController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -32,9 +26,7 @@ class TourController extends Controller
      */
     public function index()
     {
-
         return view('mountainschool.tours');
-
     }
 
     /**
@@ -45,38 +37,40 @@ class TourController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $params = $request->all();
-        $columns = array(
+        $params           = $request->all();
+
+        $columns          = array(
             0 => 'tour_no',
             1 => 'tour_name',
             2 => 'no_cabins',
             3 => 'cabins',
-            //    4 => 'status',
-            4 => 'Edit'
+            4 => 'date',
+            5 => 'Edit'
         );
 
-
-        $totalData = Tour::where('is_delete', 0)->whereNotNull('tour_name')
-            ->where('user_id', (Auth::user()->_id))
+        $totalData        = Tour::where('is_delete', 0)
+            ->where('user_id', Auth::user()->_id)
             ->count();
-        $totalFiltered = $totalData;
-        $limit = (int)$request->input('length');
-        $start = (int)$request->input('start');
-        $order = $columns[$params['order'][0]['column']]; //contains column index
-        $dir = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        $q = Tour::where('is_delete', 0)->whereNotNull('tour_name')
-            ->where('user_id', (Auth::user()->_id));
-        /*  search starts here*/
+        $totalFiltered    = $totalData;
+        $limit            = (int)$request->input('length');
+        $start            = (int)$request->input('start');
+
+        $q                = Tour::where('is_delete', 0)
+            ->where('user_id', Auth::user()->_id);
+
+        /* Search starts here*/
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
 
             $q->where(function ($query) use ($search) {
-                $query->where('tour_name', 'like', "%{$search}%");
+                $query->where('tour_name', 'like', "%{$search}%")
+                    ->orWhere('tour_no', 'like', "%{$search}%");
             });
 
             $totalFiltered = $q->where(function ($query) use ($search) {
-                $query->where('tour_name', 'like', "%{$search}%");
+                $query->where('tour_name', 'like', "%{$search}%")
+                    ->orWhere('tour_no', 'like', "%{$search}%");
             })
                 ->count();
         }
@@ -104,27 +98,25 @@ class TourController extends Controller
             })
                 ->count();
         }
+        /* thead search functionality for  Tour number, Tour Name  end */
 
-
-        /* tfoot search functionality for  Tour number, Tour Name  end */
-
-        $tours = $q->skip($start)
+        $tours        = $q->skip($start)
             ->take($limit)
-            ->orderBy($order, $dir)
+            ->orderBy('_id', 'desc')
             ->get();
 
-        $data = array();
-        $noData = '<span class="label label-default">' . __("mountainschool.noResult") . '</span>';
-        if (!empty($tours)) {
-            foreach ($tours as $key => $tour) {
+        $data         = array();
+        $noData       = '<span class="label label-default">' . __("mountainschool.noResult") . '</span>';
 
-                $nestedData['tour_no'] = $tour->tour_no;
-                $nestedData['tour_name'] = $tour->tour_name;
-                $nestedData['no_cabins'] = $tour->no_cabins;
-                $nestedData['cabins'] = $tour->cabins;
-                //  $nestedData['status'] = $tour->status;
-                $nestedData['Edit'] = '<a href="/mountainschool/tours/edittour/' . $tour->_id . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
-                $data[] = $nestedData;
+        if(!empty($tours)) {
+            foreach($tours as $key => $tour) {
+                $nestedData['tour_no']   = ($tour->tour_no) ? $tour->tour_no : $noData;
+                $nestedData['tour_name'] = ($tour->tour_name) ? $tour->tour_name : $noData;
+                $nestedData['no_cabins'] = ($tour->no_cabins) ? $tour->no_cabins : $noData;
+                $nestedData['cabins']    = $tour->cabins;
+                $nestedData['date']      = ($tour->createdate)->format('d.m.y');
+                $nestedData['Edit']      = '<a href="/mountainschool/tours/edittour/' . $tour->_id . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $data[]                  = $nestedData;
             }
 
             $json_data = array(
@@ -157,7 +149,7 @@ class TourController extends Controller
     {
         $cabins = $this->getCabins();
 
-        return view('mountainschool.createTour', array('cabins' => $cabins));
+        return view('mountainschool.createTour', ['cabins' => $cabins]);
     }
 
     /**
@@ -169,7 +161,11 @@ class TourController extends Controller
     public function getCabins()
     {
         $cabins = Cabin::where('is_delete', 0)->get();
-        return $cabins;
+
+        if($cabins)
+        {
+            return $cabins;
+        }
     }
 
     /**
@@ -179,30 +175,20 @@ class TourController extends Controller
      */
     public function createNewCabin(TourRequest $request)
     {
-        if (isset($request->formPart) && $request->formPart == 'createCabin') {
-            $cabin = new Cabin;
-            /* Mongo UTCDateTime begin */
-            $date_now = date("Y-m-d H:i:s");
-            $orig_date = new DateTime($date_now);
-            $orig_date = $orig_date->getTimestamp();
-            $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date * 1000);
-            /* Mongo UTCDateTime end */
-
-
-            $cabin->website = $request->website;
-            $cabin->name = $request->cabin_name;
-            $cabin->contact_person = $request->contact_person;
-            $cabin->other_cabin = "1";// should be string
-            $cabin->is_delete = 0;
-            $cabin->created_at = $utcdatetime;
-
+        if (isset($request->formPart) && $request->formPart === 'createCabin') {
+            $cabin                  = new Cabin;
+            $cabin->website         = $request->website;
+            $cabin->name            = $request->cabin_name;
+            $cabin->contact_person  = $request->contact_person;
+            $cabin->other_cabin     = "1";
+            $cabin->is_delete       = 0;
+            $cabin->created_at      = date('Y-m-d H:i:s');
             $cabin->save();
 
-
-            echo json_encode(array('successMsg' => __('tours.successMsgSave')));
-
-        } else {
-            echo json_encode(array('errorMsg' => __('tours.failure')));
+            return response()->json(['successMsg' => __('tours.successMsgSave')]);
+        }
+        else {
+            return response()->json(['errorMsg' => __('tours.failure')]);
         }
     }
 
@@ -224,14 +210,7 @@ class TourController extends Controller
      */
     public function store(TourRequest $request)
     {
-        if (isset($request->formPart) && $request->formPart == 'createTour') {
-            /* Mongo UTCDateTime begin */
-            $date_now     = date("Y-m-d H:i:s");
-            $orig_date    = new DateTime($date_now);
-            $orig_date    = $orig_date->getTimestamp();
-            $utcdatetime  = new \MongoDB\BSON\UTCDateTime($orig_date * 1000);
-            /* Mongo UTCDateTime end */
-
+        if (isset($request->formPart) && $request->formPart === 'createTour') {
             $tour             = new Tour;
             $tour->tour_name  = $request->tour_name;
             $tour->tour_no    = $request->tour_no;
@@ -239,17 +218,16 @@ class TourController extends Controller
             $tour->no_cabins  = $request->no_cabins;
             $tour->status     = 1;
             $tour->is_delete  = 0;
-            $tour->createdate = $utcdatetime;
             $tour->user_id    = Auth::user()->_id;
             $tour->save();
 
             $request->session()->flash('successMsgSave', __('tours.successMsgSave'));
             $request->session()->flash('message-type', 'success');
 
-            echo json_encode(['successMsg' => __('tours.successMsgSave')]);
+            return response()->json(['successMsg' => __('tours.successMsgSave')]);
         }
         else {
-            echo json_encode(['errorMsg' => __('tours.failure')]);
+            return response()->json(['errorMsg' => __('tours.failure')]);
         }
     }
 

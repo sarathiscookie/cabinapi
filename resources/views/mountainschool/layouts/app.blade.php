@@ -55,6 +55,9 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
+
+@inject('miscellaneous', 'App\Http\Controllers\Mountainschool\DashboardController')
+
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
@@ -103,9 +106,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <p>
-                                    Welcome {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
-                         <!--    <small>Last login on 10.19.2017 12:30</small> -->
-
+                                    @lang('mountainschool.welcomeToDashboard') {{ Auth::user()->usrFirstname }} {{ Auth::user()->usrLastname }}
                                 </p>
                             </li>
                             <li class="user-footer">
@@ -128,10 +129,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    {{--<li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>--}}
                 </ul>
             </div>
         </nav>
@@ -144,7 +141,7 @@
             <!-- search form -->
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <input type="text" name="q" class="form-control" placeholder="@lang('mountainschool.searchSidebar')">
                     <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -152,36 +149,26 @@
                 </div>
             </form>
             <!-- /.search form -->
+
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
+                <li class="header">@lang('mountainschool.menuSidebar')</li>
+
                 <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
+                    <a href="#"><i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
-                    </ul>
-                    <ul class="treeview-menu">
-                        <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu')</a></li>
+                        <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a></li>
                     </ul>
                 </li>
 
                 <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-map-o"></i> <span>@lang('menu.tourMenu')</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="/mountainschool/tours"><i class="fa fa-circle-o"></i> @lang('menu.tourListMenu')</a></li>
-                    </ul>
+                    <a href="#"><i class="fa fa-map-marker"></i> <span>@lang('menu.tourMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/tours/createtour"><i class="fa fa-circle-o"></i> @lang('menu.tourCreateMenu')</a></li>
+                        <li><a href="/mountainschool/tours"><i class="fa fa-circle-o"></i> @lang('menu.tourListMenu')  <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->tourListCount() !!}</span></span></a></li>
                     </ul>
                 </li>
                 {{--<li class="treeview">

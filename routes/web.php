@@ -670,7 +670,7 @@ Route::get('/', function () {
         /* Listing tours */
         Route::get('/tours', 'Mountainschool\TourController@index')->name('mountainschool.tours');
 
-        Route::post('/tours/datatables', 'Mountainschool\TourController@datatables')->name('mountainschool.tours.datatables');
+        Route::post('/tours/datatables', 'Mountainschool\TourController@dataTables')->name('mountainschool.tours.datatables');
 
         /* Add new cabin */
         Route::post('/tours/createtour/createnewcabin', 'Mountainschool\TourController@createNewCabin')->name('mountainschool.tours.createnewcabin');

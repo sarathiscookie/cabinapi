@@ -9,13 +9,11 @@ $(function () {
     /* Tooltip */
     $('[data-toggle="tooltip"]').tooltip();
 
-
     /* Data table functionality begin */
-
     if ($("#tour_data").length) {
         var tour_data = $('#tour_data').DataTable({
+            "bSort": false,
             "lengthMenu": [10, 50, 100, 250, 500],
-            "order": [[1, "asc"]],
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -28,13 +26,8 @@ $(function () {
                 {"data": "tour_name"},
                 {"data": "no_cabins"},
                 {"data": "cabins"},
+                {"data": "date"},
                 {"data": "Edit"}
-            ],
-            "columnDefs": [
-                {
-                    "orderable": false,
-                    "targets": [2, 3, 4 ]
-                }
             ],
             "language": {
                 "sEmptyTable": "Keine Daten in der Tabelle vorhanden",
@@ -61,13 +54,13 @@ $(function () {
             }
         });
 
-
         /* <tfoot> search functionality */
         $('.search-input').on('keyup change', function () {
             var i = $(this).attr('id');   // getting column index
             var v = $(this).val();  // getting search input value
             tour_data.columns(i).search(v).draw();
         });
+
         /* <tfoot> search functionality */
         $('.search-input-tourname').on('keyup change', function () {
             var i = $(this).attr('id');   // getting column index
@@ -88,6 +81,7 @@ $('#createCabin').click(function (e) {
     $('#' + divId).find('.help-block').html('<strong></strong>');
 
     $btn.button('loading');
+
     $.ajax({
         type: "POST",
         url: '/mountainschool/tours/createtour/createnewcabin',
@@ -102,8 +96,6 @@ $('#createCabin').click(function (e) {
                 });
             }
             else {
-                data = JSON.parse(data);
-
                 if (data.errorMsg != undefined) {
                     var msgClass = 'alert-danger';
                     var msgText = data.errorMsg;
@@ -155,7 +147,6 @@ function checkNewCabinSection()
         return false;
     }
 }
-
 
 /* Add new cabin UI */
 function addNewCabin(i)

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Mountainschool;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\MountSchoolBooking;
+use App\Tour;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -14,9 +17,49 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        $mSchoolBookingCount = MountSchoolBooking::where('is_delete', 0)
+            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->count();
+
+        if($mSchoolBookingCount)
+        {
+            return $mSchoolBookingCount;
+        }
     }
 
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mSchoolBookingCount()
+    {
+        $mSchoolBookingCount = MountSchoolBooking::where('is_delete', 0)
+            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+            ->count();
+
+        if($mSchoolBookingCount)
+        {
+            return $mSchoolBookingCount;
+        }
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function tourListCount()
+    {
+        $tourCount = Tour::where('is_delete', 0)
+            ->where('user_id', Auth::user()->_id)
+            ->count();
+
+        if($tourCount)
+        {
+            return $tourCount;
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
