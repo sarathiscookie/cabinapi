@@ -94,24 +94,26 @@
                                     @endforeach
                                 @endif
 
-                                <div class="row" id="tour_cabins_row">
-                                    <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
-                                            <label>@lang('tours.lblCabin') <span class="required">*</span></label>
-                                            <select id="tour_cabins" name="tour_cabins" class="form-control">
-                                                <option value="">@lang('tours.lblCabinPH')</option>
-                                                <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
-                                                @foreach($cabins  as $Key => $val )
-                                                    <option value="{{$val->name}}">{{$val->name}}</option>
-                                                @endforeach
-                                            </select>
+                                @if(isset($cabins))
+                                    <div class="row" id="tour_cabins_row">
+                                        <div class="col-md-6">
+                                            <div class="form-group {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
+                                                <label>@lang('tours.lblCabin') <span class="required">*</span></label>
+                                                <select id="tour_cabins" name="tour_cabins" class="form-control">
+                                                    <option value="">@lang('tours.lblCabinPH')</option>
+                                                    <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
+                                                    @foreach($cabins  as $Key => $val )
+                                                        <option value="{{$val->name}}">{{$val->name}}</option>
+                                                    @endforeach
+                                                </select>
 
-                                            <input type="hidden" name="no_cabins" value="{{count($tour->cabins )}}" id="no_cabins">
-                                            <input type="hidden" name="udtId" value="{{$tour->_id }}" id="udtId">
+                                                <input type="hidden" name="no_cabins" value="{{count($tour->cabins )}}" id="no_cabins">
+                                                <input type="hidden" name="udtId" value="{{$tour->_id }}" id="udtId">
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
 
                             </div>
                         </div>
