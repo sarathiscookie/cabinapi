@@ -261,9 +261,11 @@ class TourController extends Controller
      */
     public function editTour($id)
     {
-        $cabins = $this->getCabins();
-        $tour = Tour::where('_id', $id)->first();
-        return view('mountainschool.editTour', array('cabins' => $cabins, 'tour' => $tour));
+        $cabins    = $this->getCabins();
+
+        $tour      = Tour::where('_id', new \MongoDB\BSON\ObjectID($id))->first();
+
+        return view('mountainschool.editTour', ['cabins' => $cabins, 'tour' => $tour]);
     }
 
     /**
@@ -275,19 +277,20 @@ class TourController extends Controller
      */
     public function updateTour(TourRequest $request)
     {
-        if (isset($request->formPart) && $request->formPart == 'updateTour') {
-            $tour = Tour::findOrFail($request->udtId);
+        if (isset($request->formPart) && $request->formPart === 'updateTour') {
 
+            $tour            = Tour::findOrFail($request->udtId);
             $tour->tour_name = $request->tour_name;
-            $tour->tour_no = $request->tour_no;
-            $tour->cabins = $request->cabins;
+            $tour->tour_no   = $request->tour_no;
+            $tour->cabins    = $request->cabins;
             $tour->no_cabins = $request->no_cabins;
             $tour->save();
-            echo json_encode(array('successMsg' => __('tours.successMsgUdt')));
-        } else {
-            echo json_encode(array('errorMsg' => __('tours.failure')));
-        }
 
+            return response()->json(['successMsg' => __('tours.successMsgUdt')]);
+        }
+        else {
+            return response()->json(['errorMsg' => __('tours.failure')]);
+        }
     }
 
     /**

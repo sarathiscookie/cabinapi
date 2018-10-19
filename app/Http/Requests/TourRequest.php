@@ -27,7 +27,7 @@ class TourRequest extends FormRequest
     {
         $rules     = [];
 
-        if ($this->request->get('formPart') == 'createCabin') {
+        if ($this->request->get('formPart') === 'createCabin') {
             $rules = [
                 'cabin_name'     => [
                     'required',
@@ -40,7 +40,7 @@ class TourRequest extends FormRequest
             ];
         }
 
-        if ($this->request->get('formPart') == 'createTour') {
+        if ($this->request->get('formPart') === 'createTour') {
             $rules = [
                 'tour_name' => [
                     'required',
@@ -62,15 +62,13 @@ class TourRequest extends FormRequest
         }
 
         /* Update Tour */
-        if ($this->request->get('formPart') == 'updateTour') {
+        if ($this->request->get('formPart') === 'updateTour') {
             $rules = [
                 'tour_name' => [
                     'required',
                     Rule::unique('tour', 'tour_name')->where(function ($query) {
                        $query->where('is_delete', 0);
                         $query->where( '_id',  '<>', new \MongoDB\BSON\ObjectID($this->request->get('udtId')) );
-
-
                     })
                 ],
                 'tour_no' => [
@@ -80,8 +78,8 @@ class TourRequest extends FormRequest
                         $query->where( '_id',  '<>', new \MongoDB\BSON\ObjectID($this->request->get('udtId')) );
                     }),
                 ],
-
             ];
+
             if($this->request->get('no_cabins') == 0 ){
                 $rules['no_cabins'] = 'required|not_in:0';
             }

@@ -17,14 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $mSchoolBookingCount = MountSchoolBooking::where('is_delete', 0)
-            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id))
-            ->count();
-
-        if($mSchoolBookingCount)
-        {
-            return $mSchoolBookingCount;
-        }
+        //
     }
 
     /**

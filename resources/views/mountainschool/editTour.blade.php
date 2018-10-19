@@ -2,11 +2,6 @@
 
 @section('title', 'Cabin API - Mountain School: Edit Tour')
 
-
-@section('css')
-    <style type="text/css">    </style>
-@endsection
-
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -32,15 +27,18 @@
                 </button>
                 {{ session()->get('successMsgSave') }}
             </div>
-    @endif
-    <!-- Main content -->
+        @endif
+
+        <!-- Main content -->
         <section class="content">
-            <!--- form for add new cabins [form tag is appended for fileds  in addNewCabin blade]-->
+            <!--- form for new cabins [form tag is appended for fields  in addNewCabin blade]-->
             <form id="addcabinFrm" name="addcabinFrm" mathod="post"></form>
-            <!--- form for add new cabins ends-->
+
             <!--- form for update Tour -->
             <form role="form" method="post" id="uptTourFrm" action="{{ route('mountainschool.tours.store') }}">
+
                 {{ csrf_field() }}
+
                 <div class="box box-primary">
                     <div class="row">
                         <div class="col-md-12">
@@ -51,8 +49,7 @@
                             <div class="box-body" id="tourbox">
                                 <div class="row">
                                     <div class="col-md-6">
-
-                                        <div class="form-group   {{ $errors->has('tour_name') ? ' has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
                                             <label>@lang('tours.lblTourName') <span
                                                         class="required">*</span></label>
                                             <input type="text" class="form-control" id="tour_name"
@@ -63,6 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group   {{ $errors->has('tour_no') ? ' has-error' : '' }}">
@@ -77,43 +75,39 @@
                                     </div>
 
                                 </div>
-                                <!----->
-                                @php ($a = 0)
-                                @if(!empty($tour->cabins))
-                                @foreach($tour->cabins  as $Key => $val )
-                                    @php ($a++)
-                                    <div class="row" id="crowid{{$a}}" rid="{{$a}}">
-                                        <div class="col-md-6">
-                                            <div class="form-group"><label> Cabin {{$a}}<span class="required">*</span></label>
-                                                <input readonly="readonly" name="cabins[]" class="form-control"
-                                                       value="{{$val}}" type="text"></div>
+
+                                @php
+                                    $a = 0;
+                                @endphp
+
+                                @if(isset($tour))
+                                    @foreach($tour->cabins  as $key => $val)
+                                        @php ($a++)
+                                        <div class="row" id="crowid{{$a}}" rid="{{$a}}">
+                                            <div class="col-md-6">
+                                                <div class="form-group"><label> Cabin {{$a}}<span class="required">*</span></label>
+                                                    <input readonly="readonly" name="cabins[]" class="form-control" value="{{$val}}" type="text"></div>
+                                            </div>
+                                            <div class="col-md-1"><a href="javascript:void(0)" class="delRow"> <img src="/img/delete.png" alt="Remove" hight="25" style=" position: relative; bottom: -30px;" width="25"></a>
+                                            </div>
                                         </div>
-                                        <div class="col-md-1"><a href="javascript:void(0)" class="delRow"> <img
-                                                        src="/img/delete.png" alt="Remove" hight="25"
-                                                        style=" position: relative; bottom: -30px;" width="25"></a>
-                                        </div>
-                                    </div>
-                            @endforeach
+                                    @endforeach
                                 @endif
-                            <!---->
 
                                 <div class="row" id="tour_cabins_row">
                                     <div class="col-md-6">
-                                        <div class="form-group   {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
-                                            <label>@lang('tours.lblCabin') <span
-                                                        class="required">*</span></label>
+                                        <div class="form-group {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
+                                            <label>@lang('tours.lblCabin') <span class="required">*</span></label>
                                             <select id="tour_cabins" name="tour_cabins" class="form-control">
-                                                <option value="">-- @lang('tours.lblCabinPH') --</option>
-                                                <option value="new_cabin">New Cabin</option>
+                                                <option value="">@lang('tours.lblCabinPH')</option>
+                                                <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
                                                 @foreach($cabins  as $Key => $val )
                                                     <option value="{{$val->name}}">{{$val->name}}</option>
                                                 @endforeach
-                                                <option>Test3</option>
                                             </select>
-                                            <input type="hidden" name="no_cabins" value="{{count($tour->cabins )}}"
-                                                   id="no_cabins">
-                                            <input type="hidden" name="udtId" value="{{$tour->_id }}"
-                                                   id="udtId">
+
+                                            <input type="hidden" name="no_cabins" value="{{count($tour->cabins )}}" id="no_cabins">
+                                            <input type="hidden" name="udtId" value="{{$tour->_id }}" id="udtId">
 
                                         </div>
                                     </div>
@@ -126,12 +120,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-primary pull-right"
-                                        name="updateTour" id="updateTour"
-                                        data-loading-text="Updating..."
-                                        value="updateTour"><i
-                                            class="fa fa-fw fa-save"></i>@lang('tours.btnSave')
-                                </button>
+                                <button type="button" class="btn btn-primary pull-right" name="updateTour" id="updateTour" data-loading-text="Updating..." value="updateTour"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
                             </div>
                         </div>
                     </div>
@@ -145,20 +134,16 @@
 
 @section('scripts')
     <script>
-/* */
- console.log(parseFloat((0.1 + 0.2),2));
- console.log(parseFloat((0.1 + 0.2 ),2)== 0.3);
-/* */
-
-        var glo_i = $('#no_cabins').val(); // global declaration for cabins select
-
-        var lblCabin = 'Cabin ';
+        var glo_i           = $('#no_cabins').val(); // global declaration for cabins select
+        var lblCabin        = 'Cabin ';
         var lblReqSpanCabin = '<span  class="required">*</span>';
+
         $('#tour_cabins').change(function () {
             if ($('#tour_cabins').val() != '') {
                 if (checkNewCabinSection() != false)         // use this if you are using id to check
                 {
                     ovelayLoading('add', 'tourbox'); //adding loading effect
+
                     glo_i++;
                     if ($('#tour_cabins').val() == 'new_cabin') {
                         // $("#newcabinRowID").closest('div[class^="row"]').remove();
@@ -167,22 +152,22 @@
                             cabinCountFilter(arg);
                         }
                         addNewCabin(glo_i);
-
-
-                    } else {
+                    }
+                    else {
                         var html = ' <div class="row" id="crowid' + glo_i + '" rid="' + glo_i + '"><div class="col-md-6"  >    <div class="form-group"  >      <label> ' + lblCabin + glo_i + lblReqSpanCabin + '</label><input type="text" readonly="readonly" name="cabins[]" class="form-control" value="' + $('#tour_cabins').val() + '">  </div>   </div><div class="col-md-1"  ><a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative; bottom: -30px;"></a>  </div> </div>';
 
                         $(html).insertBefore("#tour_cabins_row");
                         $("#tour_cabins").val("").attr("selected", "selected"); // reset selectbox
                     }
+
                     cabinRequiredMark();
+
                     ovelayLoading('remove'); //remove loading effect
                 }
             }
         });
 
-
-        /* for rearraging id if cabin deleted*/
+        /* To rearrange id if cabin deleted*/
         function cabinCountFilter(arg) {
             $('#crowid' + arg).remove();
             for (var k = arg; k <= glo_i; k++) {
@@ -194,19 +179,16 @@
             glo_i = glo_i - 1;
         }
 
-
-        /* for delete*/
+        /* To delete cabin */
         $(document).on('click', '.delRow', function () {
-
             var arg = $(this).closest('div[class^="row"]').attr('rid');
             var lbl = $(this).closest('label').text();
             $(this).parent('div').attr('id');
             cabinCountFilter(arg);
             cabinRequiredMark();
-
         });
-        /////////////////////////////////////////////
-        /* createTour  function*/
+
+        /* Functionality to update tour */
         $(document).on('click', '#updateTour', function (e) {
             var divId = 'tourbox';
             $('#' + divId).find('.has-error').removeClass('has-error');
@@ -225,37 +207,28 @@
                     success: function (data) {
 
                         ovelayLoading('remove');//remove loading effect
+
                         $btn.button('reset');
                         if ((data.errors)) {
                             $.each(data.errors, function (i, item) {
-
                                 $("input[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                                 $("input[name='" + i + "']").parent('.form-group').addClass('has-error');
                                 $("select[name='" + i + "']").parent('.form-group').children('.help-block').html(' <strong>' + item[0] + '</strong> ');
                                 $("select[name='" + i + "']").parent('.form-group').addClass('has-error');
-
-
                             });
-
-                        } else {
-
-                            data = JSON.parse(data);
-                            //  append success message
+                        }
+                        else {
                             if (data.errorMsg != undefined) {
                                 var msgClass = 'alert-danger';
                                 var msgText = data.errorMsg;
-
                             }
                             else {
                                 var msgClass = 'alert-success';
                                 var msgText = data.successMsg;
                                 window.location.href = "/mountainschool/tours";
-
                             }
 
-
                             var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
-
                             $(msg).prependTo('#' + divId).fadeIn(100);
                             setTimeout(function () {
                                 $('#' + divId + ' #flash').fadeOut()
@@ -271,10 +244,7 @@
                                 $("input[name='" + i + "']").after(' <span class="help-block"> <strong>' + item[0] + '</strong></span> ');
                                 $("select[name='" + i + "']").parent('.form-group').addClass('has-error');
                                 $("select[name='" + i + "']").after(' <span class="help-block"> <strong>' + item[0] + '</strong></span> ');
-
-
                             });
-
                             $btn.button('reset');
                         }
                     }
@@ -282,14 +252,15 @@
             }
         });
 
-        /*Requied symbol chnage*/
-        function cabinRequiredMark() {
-            if (glo_i > 0) {
+        /*Required symbol change*/
+        function cabinRequiredMark()
+        {
+            if(glo_i > 0) {
                 $('#tour_cabins').prev('label').find('span[class^="required"]').html('');
-            } else {
+            }
+            else {
                 $('#tour_cabins').prev('label').find('span[class^="required"]').html('*');
             }
-
         }
     </script>
 
