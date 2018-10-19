@@ -24,7 +24,7 @@
                 <small>@lang('tours.smHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/mountainschool/dashboard"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a></li>
+                <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a></li>
                 <li class="active">@lang('tours.breadcrumbTwo')</li>
             </ol>
         </section>

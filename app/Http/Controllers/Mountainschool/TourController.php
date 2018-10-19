@@ -137,7 +137,9 @@ class TourController extends Controller
      */
     public function createTourNewBooking()
     {
-        return view('mountainschool.newBooking');
+        $tourList = $this->toursList();
+
+        return view('mountainschool.newBooking', ['tourList' => $tourList]);
     }
 
     /**

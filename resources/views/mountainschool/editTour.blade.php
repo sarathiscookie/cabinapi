@@ -12,7 +12,7 @@
                 <small>@lang('tours.smHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/mountainschool/dashboard"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a>
+                <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a>
                 </li>
                 <li><a href="/mountainschool/tours"><i class="fa fa-map-o"></i> @lang('tours.breadcrumbtourList')</a>
                 </li>
@@ -136,6 +136,13 @@
 
 @section('scripts')
     <script>
+        /* Checking for the CSRF token */
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         var glo_i           = $('#no_cabins').val(); // global declaration for cabins select
         var lblCabin        = 'Cabin ';
         var lblReqSpanCabin = '<span  class="required">*</span>';
@@ -206,6 +213,7 @@
                     type: "POST",
                     url: '/mountainschool/tours/updatetour',
                     data: $("#uptTourFrm").serialize() + '&' + $.param({'formPart': $btn.val()}),
+                    dataType: 'JSON',
                     success: function (data) {
 
                         ovelayLoading('remove');//remove loading effect

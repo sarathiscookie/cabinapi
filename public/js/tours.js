@@ -86,6 +86,7 @@ $('#createCabin').click(function (e) {
         type: "POST",
         url: '/mountainschool/tours/createtour/createnewcabin',
         data: $("#addcabinFrm").serialize() + '&' + $.param({'formPart': $btn.val()}),
+        dataType: 'JSON',
         success: function (data) {
             ovelayLoading('remove');//remove loading effect
             $btn.button('reset');
@@ -154,7 +155,6 @@ function addNewCabin(i)
     $.ajax({
         type: "GET",
         url: '/mountainschool/tours/addnewcabin',
-        data: {},
         success: function (data) {
             var html = '<div class="row" id="crowid' + i + '" rid="' + i + '"><div class="col-md-6"   ><div class="form-group"  >      <label> ' + lblCabin + i + '</label> ' + data + ' </div> </div> <div class="col-md-1"   > <a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative;   bottom:-30px;"></a> </div>   </div> ';
             $(html).insertBefore("#tour_cabins_row");

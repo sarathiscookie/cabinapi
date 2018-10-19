@@ -101,6 +101,13 @@
 
 @section('scripts')
     <script>
+        /* Checking for the CSRF token */
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         var glo_i           = 0;
         var lblCabin        = 'Cabin ';
         var lblReqSpanCabin = '<span  class="required">*</span>';
@@ -172,6 +179,7 @@
                     type: "POST",
                     url: '/mountainschool/tours/store',
                     data: $("#addTourFrm").serialize() + '&' + $.param({'formPart': $btn.val()}),
+                    dataType: 'JSON',
                     success: function (data) {
                         ovelayLoading('remove');
 
