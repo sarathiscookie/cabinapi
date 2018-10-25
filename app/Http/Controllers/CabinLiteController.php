@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 use App\Cabin;
 use App\Userlist;
+use App\User;
 use App\Country;
 use DateTime;
 use Response;
@@ -45,7 +46,7 @@ class CabinLiteController extends Controller
         );
 
         $totalData      = Cabin::where('is_delete', 0)
-            ->where('other_cabin', '0')->count();
+                                ->where('other_cabin', '0')->count();
 
         $totalFiltered  = $totalData;
         $limit          = (int)$request->input('length');
@@ -54,7 +55,7 @@ class CabinLiteController extends Controller
         $dir            = $params['order'][0]['dir']; //contains order such as asc/desc
 
         $q              = Cabin::where('is_delete', 0)
-            ->where('other_cabin', '0');
+                                ->where('other_cabin', '0');
 
         if (!empty($request->input('search.value'))) {
             $search     = $request->input('search.value');
@@ -146,8 +147,8 @@ class CabinLiteController extends Controller
                     $nestedData['usrEmail']  = $usrEmail;
                     $nestedData['usrName']   = $usrFirstname . ' ' . $usrLastname;
                     $nestedData['usrUpdate'] = '<span class="label label-info">'. __('cabins.menuInfo'). '</span> <span class="label label-default">'. __('cabins.menuContigent'). '</span> <span class="label label-info">'. __('cabins.menuSeason'). '</span> <span class="label label-primary">'. __('cabins.menuImages'). '</span>';
-                    /*$nestedData['usrUpdate'] = '<a href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
-                                                <a href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a> <a   href="/admin/cabinlite/image/' . $cabinList->_id . '" > <span class="label label-primary">'. __('cabins.menuImages'). '</span> </a>';*/
+                    $nestedData['usrUpdate'] = '<a href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
+                                                <a href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a> <a   href="/admin/cabinlite/image/' . $cabinList->_id . '" > <span class="label label-primary">'. __('cabins.menuImages'). '</span> </a>';
                     $nestedData['cabinType'] = $this->getCabinType($cabinList->booking_type);
                     $data[] = $nestedData;
                 }
@@ -207,7 +208,7 @@ class CabinLiteController extends Controller
     public function getCabinOwners()
     {
         $user           = [];
-        $allCabinOwners = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'company')
+        $allCabinOwners = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrName', 'company')
             ->where('is_delete', 0)
             ->where('usrlId', 5)
             ->orderBy('usrFirstname')
@@ -377,21 +378,34 @@ class CabinLiteController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit($id)
     {
-        $cabin = Cabin::select('_id', 'cabin_owner')->where('is_delete', 0)
+        $cabin =
+
+        Cabin::select('_id', 'cabin_owner')->where('is_delete', 0)
             ->where('_id', $id)
             ->first();
 
-        $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile','company')
-            ->where('is_delete', 0)
-            ->where('_id', $cabin->cabin_owner)
-            ->first();
+        $userDetails =
+
+        Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile','company')
+                ->where('is_delete', 0)
+                ->where('_id', $cabin->cabin_owner)
+                ->first();
+
+        //dd(Userlist::get());
 
         $get_cabin = Cabin::where('_id', $id)->first();
-        return view('backend.editCabin', array('cabinOwnerList' => $this->getCabinOwners(), 'cabinType' => $this->getCabinType(), 'cabin' => $get_cabin, 'countrylist' => $this->getCountry(), 'userDetails' => $userDetails));
+
+        return view('backend.editCabin', [
+            'cabinOwnerList' => $this->getCabinOwners(),
+            'cabinType'      => $this->getCabinType(),
+            'cabin'          => $get_cabin,
+            'countrylist'    => $this->getCountry(),
+            'userDetails'    => $userDetails
+        ]);
     }
     /**
      *  update the specified resource.
@@ -402,8 +416,6 @@ class CabinLiteController extends Controller
 
     public function updateContactinfo(CabinLiteRequest $request)
     {
-
-
         if (isset($request->formPart) && $request->formPart == 'updateContactInfo') {
             $userDetails = Userlist::findOrFail($request->cabin_owner);
             $userDetails->usrFirstname = $request->firstname;

@@ -24,6 +24,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('plugins/iCheck/square/blue.css') }}">
+    <!-- Custom Style from compiled sass -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}" media="screen" title="no title">
 
     @yield('css')
 
