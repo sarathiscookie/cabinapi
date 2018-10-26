@@ -10,6 +10,7 @@ use App\Userlist;
 use App\Tempuser;
 use App\Cabin;
 use App\MountSchoolBooking;
+use App\PrivateMessage;
 use Illuminate\Support\Facades\Mail;
 use Auth;
 use App\Bmessages;
@@ -37,9 +38,9 @@ class BookingController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $params        = $request->all();
+        $params  = $request->all();
 
-        $columns       = array(
+        $columns = array(
             1 => 'invoice_number',
             2 => 'usrLastname',
             3 => 'usrFirstname',
@@ -51,12 +52,13 @@ class BookingController extends Controller
             9 => 'sleeps',
             10 => 'status',
             11 => 'prepayment_amount',
-            12 => 'answered'
+            12 => 'answered',
+            13 => 'messages'
         );
 
         $cabins = Cabin::where('is_delete', 0)
-            ->where('cabin_owner', Auth::user()->_id)
-            ->get();
+                        ->where('cabin_owner', Auth::user()->_id)
+                        ->get();
 
         if(count($cabins) > 0) {
             foreach ($cabins as $cabin)
@@ -72,6 +74,7 @@ class BookingController extends Controller
                         ->where('inquirystatus', 1)
                         ->where('_id', new \MongoDB\BSON\ObjectID($request->parameterId))
                         ->count();
+
                     $q         = Booking::where('is_delete', 0)
                         ->where('cabinname', $cabin_name)
                         ->where('typeofbooking', 1)
@@ -429,6 +432,47 @@ class BookingController extends Controller
                             $messageStatus = '<span class="label label-default">'.__("cabinowner.notAsked").'</span>';
                         }
 
+                        // Get messages only if booking has inquiry
+                        if ($booking->typeofbooking == 1) {
+
+                            $inquiryMessages = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($booking->_id))
+                            ->orderBy('created_at')
+                            ->get();
+
+                            if (count($inquiryMessages) > 0) {
+                                // Build messages for displaying inside modal
+                                $msgContent = '';
+                                foreach ($inquiryMessages as $message) {
+                                    // Message Sender
+                                    if ($message->sender_id != Auth::id()) {
+                                        $senderTxt       = $message->text;
+                                        $senderCreatedAt = ($message->created_at)->format('d M H:i:s A');
+                                        $senderLname     = $message->sender->usrLastname;
+                                        $senderFname     = $message->sender->usrFirstname;
+
+                                        $msgContent .= '<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">'.$senderFname.' '.$senderLname.'</span><span class="direct-chat-timestamp pull-right">'.$senderCreatedAt.'</span></div><i class="menu-icon bg-light-blue direct-chat-img text-center" style="padding: 9px;">G</i><div class="direct-chat-text">'.$senderTxt.'</div></div>';
+                                    }
+                                    // Message Receiver
+                                    else {
+                                        $receiverTxt       = $message->text;
+                                        $receiverCreatedAt = ($message->created_at)->format('d M H:i:s A');
+                                        $receiverLname     = $message->sender->usrLastname;
+                                        $receiverFname     = $message->sender->usrFirstname;
+
+                                        // Message content
+                                        $msgContent .= '<div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">'.$receiverFname.' '.$receiverLname.'</span><span class="direct-chat-timestamp pull-left">'.$receiverCreatedAt.'</span></div><i class="menu-icon label-default direct-chat-img text-center" style="padding: 9px;">HW</i><div class="direct-chat-text">'.$receiverTxt.'</div></div>';
+                                    }
+                                }
+
+                                // Inquiry messages toggle button
+                                $inq_msg_column = '<i class="fa fa-fw fa-comments" data-toggle="modal" data-target="#msgModal_'.$booking->_id.'"></i><div class="modal fade" id="msgModal_'.$booking->_id.'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content"><div class="col-md-12"><div class="box box-primary direct-chat direct-chat-warning"><div class="box-header with-border"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h3 class="box-title">Messages</h3><div class="msgResponse"></div></div><div class="msgHide"><div class="box-body"><div class="direct-chat-messages">'.$msgContent.'</div></div><div class="box-footer"><div class="input-group margin col-md-12"><input type="hidden" name="sender" id="sender_'.$booking->_id.'" class="form-control" value="'.Auth::user()->_id.'"><input type="hidden" name="receiver" id="receiver_'.$booking->_id.'" class="form-control"  value="'.$booking->userId.'"><input type="hidden" name="bookingId" id="bookingId_'.$booking->_id.'" class="form-control" value="'.$booking->_id.'"><input type="hidden" name="subject" id="subject_'.$booking->_id.'" class="form-control" value="'.$booking->invoice_number.'"><input type="hidden" name="usrEmail" id="usrEmail_'.$booking->_id.'" class="form-control" value="'.$booking->usrEmail.'"><input type="hidden" name="cabinName" id="cabinName_'.$booking->_id.'" class="form-control" value="'.$booking->cabinname.'"></div></div></div></div></div></div></div></div>';
+                            } else {
+                                $inq_msg_column = '----';
+                            }
+                        } else {
+                            $inq_msg_column = '----';
+                        }
+
                         /* Condition for prepay amount */
                         if(!$booking->prepayment_amount) {
                             $amount = '00.00<i class="fa fa-fw fa-eur"></i>';
@@ -474,6 +518,7 @@ class BookingController extends Controller
                         $nestedData['status']                  = $bookingStatusLabel;
                         $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
+                        $nestedData['messages']                = $inq_msg_column;
                         $data[]                                = $nestedData;
                     }
                 }
