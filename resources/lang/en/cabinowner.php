@@ -47,6 +47,7 @@ return [
     'status'                                 => 'Status',
     'amount'                                 => 'Amount',
     'answered'                               => 'Answered',
+    'messages'                               => 'Messages',
     'action'                                 => 'Click here to cancel this booking',
     'notAsked'                               => 'Not Asked',
     'emptyMessage'                           => 'Empty Message',
