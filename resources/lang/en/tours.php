@@ -54,6 +54,12 @@ return [
     'lblEmailPH'                                => 'Enter Email',
     'lblCabin'                                  => 'Cabin Name',
     'lblCabinPH'                                => 'Select Cabin Name',
+    'beds'                                      => 'Beds',
+    'bedsPH'                                    => 'Choose Beds',
+    'dorms'                                     => 'Dorms',
+    'dormsPH'                                   => 'Choose Dorms',
+    'sleeps'                                    => 'Sleeps',
+    'sleepsPH'                                  => 'Choose Sleeps',
     'btnSave'                                   => 'Save',
 
     /* Edit Tour */
@@ -113,6 +119,7 @@ return [
     'successMsgUdt'                             => 'Successfully updated Tour.',
     'successMsgBooking'                         => 'Successfully Added new Booking.',
     'successMsgbsUpt'                           => 'Successfully Updated Basic Settings.',
+    'failure'                                   => 'Whoops! Something went wrong.',
 
     'btnDuplicatingBooking'                     => 'Duplicate the Booking',
     'btnNew'                                    => 'New',
@@ -123,7 +130,7 @@ return [
     'basicSetBoxHeading'                        => 'Basic Settings',
 
     'lblNoGuides'                               => 'No of Guides',
-    'lblNoGuidesPH'                             => 'Enter No of Guides',
+    'lblNoGuidesPH'                             => 'Choose guide',
     'lblnotice'                                 => 'Notice',
     'lblnoticePH'                               => 'Enter Notice',
 
