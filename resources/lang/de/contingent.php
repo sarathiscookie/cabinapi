@@ -26,6 +26,7 @@ return [
 
     /* Form */
     'reservationType'                        => 'Buchungsart',
+    'reservationType.tooltip'                => 'Hier können Sie auswählen, ob die Gäste „nur“ Schlafplätze oder Betten und Matratzenlager Buchen können. Anschließend geben Sie bitte die passenden Daten dazu ein.',
     'selectReservationType'                  => 'Reservation Type auswählen',
     'reservationTypeBeds'                    => 'Betten & Matratzenlager',
     'reservationTypeSleeps'                  => 'Schlafplätze',
@@ -36,10 +37,13 @@ return [
     'emergencyRoomsLabel'                    => 'Notlager',
     'emergencyRoomsPlaceholder'              => 'Anzahl der Notlager bestätigen',
     'inquiryGuestLabel'                      => 'Anfrage Gäste',
+    'inquiryGuestLabel.tooltip'              => 'Hier können Sie auswählen ab wie vielen Personen Gäste nicht mehr direkt Buchen können sondern erst eine Anfrage stellen müssen.',
     'inquiryGuestPlaceholder'                => 'Anfrage für Gäste ab',
     'mschoolInquiryGuestLabel'               => 'Anfrage Bergschulen',
+    'mschoolInquiryGuestLabel'               => 'Hier können Sie auswählen ab wie vielen Personen Bergschulen nicht mehr direkt Buchen können sondern erst eine Anfrage stellen müssen.',
     'mschoolInquiryGuestPlaceholder'         => 'Anfrage für Bergschulen ab',
     'rulesLabel'                             => 'Regeln',
+    'rulesLabel.tooltip'                     => 'Regelmäßige Abweichungen sind solange gültig, bis die Regel an einem bestimmten Wochentag wieder entfernt wurde. Einmalige Abweichungen sind nur ein an dem ausgewählten Datum gültig.',
     'selectRules'                            => 'Regeln auswählen',
     'selectRulesRegular'                     => 'Regelmäßige Kontingent Abweichungen',
     'selectRulesNotRegular'                  => 'Einmalige Kontingent Abweichungen',
