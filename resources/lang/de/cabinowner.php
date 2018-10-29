@@ -53,6 +53,7 @@ return [
     'amount'                                 => 'Gesamt',
     'answered'                               => 'Antworten',
     'messages'                               => 'Mitteilungen',
+    'notes'                                  => 'Anmerkungen',
     'action'                                 => 'Klicken Sie hier, um diese Buchung zu stornieren',
     'notAsked'                               => 'ohne Kommentar',
     'emptyMessage'                           => 'keine Nachricht',

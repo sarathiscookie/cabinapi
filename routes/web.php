@@ -417,6 +417,9 @@ Route::get('/', function () {
         /* Send message to guest */
         Route::post('/bookings/message/send', 'Cabinowner\BookingController@send');
 
+        /* Save note on booking */
+        Route::post('/bookings/notes/store', 'Cabinowner\BookingController@storeNote');
+
         /* Cancel booking */
         Route::post('booking/cancel', 'Cabinowner\BookingController@cancelBooking');
 

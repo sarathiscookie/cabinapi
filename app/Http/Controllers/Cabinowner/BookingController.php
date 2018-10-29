@@ -53,7 +53,8 @@ class BookingController extends Controller
             10 => 'status',
             11 => 'prepayment_amount',
             12 => 'answered',
-            13 => 'messages'
+            13 => 'messages',
+            14 => 'notes',
         );
 
         $cabins = Cabin::where('is_delete', 0)
@@ -434,7 +435,6 @@ class BookingController extends Controller
 
                         // Get messages only if booking has inquiry
                         if ($booking->typeofbooking == 1) {
-
                             $inquiryMessages = PrivateMessage::where('booking_id', new \MongoDB\BSON\ObjectID($booking->_id))
                             ->orderBy('created_at')
                             ->get();
@@ -471,6 +471,13 @@ class BookingController extends Controller
                             }
                         } else {
                             $inq_msg_column = '----';
+                        }
+
+                        // Get notes for booking
+                        if ($booking->notes) {
+                            $notes_column = '<a class="btn bg-purple-light" data-toggle="modal" data-target="#editNoteModal_'.$booking->_id.'"><i class="fa fa-sticky-note"></i></a><div class="modal fade" id="editNoteModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="editNoteModallLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.editNoteHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.saveNoteSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourNoteAlert").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" id="note_'.$booking->_id.'">'.$booking->notes.'</textarea></div><div class="modal-footer"><input class="note_save"  type="hidden" name="message_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple noteSaveButton">'.__("cabinowner.saveButton").'</button></div></div></div></div>';
+                        } else {
+                            $notes_column = '<a class="btn bg-primary" data-toggle="modal" data-target="#saveNoteModal_'.$booking->_id.'"><i class="fa fa-plus"></i></a><div class="modal fade" id="saveNoteModal_'.$booking->_id.'" tabindex="-1" role="dialog" aria-labelledby="saveNoteModallLabel"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'.__("cabinowner.saveNoteHead").'</h4></div><div class="alert alert-success alert-message" style="display: none;"><h4><i class="icon fa fa-check"></i> '.__("cabinowner.wellDone").' </h4>'.__("cabinowner.saveNoteSuccessResponse").'</div><div class="alert alert-danger alert-message-failed" style="display: none;">'.__("cabinowner.enterYourNoteAlert").' </div><div class="modal-body"><textarea class="form-control" style="min-width: 100%;" rows="3" placeholder="'.__("cabinowner.enterYourNote").'" id="note_'.$booking->_id.'"></textarea></div><div class="modal-footer"><input class="note_save"  type="hidden" name="note_text" value="'.$booking->_id.'" data-id="'.$booking->_id.'" /><button type="button" data-loading-text="'.__("cabinowner.sendingProcess").'" autocomplete="off" class="btn bg-purple noteSaveButton">'.__("cabinowner.saveButton").'</button></div></div></div></div>';
                         }
 
                         /* Condition for prepay amount */
@@ -519,6 +526,7 @@ class BookingController extends Controller
                         $nestedData['prepayment_amount']       = $amount;
                         $nestedData['answered']                = $messageStatus;
                         $nestedData['messages']                = $inq_msg_column;
+                        $nestedData['notes']                   = $notes_column;
                         $data[]                                = $nestedData;
                     }
                 }
@@ -595,6 +603,24 @@ class BookingController extends Controller
         }
 
         return response()->json(['message' => $message], 201);
+    }
+
+    /**
+     * Save note on a booking.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeNote(Request $request)
+    {
+        $resource = json_decode($request->data, true);
+
+        $booking = Booking::where('_id', $resource['id'])->first();
+
+        $booking->notes = $resource['note'];
+        $booking->save();
+
+        return response()->json(['note' => $resource['note']], 201);
     }
 
     /**
