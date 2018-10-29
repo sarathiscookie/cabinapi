@@ -146,9 +146,8 @@ class CabinLiteController extends Controller
                     $nestedData['cabinname'] = $cabin_name;
                     $nestedData['usrEmail']  = $usrEmail;
                     $nestedData['usrName']   = $usrFirstname . ' ' . $usrLastname;
-                    $nestedData['usrUpdate'] = '<span class="label label-info">'. __('cabins.menuInfo'). '</span> <span class="label label-default">'. __('cabins.menuContigent'). '</span> <span class="label label-info">'. __('cabins.menuSeason'). '</span> <span class="label label-primary">'. __('cabins.menuImages'). '</span>';
-                    $nestedData['usrUpdate'] = '<a href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
-                                                <a href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a> <a   href="/admin/cabinlite/image/' . $cabinList->_id . '" > <span class="label label-primary">'. __('cabins.menuImages'). '</span> </a>';
+                    $nestedData['usrUpdate'] = '<a class="nounderline" href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a class="nounderline" href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
+                                                <a class="nounderline" href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span>';
                     $nestedData['cabinType'] = $this->getCabinType($cabinList->booking_type);
                     $data[] = $nestedData;
                 }
