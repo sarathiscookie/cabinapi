@@ -95,7 +95,7 @@ class CabinLiteRequest extends FormRequest
      *
      * @return array
      */
-    public function   attributes()
+    public function attributes()
     {
         if (\Lang::locale() == 'de') {
             return ['firstname' => 'Der Vornmae',
