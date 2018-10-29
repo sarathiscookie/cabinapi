@@ -54,6 +54,12 @@ return [
     'lblEmailPH'                                => 'E-Mail eingeben',
     'lblCabin'                                  => 'Hüttenname',
     'lblCabinPH'                                => 'Hüttenname eingeben',
+    'beds'                                      => 'Betten',
+    'bedsPH'                                    => 'Betten Auswahl',
+    'dorms'                                     => 'Lager',
+    'dormsPH'                                   => 'Lager Auswahl',
+    'sleeps'                                    => 'Schlafplätze',
+    'sleepsPH'                                  => 'Schlafplätze Auswahl',
     'btnSave'                                   => 'Sichern',
 
     /* Edit Tour */
@@ -112,6 +118,7 @@ return [
     'successMsgConUpt'                          => 'Ihre Kontaktinformationen wurden erfolgreich geändert',
     'successMsgSave'                            => 'Sie haben eine neue Tour angelegt',
     'successMsgUdt'                             => 'Die Tour wurde gesichert',
+
     'successMsgBooking'                         => 'Neue Buchung erstellt',
     'btnDuplicatingBooking'                     => 'Buchung dupliziert',
     'btnNew'                                    => 'Neu',
@@ -121,10 +128,11 @@ return [
     'breadcrumbbasicSet'                        => 'Grundeinstellungen',
     'basicSetBoxHeading'                        => 'Grundeinstellungen',
     'lblNoGuides'                               => 'Anzahl Bergführer',
-    'lblNoGuidesPH'                             => 'Bergführer eingeben',
+    'lblNoGuidesPH'                             => 'Bergführer Auswahl',
     'lblnotice'                                 => 'Kommentar',
     'lblnoticePH'                               => 'Kommentar eingeben',
     'successMsgbsUpt'                           => 'Grundeinstellungen gespeichert',
+    'failure'                                   => 'Whoops! Irgendwas ist schief gelaufen.',
 
     'currentPwd'                                => 'Aktuelles Passwort',
     'newPwd'                                    => 'Neues Passwort',

@@ -35,100 +35,99 @@
             <form id="addcabinFrm" name="addcabinFrm" mathod="post"></form>
 
             <!--- form for update Tour -->
-            <form role="form" method="post" id="uptTourFrm" action="{{ route('mountainschool.tours.store') }}">
+            @if(isset($tour))
+                <form role="form" method="post" id="uptTourFrm" action="{{ route('mountainschool.tours.store') }}">
 
-                {{ csrf_field() }}
+                    {{ csrf_field() }}
 
-                <div class="box box-primary">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box-header with-border">
-                                <h4 class="box-title"> @lang('tours.editBoxHeading')  </h4>
-                            </div>
-
-                            <div class="box-body" id="tourbox">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
-                                            <label>@lang('tours.lblTourName') <span
-                                                        class="required">*</span></label>
-                                            <input type="text" class="form-control" id="tour_name"
-                                                   name="tour_name"
-                                                   value="{{ old('tour_name'  , $tour->tour_name) }}"
-                                                   placeholder="@lang('tours.lblTourNamePH')" maxlength="100">
-                                            <span class="help-block"><strong>  {{ $errors->first('tour_name') }}</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group   {{ $errors->has('tour_no') ? ' has-error' : '' }}">
-                                            <label>@lang('tours.lblTourNo') <span
-                                                        class="required">*</span></label>
-                                            <input type="text" class="form-control" id="tour_no"
-                                                   name="tour_no"
-                                                   value="{{ old('tour_no' , $tour->tour_no) }}"
-                                                   placeholder="@lang('tours.lblTourNoPH')" maxlength="100">
-                                            <span class="help-block"><strong>  {{ $errors->first('tour_no') }}</strong></span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                @php
-                                    $a = 0;
-                                @endphp
-
-                                @if(isset($tour))
-                                    @foreach($tour->cabins  as $key => $val)
-                                        @php ($a++)
-                                        <div class="row" id="crowid{{$a}}" rid="{{$a}}">
-                                            <div class="col-md-6">
-                                                <div class="form-group"><label> Cabin {{$a}}<span class="required">*</span></label>
-                                                    <input readonly="readonly" name="cabins[]" class="form-control" value="{{$val}}" type="text"></div>
-                                            </div>
-                                            <div class="col-md-1"><a href="javascript:void(0)" class="delRow"> <img src="/img/delete.png" alt="Remove" hight="25" style=" position: relative; bottom: -30px;" width="25"></a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endif
-
-                                @if(isset($cabins))
-                                    <div class="row" id="tour_cabins_row">
-                                        <div class="col-md-6">
-                                            <div class="form-group {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
-                                                <label>@lang('tours.lblCabin') <span class="required">*</span></label>
-                                                <select id="tour_cabins" name="tour_cabins" class="form-control">
-                                                    <option value="">@lang('tours.lblCabinPH')</option>
-                                                    <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
-                                                    @foreach($cabins  as $Key => $val )
-                                                        <option value="{{$val->name}}">{{$val->name}}</option>
-                                                    @endforeach
-                                                </select>
-
-                                                <input type="hidden" name="no_cabins" value="{{count($tour->cabins )}}" id="no_cabins">
-                                                <input type="hidden" name="udtId" value="{{$tour->_id }}" id="udtId">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="box-footer">
+                    <div class="box box-primary">
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-primary pull-right" name="updateTour" id="updateTour" data-loading-text="Updating..." value="updateTour"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                                <div class="box-header with-border">
+                                    <h4 class="box-title"> @lang('tours.editBoxHeading')  </h4>
+                                </div>
+
+                                <div class="box-body" id="tourbox">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
+                                                <label>@lang('tours.lblTourName') <span
+                                                            class="required">*</span></label>
+                                                <input type="text" class="form-control" id="tour_name"
+                                                       name="tour_name"
+                                                       value="{{ old('tour_name', $tour->tour_name) }}"
+                                                       placeholder="@lang('tours.lblTourNamePH')" maxlength="100">
+                                                <span class="help-block"><strong>  {{ $errors->first('tour_name') }}</strong></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group   {{ $errors->has('tour_no') ? ' has-error' : '' }}">
+                                                <label>@lang('tours.lblTourNo') <span
+                                                            class="required">*</span></label>
+                                                <input type="text" class="form-control" id="tour_no"
+                                                       name="tour_no"
+                                                       value="{{ old('tour_no', $tour->tour_no) }}"
+                                                       placeholder="@lang('tours.lblTourNoPH')" maxlength="100">
+                                                <span class="help-block"><strong>  {{ $errors->first('tour_no') }}</strong></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    @php
+                                        $a = 0;
+                                    @endphp
+
+                                    @if(!empty($tour->cabins))
+                                        @foreach($tour->cabins  as $key => $val)
+                                            @php ($a++)
+                                            <div class="row" id="crowid{{$a}}" rid="{{$a}}">
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label> Cabin {{$a}}<span class="required">*</span></label>
+                                                        <input readonly="readonly" name="cabins[]" class="form-control" value="{{$val}}" type="text"></div>
+                                                </div>
+                                                <div class="col-md-1"><a href="javascript:void(0)" class="delRow"> <img src="/img/delete.png" alt="Remove" hight="25" style=" position: relative; bottom: -30px;" width="25"></a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                        @if(isset($cabins))
+                                            <div class="row" id="tour_cabins_row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group {{ $errors->has('tour_cabins') ? ' has-error' : '' }}">
+                                                        <label>@lang('tours.lblCabin') <span class="required">*</span></label>
+                                                        <select id="tour_cabins" name="tour_cabins" class="form-control">
+                                                            <option value="">@lang('tours.lblCabinPH')</option>
+                                                            <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
+                                                            @foreach($cabins  as $Key => $val )
+                                                                <option value="{{$val->name}}">{{$val->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <input type="hidden" name="no_cabins" value="{{count($tour->cabins)}}" id="no_cabins">
+                                                        <input type="hidden" name="udtId" value="{{$tour->_id}}" id="udtId">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            </form>
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary pull-right" name="updateTour" id="updateTour" data-loading-text="Updating..." value="updateTour"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            @endif
         </section>
     </div>
     <!-- /.content-wrapper -->

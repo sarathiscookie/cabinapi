@@ -89,6 +89,8 @@ return [
     'lblMountainbedsPH'                     => 'Betten auswählen',
     'lblCheckIn'                            => 'Anreise',
     'lblCheckInPH'                          => 'Anreise auswählen',
+    'lblCheckOut'                           => 'Abreise',
+    'lblCheckOutPH'                         => 'Abreise auswählen',
     'lblMountainDays'                       => 'Tage',
     'lblMountainDaysPH'                     => 'Tage auswählen',
     'lblOptGuides'                          => 'Bergührer',
