@@ -39,15 +39,6 @@ class TourController extends Controller
     {
         $params           = $request->all();
 
-        $columns          = array(
-            0 => 'tour_no',
-            1 => 'tour_name',
-            2 => 'no_cabins',
-            3 => 'cabins',
-            4 => 'date',
-            5 => 'Edit'
-        );
-
         $totalData        = Tour::where('is_delete', 0)
             ->where('user_id', Auth::user()->_id)
             ->count();
@@ -110,6 +101,7 @@ class TourController extends Controller
 
         if(!empty($tours)) {
             foreach($tours as $key => $tour) {
+                /* Fetch cabin and check cabins are exist in database */
                 $nestedData['tour_no']   = ($tour->tour_no) ? $tour->tour_no : $noData;
                 $nestedData['tour_name'] = ($tour->tour_name) ? $tour->tour_name : $noData;
                 $nestedData['no_cabins'] = ($tour->no_cabins) ? $tour->no_cabins : $noData;
@@ -162,7 +154,9 @@ class TourController extends Controller
      */
     public function getCabins()
     {
-        $cabins = Cabin::where('is_delete', 0)->get();
+        $cabins = Cabin::where('is_delete', 0)
+            ->orderBy('name')
+            ->get();
 
         if($cabins)
         {
@@ -474,50 +468,47 @@ class TourController extends Controller
     /**
      * Get Tour for booking
      *
-     * @param $request
+     * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function getTourForBooking(TourRequest $request)
+    public function getTourForBooking($id)
     {
-        /* Get Basic settings data */
-        $basic_settings = Settings::where('is_delete', "0")
+        /* Get basic settings data */
+        $basic_settings = Settings::where('is_delete', 0)
             ->where('user_id', Auth::user()->_id)
             ->first();
 
         /* Get tour */
-        $tours          = Tour::where('is_delete', 0)->whereNotNull('tour_name')
-            ->where('_id', new \MongoDB\BSON\ObjectID($request->tourId))
+        $tours          = Tour::where('is_delete', 0)
+            ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->where('user_id', Auth::user()->_id)
             ->first();
 
-        if (isset($tours->cabins)) {
+        if (!empty($tours->cabins)) {
             $cabin_array = [];
+
             foreach ($tours->cabins as $key => $val) {
                 $cabinDetails = Cabin::where('is_delete', 0)
                     ->where('name', $val)
                     ->first();
-                $cabin_array[$key]['name'] = $val;
-                $cabin_array[$key]['cId'] = $cabinDetails->_id;
 
-                if (isset($cabinDetails->sleeping_place)) {
-                    $cabin_array[$key]['sleeping_place'] = $cabinDetails->sleeping_place;
-                }
-                if (isset($cabinDetails->beds)) {
-                    $cabin_array[$key]['beds'] = $cabinDetails->beds;
-                }
-                if (isset($cabinDetails->dormitory)) {
-                    $cabin_array[$key]['dormitory'] = $cabinDetails->dormitory;
-                }
-                if (isset($cabinDetails->other_cabin)) {
-                    $cabin_array[$key]['other_cabin'] = $cabinDetails->other_cabin;
-                }
-                $tours->cabins = $cabin_array;
+                $cabin_array[$key]['name']            = $cabinDetails->name;
+                $cabin_array[$key]['cId']             = $cabinDetails->_id;
+                $cabin_array[$key]['sleeping_place']  = $cabinDetails->sleeping_place;
+                $cabin_array[$key]['beds']            = $cabinDetails->beds;
+                $cabin_array[$key]['dormitory']       = $cabinDetails->dormitory;
+                $cabin_array[$key]['other_cabin']     = $cabinDetails->other_cabin;
+                $cabin_array[$key]['halfboard']       = $cabinDetails->halfboard;
+                $cabin_array[$key]['halfboard_price'] = $cabinDetails->halfboard_price;
+                $tours->cabins                        = $cabin_array;
             }
         }
-        if ($basic_settings != "") {
+
+        if ($basic_settings) {
             $tours->basic_settings = $basic_settings;
         }
-        return view('mountainschool.getTourCabin', array('tour' => $tours));
+
+        return view('mountainschool.getTourCabin', ['tour' => $tours]);
     }
 
     /**
@@ -662,49 +653,34 @@ class TourController extends Controller
      * @param Request
      * @return \Illuminate\Http\Response
      */
-    protected function basicSettings(TourRequest $request)
+    public function basicSettings()
     {
-        /* Get Basic settings data */
-        $userId=   (Auth::user()->_id);
-        $basic_settings = Settings::where('is_delete', "0")
-            ->where('user_id', $userId)->first();
-      //  dd($basic_settings);
-        return view('mountainschool.basicSettings', array('basicsettings' => $basic_settings));
-
-    }
-    protected function updateBasicSettings(TourRequest $request)
-    {
-
-      /*  "no_guides" => "1"
-    "contact_person" => "Elisabeth Reiter"
-    "notice" => ""
-    "is_delete" => "0"
-    "user_id" => "5888da46d2ae67ec3efb5f7a"
-    "createdate" => UTCDateTime {#437 ▶}
-        "half_board" => "1"
-        */
-        /* Get Basic settings data */
-      //  $userId=   (Auth::user()->_id);
-     //   $basic_settings = Settings::where('is_delete', "0")
-       //     ->where('user_id', $userId)->first();
-      //  return view('mountainschool.basicSettings', array('basicsettings' => $basic_settings));
-       // dd($basic_settings);
-
-        $obj_user = Userlist::where('is_delete', 0)
-            ->where('_id', new \MongoDB\BSON\ObjectID(Auth::user()->_id))
+        $basic_settings = Settings::where('is_delete', 0)
+            ->where('user_id', Auth::user()->_id)
             ->first();
-        $userId=   (Auth::user()->_id);
-          $basic_settings = Settings::where('is_delete', "0")
-       ->where('user_id', $userId)->first();
 
-           $basic_settings->no_guides = $request->no_guides;
-           $basic_settings->contact_person = $request->contact_person;
-           $basic_settings->notice = $request->notice;
-           $basic_settings->half_board = $request->half_board;
-           $basic_settings->save();
-            return back()->with('success', __('tours.successMsgbsUpt'));
+        return view('mountainschool.basicSettings', ['basicSettings' => $basic_settings]);
+    }
 
+    /**
+     * Update basic settings
+     *
+     * @param Request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBasicSettings(TourRequest $request)
+    {
+        if($request->has('updateBasicSettings')) {
+            Settings::updateOrCreate(
+                ['user_id' => Auth::user()->_id, 'is_delete' => 0],
+                ['contact_person' => $request->contact_person, 'no_guides' => (int)$request->no_guides, 'half_board' => $request->half_board, 'beds' => (int)$request->beds, 'dorms' => (int)$request->dorms, 'sleeps' => (int)$request->sleeps, 'guests' => (int)$request->guests]
+            );
 
+            return redirect()->back()->with('success', __('tours.successMsgbsUpt'));
+        }
+        else {
+            abort(404);
+        }
     }
 
 

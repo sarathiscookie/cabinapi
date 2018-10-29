@@ -113,11 +113,12 @@ class TourRequest extends FormRequest
         }
 
         /* Update basic settings */
-        if ($this->request->get('updateBasicSettings') == 'updateBasicSettings') {
+        if ($this->request->get('updateBasicSettings') === 'updateBasicSettings') {
             $rules = [
-                'no_guides'      => 'required',
-                'contact_person' => 'required',
-                'notice'         => 'required',
+                'contact_person' => 'required|max:100',
+                'beds'           => 'required|not_in:0',
+                'dorms'          => 'required|not_in:0',
+                'sleeps'         => 'required|not_in:0',
             ];
         }
 

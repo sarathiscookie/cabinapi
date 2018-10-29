@@ -666,7 +666,7 @@ Route::get('/', function () {
         Route::get('/bookings/create', 'Mountainschool\TourController@createTourNewBooking');
 
         /* get tours for  booking */
-        Route::get('/tours/gettour', 'Mountainschool\TourController@getTourForBooking');
+        Route::get('/tours/gettour/{id}', 'Mountainschool\TourController@getTourForBooking');
 
         /* Listing tours */
         Route::get('/tours', 'Mountainschool\TourController@index')->name('mountainschool.tours');
@@ -688,6 +688,7 @@ Route::get('/', function () {
         /* Update tours * */
         Route::post('/tours/updatetour', 'Mountainschool\TourController@updateTour')->name('mountainschool.updatetour');
 
+        /* Store tours */
         Route::post('/tours/store', 'Mountainschool\TourController@store')->name('mountainschool.tours.store');
 
         /* mydata user deatils edit */
@@ -703,7 +704,10 @@ Route::get('/', function () {
         Route::post('/updatepassword', 'Mountainschool\TourController@updatePassword')->name('mountainschool.mydata.updatepassword');
 
         /* Calendar checkAvailability */
-        Route::post('/calendarAvailability', 'Mountainschool\TourController@calendarAvailability')->name('mountainschool.calendarAvailability');
+        /*Route::post('/calendarAvailability', 'Mountainschool\TourController@calendarAvailability')->name('mountainschool.calendarAvailability');*/
+
+        /* Get dates when page loads */
+        Route::post('/calendar/ajax', 'Mountainschool\CalendarController@calendarAvailability')->name('calendar');
 
         /* checkAvailability */
         Route::post('/checkAvailability', 'Mountainschool\TourController@checkAvailability')->name('mountainschool.checkAvailability');

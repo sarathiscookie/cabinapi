@@ -22,6 +22,29 @@
             animation: flash-message 6s forwards;
         }
 
+        .direct-chat-warning .right>.direct-chat-text {
+            background: #3c8dbc;
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            background-repeat-x: initial;
+            background-repeat-y: initial;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: #3c8dbc !important;
+            border-color: #3c8dbc;
+            border-top-color: #3c8dbc;
+            border-right-color: #3c8dbc;
+            border-bottom-color: #3c8dbc;
+            border-left-color: #3c8dbc;
+            color: #fff;
+        }
+        .direct-chat-warning .right>.direct-chat-text:after, .direct-chat-warning .right>.direct-chat-text:before {
+             border-left-color: #3c8dbc;
+        }
+
         @keyframes flash-message {
             0%   {opacity: 1;}
             100% {opacity: 0; display:none;}
@@ -90,24 +113,20 @@
                                     <th>@lang('cabinowner.status')</th>
                                     <th>@lang('cabinowner.amount')</th>
                                     <th>@lang('cabinowner.answered')</th>
+                                    <th>@lang('cabinowner.messages')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
                                 <tr>
                                     <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')"></th>
-                                    <td></td>
-                                    <td></td>
-                                    {{--<th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.lastName')"></th>
-                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.firstName')"></th>--}}
-                                    <th><input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')"></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
+                                    <th colspan="3">
+                                        <input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.searchBoookingNo')">
+                                    </th>
+                                    <th colspan="6">
+                                        <input type="text" id="4"  class="form-control input-sm search-input" placeholder="@lang('cabinowner.SearchEmail')">
+                                    </th>
+                                    <td colspan="4">
                                         <select class="form-control input-sm search-input" id="10">
                                             <option value="">(@lang('cabinowner.SearchStatus'))</option>
                                             <option value="1">@lang('cabinowner.bookingFix')</option>
@@ -117,8 +136,6 @@
                                             <option value="5">@lang('cabinowner.bookingWaiting')</option>
                                         </select>
                                     </td>
-                                    <td></td>
-                                    <td></td>
                                     @if(isset($bookId))
                                         <input type="hidden" name="parameterId" id="parameterId" value="{{$bookId}}">
                                     @endif
@@ -204,12 +221,13 @@
                         { "data": "sleeps" },
                         { "data": "status" },
                         { "data": "prepayment_amount" },
-                        { "data": "answered" }
+                        { "data": "answered" },
+                        { "data": "messages" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
                         }
                     ],
                     "language": {

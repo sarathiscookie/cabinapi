@@ -71,10 +71,20 @@
                                             <label>@lang('tours.lblCabin') <span class="required">*</span></label>
                                             <select id="tour_cabins" name="tour_cabins" class="form-control">
                                                 <option value="">@lang('tours.lblCabinPH')</option>
-                                                <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
-                                                @foreach($cabins  as $Key => $val )
-                                                    <option value="{{$val->name}}">{{$val->name}}</option>
-                                                @endforeach
+                                                <optgroup label="Registered Cabin">
+                                                    @foreach($cabins  as $Key => $val )
+                                                        @if($val->other_cabin == '0')
+                                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </optgroup>
+                                                <optgroup label="Neighbour Cabin">
+                                                    @foreach($cabins  as $Key => $val )
+                                                        @if($val->other_cabin == '1')
+                                                            <option value="{{$val->name}}">{{$val->name}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </optgroup>
                                             </select>
                                             <input type="hidden" name="no_cabins" id="no_cabins">
                                         </div>
