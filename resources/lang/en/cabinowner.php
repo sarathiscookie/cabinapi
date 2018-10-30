@@ -18,7 +18,7 @@ return [
     'bookingDetails'                         => 'Booking Details',
     /* Model begin */
     'sendMessageHead'                        => 'Send Message',
-    'saveNoteHead'                           => 'Save Note',
+    'storeNoteHead'                          => 'Save Note',
     'editNoteHead'                           => 'Edit Note',
     'enterYourMsg'                           => 'Enter your message here',
     'enterYourNote'                          => 'Enter your note here',
@@ -29,7 +29,7 @@ return [
     'sendingProcess'                         => 'Sending...',
     'wellDone'                               => 'Well Done!',
     'sendMessageSuccessResponse'             => 'Message sent successfully!',
-    'saveNoteSuccessResponse'                => 'Note saved successfully!',
+    'storeNoteSuccessResponse'               => 'Note saved successfully!',
     'moreDetails'                            => 'More Details',
     'usrZip'                                 => 'Zipcode',
     'city'                                   => 'City',

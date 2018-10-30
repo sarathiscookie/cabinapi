@@ -381,10 +381,10 @@
             });
 
             /* Save Note on a booking */
-            $('#booking_data tbody').on( 'click', 'button.noteSaveButton', function(e){
+            $('#booking_data tbody').on( 'click', 'button.storeNoteButton', function(e){
                 e.preventDefault();
                 var $btn       = $(this).button('loading');
-                var bookingId  = $(this).siblings('.note_save').attr('value');
+                var bookingId  = $(this).siblings('.store_note').attr('value');
 
                 var JSONObject = {
                     "id": bookingId,
@@ -403,8 +403,12 @@
                                 $('.alert-message-failed').hide();
                                 $btn.button('reset');
                                 $('.alert-message').show();
-                                setTimeout(function() { $('#saveNoteModal_'+bookingId).modal('hide'); }, 3000);
-                                $('#saveNoteModal_'+bookingId).on('hidden.bs.modal', function () {
+                                setTimeout(function() { $('#storeNoteModal_'+bookingId).modal('hide'); }, 2500);
+                                $('#storeNoteModal_'+bookingId).on('hidden.bs.modal', function () {
+                                    booking_data.ajax.reload(null, false);
+                                })
+                                setTimeout(function() { $('#editNoteModal_'+bookingId).modal('hide'); }, 2500);
+                                $('#editNoteModal_'+bookingId).on('hidden.bs.modal', function () {
                                     booking_data.ajax.reload(null, false);
                                 })
                             }
