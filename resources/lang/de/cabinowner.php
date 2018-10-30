@@ -23,7 +23,7 @@ return [
     'bookingDetails'                         => 'Buchungs Details',
     /* Model begin */
     'sendMessageHead'                        => 'Nachricht senden',
-    'storeNoteHead'                          => 'Notiz speichern'
+    'storeNoteHead'                          => 'Notiz speichern',
     'editNoteHead'                           => 'Notiz bearbeiten',
     'enterYourMsg'                           => 'Text hier eingeben',
     'enterYourNote'                          => 'Tragen Sie hier Ihre Notiz ein',
