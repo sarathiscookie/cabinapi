@@ -488,7 +488,8 @@ class TourController extends Controller
             $cabin_array = [];
 
             foreach ($tours->cabins as $key => $val) {
-                $cabinDetails = Cabin::where('is_delete', 0)
+                $cabinDetails = Cabin::select('_id', 'name', 'sleeping_place', 'beds', 'dormitory', 'other_cabin', 'halfboard', 'halfboard_price')
+                    ->where('is_delete', 0)
                     ->where('name', $val)
                     ->first();
 

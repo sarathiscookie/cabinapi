@@ -141,7 +141,7 @@
                                             @endif
                                         @endif
 
-                                        <div class="calendar" data-id="{{$c}}">
+                                        <div class="calendar" data-id="{{$c}}" data-cabinid="{{ $valArray['cId'] }}">
                                             <div class="holiday{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
                                             <div class="green{{ $c }}" data-green="{{ $calendar[1] }}"></div>
                                             <div class="orange{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
@@ -151,7 +151,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckIn')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkInCls" id="check_in{{$c}}" name="check_in{{$c}}[]" data-cabinId="{{$valArray['cId']}}" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off">
+                                                    <input type="text" class="form-control checkInCls" id="check_in{{$c}}" name="check_in{{$c}}[]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_in') }}</strong></span>
                                                 </div>
@@ -160,7 +160,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_out') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckOut')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkOutCls" id="check_out{{$c}}" name="check_out{{$c}}[]" data-cabinId="{{$valArray['cId']}}" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off">
+                                                    <input type="text" class="form-control checkOutCls" id="check_out{{$c}}" name="check_out{{$c}}[]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_out') }}</strong></span>
                                                 </div>

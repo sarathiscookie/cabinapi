@@ -45,7 +45,7 @@ return [
     'lblCabinNamePH'                            => 'Hüttenname eingeben',
     'lblWebsite'                                => 'Webseite',
     'lblWebsitePH'                              => 'Webseiten url eingeben',
-    'CreateNewCabinLabel'                       => 'New Cabin',
+    'CreateNewCabinLabel'                       => 'Neue Hütte',
     'creatingLoader'                            => 'Creating...',
 
     'lblContactPerson'                          => 'Kontakt Person',
@@ -61,6 +61,9 @@ return [
     'sleeps'                                    => 'Schlafplätze',
     'sleepsPH'                                  => 'Schlafplätze Auswahl',
     'btnSave'                                   => 'Sichern',
+    'registeredCabin'                           => 'Buchbare Hütten',
+    'neighborCabin'                             => 'Nachbarhütten',
+    'createNewCabin'                            => 'Neue Hütte erstellen',
 
     /* Edit Tour */
     'editBoxHeading'                            => 'Tour bearbeiten',
