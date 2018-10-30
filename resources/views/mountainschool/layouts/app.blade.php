@@ -56,6 +56,9 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- jQuery-ui -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <!-- Css for all modules -->
     <link rel="stylesheet" href="{{ mix('/css/all.css') }}">
 </head>
@@ -223,6 +226,11 @@
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 @yield('scripts')
+
+<!-- To avoid conflict with jQuery UI -->
+<script>
+    $.fn.btnBootstrap = $.fn.button.noConflict();
+</script>
 
 <!-- Slimscroll -->
 <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>

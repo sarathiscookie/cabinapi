@@ -62,7 +62,7 @@ return [
     'sleepsPH'                                  => 'Choose Sleeps',
     'btnSave'                                   => 'Save',
     'registeredCabin'                           => 'Bookable cabins',
-    'neighborCabin'                             => 'neighbor Cabins',
+    'neighborCabin'                             => 'Neighbor Cabins',
     'createNewCabin'                            => 'Create a new cabin',
 
     /* Edit Tour */

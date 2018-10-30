@@ -17,8 +17,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
 
 /* Js and css for each page */
 mix.styles([
-    'resources/assets/sass/calendar.css',
-    'resources/assets/sass/msNewBooking.css'
+    'resources/assets/css/calendar.css',
+    'resources/assets/css/msNewBooking.css'
 ], 'public/css/all.css').version();
 
 mix.scripts([
