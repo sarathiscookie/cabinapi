@@ -114,6 +114,7 @@
                                     <th>@lang('cabinowner.amount')</th>
                                     <th>@lang('cabinowner.answered')</th>
                                     <th>@lang('cabinowner.messages')</th>
+                                    <th>@lang('cabinowner.notes')</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -222,12 +223,13 @@
                         { "data": "status" },
                         { "data": "prepayment_amount" },
                         { "data": "answered" },
-                        { "data": "messages" }
+                        { "data": "messages" },
+                        { "data": "notes" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
+                            "targets": [0, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14]
                         }
                     ],
                     "language": {
@@ -366,6 +368,47 @@
                                 $('.alert-message').show();
                                 setTimeout(function() { $('#messageModal_'+bookingId).modal('hide'); }, 3000);
                                 $('#messageModal_'+bookingId).on('hidden.bs.modal', function () {
+                                    booking_data.ajax.reload(null, false);
+                                })
+                            }
+                            else {
+                                $btn.button('reset');
+                                $('.alert-message-failed').show();
+                            }
+                        }
+                    }
+                });
+            });
+
+            /* Save Note on a booking */
+            $('#booking_data tbody').on( 'click', 'button.storeNoteButton', function(e){
+                e.preventDefault();
+                var $btn       = $(this).button('loading');
+                var bookingId  = $(this).siblings('.store_note').attr('value');
+
+                var JSONObject = {
+                    "id": bookingId,
+                    "note": $('#note_'+bookingId).val()
+                };
+                var jsonData = JSON.stringify(JSONObject);
+                $.ajax({
+                    url: '/cabinowner/bookings/notes/store',
+                    data: { "data": jsonData },
+                    dataType: 'JSON',
+                    type: 'POST',
+                    success: function(result) {
+                        if(result) {
+                            if(result.note)
+                            {
+                                $('.alert-message-failed').hide();
+                                $btn.button('reset');
+                                $('.alert-message').show();
+                                setTimeout(function() { $('#storeNoteModal_'+bookingId).modal('hide'); }, 2500);
+                                $('#storeNoteModal_'+bookingId).on('hidden.bs.modal', function () {
+                                    booking_data.ajax.reload(null, false);
+                                })
+                                setTimeout(function() { $('#editNoteModal_'+bookingId).modal('hide'); }, 2500);
+                                $('#editNoteModal_'+bookingId).on('hidden.bs.modal', function () {
                                     booking_data.ajax.reload(null, false);
                                 })
                             }
