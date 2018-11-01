@@ -38,7 +38,7 @@
                         <div class="col-md-4">
                             <div class="form-group {{ $errors->has('ind_notice') ? ' has-error' : '' }}">
                                 <label>@lang('mountainschool.lblInd_notice')<span class="required"></span></label>
-                                <input type="text" class="form-control daterange" id="ind_notice" name="ind_notice[]" placeholder="@lang('mountainschool.lblInd_noticePH')" value="{{old('ind_notice'  )}}" maxlength="255">
+                                <input type="text" class="form-control daterange" id="ind_notice" name="ind_notice" placeholder="@lang('mountainschool.lblInd_noticePH')" value="{{old('ind_notice')}}" maxlength="255">
                                 <span class="help-block"><strong>{{ $errors->first('ind_notice') }}</strong></span>
                             </div>
                         </div>
@@ -60,10 +60,12 @@
                                 <div class="col-md-12">
                                     <div class="row" style="margin-bottom: 5px;">
                                         <div class="col-md-12 gradient-gray">
-                                            <h4 class="fa fa-home"><strong>{{$valArray['name']}} @if($valArray['other_cabin'] == '1')<span class="badge">Neighbour Cabin</span>@endif</strong></h4>
+                                            <h4 class="fa fa-home"><strong>{{$valArray['name']}} @if($valArray['other_cabin'] == '1')<span class="badge">@lang('tours.neighborCabin')</span>@endif</strong></h4>
                                             <input class="otherCabinCls" type="hidden" data-other_cabin="{{$valArray['other_cabin']}}" value="{{$valArray['cId']}}" name="cabinId{{$c}}[]">
                                         </div>
                                     </div>
+
+                                    <div class="col-md-12" id="errors_{{ $c }}" style="display: none;"></div>
 
                                     <div class="row">
                                         <div class="col-md-2">
@@ -94,11 +96,13 @@
                                             </div>
                                         </div>
 
+                                        <input type="hidden" name="sleeping_place{{$c}}[]" value="{{$valArray['sleeping_place']}}">
+
                                         @if($valArray['other_cabin'] == '0')
                                             @if($valArray['sleeping_place'] != 1)
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
-                                                        <label>@lang('mountainschool.lblMountainbeds')<span class="required">*</span></label>
+                                                        <label>@lang('mountainschool.lblMountainbeds')</label>
                                                         <select class="form-control bedsInputCls" id="beds{{$c}}" name="beds{{$c}}[]">
                                                             <option value="">@lang('mountainschool.lblMountainbedsPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
@@ -112,7 +116,7 @@
 
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('dormitory') ? ' has-error' : '' }}">
-                                                        <label> @lang('mountainschool.lblMountaindorm')<span class="required">*</span></label>
+                                                        <label> @lang('mountainschool.lblMountaindorm')</label>
 
                                                         <select class="form-control dormitoryInputCls" id="dormitory{{$c}}" name="dormitory{{$c}}[]">
                                                             <option value="">@lang('mountainschool.lblMountaindormPH')</option>
@@ -173,8 +177,7 @@
                                                     <label>@lang('cabins.lblHalfboard')</label>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="hidden" name="hidHalfboard{{$c}}[]" class="HidHalfboardCls" value="">
-                                                            <input type="checkbox" id="halfboard{{$c}}" class="halfboardCls" name="halfboard{{$c}}[]" @if(old('halfboard', $tour->basic_settings->half_board) == '1') checked @endif>@lang('cabins.half_board_available')
+                                                            <input type="checkbox" id="halfboard{{$c}}" class="halfboardCls" name="halfboard{{$c}}[]" value="1" @if(old('halfboard', $tour->basic_settings->half_board) == '1') checked @endif>@lang('cabins.half_board_available')
                                                         </label>
                                                     </div>
                                                 </div>
@@ -186,12 +189,11 @@
                             </div>
                         @endforeach
                         <input type="hidden" name="no_cabins" value="{{$tour->no_cabins}}">
-                        <input type="hidden" name="hidProceed" id="hidProceed" value="no">
                     @endisset
                 </div>
             </div>
         </div>
-        <div id="appendDup"></div>
+        {{--<div id="appendDup"></div>--}}
         <!-- /.box-body -->
     </div>
     <!-- /.box -->

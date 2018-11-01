@@ -122,20 +122,22 @@ class TourRequest extends FormRequest
             ];
         }
 
-        if ($this->request->get('formPart') == 'newBooking') {
-            $k     =  $this->request->get('no_cabins') ;
-
+        if ($this->request->get('formPart') === 'newBooking') {
+            $k     = $this->request->get('no_cabins');
             $rlApp = [];
-            for($j=1 ; $j<=$k ; $j++) {
-                $rlApp['no_guides' . $j .'.*']  = 'required';
-                $rlApp['guests' . $j .'.*']     = 'required|not_in:0';
-                $rlApp['check_in' . $j.'.*' ]   = 'required';
-                $rlApp['days' . $j .'.*']       = 'required';
+            for($j = 1; $j <= $k; $j++) {
+                $rlApp['guests'.$j.'.*']     = 'required|not_in:0';
+                $rlApp['check_in'.$j.'.*']   = 'required';
+                $rlApp['check_out'.$j.'.*']  = 'required';
+                $rlApp['sleeps'.$j.'.*']     = 'required|not_in:0';
+                $rlApp['beds'.$j.'.*']       = 'required_without:dormitory'.$j.'.*';
+                $rlApp['dormitory'.$j.'.*']  = 'required_without:beds'.$j.'.*';
             }
 
             $rules1 = [
                 'ind_tour_no.*' => [
                     'required',
+                    'max:100',
                     Rule::unique('mschool', 'ind_tour_no')->where(function($query) {
                         $query->where('is_delete', 0);
                     }),
@@ -143,7 +145,7 @@ class TourRequest extends FormRequest
                 'tour_guide.*'  => 'required',
             ];
 
-            $rules = array_merge($rlApp,$rules1);
+            $rules = array_merge($rlApp, $rules1);
         }
 
         return $rules;
@@ -162,7 +164,6 @@ class TourRequest extends FormRequest
             'new_pwd'      => __('tours.newPwd'),
             'con_pwd'      => __('tours.conPwd'),
             'ind_tour_no'  => __('tours.indTourNo'),
-            'ind_notice'   => __('tours.indNotice')
         ];
     }
 
@@ -177,21 +178,24 @@ class TourRequest extends FormRequest
         $msgApp  = [];
 
         for($j = 1 ; $j <= $k ; $j++) {
-            $msgApp[ 'no_guides'.$j.'.*.required'] = __('tours.guidesRequired');
-            $msgApp[ 'guests'.$j.'.*.required']    = __('tours.guestsRequired');
-            $msgApp[ 'guests'.$j.'.*.not_in']      = __('tours.guestNotIn');
-            $msgApp[ 'check_in'.$j.'.*.required']  = __('tours.checkInRequired');
-            $msgApp[ 'days'.$j.'.*.required']      = __('tours.daysRequired');
-
+            $msgApp[ 'no_guides'.$j.'.*.required']         = __('tours.guidesRequired');
+            $msgApp[ 'guests'.$j.'.*.required']            = __('tours.guestsRequired');
+            $msgApp[ 'guests'.$j.'.*.not_in']              = __('tours.guestNotIn');
+            $msgApp[ 'check_in'.$j.'.*.required']          = __('tours.checkInRequired');
+            $msgApp[ 'check_out'.$j.'.*.required']         = __('tours.checkOutRequired');
+            $msgApp[ 'sleeps'.$j.'.*.required']            = __('tours.sleepsRequired');
+            $msgApp[ 'sleeps'.$j.'.*.not_in']              = __('tours.sleepsNotIn');
+            $msgApp[ 'beds'.$j.'.*.required_without']      = __('tours.bedsRequiredWithout');
+            $msgApp[ 'dormitory'.$j.'.*.required_without'] = __('tours.dormsRequireWithout');
         }
 
         $messages =  [
             'no_cabins.required'           => __('tours.noOfCabinsRequired'),
             'no_cabins.not_in'             => __('tours.noOfCabinsNotIn'),
             'ind_tour_no.*.required'       => __('tours.individualTourNoRequired'),
-            'ind_notice.*.required'        => __('tours.individualNoticeRequired'),
             'tour_guide.*.required'        => __('tours.tourGuideRequired'),
-            'ind_tour_no.*.unique'         => __('tours.individualTourNoUnique')
+            'ind_tour_no.*.unique'         => __('tours.individualTourNoUnique'),
+            'ind_tour_no.*.max'            => __('tours.individualTourNoMax')
         ];
 
         $msg = array_merge($msgApp,$messages);

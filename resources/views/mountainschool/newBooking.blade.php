@@ -28,49 +28,53 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="box box-primary tourBookingFrm">
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <div class="box-header with-border">
-                            <h4 class="box-title"> @lang('mountainschool.nbBoxHeading')  </h4>
-                        </div>
-
-                        <div class="box-body" id="tourbox">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
-                                        <label>@lang('mountainschool.lblTourName') <span class="required">*</span></label>
-                                        <select class="form-control" id="tour_name" name="tour_name">
-                                            <option value="">@lang('mountainschool.lblTourNamePH')</option>
-                                            @if(isset($tourList))
-                                                @foreach($tourList as $key => $type)
-                                                    <option value="{{ $type->_id  }}">{{ $type->tour_name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <span class="help-block"><strong>  {{ $errors->first('tour_name') }}</strong></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" id="cabindtls">
-                                <div class="col-md-6"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="box-footer">
+            <form role="form" method="post" id="tourBookingFrm" name="tourBookingFrm">
+                <div class="box box-primary">
                     <div class="row">
                         <div class="col-md-12">
-                            {{--<button type="button" class="btn btn-primary" name="duplicatingBooking" id="duplicatingBooking" data-loading-text="Loading..." value="duplicatingBooking"><i class="fa fa-fw fa-copy"></i>@lang('tours.btnDuplicatingBooking')</button>
-                            <button type="button" class="btn btn-primary " name="loadNew" id="loadNew" data-loading-text="Loading..." value="loadNew"><i class="fa fa-fw fa-table"></i>@lang('tours.btnNew')</button>--}}
-                            <button type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="Adding..." value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+
+                            <div class="box-header with-border">
+                                <h4 class="box-title"> @lang('mountainschool.nbBoxHeading')  </h4>
+                            </div>
+
+                            <div class="box-body" id="tourbox">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group {{ $errors->has('tour_name') ? ' has-error' : '' }}">
+                                            <label>@lang('mountainschool.lblTourName') <span class="required">*</span></label>
+                                            <select class="form-control" id="tour_name" name="tour_name">
+                                                <option value="">@lang('mountainschool.lblTourNamePH')</option>
+                                                @if(isset($tourList))
+                                                    @foreach($tourList as $key => $type)
+                                                        @if($type->tour_name != '')
+                                                            <option value="{{ $type->_id  }}">{{ $type->tour_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            <span class="help-block"><strong>  {{ $errors->first('tour_name') }}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="cabindtls">
+                                    <div class="col-md-6"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{--<button type="button" class="btn btn-primary" name="duplicatingBooking" id="duplicatingBooking" data-loading-text="Loading..." value="duplicatingBooking"><i class="fa fa-fw fa-copy"></i>@lang('tours.btnDuplicatingBooking')</button>
+                                <button type="button" class="btn btn-primary " name="loadNew" id="loadNew" data-loading-text="Loading..." value="loadNew"><i class="fa fa-fw fa-table"></i>@lang('tours.btnNew')</button>--}}
+                                <button style="display: none;" type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="loading..." value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
     </div>
     <!-- /.content-wrapper -->

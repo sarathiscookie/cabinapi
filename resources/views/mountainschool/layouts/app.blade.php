@@ -166,8 +166,8 @@
                     <a href="#"><i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
                     <ul class="treeview-menu">
-                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a></li>
+                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
                     </ul>
                 </li>
 
@@ -229,7 +229,7 @@
 
 <!-- To avoid conflict with jQuery UI -->
 <script>
-    $.fn.btnBootstrap = $.fn.button.noConflict();
+    //$.fn.btnBootstrap = $.fn.button.noConflict();
 </script>
 
 <!-- Slimscroll -->
