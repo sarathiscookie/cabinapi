@@ -14,8 +14,10 @@
     <!-- Styles -->
 <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 <style>
@@ -53,6 +55,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery-ui -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!-- Css for all modules -->
+    <link rel="stylesheet" href="{{ mix('/css/all.css') }}">
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
 
@@ -158,26 +166,26 @@
                     <a href="#"><i class="fa fa-table"></i> <span>@lang('menu.bookingMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
                     <ul class="treeview-menu">
-                        {{--<li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>--}}
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a></li>
+                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
                     </ul>
                 </li>
 
-                {{--<li class="treeview">
+                <li class="treeview">
                     <a href="#"><i class="fa fa-map-marker"></i> <span>@lang('menu.tourMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/tours/createtour"><i class="fa fa-circle-o"></i> @lang('menu.tourCreateMenu')</a></li>
                         <li><a href="/mountainschool/tours"><i class="fa fa-circle-o"></i> @lang('menu.tourListMenu')  <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->tourListCount() !!}</span></span></a></li>
                     </ul>
-                </li>--}}
+                </li>
                 <li class="treeview">
-                    {{--<a href="#">
+                    <a href="#">
                         <i class="fa fa fa-user"></i> <span>@lang('menu.myDataMenu')</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
-                    </a>--}}
+                    </a>
                     {{--<ul class="treeview-menu">
                         <li><a href="/mountainschool/mydata"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a></li>
                     </ul>
@@ -219,11 +227,21 @@
 
 @yield('scripts')
 
+<!-- To avoid conflict with jQuery UI -->
+<script>
+    //$.fn.btnBootstrap = $.fn.button.noConflict();
+</script>
+
 <!-- Slimscroll -->
 <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+
 <!-- FastClick -->
 <script src="{{ asset('plugins/fastclick/fastclick.js') }}"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset('js/app.min.js') }}"></script>
+
+<!-- Js for all modules -->
+<script src="{{ mix('js/all.js') }}"></script>
 </body>
 </html>

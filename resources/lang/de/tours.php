@@ -45,7 +45,7 @@ return [
     'lblCabinNamePH'                            => 'Hüttenname eingeben',
     'lblWebsite'                                => 'Webseite',
     'lblWebsitePH'                              => 'Webseiten url eingeben',
-    'CreateNewCabinLabel'                       => 'New Cabin',
+    'CreateNewCabinLabel'                       => 'Neue Hütte',
     'creatingLoader'                            => 'Creating...',
 
     'lblContactPerson'                          => 'Kontakt Person',
@@ -61,6 +61,9 @@ return [
     'sleeps'                                    => 'Schlafplätze',
     'sleepsPH'                                  => 'Schlafplätze Auswahl',
     'btnSave'                                   => 'Sichern',
+    'registeredCabin'                           => 'Buchbare Hütten',
+    'neighborCabin'                             => 'Nachbarhütten',
+    'createNewCabin'                            => 'Neue Hütte erstellen',
 
     /* Edit Tour */
     'editBoxHeading'                            => 'Tour bearbeiten',
@@ -151,5 +154,13 @@ return [
     'guestsRequired'                            => 'Anzahl der Gäste muss eingetragen sein.',
     'guestNotIn'                                => 'Anzahl der Gäste muss eingetragen sein.',
     'checkInRequired'                           => 'Anreisetag muss eingetragen sein.',
+    'checkOutRequired'                          => 'Abreisetag muss eingetragen sein.',
     'daysRequired'                              => 'Tage müssen eingetragen werden.',
+
+    'sleepsRequired'                            => 'Ein Schlafplatz erforderlich.',
+    'sleepsNotIn'                               => 'Das ausgewählte Schlafplätzen ist nicht verfügbar.',
+    'bedsRequiredWithout'                       => 'Betten auswählen, falls kein Lager ausgewählt ist.',
+    'dormsRequireWithout'                       => 'Lager auswählen, falls kein Bett ausgewählt ist.',
+    'individualTourNoMax'                       => 'Das Tournummer darf nicht länger als :max Zeichen sein.',
+    'dateGreater'                               => 'Ankunftsdatum muss vor dem Abreisedatum liegen.',
 ];
