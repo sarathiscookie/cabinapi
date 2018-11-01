@@ -14,8 +14,6 @@ const { mix } = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .version();
-<<<<<<< HEAD
-=======
 
 /* Js and css for each page */
 mix.styles([
@@ -27,4 +25,3 @@ mix.scripts([
     'resources/assets/js/calendar.js',
     'resources/assets/js/msNewBooking.js'
 ], 'public/js/all.js').version();
->>>>>>> 6c2ea07335eaf411cd510e02b840c616b032c8c1
