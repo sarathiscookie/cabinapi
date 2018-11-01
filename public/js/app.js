@@ -722,11 +722,8 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-<<<<<<< HEAD
-     require("vue-hot-reload-api").rerender("data-v-ea444b34", module.exports)
-=======
+    // require("vue-hot-reload-api").rerender("data-v-ea444b34", module.exports)
      require("vue-hot-reload-api").rerender("data-v-0454b0d6", module.exports)
->>>>>>> 6c2ea07335eaf411cd510e02b840c616b032c8c1
   }
 }
 
