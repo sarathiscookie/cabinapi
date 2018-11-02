@@ -77,6 +77,10 @@
                             <a href="/cabinowner/bookings" class="btn btn-primary btn-flat">
                                 @lang('cabinowner.dashboard')
                             </a>
+                        @elseif(Auth::user()->usrlId === 6)
+                            <a href="/mountainschool/bookings" class="btn btn-primary btn-flat">
+                                @lang('cabinowner.dashboard')
+                            </a>
                         @endif
                         <a href="{{ route('logout') }}" class="btn btn-primary btn-flat"
                            onclick="event.preventDefault();

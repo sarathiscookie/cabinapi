@@ -1,8 +1,16 @@
 $(function () {
+    /* Checking for the CSRF token */
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     /* Calendar availability check begin */
     $("body").on("mousedown", ".checkInCls", function() {
         var dataId          = $(this).parent().parent().parent().data("id");
         var $this           = $("#check_in"+dataId);
+        var cabinId         = $(this).parent().parent().parent().data("cabinid");
         var returnResult    = [];
         var holidayDates    = $(".holiday"+dataId).data("holiday");
         var greenDates      = $(".green"+dataId).data("green");
@@ -44,7 +52,7 @@ $(function () {
                 url: '/mountainschool/calendar/ajax',
                 dataType: 'JSON',
                 type: 'POST',
-                data: { dateFrom: start_date, dataId: dataId },
+                data: { dateFrom: start_date, cabinId: cabinId },
                 success: function (response) {
                     for (var i = 0; i < response.holidayDates.length; i++) {
                         holidayDates.push(response.holidayDates[i]);
@@ -97,6 +105,7 @@ $(function () {
     $("body").on("mousedown", ".checkOutCls", function() {
         var dataId          = $(this).parent().parent().parent().data("id");
         var $this           = $("#check_out"+dataId);
+        var cabinId         = $(this).parent().parent().parent().data("cabinid");
         var returnResults   = [];
 
         var holidayDates    = $(".holiday"+dataId).data("holiday");
@@ -127,7 +136,7 @@ $(function () {
                 url: '/mountainschool/calendar/ajax',
                 dataType: 'JSON',
                 type: 'POST',
-                data: { dateFrom: start_date, dataId: dataId },
+                data: { dateFrom: start_date, cabinId: cabinId },
                 success: function (response) {
                     for (var i = 0; i < response.holidayDates.length; i++) {
                         holidayDates.push(response.holidayDates[i]);
@@ -177,10 +186,4 @@ $(function () {
         $this.datepicker("show");
 
     });
-    // ovelayLoading('add', 'tourbox');
-    // url: '/mountainschool/checkAvailability',
-    // $('#hidProceed').val('valSuccess');
-    // ovelayLoading('remove');
-
-
 });

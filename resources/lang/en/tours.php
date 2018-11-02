@@ -61,7 +61,11 @@ return [
     'sleeps'                                    => 'Sleeps',
     'sleepsPH'                                  => 'Choose Sleeps',
     'btnSave'                                   => 'Save',
+    'registeredCabin'                           => 'Bookable cabins',
+    'neighborCabin'                             => 'Neighbor Cabins',
+    'createNewCabin'                            => 'Create a new cabin',
 
+    /* Edit Tour */
     /* Edit Tour */
     'editBoxHeading'                            => 'Edit Tour',
 
@@ -151,5 +155,13 @@ return [
     'guestsRequired'                            => 'No of Guest field is required.',
     'guestNotIn'                                => 'No of Guest field is required.',
     'checkInRequired'                           => 'Check In field is required.',
+    'checkOutRequired'                          => 'Check Out field is required.',
     'daysRequired'                              => 'Days field is required.',
+
+    'sleepsRequired'                            => 'The sleeps field is required.',
+    'sleepsNotIn'                               => 'The selected :attribute is invalid.',
+    'bedsRequiredWithout'                       => 'The beds field is required when dormitory is not present.',
+    'dormsRequireWithout'                       => 'The dormitory field is required when beds is not present.',
+    'individualTourNoMax'                       => 'The tour no may not be greater than :max characters.',
+    'dateGreater'                               => 'Arrival date should be less than departure date.',
 ];

@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const { mix } = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,3 +14,14 @@ let mix = require('laravel-mix');
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .version();
+
+/* Js and css for each page */
+mix.styles([
+    'resources/assets/css/calendar.css',
+    'resources/assets/css/msNewBooking.css'
+], 'public/css/all.css').version();
+
+mix.scripts([
+    'resources/assets/js/calendar.js',
+    'resources/assets/js/msNewBooking.js'
+], 'public/js/all.js').version();
