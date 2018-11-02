@@ -167,25 +167,25 @@
 
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a></li>
-                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
+                        {{--<li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>--}}
                     </ul>
                 </li>
 
-                <li class="treeview">
+                {{--<li class="treeview">
                     <a href="#"><i class="fa fa-map-marker"></i> <span>@lang('menu.tourMenu')</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
 
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/tours/createtour"><i class="fa fa-circle-o"></i> @lang('menu.tourCreateMenu')</a></li>
                         <li><a href="/mountainschool/tours"><i class="fa fa-circle-o"></i> @lang('menu.tourListMenu')  <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->tourListCount() !!}</span></span></a></li>
                     </ul>
-                </li>
+                </li>--}}
                 <li class="treeview">
-                    <a href="#">
+                    {{--<a href="#">
                         <i class="fa fa fa-user"></i> <span>@lang('menu.myDataMenu')</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
-                    </a>
+                    </a>--}}
                     {{--<ul class="treeview-menu">
                         <li><a href="/mountainschool/mydata"><i class="fa fa-circle-o"></i> @lang('menu.myDataMenu')</a></li>
                     </ul>
@@ -194,9 +194,9 @@
                         <li><a href="/mountainschool/editpassword"><i class="fa fa-circle-o"></i> @lang('menu.changePwd')</a></li>
                     </ul>--}}
 
-                    <ul class="treeview-menu">
+                    {{--<ul class="treeview-menu">
                         <li><a href="/mountainschool/basicsettings"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
-                    </ul>
+                    </ul>--}}
                 </li>
 
             </ul>
