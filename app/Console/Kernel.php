@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('Bookings:cartCleanup')
-                 ->dailyAt('6:00');
+                 ->hourly();
     }
 
     /**

@@ -44,7 +44,7 @@ class CleanupBookingsInCart extends Command
         foreach ($bookings as $booking) {
             $hoursDiff = $booking->bookingdate->diffInHours(Carbon::now());
 
-            if ($hoursDiff > 72) {
+            if ($hoursDiff > 1) {
                 $booking->is_delete = 1;
                 $booking->save();
             }
