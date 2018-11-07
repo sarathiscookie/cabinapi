@@ -207,72 +207,75 @@ $(function(){
             type: "POST",
             url: url,
             data: $("form").serialize() + '&' + $.param({'formPart': $btn.val()}),
-            dataType: 'JSON',
-            success: function (data) {
+            dataType: 'JSON'
+        })
+            .done(function (data){
                 $btn.button('reset');
-                if (data.successMsg !== undefined) {
-                    var msgClass = 'alert-success';
-                    var msgText  = data.successMsg;
+                if (data.response === 'success') {
                     window.location.href = '/mountainschool/bookings';
                 }
-                else {
-                    var msgClass = 'alert-danger';
-                    var msgText = data.failureMsg;
-                }
+            })
+            .fail(function(data, jqxhr, textStatus, error) {
 
-                $(window).scrollTop(10);
+                if( data.status === 422 ) {
+                    var response     = JSON.parse(data.responseText);
+                    var bookingOrder = data.responseJSON.bookingOrder;
+                    if(response.error) {
+                        $( "#errors_"+bookingOrder ).show();
 
-                var msg = '<div id="flash" class="alert ' + msgClass + '"><button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>' + msgText + '</div>';
+                        errorsHtml = '<div class="alert alert-danger"><ul>';
+                        errorsHtml += '<li>' + response.error + '</li>';
+                        errorsHtml += '</ul></div>';
 
-                $("#tour_name").trigger("change");
+                        $( "#errors_"+bookingOrder ).html( errorsHtml );
 
-                $(msg).prependTo('#tourBookingFrm').fadeIn(100);
+                        $btn.button('reset');
+                    }
+                    else {
+                        $( "#errors_"+bookingOrder ).hide();
+                        var errData = data.responseJSON;
 
-                setTimeout(function () {
-                    $('#tourBookingFrm #flash').fadeOut()
-                }, 2000);
-            },
-            error: function (data, textStatus, errorThrown) { // What to do if we fail
-                if (data.status == 422) {
-                    var errData = data.responseJSON;
-                    $.each(errData, function (i, item) {
-                        var spliKey = i.split('.');
-                        var fname   = spliKey[0];
-                        $('input[name^="' + fname + '" ]').each(function (k, v) {
-                            if (spliKey[1] == k) {
-                                $(this).parent('.form-group').children('.help-block').html('<strong>' + item[0] + '</strong>');
-                                $(this).parent('.form-group').addClass('has-error');
-                            }
+                        $.each(errData, function (i, item) {
+                            var spliKey = i.split('.');
+                            var fname   = spliKey[0];
+                            $('input[name^="' + fname + '" ]').each(function (k, v) {
+                                if (spliKey[1] == k) {
+                                    $(this).parent('.form-group').children('.help-block').html('<strong>' + item[0] + '</strong>');
+                                    $(this).parent('.form-group').addClass('has-error');
+                                }
+                            });
+                            $('select[name^="' + fname + '" ]').each(function (k, v) {
+                                if (spliKey[1] == k) {
+                                    $(this).parent('.form-group').children('.help-block').html('<strong>' + item[0] + '</strong>');
+                                    $(this).parent('.form-group').addClass('has-error');
+                                }
+                            });
                         });
-                        $('select[name^="' + fname + '" ]').each(function (k, v) {
-                            if (spliKey[1] == k) {
-                                $(this).parent('.form-group').children('.help-block').html('<strong>' + item[0] + '</strong>');
-                                $(this).parent('.form-group').addClass('has-error');
-                            }
-                        });
-                    });
-                    $btn.button('reset');
+
+                        $btn.button('reset');
+                    }
                 }
-            }
-        });
+            });
     });
 
     // Choose tour name
-    $('#tour_name').change(function () {
-        ovelayLoading('add', 'tourbox');
-        var tourId = $('#tour_name').val();
-        $.ajax({
-            type: "GET",
-            url: '/mountainschool/tours/gettour/'+tourId,
-            success: function (data) {
-                ovelayLoading('remove');
-                $('#cabindtls').html(data);
-                $('#newBooking').show();
-            }
-        });
+    $('#tourname').change(function () {
+        var tourId = $('#tourname').val();
+        if(tourId != '') {
+            ovelayLoading('add', 'tourbox');
+            $.ajax({
+                type: "GET",
+                url: '/mountainschool/tours/gettour/'+tourId,
+                success: function (data) {
+                    ovelayLoading('remove');
+                    $('#cabindtls').html(data);
+                    $('#newBooking').show();
+                }
+            });
+        }
     });
 
-// Overlay after submit
+    // Overlay after submit
     function ovelayLoading(arg, appendDiv) {
         if (arg == 'add') {
             var overlay = jQuery('<div id="overlay"> </div>');
