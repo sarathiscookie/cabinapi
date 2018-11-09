@@ -2,7 +2,7 @@
 
     <div class="box box-default box-solid">
         <div class="box-header with-border">
-            <h3 class="box-title">@lang('mountainschool.tourDetails')     </h3>
+            <h3 class="box-title">@lang('mountainschool.tourDetails')</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body ">

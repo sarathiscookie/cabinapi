@@ -42,6 +42,7 @@ return [
     'searchBoookingNo'                      => 'Search Booking No ',
     'searchFirstName'                       => 'Search First Name',
     'searchLastName'                        => 'Search Last Name',
+    'searchCabinName'                       => 'Search Cabin Name',
     'SearchEmail'                           => 'Search E-Mail',
     'SearchStatus'                          => 'Select Status',
     'bookingFix'                            => 'Fix',
