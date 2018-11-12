@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Bmessages;
 use App\MountSchoolBooking;
 use App\Userlist;
+use App\Cabin;
 
 use Auth;
 
@@ -19,7 +20,6 @@ class BookingController extends Controller
      */
     public function index()
     {
-
         return view('mountainschool.bookings');
     }
 
@@ -33,15 +33,16 @@ class BookingController extends Controller
     {
         $params        = $request->all();
         $columns       = array(
-            1 => 'invoice_number',
-            2 => 'ind_tour_no',
-            3 => 'cabin_name',
-            4 => 'check_in',
-            5 => 'reserve_to',
-            6 => 'beds',
-            7 => 'dormitory',
-            8 => 'sleeps',
-            9 => 'status'
+            1  => 'invoice_number',
+            2  => 'ind_tour_no',
+            3  => 'cabin_name',
+            4  => 'check_in',
+            5  => 'reserve_to',
+            6  => 'beds',
+            7  => 'dormitory',
+            8  => 'sleeps',
+            9  => 'status',
+            10 => 'edit'
         );
 
         $totalData     = MountSchoolBooking::where('is_delete', 0)
@@ -217,13 +218,20 @@ class BookingController extends Controller
                 $booking->checkin_to         = $reserve_to;
                 $booking->bookingStatusLabel = $bookingStatustxt;
 
-                $view                        =  view('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
-                $popup_contents              = (string)$view;
-                $invoiceNumber_comment       = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $popup_contents . '</div></div></div>';
+                // Modal for booking details
+                $details_view                = view('mountainschool.msbookingdetailspopup', ['booking' => $booking]);
+                $details_contents            = (string) $details_view;
 
+                $details_modal               = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $details_contents . '</div></div></div>';
+
+                // Edit booking
+                $edit_button                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+
+                // Data table contents
+                $invoiceNumber_comment        = $details_modal;
                 $checkbox                     = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 $nestedData['hash']           = $checkbox;
-                $nestedData['invoice_number'] = $invoiceNumber_comment  ;
+                $nestedData['invoice_number'] = $invoiceNumber_comment;
                 $nestedData['ind_tour_no']    = $ind_tour_no;
                 $nestedData['cabin_name']     = $booking->cabin_name;
                 $nestedData['check_in']       = $checkin_from;
@@ -232,6 +240,7 @@ class BookingController extends Controller
                 $nestedData['dormitory']      = $dormitory;
                 $nestedData['sleeps']         = $sleeps;
                 $nestedData['status']         = $bookingStatusLabel;
+                $nestedData['edit']           = $edit_button;
                 $data[]                       = $nestedData;
             }
 
@@ -271,17 +280,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -289,7 +287,15 @@ class BookingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $booking = MountSchoolBooking::find($id);
+        $cabins  = Cabin::get();
+        $cabin   = Cabin::where('name', $booking->cabin_name)->first();
+
+        return view('mountainschool.bookings.edit', [
+            'booking' => $booking,
+            'cabins'  => $cabins,
+            'cabin'   => $cabin
+        ]);
     }
 
     /**
@@ -301,7 +307,7 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return request()->all();
     }
 
     /**

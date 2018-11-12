@@ -20,7 +20,7 @@ $(function(){
             data: $("form").serialize() + '&' + $.param({'formPart': $btn.val()}),
             dataType: 'JSON'
         })
-            .done(function (data){
+            .done(function (data) {
                 $btn.button('reset');
                 if (data.response === 'success') {
                     window.location.href = '/mountainschool/bookings';

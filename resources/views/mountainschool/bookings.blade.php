@@ -55,38 +55,38 @@
 
                             <table id="booking_data" class="table table-bordered table-striped table-hover">
                                 <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>@lang('mountainschool.bookingNumber')</th>
-                                    <th>@lang('mountainschool.indTourNumber')</th>
-                                    <th>@lang('mountainschool.cabinname')</th>
-                                    <th>@lang('mountainschool.from')</th>
-                                    <th>@lang('mountainschool.to')</th>
-                                    <th>@lang('mountainschool.beds')</th>
-                                    <th>@lang('mountainschool.dorms')</th>
-                                    <th>@lang('mountainschool.sleeps')</th>
-                                    <th>@lang('mountainschool.status')</th>
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@lang('mountainschool.bookingNumber')</th>
+                                        <th>@lang('mountainschool.indTourNumber')</th>
+                                        <th>@lang('mountainschool.cabinname')</th>
+                                        <th>@lang('mountainschool.from')</th>
+                                        <th>@lang('mountainschool.to')</th>
+                                        <th>@lang('mountainschool.beds')</th>
+                                        <th>@lang('mountainschool.dorms')</th>
+                                        <th>@lang('mountainschool.sleeps')</th>
+                                        <th>@lang('mountainschool.status')</th>
+                                        <th>@lang('mountainschool.edit')</th>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchBoookingNo')"></th>
+                                        <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchIndTourNo')"></th>
+                                        <th colspan="6"><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchCabinName')"></th>
+                                        <th>
+                                            <select class="form-control input-sm search-input" id="8">
+                                                <option value="">(@lang('mountainschool.SearchStatus'))</option>
+                                                <option value="1">@lang('mountainschool.bookingFix')</option>
+                                                <option value="2">@lang('mountainschool.cancelled')</option>
+                                                <option value="3">@lang('mountainschool.completed')</option>
+                                                <option value="4">@lang('mountainschool.request')</option>
+                                                <option value="5">@lang('mountainschool.bookingWaiting')</option>
+                                            </select>
+                                        </th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody></tbody>
-                                <tfoot>
-                                <tr>
-                                    <td></td>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchBoookingNo')"></th>
-                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchIndTourNo')"></th>
-                                    <th colspan="6"><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchCabinName')"></th>
-                                    <td>
-                                        <select class="form-control input-sm search-input" id="8">
-                                            <option value="">(@lang('mountainschool.SearchStatus'))</option>
-                                            <option value="1">@lang('mountainschool.bookingFix')</option>
-                                            <option value="2">@lang('mountainschool.cancelled')</option>
-                                            <option value="3">@lang('mountainschool.completed')</option>
-                                            <option value="4">@lang('mountainschool.request')</option>
-                                            <option value="5">@lang('mountainschool.bookingWaiting')</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                </tfoot>
                             </table>
                             <!-- Export buttons are append here -->
                             <div class="panel-body">
@@ -147,6 +147,7 @@
                 booking_data = $('#booking_data').DataTable({
                     "lengthMenu": [10, 50, 100, 250, 500],
                     "order": [[ 1, "desc" ]],
+                    "bSortCellsTop": true,
                     "processing": true,
                     "serverSide": true,
                     "ajax": {
@@ -165,12 +166,13 @@
                         { "data": "beds" },
                         { "data": "dormitory" },
                         { "data": "sleeps" },
-                        { "data": "status" }
+                        { "data": "status" },
+                        { "data": "edit" }
                     ],
                     "columnDefs": [
                         {
                             "orderable": false,
-                            "targets": [0, 3, 4, 5, 6, 7, 8]
+                            "targets": [0, 3, 4, 5, 6, 7, 8, 10]
                         }
                     ],
                     "language": {

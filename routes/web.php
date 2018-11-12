@@ -668,6 +668,12 @@ Route::get('/', function () {
         /* new booking */
         Route::get('/bookings/create', 'Mountainschool\TourController@createTourNewBooking');
 
+        /* edit booking */
+        Route::get('/bookings/edit/{id}', 'Mountainschool\BookingController@edit')->name('mountainschool.bookings.edit');
+
+        /* update booking */
+        Route::post('/bookings/update/{id}', 'Mountainschool\BookingController@update')->name('mountainschool.bookings.update');
+
         /* get tours for  booking */
         Route::get('/tours/gettour/{id}', 'Mountainschool\TourController@getTourForBooking');
 
