@@ -1496,39 +1496,4 @@ class TourController extends Controller
 
         dd($msBookings);*/
     }
-    /**
-     * basicSettings
-     *
-     * @param Request
-     * @return \Illuminate\Http\Response
-     */
-    public function basicSettings()
-    {
-        $basic_settings = Settings::where('is_delete', 0)
-            ->where('user_id', Auth::user()->_id)
-            ->first();
-
-        return view('mountainschool.settings.index', ['basicSettings' => $basic_settings]);
-    }
-
-    /**
-     * Update basic settings
-     *
-     * @param Request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateBasicSettings(TourRequest $request)
-    {
-        if($request->has('updateBasicSettings')) {
-            Settings::updateOrCreate(
-                ['user_id' => Auth::user()->_id, 'is_delete' => 0],
-                ['contact_person' => $request->contact_person, 'no_guides' => (int)$request->no_guides, 'half_board' => $request->half_board, 'beds' => (int)$request->beds, 'dorms' => (int)$request->dorms, 'sleeps' => (int)$request->sleeps, 'guests' => (int)$request->guests]
-            );
-
-            return redirect()->back()->with('success', __('tours.successMsgbsUpt'));
-        }
-        else {
-            abort(404);
-        }
-    }
 }

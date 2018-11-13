@@ -25,6 +25,7 @@ return [
     'edit.form.beds'            => "Beds Number",
     'edit.form.sleeps'          => "Sleeps Number",
     'edit.form.dorms'           => "Dormitories Number",
+    'edit.form.halfboard'       => "Half Board Available",
     'edit.form.save'            => "Save",
 
     // Notices

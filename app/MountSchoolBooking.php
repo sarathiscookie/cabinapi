@@ -76,6 +76,10 @@ class MountSchoolBooking extends Eloquent
             $this->dormitory = (string) $request->dorms;
         }
 
+        if ($request->has('halfboard')) {
+            $this->halfboard = "1";
+        }
+
         // Save the records in the database
         $this->save();
     }

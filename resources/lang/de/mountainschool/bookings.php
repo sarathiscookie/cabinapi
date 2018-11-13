@@ -25,6 +25,7 @@ return [
     'edit.form.beds'                => "Betten Anzahl",
     'edit.form.sleeps'              => "Übernachtungen Anzahl",
     'edit.form.dorms'               => "Schlafzimmer Anzahl",
+    'edit.form.halfboard'           => "Halbpension",
     'edit.form.save'                => "Speichern",
 
     // Notices
