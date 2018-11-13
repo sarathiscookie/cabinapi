@@ -195,7 +195,7 @@
                     </ul>--}}
 
                     <ul class="treeview-menu">
-                        <li><a href="/mountainschool/basicsettings"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
+                        <li><a href="{{ route('mountainschool.settings.edit') }}"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
                     </ul>
                 </li>
 

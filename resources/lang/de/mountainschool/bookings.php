@@ -13,15 +13,22 @@ return [
     */
 
     // Page
-    'edit.title'            => "Buchung bearbeiten",
+    'edit.title'                    => "Buchung bearbeiten",
 
     // Forms
-    'edit.form.tour_name'   => "Tour Name",
-    'edit.form.tour_number' => "Tournummer",
-    'edit.form.cabin_name'  => "Hüttenname",
-    'edit.form.check_in'    => "Buchungsdatum",
-    'edit.form.beds'        => "Betten Anzahl",
-    'edit.form.sleeps'      => "Übernachtungen Anzahl",
-    'edit.form.dorms'       => "Schlafzimmer Anzahl",
-    'edit.form.save'        => "Speichern",
+    'edit.form.booking_number'      => "Buchungs-Nr.",
+    'edit.form.tour_number'         => "Tournummer",
+    'edit.form.cabin_name'          => "Hüttenname",
+    'edit.form.check_in'            => "Buchungsdatum",
+    'edit.form.guides'              => "Anzahl Bergführer",
+    'edit.form.guests'              => "Anzahl Gäste",
+    'edit.form.beds'                => "Betten Anzahl",
+    'edit.form.sleeps'              => "Übernachtungen Anzahl",
+    'edit.form.dorms'               => "Schlafzimmer Anzahl",
+    'edit.form.save'                => "Speichern",
+
+    // Notices
+    'notice.save'                   => "Buchung wurde erfolgreich gespeichert",
+    'notice.updated'                => "Buchung wurde erfolgreich aktualisiert",
+    'notice.destroy'                => "Buchung wurde erfolgreich entfernt"
 ];

@@ -8,8 +8,9 @@ use App\Bmessages;
 use App\MountSchoolBooking;
 use App\Userlist;
 use App\Cabin;
-
+use DateTime;
 use Auth;
+use \App\Http\Requests\Mountainschool\BookingRequest as BookingRequest;
 
 class BookingController extends Controller
 {
@@ -305,9 +306,13 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookingRequest $request, $id)
     {
-        return request()->all();
+        $booking = MountSchoolBooking::where('_id', new \MongoDB\BSON\ObjectID($id))->first();
+
+        $booking->handleRequest($request);
+
+        return redirect(route('mountainschool.bookings'))->with('message', __('mountainschool/bookings.notice.update'));
     }
 
     /**
@@ -318,6 +323,10 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $booking = MountSchoolBooking::where('_id', new \MongoDB\BSON\ObjectID($id))->first();
+
+        $booking->handleDestroyRequest();
+
+        return redirect(route('mountainschool.bookings'))->with('message', __('mountainschool/bookings.notice.destroy'));
     }
 }

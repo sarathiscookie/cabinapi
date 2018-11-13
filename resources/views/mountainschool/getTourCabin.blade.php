@@ -30,7 +30,7 @@
                         <div class="col-md-4">
                             <div class="form-group {{ $errors->has('tour_guide') ? ' has-error' : '' }}">
                                 <label>@lang('tours.lblContactPerson')<span class="required">*</span></label>
-                                <input type="text" class="form-control " id="tour_guide" name="tour_guide[]" placeholder="@lang('mountainschool.lblMountainGuidesPH')" value="{{old('tour_guide' ,$tour->basic_settings->contact_person )}}" maxlength="255">
+                                <input type="text" class="form-control " id="tour_guide" name="tour_guide" placeholder="@lang('mountainschool.lblMountainGuidesPH')" value="{{old('tour_guide' ,$tour->basic_settings->contact_person )}}" maxlength="255">
                                 <span class="help-block"><strong>{{ $errors->first('tour_guide') }}</strong></span>
                             </div>
                         </div>

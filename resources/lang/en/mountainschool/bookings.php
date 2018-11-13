@@ -13,15 +13,22 @@ return [
     */
 
     // Page
-    'edit.title'            => "Edit Booking",
+    'edit.title'                => "Edit Booking",
 
     // Forms
-    'edit.form.tour_name'   => "Tour Name",
-    'edit.form.tour_number' => "Tour Number",
-    'edit.form.cabin_name'  => "Cabin Name",
-    'edit.form.check_in'    => "Booking Dates",
-    'edit.form.beds'        => "Beds Number",
-    'edit.form.sleeps'      => "Sleeps Number",
-    'edit.form.dorms'       => "Dormitories Number",
-    'edit.form.save'        => "Save",
+    'edit.form.booking_number'  => "Booking Number",
+    'edit.form.tour_number'     => "Tour Number",
+    'edit.form.cabin_name'      => "Cabin Name",
+    'edit.form.check_in'        => "Booking Dates",
+    'edit.form.guides'          => "Guides Number",
+    'edit.form.guests'          => "Guests Number",
+    'edit.form.beds'            => "Beds Number",
+    'edit.form.sleeps'          => "Sleeps Number",
+    'edit.form.dorms'           => "Dormitories Number",
+    'edit.form.save'            => "Save",
+
+    // Notices
+    'notice.save'               => "Booking was successfully saved",
+    'notice.updated'            => "Booking was successfully updated",
+    'notice.destroy'            => "Booking was successfully removed"
 ];

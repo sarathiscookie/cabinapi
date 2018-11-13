@@ -1508,7 +1508,7 @@ class TourController extends Controller
             ->where('user_id', Auth::user()->_id)
             ->first();
 
-        return view('mountainschool.basicSettings', ['basicSettings' => $basic_settings]);
+        return view('mountainschool.settings.index', ['basicSettings' => $basic_settings]);
     }
 
     /**

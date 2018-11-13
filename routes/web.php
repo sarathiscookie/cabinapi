@@ -728,9 +728,9 @@ Route::get('/', function () {
         // Route::get('/duplicatingBooking', 'Mountainschool\TourController@duplicatingBooking') ;
         /* Basic settings Tour */
 
-        Route::get('/basicsettings', 'Mountainschool\TourController@basicSettings');
+        Route::get('/settings/edit', 'Mountainschool\SettingsController@edit')->name('mountainschool.settings.edit');
 
         /* Settings update */
-        Route::post('/updateBasicSettings', 'Mountainschool\TourController@updateBasicSettings')->name('mountainschool.updatebasicsettings');
+        Route::post('/settings/update', 'Mountainschool\SettingsController@update')->name('mountainschool.settings.update');
     });
  });

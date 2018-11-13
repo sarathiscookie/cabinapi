@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Mountainschool;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MountSchoolBookingsRequest extends FormRequest
+class BookingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class MountSchoolBookingsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

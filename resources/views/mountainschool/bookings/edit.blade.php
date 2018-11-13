@@ -42,12 +42,13 @@
                         <div class="col-md-6">
                             <div class="form-group {{ $errors->has('booking_number') ? ' has-error' : '' }}">
                                 <label>
-                                    {{ __('mountainschool/bookings.edit.form.tour_name') }} <span class="required">*</span>
+                                    {{ __('mountainschool/bookings.edit.form.booking_number') }} <span class="required">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="booking_number"
                                        name="booking_number"
                                        value="{{ old('booking_number', $booking->invoice_number) }}"
-                                       placeholder="test" maxlength="100">
+                                       readonly
+                                       maxlength="100">
                                 <span class="help-block"><strong>  {{ $errors->first('booking_number') }}</strong></span>
                             </div>
                         </div>
@@ -63,7 +64,8 @@
                                 <input type="text" class="form-control" id="tour_number"
                                        name="tour_number"
                                        value="{{ old('tour_number', $booking->ind_tour_no) }}"
-                                       placeholder="test" maxlength="100">
+                                       readonly
+                                       maxlength="100">
                                 <span class="help-block"><strong>  {{ $errors->first('tour_number') }}</strong></span>
                             </div>
                         </div>
@@ -76,28 +78,12 @@
                                 <label>
                                     {{ __('mountainschool/bookings.edit.form.cabin_name') }} <span class="required">*</span>
                                 </label>
-                                 <select id="tour_cabins" name="tour_cabins" class="form-control">
-                                    <option value="">@lang('tours.lblCabinPH')</option>
-                                    <optgroup label="@lang('tours.registeredCabin')">
-                                        @foreach($cabins as $Key => $val )
-                                            @if($val->other_cabin == '0')
-                                                <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </optgroup>
-
-                                    <optgroup label="@lang('tours.neighborCabin')">
-                                        @foreach($cabins  as $Key => $val )
-                                            @if($val->other_cabin == '1')
-                                                <option value="{{$val->name}}">{{$val->name}}</option>
-                                            @endif
-                                        @endforeach
-                                    </optgroup>
-
-                                    <optgroup label="@lang('tours.createNewCabin')">
-                                        <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
-                                    </optgroup>
-                                </select>
+                                <input type="text"
+                                       name="cabin_name"
+                                       class="form-control"
+                                       value="{{ old('cabin_name', $booking->cabin_name) }}"
+                                       readonly
+                                >
                             </div>
                         </div>
                     </div>
@@ -110,7 +96,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="calendar" data-id="1" data-cabinid="{{ $cabin['_id'] }}">
+                            <div class="calendar row" data-id="1" data-cabinid="{{ $cabin['_id'] }}">
                                 <div class="holiday1" data-holiday="{{ $calendar[0] }}"></div>
                                 <div class="green1" data-green="{{ $calendar[1] }}"></div>
                                 <div class="orange1" data-orange="{{ $calendar[2] }}"></div>
@@ -125,7 +111,7 @@
                                                    class="form-control checkInCls"
                                                    id="check_in1"
                                                    name="check_in1[]"
-                                                   placeholder="{{ old('check_in', $booking->check_in->format('d.m.y')) }}"
+                                                   value="{{ old('check_in', $booking->check_in->format('d.m.y')) }}"
                                                    readonly
                                                    autocomplete="off"
                                             >
@@ -141,7 +127,7 @@
                                                    class="form-control checkOutCls"
                                                    id="check_out1"
                                                    name="check_out1[]"
-                                                   placeholder="{{ old('check_out', $booking->reserve_to->format('d.m.y')) }}"
+                                                   value="{{ old('check_out', $booking->reserve_to->format('d.m.y')) }}"
                                                    readonly
                                                    autocomplete="off"
                                             >
@@ -153,53 +139,87 @@
                         </div>
                     </div>
 
-                    {{-- Beds Number --}}
+                    {{-- Guides Number --}}
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
+                            <div class="form-group {{ $errors->has('guides') ? ' has-error' : '' }}">
                                 <label>
-                                    {{ __('mountainschool/bookings.edit.form.beds') }} <span class="required">*</span>
+                                    {{ __('mountainschool/bookings.edit.form.guides') }} <span class="required">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="beds"
-                                       name="beds"
-                                       value="{{ $booking->beds ? old('beds', $booking->beds) : 0 }}"
+                                <input type="text" class="form-control" id="guides"
+                                       name="guides"
+                                       value="{{ $booking->no_guides ? old('guides', $booking->no_guides) : 0 }}"
                                        maxlength="100">
-                                <span class="help-block"><strong>  {{ $errors->first('beds') }}</strong></span>
+                                <span class="help-block"><strong>  {{ $errors->first('guides') }}</strong></span>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Dorms Number --}}
+                    {{-- Guests Number --}}
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group {{ $errors->has('dorms') ? ' has-error' : '' }}">
+                            <div class="form-group {{ $errors->has('guests') ? ' has-error' : '' }}">
                                 <label>
-                                    {{ __('mountainschool/bookings.edit.form.dorms') }} <span class="required">*</span>
+                                    {{ __('mountainschool/bookings.edit.form.guests') }} <span class="required">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="dorms"
-                                       name="dorms"
-                                       value="{{ $booking->dormitory ? old('dorms', $booking->dormitory) : 0 }}"
+                                <input type="text" class="form-control" id="guests"
+                                       name="guests"
+                                       value="{{ $booking->guests ? old('guests', $booking->guests) : 0 }}"
                                        maxlength="100">
-                                <span class="help-block"><strong>  {{ $errors->first('dorms') }}</strong></span>
+                                <span class="help-block"><strong>  {{ $errors->first('guests') }}</strong></span>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Sleeps Number --}}
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
-                                <label>
-                                    {{ __('mountainschool/bookings.edit.form.sleeps') }} <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="sleeps"
-                                       name="sleeps"
-                                       value="{{ $booking->sleeps ? old('sleeps', $booking->sleeps) : 0 }}"
-                                       maxlength="100">
-                                <span class="help-block"><strong>  {{ $errors->first('sleeps') }}</strong></span>
+                    @if ($cabin->sleeping_place)
+                        {{-- Sleeps Number --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
+                                    <label>
+                                        {{ __('mountainschool/bookings.edit.form.sleeps') }} <span class="required">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="sleeps"
+                                           name="sleeps"
+                                           value="{{ $booking->sleeps ? old('sleeps', $booking->sleeps) : 0 }}"
+                                           maxlength="100">
+                                    <span class="help-block"><strong>  {{ $errors->first('sleeps') }}</strong></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        {{-- Beds Number --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
+                                    <label>
+                                        {{ __('mountainschool/bookings.edit.form.beds') }} <span class="required">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="beds"
+                                           name="beds"
+                                           value="{{ $booking->beds ? old('beds', $booking->beds) : 0 }}"
+                                           maxlength="100">
+                                    <span class="help-block"><strong>  {{ $errors->first('beds') }}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Dorms Number --}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('dorms') ? ' has-error' : '' }}">
+                                    <label>
+                                        {{ __('mountainschool/bookings.edit.form.dorms') }} <span class="required">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="dorms"
+                                           name="dorms"
+                                           value="{{ $booking->dormitory ? old('dorms', $booking->dormitory) : 0 }}"
+                                           maxlength="100">
+                                    <span class="help-block"><strong>  {{ $errors->first('dorms') }}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="box-footer">
