@@ -1,4 +1,3 @@
-
 <form role="form" method="post" action="{{ route('admin.cabinlite.season.store') }}" id="frmseasoncreate">
 
 <div class="col-md-12">
@@ -21,7 +20,7 @@
                     for($i = $firstYear; $i <= $lastYear; $i++)
                     {
                     ?>
-                    <option value="{{$i}}" @if(old('summerSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
+                       <option value="{{$i}}" @if(old('summerSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
                     <?php
                     }
                     ?>
@@ -173,7 +172,7 @@
                     for($i = $firstYear; $i <= $lastYear; $i++)
                     {
                     ?>
-                    <option value="{{$i}}" @if(old('winterSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
+                       <option value="{{$i}}" @if(old('winterSeasonYear') == $i) selected="selected" @endif>{{$i}}</option>
                     <?php
                     }
                     ?>
@@ -310,14 +309,10 @@
         <div class="col-md-12" style="text-align: center">
             <input type="hidden" name="summerSeason" value="1">
             <input type="hidden" name="winterSeason" value="1">
-            <input type="hidden" name="cabin_id"  value="{{$cabin->_id}}" >
-            <button type="button" class="btn btn-primary"  id="storeSeason"  name="storeSeason" value="storeSeason">
-                <i
-                        class="fa fa-fw fa-save"></i>@lang('cabins.btnSave')            </button>
-            <button type="button" class="btn btn-primary   "  id="listSeason" >
-                @lang('cabins.btnBack')            </button></div>
+            <input type="hidden" name="cabin_id"  value="{{$cabin->_id}}">
+            <button type="button" class="btn btn-primary" id="listSeason">@lang('cabins.btnBack')</button>
+            <button type="button" class="btn btn-primary" id="storeSeason" name="storeSeason" value="storeSeason"><i class="fa fa-fw fa-save"></i>@lang('cabins.btnSave')</button>
+        </div>
     </div>
-
 </div>
-
 </form>

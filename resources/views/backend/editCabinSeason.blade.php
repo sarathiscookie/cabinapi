@@ -7,7 +7,6 @@
                     <div class="col-md-12">
                         <div class="box box-default box-solid">
 
-
                             @if (session('failure'))
                                 <div class="alert alert-danger">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -19,27 +18,23 @@
 
                             <div class="statusResponse"></div>
 
-                            <form role="form" method="post" action="{{ route('admin.cabinlite.season.summer.update') }}"
-                                  id="frmseasonedit">
-                                {{ csrf_field() }}
+                            <form role="form" method="post" id="frmseasonedit">
+                                {{csrf_field()}}
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('summerSeasonYear') ? ' has-error' : '' }}">
-                                                <label>@lang('cabins.summerSeasonChooseSeasonLabel') <span
-                                                            class="required">*</span></label>
+                                                <label>@lang('cabins.summerSeasonChooseSeasonLabel') <span class="required">*</span></label>
 
-                                                <select class="form-control" name="summerSeasonYear"
-                                                        id="summerSeasonYearUpt">
+                                                <select class="form-control" name="summerSeasonYear" id="summerSeasonYearUpt">
                                                     <option value="0">@lang('cabins.summerSeasonChooseSeasonSelect')</option>
                                                     <?php
                                                     $firstYear = (int)date('Y');
-                                                    $lastYear = (int)date('Y', strtotime('+2 year'));
+                                                    $lastYear  = (int)date('Y', strtotime('+2 year'));
                                                     for($i = $firstYear; $i <= $lastYear; $i++)
                                                     {
                                                     ?>
-                                                    <option value="{{$i}}"
-                                                            @if($summerSeason->summerSeasonYear == $i || old('summerSeason') == $i) selected="selected" @endif>{{$i}}</option>
+                                                      <option value="{{$i}}" @if($summerSeason->summerSeasonYear == $i || old('summerSeason') == $i) selected="selected" @endif>{{$i}}</option>
                                                     <?php
                                                     }
                                                     ?>
@@ -52,8 +47,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('summerSeasonStatus') ? ' has-error' : '' }}">
-                                                <label>@lang('cabins.summerSeasonChooseStatusLabel') <span
-                                                            class="required">*</span></label>
+                                                <label>@lang('cabins.summerSeasonChooseStatusLabel') <span class="required">*</span></label>
 
                                                 <select class="form-control" name="summerSeasonStatus">
                                                     <option value="0">@lang('cabins.summerSeasonChooseStatusSelect')</option>
@@ -166,30 +160,22 @@
                                                             title="Sollte Ihre Hütte an bestimmten Tagen geschlossen sein, dann wählen Sie bitte den entsprechenden Tag aus. (Sollten Sie z.B. Montag auswählen, so sind keine Übernachtungen von Montag auf Dienstag möglich)."></i></label>
                                                 <div>
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_mon" name="summer_mon"
-                                                               value="1"
-                                                               @if($summerSeason->summer_mon == 1 || old('summer_mon') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_mon" name="summer_mon" value="1" @if($summerSeason->summer_mon == 1 || old('summer_mon') == 1) checked @endif>
                                                         @lang('cabins.mondaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_tue" name="summer_tue"
-                                                               value="1"
-                                                               @if($summerSeason->summer_tue == 1 || old('summer_tue') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_tue" name="summer_tue" value="1" @if($summerSeason->summer_tue == 1 || old('summer_tue') == 1) checked @endif>
                                                         @lang('cabins.tuesdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_wed" name="summer_wed"
-                                                               value="1"
-                                                               @if($summerSeason->summer_wed == 1 || old('summer_wed') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_wed" name="summer_wed" value="1" @if($summerSeason->summer_wed == 1 || old('summer_wed') == 1) checked @endif>
                                                         @lang('cabins.wednesdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_thu" name="summer_thu"
-                                                               value="1"
-                                                               @if($summerSeason->summer_thu == 1 || old('summer_thu') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_thu" name="summer_thu" value="1" @if($summerSeason->summer_thu == 1 || old('summer_thu') == 1) checked @endif>
                                                         @lang('cabins.thursdaySht')
                                                     </label>
 
@@ -201,16 +187,12 @@
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_sat" name="summer_sat"
-                                                               value="1"
-                                                               @if($summerSeason->summer_sat == 1 || old('summer_sat') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_sat" name="summer_sat" value="1" @if($summerSeason->summer_sat == 1 || old('summer_sat') == 1) checked @endif>
                                                         @lang('cabins.saturdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="summer_sun" name="summer_sun"
-                                                               value="1"
-                                                               @if($summerSeason->summer_sun == 1 || old('summer_sun') == 1) checked @endif>
+                                                        <input type="checkbox" id="summer_sun" name="summer_sun" value="1" @if($summerSeason->summer_sun == 1 || old('summer_sun') == 1) checked @endif>
                                                         @lang('cabins.sundaySht')
                                                     </label>
                                                 </div>
@@ -224,14 +206,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <input type="hidden" name="summerSeasonId" value="{{$summerSeason->_id}}">
-                                            <button type="button" class="btn btn-primary pull-left listSeason"
-                                                    name="back" value="Back">@lang('cabins.btnBack')</button>
-
-
-                                            <button type="button" class="btn btn-primary pull-right"
-                                                    name="updateSummerSeason" id="updateSummerSeason"
-                                                    value="updateSummerSeason"><i
-                                                        class="fa fa-fw fa-save"></i>@lang('cabins.updateSummerButton')
+                                            <button type="button" class="btn btn-primary pull-left listSeason" name="back" value="Back">@lang('cabins.btnBack')</button>
+                                            <button type="button" class="btn btn-primary pull-right" name="updateSummerSeason" id="updateSummerSeason" value="updateSummerSeason"><i class="fa fa-fw fa-save"></i>@lang('cabins.updateSummerButton')
                                             </button>
                                         </div>
                                     </div>

@@ -41,8 +41,8 @@ class CabinLiteRequest extends FormRequest
                     }),
                 ],
                 'height'          => 'required',
-                'check_in'        => 'required|max:100',
-                'check_out'       => 'required|max:100',
+                'check_in'        => 'required|max:25',
+                'check_out'       => 'required|max:25',
                 'deposit'         => 'required|numeric',
                 'cabin_owner'     => 'required',
                 'country'         => 'required',
@@ -52,42 +52,36 @@ class CabinLiteRequest extends FormRequest
         }
 
         if($this->request->get('formPart') == 'updateCabin') {
-            $rules = ['height' => 'required',
-                'check_in' => 'required|max:100',
-                'check_out' => 'required|max:100',
-                'deposit' => 'required|numeric',
-                'cabin_owner' => 'required',
-                'country' => 'required',
+            $rules = [
+                'height'          => 'required',
+                'check_in'        => 'required|max:25',
+                'check_out'       => 'required|max:25',
+                'deposit'         => 'required|numeric',
+                'cabin_owner'     => 'required',
+                'country'         => 'required',
                 'halfboard_price' => 'required_if:halfboard,1',
-                'booking_type' => 'required'];
+                'booking_type'    => 'required'];
         }
 
-         if($this->request->get('formPart') == 'updateContactInfo') {
-             $rules = array(
-                 'firstname' => 'required',
-                 'lastname' => 'required',
-                // 'mobile' => 'required',
-                 'usrCountry' => 'required',
-                 'telephone' => 'required',
-                 'usrZip' => 'required',
-                 'usrAddress' => 'required',
-                 'usrZip' => 'required',
-                 'usrCity' => 'required',
-             );
-         }
-        if($this->request->get('formPart') == 'updateBillingInfo') {
-            $rules = array(
-                'company' => 'required',
-             //   'city' => 'required',
-                //  'zip' => 'required',
-            );
+        if($this->request->get('formPart') === 'updateContactInfo') {
+            $rules = [
+                'firstname'    => 'required|max:100',
+                'lastname'     => 'required|max:100',
+                'usrCountry'   => 'required|not_in:0',
+                'telephone'    => 'required|max:25',
+                'usrZip'       => 'required|max:25',
+                'usrAddress'   => 'required|max:255',
+                'usrCity'      => 'required|max:255',
+            ];
         }
 
+        if($this->request->get('formPart') === 'updateBillingInfo') {
+            $rules = [
+                'company' => 'required|max:100',
+            ];
+        }
 
         return $rules;
-
-
-
     }
 
     /**

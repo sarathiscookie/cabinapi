@@ -30,7 +30,7 @@
                         <li class="divider"></li>
                         <li><li class="fa fa-edit" style="margin: 8px "></li><a tabindex="-1" href="/admin/cabinlite/edit/{{$cabin->_id}}">@lang('cabins.menuInfo')</a></li>
                         <li><li class="fa fa-edit" style="margin: 8px "></li><a tabindex="-1" href="/admin/cabinlite/seasondetails/{{$cabin->_id}}">@lang('cabins.menuSeason')</a></li>
-                        <li><li class="fa fa-edit" style="margin: 8px "></li><a tabindex="-1" href="/admin/cabinlite/image/{{$cabin->_id}}">@lang('cabins.menuImages')</a></li>
+                        {{--<li><li class="fa fa-edit" style="margin: 8px "></li><a tabindex="-1" href="/admin/cabinlite/image/{{$cabin->_id}}">@lang('cabins.menuImages')</a></li>--}}
                     </ul>
                 </li>
                 <li class="fa fa-edit active">@lang('cabins.breadcrumbContigent')</li>
@@ -69,8 +69,6 @@
                             </div>
                         @endif
 
-                    <!-- /.box-header -->
-
                         <form role="form" method="post" action="{{ route('admin.cabinlite.contingent.update')}}">
                             {{ csrf_field() }}
                             <div class="box-body">
@@ -81,10 +79,11 @@
                                             <label for="reservation_type">
                                                 @lang('cabins.reservationType')
                                                 <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="@lang('contingent.reservationType.tooltip')"></i>
+                                                <span class="required">*</span>
                                             </label>
 
                                             <select class="form-control" name="reservation_type" id="reservation_type">
-                                                <option value="2">--- @lang('cabins.selectReservationType') ---</option>
+                                                <option value="2">@lang('cabins.selectReservationType')</option>
                                                 <option value="0" @if($cabin->sleeping_place == 0 || old('reservation_type') == 0) selected="selected" @endif>
                                                     @lang('cabins.reservationTypeBeds')
                                                 </option>
@@ -99,7 +98,7 @@
                                         </div>
 
                                         <div class="form-group {{ $errors->has('normal_beds') ? 'has-error' : '' }}">
-                                            <label for="normal_beds">@lang('cabins.noOfBedsLabel')</label>
+                                            <label for="normal_beds">@lang('cabins.noOfBedsLabel') <span class="required">*</span></label>
 
                                             <input type="text"
                                                    class="form-control"
@@ -116,7 +115,7 @@
                                         </div>
 
                                         <div class="form-group {{ $errors->has('normal_dorms') ? 'has-error' : '' }}">
-                                            <label for="normal_dorms">@lang('cabins.noOfDormsLabel')</label>
+                                            <label for="normal_dorms">@lang('cabins.noOfDormsLabel') <span class="required">*</span></label>
 
                                             <input type="text"
                                                    class="form-control"
@@ -880,9 +879,7 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary pull-right" name="createCabin"
-                                                value="createCabin"><i
-                                                    class="fa fa-fw fa-save"></i>@lang('cabins.btnUpdate')</button>
+                                        <button type="submit" class="btn btn-primary pull-right" name="createCabin" value="createCabin"><i class="fa fa-fw fa-save"></i>@lang('cabins.btnUpdate')</button>
                                     </div>
                                 </div>
                             </div>

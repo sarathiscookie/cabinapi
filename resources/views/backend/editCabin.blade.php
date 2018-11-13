@@ -41,12 +41,12 @@
                                 @lang('cabins.menuSeason')
                             </a>
                         </li>
-                        <li>
+                        {{--<li>
                             <li class="fa fa-edit" style="margin: 8px "></li>
                             <a tabindex="-1" href="{{ route('admin.cabinlite.image.edit', $cabin->_id) }}">
                                 @lang('cabins.menuImages')
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
                 <li class="fa fa-edit active">@lang('cabins.breadcrumbEdit')</li>
@@ -81,7 +81,6 @@
                                                    maxlength="100"
                                             >
                                             <span class="help-block"><strong></strong></span>
-
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -188,14 +187,15 @@
                                         <div class="form-group {{ $errors->has('usrCountry') ? 'has-error' : '' }}">
                                             <label>@lang('cabins.lblCountry') <span class="required">*</span></label>
 
-                                            <input type="text"
-                                                   class="form-control"
-                                                   id="usrCountry"
-                                                   name="usrCountry"
-                                                   placeholder="@lang('cabins.lblCountryPH')"
-                                                   value="{{ old('usrCountry', $userDetails->usrCountry) }}"
-                                                   maxlength="255"
-                                            >
+                                            <select class="form-control {{ $errors->has('usrCountry') ? 'has-error' : '' }}" id="usrCountry" name="usrCountry">
+                                                <option value="">@lang('cabins.countryPH')</option>
+
+                                                @foreach($countrylist as $country)
+                                                    <option value="{{ $country->name }}" @if($country->name == old('country') || $userDetails->usrCountry == $country->name) selected="selected" @endif>{{ $country->name }}</option>
+                                                @endforeach
+
+                                            </select>
+
                                             <span class="help-block"><strong></strong></span>
                                         </div>
                                     </div>
@@ -219,6 +219,7 @@
                             </div>
                             <!-- /.box-body -->
                         </div>
+
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h4 class="box-title"> @lang('cabins.billingInfo')</h4>
@@ -318,26 +319,11 @@
 
                                             <select class="form-control" name="legal" id="legal">
                                                 <option value="0">@lang('cabins.legalSelectLabel')</option>
-
-                                                <option value="gmbh" @if( old('legal') == 'gmbh' ||   $cabin->legal == 'gmbh') selected="selected" @endif>
-                                                    @lang('cabins.legalgmbh')
-                                                </option>
-
-                                                <option value="gbr" @if( old('legal') == 'gbr' ||   $cabin->legal == 'gbr') selected="selected" @endif>
-                                                    @lang('cabins.legalgbr')
-                                                </option>
-
-                                                <option value="kg" @if( old('legal') == 'kg' ||   $cabin->legal == 'kg') selected="selected" @endif>
-                                                    @lang('cabins.legalkg')
-                                                </option>
-
-                                                <option value="ohg" @if( old('legal') == 'ohg' ||   $cabin->legal == 'ohg') selected="selected" @endif>
-                                                    @lang('cabins.legalohg')
-                                                </option>
-
-                                                <option value="single" @if( old('legal') == 'single' ||  $cabin->legal == 'single') selected="selected" @endif>
-                                                    @lang('cabins.legalsingle')
-                                                </option>
+                                                <option value="gmbh" @if( old('legal') == 'gmbh' || $cabin->legal == 'gmbh') selected="selected" @endif>@lang('cabins.legalgmbh')</option>
+                                                <option value="gbr" @if( old('legal') == 'gbr' || $cabin->legal == 'gbr') selected="selected" @endif>@lang('cabins.legalgbr')</option>
+                                                <option value="kg" @if( old('legal') == 'kg' || $cabin->legal == 'kg') selected="selected" @endif>@lang('cabins.legalkg')</option>
+                                                <option value="ohg" @if( old('legal') == 'ohg' || $cabin->legal == 'ohg') selected="selected" @endif>@lang('cabins.legalohg')</option>
+                                                <option value="single" @if( old('legal') == 'single' || $cabin->legal == 'single') selected="selected" @endif>@lang('cabins.legalsingle')</option>
                                             </select>
 
                                             @if ($errors->has('legal'))
@@ -370,7 +356,7 @@
                                         <div class="col-md-12">
                                             <button type="button"
                                                     id="updateBillingInfo"
-                                                    data-loading-text="Updating..."
+                                                    data-loading-text="Loading..."
                                                     class="btn btn-primary pull-right"
                                                     name="updateBillingInfo"
                                                     value="updateBillingInfo"
@@ -387,6 +373,7 @@
                             <!-- box body -->
                         </div>
                     </div>
+
                     <div class="col-md-8">
                         <div class="box  box-primary">
                             <div class="  box-header with-border">
@@ -397,8 +384,8 @@
                             <div class="box-body" id="CabinInfoBox">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('cabin_name') ? 'has-error' : '' }}">
-                                            <label>@lang('cabins.lblCabinName') <span class="required">*</span></label>
+                                        <div class="form-group">
+                                            <label>@lang('cabins.lblCabinName')</label>
 
                                             <input type="text"
                                                    class="form-control"
@@ -410,13 +397,12 @@
                                                    maxlength="100"
                                             >
 
-                                            <span class="help-block"><strong>{{ $errors->first('cabin_name') }}</strong></span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('cabin_code') ? 'has-error' : '' }}">
-                                            <label>@lang('cabins.lblCabinCode') <span class="required">*</span></label>
+                                        <div class="form-group">
+                                            <label>@lang('cabins.lblCabinCode')</label>
 
                                             <input type="text"
                                                    class="form-control"
@@ -428,7 +414,6 @@
                                                    maxlength="100"
                                             >
 
-                                            <span class="help-block"><strong>{{ $errors->first('cabin_code') }}</strong></span>
                                         </div>
                                     </div>
                                 </div>
@@ -483,7 +468,7 @@
                                                            name="height"
                                                            value="{{ old('height', $cabin->height) }}"
                                                            placeholder="@lang('cabins.cabinHeightPH')"
-                                                           maxlength="200"
+                                                           maxlength="100"
                                                     >
 
                                                     <span class="help-block"><strong>  {{ $errors->first('height') }}</strong></span>
@@ -499,15 +484,13 @@
                                                            name="deposit"
                                                            placeholder="@lang('cabins.DepositPH')"
                                                            value="{{ old('deposit' , $cabin->prepayment_amount) }}"
-                                                           maxlength="100"
+                                                           maxlength="25"
                                                     >
 
                                                     <span class="help-block"><strong>{{ $errors->first('deposit') }}</strong></span>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
 
                                     <div class="col-md-6">
@@ -522,7 +505,7 @@
                                                            name="check_in"
                                                            placeholder="@lang('cabins.CheckInPH')"
                                                            value="{{ old('check_in', $cabin->checkin_from) }}"
-                                                           maxlength="100"
+                                                           maxlength="25"
                                                     >
 
                                                     <span class="help-block"><strong>  {{ $errors->first('check_in') }}</strong></span>
@@ -538,7 +521,7 @@
                                                            name="check_out"
                                                            placeholder="@lang('cabins.CheckOutPH')"
                                                            value="{{ old('check_out', $cabin->reservation_to) }}"
-                                                           maxlength="100"
+                                                           maxlength="25"
                                                     >
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_out') }}</strong></span>
@@ -547,7 +530,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!------>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
@@ -556,15 +539,10 @@
                                                     <label>@lang('cabins.lblCabinOwner') <span class="required">*</span></label>
 
                                                     <select class="form-control" id="cabin_owner" name="cabin_owner">
-                                                        <option value="">-- @lang('cabins.cabinOwnerPH') --</option>
-                                                        @foreach($cabinOwnerList as $key =>$owner)
-
-                                                            <option for="{{$owner['company']}}"
-                                                                    @if( $cabin->cabin_owner == $key  || old('cabin_owner') == $cabin->cabin_owner ) selected="selected" @endif
-                                                                    @if((!empty($owner['isCabinExists']) &&  $cabin->cabin_owner != $key )) disabled="disabled" @endif
-                                                                    value="{{ $key }}">{{ $owner['fname'] . ' ' . $owner['lname'] . ' ('. $owner['lname'] .')  ' }}
+                                                        <option value="">@lang('cabins.cabinOwnerPH')</option>
+                                                        @foreach($cabinOwnerList as $key => $owner)
+                                                            <option for="{{$owner['company']}}" @if( $cabin->cabin_owner == $owner['_id']  || old('cabin_owner') == $cabin->cabin_owner ) selected="selected" @endif value="{{ $owner['_id'] }}">{{ $owner['usrFirstname'] . ' ' . $owner['usrLastname'] . ' ('. $owner['usrLastname'] .')  ' }}
                                                             </option>
-
                                                         @endforeach
                                                     </select>
                                                     <span class="help-block"><strong>{{ $errors->first('cabin_owner') }}</strong></span>
@@ -596,20 +574,11 @@
                                                 <div class="form-group {{ $errors->has('region') ? 'has-error' : '' }}">
                                                     <label>@lang('cabins.lblRegion')</label>
 
-
-                                                    <select id="region"
-                                                            name="region"
-                                                            class="form-control region"
-                                                            style="width: 100%;"
-                                                    >
+                                                    <select id="region" name="region" class="form-control region" style="width: 100%;">
                                                         <option value="0">@lang('cabins.regionPH')</option>
 
                                                         @foreach($cabinInfo->regions() as $region)
-                                                            <option value="{{ $region->name }}"
-                                                                    @if($region->name == $cabin->region || old('region') == $cabin->region) selected="selected" @endif
-                                                            >
-                                                                {{ $region->name }}
-                                                            </option>
+                                                            <option value="{{ $region->name }}" @if($region->name == $cabin->region || old('region') == $cabin->region) selected="selected" @endif>{{ $region->name }}</option>
                                                         @endforeach
 
                                                     </select>
@@ -622,13 +591,10 @@
                                                     <label>@lang('cabins.lblCountry') <span class="required">*</span></label>
 
                                                     <select class="form-control" id="country" name="country">
-                                                        <option value="">-- @lang('cabins.countryPH') --</option>
+                                                        <option value="">@lang('cabins.countryPH')</option>
 
                                                         @foreach($countrylist as $country)
-                                                            <option value="{{ $country->name }}"
-                                                                    @if($country->name == old('country') ||  $cabin->country == $country->name) selected="selected" @endif
-                                                            >
-                                                                {{ $country->name }}
+                                                            <option value="{{ $country->name }}" @if($country->name == old('country') ||  $cabin->country == $country->name) selected="selected" @endif>{{ $country->name }}
                                                             </option>
                                                         @endforeach
 
@@ -640,8 +606,6 @@
                                     </div>
 
                                 </div>
-                                <!-------->
-
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -653,7 +617,7 @@
                                                    id="tours"
                                                    name="tours"
                                                    placeholder="@lang('cabins.tourPH')"
-                                                   value="{{ old('tours', $cabin->tours ) }}"\
+                                                   value="{{ old('tours', $cabin->tours ) }}"
                                                    maxlength="200"
                                             >
 
@@ -688,7 +652,7 @@
                                                            name="halfboard_price"
                                                            placeholder="@lang('cabins.halfBoardPricePH')"
                                                            value="{{ old('halfboard_price', $cabin->halfboard_price) }}"
-                                                           maxlength="100"
+                                                           maxlength="25"
                                                     >
 
                                                     <span class="help-block"><strong>   {{ $errors->first('halfboard_price') }}</strong></span>
@@ -698,8 +662,6 @@
                                     </div>
                                 </div>
 
-
-                                <!---- ---->
                                 <div class="row">
 
                                     <div class="col-md-2">
@@ -708,12 +670,7 @@
 
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"
-                                                           id="sleeping_place" value="1"
-                                                           {{ ( old('sleeping_place') == '1' || $cabin->sleeping_place =="1" )? 'checked="checked"' :'' }}
-                                                           name="sleeping_place"
-                                                    >
-
+                                                    <input type="checkbox" id="sleeping_place" value="1" {{ ( old('sleeping_place') === '1' || $cabin->sleeping_place === 1 )? 'checked="checked"' :'' }} name="sleeping_place">
                                                     @lang('cabins.lblSleepingPlace')
                                                 </label>
                                             </div>
@@ -727,13 +684,8 @@
                                             <select class="form-control" id="booking_type" name="booking_type">
                                                 <option value="">-- @lang('cabins.bookingTypePH') --</option>
 
-                                                @foreach($cabinType as $key =>$ctype)
-                                                    <option
-                                                            @if( old('booking_type') == $key  ||  $cabin->booking_type == $key ) selected="selected" @endif
-                                                            value="{{$key}}"
-                                                    >
-                                                        {{ $ctype  }}
-                                                    </option>
+                                                @foreach($cabinType as $key => $ctype)
+                                                    <option @if( old('booking_type') == $key  ||  $cabin->booking_type == $key ) selected="selected" @endif value="{{$key}}"> {{ $ctype  }}</option>
                                                 @endforeach
 
                                             </select>
@@ -758,15 +710,11 @@
 
                                                 @foreach($cabinInfo->interiorLabel() as $interiorLabelKey => $interiorLabel)
                                                     @if(!empty($cabin->interior))
-                                                        <option value="{{ $interiorLabelKey }}"
-                                                                @if(in_array($interiorLabelKey, $cabin->interior))selected="selected" @endif
-                                                        >
+                                                        <option value="{{ $interiorLabelKey }}" @if(in_array($interiorLabelKey, $cabin->interior)) selected="selected" @endif>
                                                             {{ $interiorLabel }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $interiorLabelKey }}"
-                                                                @if( old('facility') != "" && in_array($interiorLabelKey , old('facility'))) selected="selected" @endif
-                                                        >
+                                                        <option value="{{ $interiorLabelKey }}" @if( old('facility') != "" && in_array($interiorLabelKey , old('facility'))) selected="selected" @endif>
                                                             {{ $interiorLabel }}
                                                         </option>
                                                     @endif
@@ -790,9 +738,7 @@
 
                                                 @foreach($cabinInfo->paymentType() as $paymentTypeKey => $paymentType)
                                                     @if(!empty($cabin->payment_type))
-                                                        <option value="{{ $paymentTypeKey }}"
-                                                                @if(in_array($paymentTypeKey, $cabin->payment_type )) selected="selected" @endif
-                                                        >
+                                                        <option value="{{ $paymentTypeKey }}" @if(in_array($paymentTypeKey, $cabin->payment_type )) selected="selected" @endif>
                                                             {{ $paymentType }}
                                                         </option>
                                                     @else
@@ -813,9 +759,7 @@
                                             <select class="form-control" id="cancel" name="cancel">
 
                                                 @foreach($cabinInfo->reservationCancel() as $key => $type)
-                                                    <option value="{{ $key }}"
-                                                            @if(  old('cancel') == $key || $cabin->reservation_cancel == $key ) selected="selected" @endif
-                                                    >
+                                                    <option value="{{ $key }}" @if(  old('cancel') == $key || $cabin->reservation_cancel == $key ) selected="selected" @endif>
                                                         {{ $type }}
                                                     </option>
                                                 @endforeach
@@ -882,15 +826,11 @@
 
                                                 @foreach($cabinInfo->cabins() as $neighbour)
                                                     @if(!empty($cabin->neighbour_cabin))
-                                                        <option value="{{ $neighbour->_id }}"
-                                                                @if(in_array($neighbour->_id, $cabin->neighbour_cabin )) selected="selected" @endif
-                                                        >
+                                                        <option value="{{ $neighbour->_id }}" @if(in_array($neighbour->_id, $cabin->neighbour_cabin )) selected="selected" @endif>
                                                             {{ $neighbour->name }}
                                                         </option>
                                                     @else
-                                                        <option value="{{ $neighbour->_id }}"
-                                                                @if( old('neighbour') != "" &&  in_array($neighbour->_id, old('neighbour'))) selected="selected" @endif
-                                                        >
+                                                        <option value="{{ $neighbour->_id }}" @if( old('neighbour') != "" &&  in_array($neighbour->_id, old('neighbour'))) selected="selected" @endif>
                                                             {{ $neighbour->name }}
                                                         </option>
                                                     @endif
@@ -904,7 +844,7 @@
                                                 <div id="addtoDiv">
                                                     <input type="hidden" name="count" value="1"/>
 
-                                                    <img src="/img/add1.png"\
+                                                    <img src="/img/add1.png"
                                                          alt="Add More"
                                                          class="add-more-dynamic m-t-15"
                                                          title="Add More"
@@ -935,7 +875,7 @@
                                     </div>
                                     </div>
                                 </div>
-                                <!----------------------------->
+
                                 <input type="hidden" name="cabin_id" value="{{ $cabin->_id }}">
                                 <div class="box-footer">
                                     <div class="row">
@@ -944,7 +884,7 @@
                                                     class="btn btn-primary pull-right"
                                                     name="updateCabin"
                                                     id="updateCabin"
-                                                    data-loading-text="Updating..."
+                                                    data-loading-text="Loading..."
                                                     value="updateCabin"
                                             >
 
@@ -962,7 +902,6 @@
                     </div>
                 </div>
             </form>
-            <!-- *************************************** -->
 
         </section>
     </div>
