@@ -11,8 +11,8 @@ $(function () {
 
     /* Data table functionality begin */
     var user_data = $('#user_data').DataTable({
+        "bSort": false,
         "lengthMenu": [10, 50, 100, 250, 500],
-        "order": [[ 1, "asc" ]],
         "processing": true,
         "serverSide": true,
         "ajax": {
@@ -27,12 +27,6 @@ $(function () {
             { "data": "usrName" },
             { "data": "cabinType" },
             { "data": "usrUpdate" }
-        ],
-        "columnDefs": [
-            {
-                "orderable": false,
-                "targets": [ 2,3,4,5]
-            }
         ],
         "language": {
             "sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
