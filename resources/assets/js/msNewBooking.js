@@ -9,7 +9,7 @@ $(function(){
     // Create Mountain School Booking
     $('#newBooking').on('click', function() {
         var divId    = 'tourbox';
-        var url      = '/mountainschool/bookingStore';
+        var url      = '/mountainschool/bookings/store';
         var $btn     = $(this).button('loading');
         $('#' + divId).find('.has-error').removeClass('has-error');
         $('#' + divId).find('.help-block').html('<strong></strong>');

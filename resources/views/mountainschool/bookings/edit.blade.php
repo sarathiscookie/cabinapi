@@ -35,6 +35,15 @@
                     <h3 class="box-title">{{ __('mountainschool/bookings.edit.title') }}</h3>
                 </div>
 
+                @if (Session::has('error'))
+                    <div id="flash" class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
+
                 <div class="box-body">
 
                     {{-- Booking Number --}}
@@ -257,10 +266,10 @@
                         <div class="col-md-12">
                             <button type="submit"
                                     class="btn btn-primary pull-right"
-                                    name="editBooking"
-                                    id="editBooking"
+                                    name="edit"
+                                    id="edit"
                                     data-loading-text="Loading..."
-                                    value="editBooking"
+                                    value="edit"
                             >
                                     <i class="fa fa-fw fa-save"></i>
                                     {{ __('mountainschool/bookings.edit.form.save') }}
