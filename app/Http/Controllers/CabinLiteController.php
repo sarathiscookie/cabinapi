@@ -35,25 +35,12 @@ class CabinLiteController extends Controller
      */
     public function dataTables(Request $request)
     {
-        $params  = $request->all();
-
-        $columns = array(
-            0 => 'cabinAbbr',
-            1 => 'cabinname',
-            2 => 'usrEmail',
-            3 => 'usrName',
-            4 => 'cabinType'
-        );
-
+        $params         = $request->all();
         $totalData      = Cabin::where('is_delete', 0)
                                 ->where('other_cabin', '0')->count();
-
         $totalFiltered  = $totalData;
         $limit          = (int)$request->input('length');
         $start          = (int)$request->input('start');
-        $order          = $columns[$params['order'][0]['column']]; //contains column index
-        $dir            = $params['order'][0]['dir']; //contains order such as asc/desc
-
         $q              = Cabin::where('is_delete', 0)
                                 ->where('other_cabin', '0');
 
@@ -117,7 +104,6 @@ class CabinLiteController extends Controller
 
         $cabinLists     = $q->skip($start)
             ->take($limit)
-            ->orderBy($order, $dir)
             ->get();
 
         $data           = [];
