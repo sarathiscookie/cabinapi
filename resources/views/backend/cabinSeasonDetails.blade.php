@@ -40,12 +40,12 @@
                                 @lang('cabins.menuContigent')
                             </a>
                         </li>
-                        <li>
+                        {{--<li>
                             <li class="fa fa-edit" style="margin: 8px "></li>
                             <a tabindex="-1" href="{{ route('admin.cabinlite.image.edit', [ 'id' => $cabin->_id ]) }}">
                                 @lang('cabins.menuImages')
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
                 <li class="fa fa-edit active">@lang('cabins.breadcrumbseason')</li>
@@ -62,8 +62,7 @@
                             <h4 class="box-title">
                                 @lang('cabins.boxHeadingSeasonIndex')
                             </h4>
-                            <a href="javascript:void(0)" id="crtNewSeason" class="btn btn-primary btn-sm pull-right">
-                                <i class="fa fa-fw fa-save"></i>
+                            <a href="javascript:void(0)" id="crtNewSeason" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-save"></i>
                                 @lang('cabins.createNewSeasonButton')
                             </a>
                         </div>
@@ -92,14 +91,10 @@
 
                         <div class="box-footer">
                             <div class="row">
-                                <div class="col-md-12">
-
-                                </div>
+                                <div class="col-md-12"></div>
                             </div>
                         </div>
                         <!-- /.box-footer -->
-
-
                     </div>
                     <!-- /.box -->
                 </div>
@@ -114,7 +109,6 @@
     <script src="{{ asset('js/cabinSeason.js') }}"></script>
     <!-- Date Range Picker -->
     <script type="text/javascript" src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
-
 @endsection
 
 

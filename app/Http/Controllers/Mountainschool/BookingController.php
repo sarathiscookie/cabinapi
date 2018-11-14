@@ -35,12 +35,13 @@ class BookingController extends Controller
         $columns       = array(
             1 => 'invoice_number',
             2 => 'ind_tour_no',
-            3 => 'check_in',
-            4 => 'reserve_to',
-            5 => 'beds',
-            6 => 'dormitory',
-            7 => 'sleeps',
-            8 => 'status'
+            3 => 'cabin_name',
+            4 => 'check_in',
+            5 => 'reserve_to',
+            6 => 'beds',
+            7 => 'dormitory',
+            8 => 'sleeps',
+            9 => 'status'
         );
 
         $totalData     = MountSchoolBooking::where('is_delete', 0)
@@ -54,11 +55,11 @@ class BookingController extends Controller
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
         $q             = MountSchoolBooking::where('is_delete', 0)
-            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::user()->_id));
+            ->where('user_id',  new \MongoDB\BSON\ObjectID(Auth::id()));
 
         if(!empty($request->input('search.value')))
         {
-            $search   = $request->input('search.value');
+            $search = $request->input('search.value');
 
             $q->where(function($query) use ($search) {
                 $query->where('invoice_number', 'like', "%{$search}%")
@@ -107,6 +108,18 @@ class BookingController extends Controller
 
             $totalFiltered = $q->where(function($query) use ($params) {
                 $query->where('ind_tour_no', 'like', "%{$params['columns'][2]['search']['value']}%");
+            })
+                ->count();
+        }
+
+        if( !empty($params['columns'][3]['search']['value']))
+        {
+            $q->where(function($query) use ($params) {
+                $query->where('cabin_name', 'like', "%{$params['columns'][3]['search']['value']}%");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('cabin_name', 'like', "%{$params['columns'][3]['search']['value']}%");
             })
                 ->count();
         }
@@ -211,7 +224,8 @@ class BookingController extends Controller
                 $checkbox                     = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 $nestedData['hash']           = $checkbox;
                 $nestedData['invoice_number'] = $invoiceNumber_comment  ;
-                $nestedData['ind_tour_no']    = $ind_tour_no  ;
+                $nestedData['ind_tour_no']    = $ind_tour_no;
+                $nestedData['cabin_name']     = $booking->cabin_name;
                 $nestedData['check_in']       = $checkin_from;
                 $nestedData['reserve_to']     = $reserve_to;
                 $nestedData['beds']           = $beds;

@@ -335,24 +335,31 @@ Route::get('/', function () {
     /* update contingent  */
      Route::post('/cabinlite/contingent/update', 'ContingentController@update')->name('admin.cabinlite.contingent.update');
 
-     /* edit Season Details   */
+     /* edit season details   */
      Route::get('/cabinlite/seasondetails/{id}', 'CabinLiteOpenCloseSeasonController@index')->name('admin.cabinlite.season.index');
+
+     /* store season */
      Route::post('/cabinlite/seasondetails/store', 'CabinLiteOpenCloseSeasonController@store')->name('admin.cabinlite.season.store');
+
+     /* list season */
      Route::post('/cabinlite/seasondetails/lists', 'CabinLiteOpenCloseSeasonController@lists');
+
+     /* edit summer season */
      Route::get('/cabinlite/seasondetails/summer/edit', 'CabinLiteOpenCloseSeasonController@editSummer');
 
+     /* edit winter season */
      Route::get('/cabinlite/seasondetails/winter/edit', 'CabinLiteOpenCloseSeasonController@editWinter');
 
-     /* update summer Season Details   */
+     /* update summer season */
      Route::post('/cabinlite/seasondetails/summer/update', 'CabinLiteOpenCloseSeasonController@updateSummer')->name('admin.cabinlite.season.summer.update');
 
-     /* update winter Season Details   */
+     /* update winter season */
      Route::post('/cabinlite/seasondetails/winter/update', 'CabinLiteOpenCloseSeasonController@updateWinter')->name('admin.cabinlite.season.winter.update');
 
-     /* delete summer Season    */
+     /* delete summer season */
      Route::post('/cabinlite/seasondetails/summer/delete', 'CabinLiteOpenCloseSeasonController@deleteSummer')->name('admin.cabinlite.season.summer.delete');
 
-     /* delete winter Season    */
+     /* delete winter season */
      Route::post('/cabinlite/seasondetails/winter/delete', 'CabinLiteOpenCloseSeasonController@deleteWinter')->name('admin.cabinlite.season.winter.delete');
 
      /*

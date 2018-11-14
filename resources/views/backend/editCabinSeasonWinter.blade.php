@@ -7,10 +7,7 @@
                     <div class="col-md-12">
                         <div class="box box-default box-solid">
                             <div class="box-header with-border">
-                                <h4>@lang('cabins.winterSeasonHeading') <i class="fa fa-question-circle"
-                                                                                         data-toggle="tooltip"
-                                                                                         data-placement="right"
-                                                                                         title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 30.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></i>
+                                <h4>@lang('cabins.winterSeasonHeading') <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="Die Wintersaison ist ca. im Zeitraum vom 01.11 – 30.04 Bitte wählen Sie das passende Jahr und den dazugehörigen Status aus."></i></i>
                                 </h4>
                             </div>
 
@@ -25,17 +22,15 @@
 
                             <div class="statusResponse"></div>
 
-                            <form role="form"     id="frmwinterseasonedit"  method="post" action="{{ route('admin.cabinlite.season.winter.update') }}">
+                            <form role="form" id="frmwinterseasonedit" method="post">
                                 {{ csrf_field() }}
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('winterSeasonYear') ? ' has-error' : '' }}">
-                                                <label>@lang('cabins.winterSeasonChooseSeasonLabel') <span
-                                                            class="required">*</span></label>
+                                                <label>@lang('cabins.winterSeasonChooseSeasonLabel') <span class="required">*</span></label>
 
-                                                <select class="form-control" name="winterSeasonYear"
-                                                        id="winterSeasonYear_upt">
+                                                <select class="form-control" name="winterSeasonYear" id="winterSeasonYear_upt">
                                                     <option value="0">@lang('cabins.winterSeasonChooseSeasonSelect')</option>
                                                     <?php
                                                     $firstYear = (int)date('Y');
@@ -43,22 +38,20 @@
                                                     for($i = $firstYear; $i <= $lastYear; $i++)
                                                     {
                                                     ?>
-                                                    <option value="{{$i}}"
-                                                            @if($winterSeason->winterSeasonYear == $i || old('winterSeason') == $i) selected="selected" @endif>{{$i}}</option>
+                                                       <option value="{{$i}}" @if($winterSeason->winterSeasonYear == $i || old('winterSeason') == $i) selected="selected" @endif>{{$i}}</option>
                                                     <?php
                                                     }
                                                     ?>
                                                 </select>
 
-                                                @if ($errors->has('winterSeasonYear'))
+                                                @if($errors->has('winterSeasonYear'))
                                                     <span class="help-block"><strong>{{ $errors->first('winterSeasonYear') }}</strong></span>
                                                 @endif
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group {{ $errors->has('winterSeasonStatus') ? ' has-error' : '' }}">
-                                                <label>@lang('cabins.winterSeasonChooseStatusLabel') <span
-                                                            class="required">*</span></label>
+                                                <label>@lang('cabins.winterSeasonChooseStatusLabel') <span class="required">*</span></label>
 
                                                 <select class="form-control" name="winterSeasonStatus">
                                                     <option value="0">@lang('cabins.winterSeasonChooseStatusSelect')</option>
@@ -168,51 +161,37 @@
                                                        title="Sollte Ihre Hütte an bestimmten Tagen geschlossen sein, dann wählen Sie bitte den entsprechenden Tag aus. (Sollten Sie z.B. Montag auswählen, so sind keine Übernachtungen von Montag auf Dienstag möglich)."></i></label>
                                                 <div>
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_mon" name="winter_mon"
-                                                               value="1"
-                                                               @if($winterSeason->winter_mon == 1 || old('winter_mon') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_mon" name="winter_mon" value="1" @if($winterSeason->winter_mon == 1 || old('winter_mon') == 1) checked @endif>
                                                         @lang('cabins.mondaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_tue" name="winter_tue"
-                                                               value="1"
-                                                               @if($winterSeason->winter_tue == 1 || old('winter_tue') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_tue" name="winter_tue" value="1" @if($winterSeason->winter_tue == 1 || old('winter_tue') == 1) checked @endif>
                                                         @lang('cabins.tuesdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_wed" name="winter_wed"
-                                                               value="1"
-                                                               @if($winterSeason->winter_wed == 1 || old('winter_wed') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_wed" name="winter_wed" value="1" @if($winterSeason->winter_wed == 1 || old('winter_wed') == 1) checked @endif>
                                                         @lang('cabins.wednesdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_thu" name="winter_thu"
-                                                               value="1"
-                                                               @if($winterSeason->winter_thu == 1 || old('winter_thu') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_thu" name="winter_thu" value="1" @if($winterSeason->winter_thu == 1 || old('winter_thu') == 1) checked @endif>
                                                         @lang('cabins.thursdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_fri" name="winter_fri"
-                                                               value="1"
-                                                               @if($winterSeason->winter_fri == 1 || old('winter_fri') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_fri" name="winter_fri" value="1" @if($winterSeason->winter_fri == 1 || old('winter_fri') == 1) checked @endif>
                                                         @lang('cabins.fridaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_sat" name="winter_sat"
-                                                               value="1"
-                                                               @if($winterSeason->winter_sat == 1 || old('winter_sat') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_sat" name="winter_sat" value="1" @if($winterSeason->winter_sat == 1 || old('winter_sat') == 1) checked @endif>
                                                         @lang('cabins.saturdaySht')
                                                     </label>
 
                                                     <label for="regularCheckbox">
-                                                        <input type="checkbox" id="winter_sun" name="winter_sun"
-                                                               value="1"
-                                                               @if($winterSeason->winter_sun == 1 || old('winter_sun') == 1) checked @endif>
+                                                        <input type="checkbox" id="winter_sun" name="winter_sun" value="1" @if($winterSeason->winter_sun == 1 || old('winter_sun') == 1) checked @endif>
                                                         @lang('cabins.sundaySht')
                                                     </label>
                                                 </div>
@@ -226,12 +205,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <input type="hidden" name="winterSeasonId" value="{{$winterSeason->_id}}">
-                                            <button type="button" class="btn btn-primary pull-left listSeason"
-                                                    name="back" value="Back">@lang('cabins.btnBack')</button>
-                                            <button type="button" class="btn btn-primary pull-right"
-                                                    id="updateWinterSeason" name="updateWinterSeason"
-                                                    value="updateWinterSeason"><i
-                                                        class="fa fa-fw fa-save"></i>@lang('cabins.updateWinterButton')
+                                            <button type="button" class="btn btn-primary pull-left listSeason" name="back" value="Back">@lang('cabins.btnBack')</button>
+                                            <button type="button" class="btn btn-primary pull-right" id="updateWinterSeason" name="updateWinterSeason" value="updateWinterSeason"><i class="fa fa-fw fa-save"></i>@lang('cabins.updateWinterButton')
                                             </button>
                                         </div>
                                     </div>

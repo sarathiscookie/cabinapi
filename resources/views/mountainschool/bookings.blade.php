@@ -59,6 +59,7 @@
                                     <th>#</th>
                                     <th>@lang('mountainschool.bookingNumber')</th>
                                     <th>@lang('mountainschool.indTourNumber')</th>
+                                    <th>@lang('mountainschool.cabinname')</th>
                                     <th>@lang('mountainschool.from')</th>
                                     <th>@lang('mountainschool.to')</th>
                                     <th>@lang('mountainschool.beds')</th>
@@ -72,12 +73,8 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchBoookingNo')"></th>
-                                    <td><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchIndTourNo')"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchIndTourNo')"></th>
+                                    <th colspan="6"><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('mountainschool.searchCabinName')"></th>
                                     <td>
                                         <select class="form-control input-sm search-input" id="8">
                                             <option value="">(@lang('mountainschool.SearchStatus'))</option>
@@ -162,6 +159,7 @@
                         { "data": "hash" },
                         { "data": "invoice_number" },
                         { "data": "ind_tour_no" },
+                        { "data": "cabin_name" },
                         { "data": "check_in" },
                         { "data": "reserve_to" },
                         { "data": "beds" },

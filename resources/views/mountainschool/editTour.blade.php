@@ -101,10 +101,25 @@
                                                         <label>@lang('tours.lblCabin') <span class="required">*</span></label>
                                                         <select id="tour_cabins" name="tour_cabins" class="form-control">
                                                             <option value="">@lang('tours.lblCabinPH')</option>
-                                                            <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
-                                                            @foreach($cabins  as $Key => $val )
-                                                                <option value="{{$val->name}}">{{$val->name}}</option>
-                                                            @endforeach
+                                                            <optgroup label="@lang('tours.registeredCabin')">
+                                                                @foreach($cabins  as $Key => $val )
+                                                                    @if($val->other_cabin == '0')
+                                                                        <option value="{{$val->name}}">{{$val->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </optgroup>
+
+                                                            <optgroup label="@lang('tours.neighborCabin')">
+                                                                @foreach($cabins  as $Key => $val )
+                                                                    @if($val->other_cabin == '1')
+                                                                        <option value="{{$val->name}}">{{$val->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </optgroup>
+
+                                                            <optgroup label="@lang('tours.createNewCabin')">
+                                                                <option value="new_cabin">@lang('tours.CreateNewCabinLabel')</option>
+                                                            </optgroup>
                                                         </select>
                                                         <input type="hidden" name="no_cabins" value="{{count($tour->cabins)}}" id="no_cabins">
                                                         <input type="hidden" name="udtId" value="{{$tour->_id}}" id="udtId">

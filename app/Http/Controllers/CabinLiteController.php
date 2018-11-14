@@ -146,9 +146,7 @@ class CabinLiteController extends Controller
                     $nestedData['cabinname'] = $cabin_name;
                     $nestedData['usrEmail']  = $usrEmail;
                     $nestedData['usrName']   = $usrFirstname . ' ' . $usrLastname;
-                    // $nestedData['usrUpdate'] = '<a class="nounderline" href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a class="nounderline" href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a>
-                    //                             <a class="nounderline" href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span>';
-                    $nestedData['usrUpdate'] = '----';
+                    $nestedData['usrUpdate'] = '<a class="nounderline" href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a class="nounderline" href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a><a class="nounderline" href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a>';
                     $nestedData['cabinType'] = $this->getCabinType($cabinList->booking_type);
                     $data[] = $nestedData;
                 }
@@ -180,11 +178,11 @@ class CabinLiteController extends Controller
         ];
         $result = [];
         if ($id !== false) {
-            if (isset($type[$id])) {
+            if(isset($type[$id])) {
                 $result = $type[$id];
             }
-
-        } else {
+        }
+        else {
             $result = $type;
         }
         return $result;
@@ -210,6 +208,7 @@ class CabinLiteController extends Controller
         $user           = [];
         $allCabinOwners = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'usrName', 'company')
             ->where('is_delete', 0)
+            ->where('usrActive', '1')
             ->where('usrlId', 5)
             ->orderBy('usrFirstname')
             ->get();
@@ -233,20 +232,21 @@ class CabinLiteController extends Controller
         return $user;
     }
 
-
     /**
-     * Get    cabin owner By Id .
+     * Get cabin owner By Id .
      *
-     * @param
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
     public function getCabinOwnerById($id)
     {
         $users = Userlist::select('usrName', 'usrFirstname', 'usrLastname', 'usrEmail', 'usrAddress', 'usrTelephone', 'usrMobile', 'usrZip', 'usrCity', 'company')
-            ->where('_id', $id)
+            ->where('_id', new \MongoDB\BSON\ObjectID($id))
             ->get();
-        return $users();
+
+        return $users;
     }
+
     /**
      * Show all Country
      *
@@ -254,9 +254,7 @@ class CabinLiteController extends Controller
      */
     public function getCountry()
     {
-
         $country = Country::select('_id', 'name')
-            /*->where('is_delete', 0)*/
             ->orderBy('name')->get();
 
         return $country;
@@ -305,7 +303,7 @@ class CabinLiteController extends Controller
         $cabin->is_delete               = 0;
         $cabin->created_at              = date('Y-m-d H:i:s');
 
-        /* if other_neighbour_cabin is not empty appending with  neighbour_cabin array*/
+        // if other_neighbour_cabin is not empty appending with  neighbour_cabin array
         $cabin->neighbour_cabin         = $this->saveNeighbourCabin($request);
         $cabin->save();
 
@@ -322,6 +320,7 @@ class CabinLiteController extends Controller
     {
         $insertId = [];
         if (!empty($request->other_neighbour_cabin)) {
+
             $neighbours = $this->neighbourCabinFilter($request->other_neighbour_cabin);
             foreach ($neighbours as $key => $value) {
                 if ($value['name'] != "" && $value['url'] != "") {
@@ -382,89 +381,124 @@ class CabinLiteController extends Controller
      */
     public function edit($id)
     {
-        $cabin =
-
-        Cabin::select('_id', 'cabin_owner')->where('is_delete', 0)
-            ->where('_id', $id)
-            ->first();
-
-        $userDetails =
-
-        Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile','company')
-                ->where('is_delete', 0)
-                ->where('_id', $cabin->cabin_owner)
-                ->first();
-
-        //dd(Userlist::get());
-
-        $get_cabin = Cabin::where('_id', $id)->first();
+        $cabin       = Cabin::select('_id', 'cabin_owner', 'name', 'place', 'street', 'zip', 'fax', 'legal', 'vat', 'invoice_code', 'club', 'reachable', 'height', 'prepayment_amount', 'checkin_from', 'reservation_to', 'website', 'region', 'tours', 'halfboard', 'halfboard_price', 'booking_type', 'sleeping_place', 'interior', 'payment_type', 'reservation_cancel', 'latitude', 'longitude', 'neighbour_cabin', 'other_details', 'country')
+            ->where('is_delete', 0)
+            ->where('other_cabin', "0")
+            ->where('_id', new \MongoDB\BSON\ObjectID($id))
+            ->firstOrFail();
 
         return view('backend.editCabin', [
-            'cabinOwnerList' => $this->getCabinOwners(),
+            'cabinOwnerList' => $this->cabinOwners(),
             'cabinType'      => $this->getCabinType(),
-            'cabin'          => $get_cabin,
+            'cabin'          => $cabin,
             'countrylist'    => $this->getCountry(),
-            'userDetails'    => $userDetails
+            'userDetails'    => $this->userDetails($cabin->cabin_owner)
         ]);
     }
+
     /**
      *  update the specified resource.
      *
-     * @param    $request
+     * @param  string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function userDetails($id)
+    {
+        $userDetails = Userlist::select('usrFirstname', 'usrLastname', 'usrEmail', 'usrZip', 'usrCity', 'usrAddress', 'usrCountry', 'usrTelephone', 'usrMobile','company')
+            ->where('is_delete', 0)
+            ->where('usrActive', '1')
+            ->where('usrlId', 5)
+            ->where('_id', new \MongoDB\BSON\ObjectID($id))
+            ->first();
+
+        return $userDetails;
+    }
+
+    /**
+     *  update the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cabinOwners()
+    {
+        $cabinOwners = Userlist::select('_id', 'usrFirstname', 'usrLastname', 'company')
+            ->where('is_delete', 0)
+            ->where('usrActive', '1')
+            ->where('usrlId', 5)
+            ->orderBy('usrFirstname')
+            ->get();
+
+        return $cabinOwners;
+    }
+
+    /**
+     *  update the specified resource.
+     *
+     * @param $request
      * @return \Illuminate\Http\Response
      */
 
     public function updateContactinfo(CabinLiteRequest $request)
     {
-        if (isset($request->formPart) && $request->formPart == 'updateContactInfo') {
-            $userDetails = Userlist::findOrFail($request->cabin_owner);
-            $userDetails->usrFirstname = $request->firstname;
-            $userDetails->usrLastname = $request->lastname;
-            $userDetails->usrTelephone = $request->telephone;
-            $userDetails->usrCountry = $request->usrCountry;
-            $userDetails->usrMobile = $request->mobile;
-            $userDetails->usrAddress = $request->usrAddress;
-            $userDetails->usrCity = $request->usrCity;
-            $userDetails->usrZip = $request->usrZip;
-            $userDetails->save();
-            echo json_encode(array('successMsg' => __('cabins.contactSuccessMsgUdt')));
-        } else {
-            echo json_encode(array('errorMsg' => __('cabins.failure')));
-        }
+        if (isset($request->formPart) && $request->formPart === 'updateContactInfo') {
+            $userDetails               = Userlist::where('is_delete', 0)
+                ->where('usrlId', 5)
+                ->findOrFail($request->cabin_owner);
 
+            $userDetails->usrFirstname = $request->firstname;
+            $userDetails->usrLastname  = $request->lastname;
+            $userDetails->usrTelephone = $request->telephone;
+            $userDetails->usrCountry   = $request->usrCountry;
+            $userDetails->usrMobile    = $request->mobile;
+            $userDetails->usrAddress   = $request->usrAddress;
+            $userDetails->usrCity      = $request->usrCity;
+            $userDetails->usrZip       = $request->usrZip;
+
+            $userDetails->save();
+
+            return response()->json(['successMsg' => __('cabins.contactSuccessMsgUdt')]);
+        }
+        else {
+            return response()->json(['errorMsg' => __('cabins.failure')]);
+        }
     }
     /**
      *  update the specified resource.
      *
-     * @param    $request
+     * @param $request
      * @return \Illuminate\Http\Response
      */
     public function updateBillingInfo(CabinLiteRequest $request)
     {
-
-        if(isset($request->formPart) && $request->formPart == 'updateBillingInfo') {
+        if(isset($request->formPart) && $request->formPart === 'updateBillingInfo') {
             $upt_array = [
-                'place' => $request->city,
-                'street' => $request->street,
-                'zip' => $request->zip,
-                'fax' => $request->fax,
-                'vat' => $request->vat,
-                'legal' => $request->legal,
+                'place'     => $request->city,
+                'street'    => $request->street,
+                'zip'       => $request->zip,
+                'fax'       => $request->fax,
+                'vat'       => $request->vat,
+                'legal'     => $request->legal,
             ];
-            // 'company' => $request->company for user table
-            Cabin::where('_id', $request->cabin_id)->update($upt_array);
-            /* Company is updated from user table*/
-            $userDetails = Userlist::findOrFail($request->cabin_owner);
-            $userDetails->company = $request->company;
-            $userDetails->save();
-            /* Company is updated from user table*/
 
-            echo  json_encode(array('successMsg' => __('cabins.billingSuccessMsgUdt')));
+            // Cabin billing details updated
+            Cabin::where('is_delete', 0)
+                ->where('_id', new \MongoDB\BSON\ObjectID($request->cabin_id))
+                ->update($upt_array);
+
+            // User company updated
+            $userDetails          = Userlist::where('is_delete', 0)
+                ->where('usrlId', 5)
+                ->findOrFail($request->cabin_owner);
+
+            $userDetails->company = $request->company;
+
+            $userDetails->save();
+
+            return response()->json(['successMsg' => __('cabins.billingSuccessMsgUdt')]);
         }
         else {
-            echo json_encode(array('errorMsg' => __('cabins.failure')));
+            return response()->json(['errorMsg' => __('cabins.failure')]);
         }
-
     }
 
 
@@ -478,54 +512,51 @@ class CabinLiteController extends Controller
 
     public function updateCabinInfo(CabinLiteRequest $request)
     {
-
-
         if (isset($request->formPart) && $request->formPart == 'updateCabin' && $request->cabin_id != "") {
             /* Mongo UTCDateTime begin */
-            $date_now = date("Y-m-d H:i:s");
-            $orig_date = new DateTime($date_now);
-            $orig_date = $orig_date->getTimestamp();
-            $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date * 1000);
+            $date_now    = date("Y-m-d H:i:s");
+            $orig_date   = new DateTime($date_now);
+            $orig_date   = $orig_date->getTimestamp();
+            $utcdatetime = new \MongoDB\BSON\UTCDateTime($orig_date*1000);
             /* Mongo UTCDateTime end */
+
             $upt_array = [
-                'invoice_code' => $request->cabin_code,
-                'cabin_owner' => $request->cabin_owner,
-                'height' => $request->height,
-                'club' => $request->club,
+                'invoice_code'       => $request->cabin_code,
+                'cabin_owner'        => $request->cabin_owner,
+                'height'             => $request->height,
+                'club'               => $request->club,
                 'reservation_cancel' => $request->cancel,
-                'reachable' => $request->availability,
-                'tours' => $request->tours,
-                'checkin_from' => $request->check_in,
-                'reservation_to' => $request->check_out,
-                'interior' => $request->facility,
-                'halfboard' => $request->halfboard,
-                'halfboard_price' => $request->halfboard_price,
-                'payment_type' => $request->payment,
-                'prepayment_amount' => (float)$request->deposit,
-                'country' => $request->country,
-                'website' => $request->website,
-                'booking_type' => $request->booking_type,
-                'sleeping_place'=>(int)$request->sleeping_place,
-                'other_details' => $request->details,
-                'region' => $request->region,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'neighbour_cabin' => $this->saveNeighbourCabin($request),
-                'updated_at' => $utcdatetime];
+                'reachable'          => $request->availability,
+                'tours'              => $request->tours,
+                'checkin_from'       => $request->check_in,
+                'reservation_to'     => $request->check_out,
+                'interior'           => $request->facility,
+                'halfboard'          => $request->halfboard,
+                'halfboard_price'    => $request->halfboard_price,
+                'payment_type'       => $request->payment,
+                'prepayment_amount'  => (float)$request->deposit,
+                'country'            => $request->country,
+                'website'            => $request->website,
+                'booking_type'       => $request->booking_type,
+                'sleeping_place'     => (int)$request->sleeping_place,
+                'other_details'      => $request->details,
+                'region'             => $request->region,
+                'latitude'           => $request->latitude,
+                'longitude'          => $request->longitude,
+                'neighbour_cabin'    => $this->saveNeighbourCabin($request),
+                'updated_at'         => $utcdatetime
+            ];
 
-            Cabin::where('_id', $request->cabin_id)->update($upt_array);
+            Cabin::where('is_delete', 0)
+                ->where('_id', $request->cabin_id)
+                ->update($upt_array);
 
-            echo json_encode(array('successMsg' => __('cabins.successMsgUdt')));
-
-        } else {
-            echo json_encode(array('errorMsg' => __('cabins.failure')));
+            return response()->json(['successMsg' => __('cabins.successMsgUdt')]);
         }
-
+        else {
+            return response()->json(['errorMsg' => __('cabins.failure')]);
+        }
     }
-
-
-
-
 
     /**
      * Update the specified resource in storage.
