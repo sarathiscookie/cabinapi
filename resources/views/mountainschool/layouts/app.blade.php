@@ -20,6 +20,9 @@
 
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Custom Style from compiled sass -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}" media="screen" title="no title">
 <style>
     .required{
         color:red;

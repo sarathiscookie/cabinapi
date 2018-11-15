@@ -681,6 +681,9 @@ Route::get('/session', function() {
         /* update booking */
         Route::post('/bookings/update/{id}', 'Mountainschool\BookingsController@update')->name('mountainschool.bookings.update');
 
+        /* cancel booking */
+        Route::get('/bookings/cancel/{id}', 'Mountainschool\BookingsController@cancel')->name('mountainschool.bookings.cancel');
+
         /* get tours for  booking */
         Route::get('/tours/gettour/{id}', 'Mountainschool\TourController@getTourForBooking');
 

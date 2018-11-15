@@ -30,6 +30,6 @@ return [
 
     // Notices
     'notice.save'               => "Booking was successfully saved",
-    'notice.updated'            => "Booking was successfully updated",
-    'notice.destroy'            => "Booking was successfully removed"
+    'notice.update'            => "Booking was successfully updated",
+    'notice.cancel'             => "Booking was successfully canceled"
 ];

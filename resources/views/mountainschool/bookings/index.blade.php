@@ -30,6 +30,15 @@
                 <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('mountainschool.dashboard')</a></li>
                 <li class="active">@lang('mountainschool.bookings')</li>
             </ol>
+
+            @if (session()->has('message'))
+                <div id="flash" class="alert alert-success m-t-10">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ session()->get('message') }}
+                </div>
+            @endif
         </section>
 
         <!-- Main content -->

@@ -1061,18 +1061,18 @@ class BookingsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Cancel the specified booking.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function cancel($id)
     {
         $booking = MountSchoolBooking::where('_id', new \MongoDB\BSON\ObjectID($id))->first();
 
-        $booking->handleDestroyRequest();
+        $booking->handleCancelRequest();
 
-        return redirect(route('mountainschool.bookings'))->with('message', __('mountainschool/bookings.notice.destroy'));
+        return redirect()->route('mountainschool.bookings')->with('message', __('mountainschool/bookings.notice.cancel'));
     }
 
     /**
@@ -1277,7 +1277,7 @@ class BookingsController extends Controller
                 $details_modal               = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $details_contents . '</div></div></div>';
 
                 // Edit booking
-                $edit_button                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="nounderline m-l-10 text-danger" href=" ' . route('mountainschool.bookings.cancel', ['id' => $booking->_id]) . ' "><i class="fa fa-ban" aria-hidden="true"></i></a>';
 
                 // Data table contents
                 $invoiceNumber_comment        = $details_modal;
@@ -1292,7 +1292,7 @@ class BookingsController extends Controller
                 $nestedData['dormitory']      = $dormitory;
                 $nestedData['sleeps']         = $sleeps;
                 $nestedData['status']         = $bookingStatusLabel;
-                $nestedData['edit']           = $edit_button;
+                $nestedData['edit']           = $edit_section;
                 $data[]                       = $nestedData;
             }
 

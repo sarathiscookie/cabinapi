@@ -100,13 +100,14 @@ class MountSchoolBooking extends Eloquent
     }
 
     /**
-     * Process the requst of removal for a booking.
+     * Process the requst of canceling a booking.
      *
      * @return {void}
      */
-    public function handleDestroyRequest()
+    public function handleCancelRequest()
     {
-        // Remove the booking records
-        $this->delete();
+        // Cancel the booking records
+        $this->is_delete = 1;
+        $this->save();
     }
 }
