@@ -1449,14 +1449,14 @@ class BookingsController extends Controller
 
                         // Taking beds, dorms and sleeps depends up on sleeping_place
                         if($cabinDetails->sleeping_place != 1) {
-                            if( ((int)$request->$beds[$tb] + (int)$request->$dormitory[$tb]) === ((int)$request->$guests[$tb] + (int)$request->$no_guides[$tb]) )
+                            if( ((int)$request->beds + (int)$request->dorms) === ((int)$request->guests + (int)$request->guides) )
                             {
                                 $totalBeds           = $sumBeds + $msSumBeds;
                                 $totalDorms          = $sumDorms + $msSumDorms;
 
-                                $bedsRequest         = (int)$request->$beds[$tb];
-                                $dormsRequest        = (int)$request->$dormitory[$tb];
-                                $requestBedsSumDorms = (int)$request->$beds[$tb] + (int)$request->$dormitory[$tb];
+                                $bedsRequest         = (int)$request->beds;
+                                $dormsRequest        = (int)$request->dorms;
+                                $requestBedsSumDorms = (int)$request->beds + (int)$request->dorms;
 
                                 /* Calculating beds & dorms for not regular */
                                 if($cabinDetails->not_regular === 1) {
