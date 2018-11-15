@@ -449,6 +449,16 @@ class TourController extends Controller
 
         if ($basic_settings) {
             $tours->basic_settings = $basic_settings;
+        } else {
+            $tours->basic_settings = [
+                'contact_person' => '',
+                'no_guides' => 0,
+                'half_board' => 0,
+                'beds' => 0,
+                'sleeps' => 0,
+                'dorms' => 0,
+                'guests' => 0
+            ];
         }
 
         return view('mountainschool.getTourCabin', ['tour' => $tours]);

@@ -87,6 +87,7 @@ class BookingsController extends Controller
                     $d1                  = new DateTime($monthBegin);
                     $d2                  = new DateTime($monthEnd);
                     $dateDifference      = $d2->diff($d1);
+                    $week_days           = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
                     if($monthBegin < $monthEnd) {
                         if($dateDifference->days <= 60) {
@@ -258,7 +259,7 @@ class BookingsController extends Controller
                                                         }
                                                         else {
                                                             $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
+                                                            return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
                                                         }
 
                                                         if($dormsRequest <= $not_regular_dorms_avail) {
@@ -266,7 +267,7 @@ class BookingsController extends Controller
                                                         }
                                                         else {
                                                             $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
+                                                            return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
                                                         }
 
                                                         /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
@@ -285,312 +286,50 @@ class BookingsController extends Controller
 
                                             /* Calculating beds & dorms for regular */
                                             if($cabinDetails->regular === 1) {
-                                                if($mon_day === $day) {
+                                                foreach ($week_days as $week_day) {
+                                                    $cabin_day = $week_day . '_day';
 
-                                                    if(!in_array($dates, $dates_array)) {
+                                                    if ($cabinDetails->$cabin_day == 1 && ucfirst($week_day) == $day) {
 
-                                                        $dates_array[] = $dates;
+                                                        if(!in_array($dates, $dates_array)) {
 
-                                                        if(($totalBeds < $cabinDetails->mon_beds) || ($totalDorms < $cabinDetails->mon_dorms)) {
-                                                            $mon_beds_diff              = $cabinDetails->mon_beds - $totalBeds;
-                                                            $mon_dorms_diff             = $cabinDetails->mon_dorms - $totalDorms;
+                                                            $dates_array[] = $dates;
 
-                                                            /* Available beds and dorms on regular monday */
-                                                            $mon_beds_avail             = ($mon_beds_diff >= 0) ? $mon_beds_diff : 0;
-                                                            $mon_dorms_avail            = ($mon_dorms_diff >= 0) ? $mon_dorms_diff : 0;
+                                                            if(($totalBeds < $cabinDetails->$week_day . '_beds') || ($totalDorms < $cabinDetails->$week_day . '_dorms')) {
+                                                                $beds_diff              = $cabinDetails->$week_day . '_beds' - $totalBeds;
+                                                                $dorms_diff             = $cabinDetails->$week_day . '_dorms' - $totalDorms;
 
-                                                            if($bedsRequest <= $mon_beds_avail) {
-                                                                $availableStatus[] = 'available';
+                                                                /* Available beds and dorms on regular monday */
+                                                                $beds_avail             = ($beds_diff >= 0) ? $beds_diff : 0;
+                                                                $dorms_avail            = ($dorms_diff >= 0) ? $dorms_diff : 0;
+
+                                                                if ($bedsRequest <= $beds_avail) {
+                                                                    $availableStatus[] = 'available';
+                                                                }
+                                                                else {
+                                                                    $availableStatus[] = 'notAvailable';
+                                                                    return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
+                                                                }
+
+                                                                if($dormsRequest <= $dorms_avail) {
+                                                                    $availableStatus[] = 'available';
+                                                                }
+                                                                else {
+                                                                    $availableStatus[] = 'notAvailable';
+                                                                    return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
+                                                                }
+
+                                                                /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
+                                                                if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $requestBedsSumDorms >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                                    $availableStatus[] = 'notAvailable';
+                                                                    /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->$week_day . '_inquiry_guest'.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
+                                                                    return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i], 422);
+                                                                }
                                                             }
                                                             else {
                                                                 $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
+                                                                return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
                                                             }
-
-                                                            if($dormsRequest <= $mon_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->mon_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->mon_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->mon_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($tue_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->tue_beds) || ($totalDorms < $cabinDetails->tue_dorms)) {
-                                                            $tue_beds_diff              = $cabinDetails->tue_beds - $totalBeds;
-                                                            $tue_dorms_diff             = $cabinDetails->tue_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular tuesday */
-                                                            $tue_beds_avail             = ($tue_beds_diff >= 0) ? $tue_beds_diff : 0;
-                                                            $tue_dorms_avail            = ($tue_dorms_diff >= 0) ? $tue_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $tue_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $tue_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->tue_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->tue_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->tue_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->tue_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($wed_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->wed_beds) || ($totalDorms < $cabinDetails->wed_dorms)) {
-                                                            $wed_beds_diff              = $cabinDetails->wed_beds - $totalBeds;
-                                                            $wed_dorms_diff             = $cabinDetails->wed_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular wednesday */
-                                                            $wed_beds_avail             = ($wed_beds_diff >= 0) ? $wed_beds_diff : 0;
-                                                            $wed_dorms_avail            = ($wed_dorms_diff >= 0) ? $wed_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $wed_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $wed_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->wed_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->wed_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->wed_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->wed_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($thu_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->thu_beds) || ($totalDorms < $cabinDetails->thu_dorms)) {
-                                                            $thu_beds_diff              = $cabinDetails->thu_beds - $totalBeds;
-                                                            $thu_dorms_diff             = $cabinDetails->thu_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular thursday */
-                                                            $thu_beds_avail             = ($thu_beds_diff >= 0) ? $thu_beds_diff : 0;
-                                                            $thu_dorms_avail            = ($thu_dorms_diff >= 0) ? $thu_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $thu_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $thu_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->thu_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->thu_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->thu_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->thu_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($fri_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->fri_beds) || ($totalDorms < $cabinDetails->fri_dorms)) {
-                                                            $fri_beds_diff         = $cabinDetails->fri_beds - $totalBeds;
-                                                            $fri_dorms_diff        = $cabinDetails->fri_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular friday */
-                                                            $fri_beds_avail        = ($fri_beds_diff >= 0) ? $fri_beds_diff : 0;
-                                                            $fri_dorms_avail       = ($fri_dorms_diff >= 0) ? $fri_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $fri_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $fri_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->fri_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->fri_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' =>  __("tours.inquiryAlert").$generateBookingDate->format("d.m"). __("tours.inquiryAlert1").$cabinDetails->fri_inquiry_guest. __("tours.inquiryAlert2").$clickHere. __("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->fri_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($sat_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->sat_beds) || ($totalDorms < $cabinDetails->sat_dorms)) {
-                                                            $sat_beds_diff         = $cabinDetails->sat_beds - $totalBeds;
-                                                            $sat_dorms_diff        = $cabinDetails->sat_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular saturday */
-                                                            $sat_beds_avail        = ($sat_beds_diff >= 0) ? $sat_beds_diff : 0;
-                                                            $sat_dorms_avail       = ($sat_dorms_diff >= 0) ? $sat_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $sat_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $sat_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->sat_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->sat_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' =>  __("tours.inquiryAlert").$generateBookingDate->format("d.m"). __("tours.inquiryAlert1").$cabinDetails->sat_inquiry_guest. __("tours.inquiryAlert2").$clickHere. __("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->sat_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($sun_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalBeds < $cabinDetails->sun_beds) || ($totalDorms < $cabinDetails->sun_dorms)) {
-                                                            $sun_beds_diff         = $cabinDetails->sun_beds - $totalBeds;
-                                                            $sun_dorms_diff        = $cabinDetails->sun_dorms - $totalDorms;
-
-                                                            /* Available beds and dorms on regular sunday */
-                                                            $sun_beds_avail        = ($sun_beds_diff >= 0) ? $sun_beds_diff : 0;
-                                                            $sun_dorms_avail       = ($sun_dorms_diff >= 0) ? $sun_dorms_diff : 0;
-
-                                                            if($bedsRequest <= $sun_beds_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            if($dormsRequest <= $sun_dorms_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->sun_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->sun_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' =>  __("tours.inquiryAlert").$generateBookingDate->format("d.m"). __("tours.inquiryAlert1").$cabinDetails->sun_inquiry_guest. __("tours.inquiryAlert2").$clickHere. __("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->sun_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' =>  __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-
                                                         }
                                                     }
                                                 }
@@ -694,243 +433,44 @@ class BookingsController extends Controller
                                             /* Calculating sleeps for regular */
                                             if($cabinDetails->regular === 1) {
 
-                                                if($mon_day === $day) {
+                                                foreach ($week_days as $week_day) {
+                                                    $cabin_day = $week_day . '_day';
 
-                                                    if(!in_array($dates, $dates_array)) {
+                                                    if ($cabinDetails->$cabin_day == 1 && ucfirst($week_day) == $day) {
 
-                                                        $dates_array[] = $dates;
+                                                        if(!in_array($dates, $dates_array)) {
 
-                                                        if(($totalSleeps < $cabinDetails->mon_sleeps)) {
-                                                            $mon_sleeps_diff       = $cabinDetails->mon_sleeps - $totalSleeps;
+                                                            $dates_array[] = $dates;
 
-                                                            /* Available sleeps on regular monday */
-                                                            $mon_sleeps_avail      = ($mon_sleeps_diff >= 0) ? $mon_sleeps_diff : 0;
+                                                            if(($totalSleeps < $cabinDetails->$week_day . '_sleeps')) {
+                                                                $sleeps_diff       = $cabinDetails->$week_day . '_sleeps' - $totalSleeps;
 
-                                                            if($sleepsRequest <= $mon_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
+                                                                /* Available sleeps on regular monday */
+                                                                $sleeps_avail      = ($sleeps_diff >= 0) ? $sleeps_diff : 0;
+
+                                                                if($sleepsRequest <= $sleeps_avail) {
+                                                                    $availableStatus[] = 'available';
+                                                                }
+                                                                else {
+                                                                    $availableStatus[] = 'notAvailable';
+                                                                    return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
+                                                                }
+
+                                                                /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
+                                                                if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $sleepsRequest >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                                    $availableStatus[] = 'notAvailable';
+
+                                                                    return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i], 422);
+                                                                }
                                                             }
                                                             else {
                                                                 $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
+                                                                return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
                                                             }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->mon_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->mon_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->mon_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
                                                         }
                                                     }
                                                 }
 
-                                                if($tue_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->tue_sleeps)) {
-                                                            $tue_sleeps_diff       = $cabinDetails->tue_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular tuesday */
-                                                            $tue_sleeps_avail      = ($tue_sleeps_diff >= 0) ? $tue_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $tue_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->tue_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->tue_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->tue_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->tue_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($wed_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->wed_sleeps)) {
-                                                            $wed_sleeps_diff       = $cabinDetails->wed_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular wednesday */
-                                                            $wed_sleeps_avail      = ($wed_sleeps_diff >= 0) ? $wed_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $wed_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->wed_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->wed_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("v.inquiryAlert1").$cabinDetails->wed_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->wed_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($thu_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->thu_sleeps)) {
-                                                            $thu_sleeps_diff       = $cabinDetails->thu_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular thursday */
-                                                            $thu_sleeps_avail      = ($thu_sleeps_diff >= 0) ? $thu_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $thu_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->thu_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->thu_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->thu_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->thu_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($fri_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->fri_sleeps)) {
-                                                            $fri_sleeps_diff       = $cabinDetails->fri_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular friday */
-                                                            $fri_sleeps_avail      = ($fri_sleeps_diff >= 0) ? $fri_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $fri_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->fri_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->fri_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->fri_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->fri_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($sat_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->sat_sleeps)) {
-                                                            $sat_sleeps_diff       = $cabinDetails->sat_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular saturday */
-                                                            $sat_sleeps_avail      = ($sat_sleeps_diff >= 0) ? $sat_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $sat_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->sat_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->sat_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->sat_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->sat_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
-
-                                                if($sun_day === $day) {
-
-                                                    if(!in_array($dates, $dates_array)) {
-
-                                                        $dates_array[] = $dates;
-
-                                                        if(($totalSleeps < $cabinDetails->sun_sleeps)) {
-                                                            $sun_sleeps_diff       = $cabinDetails->sun_sleeps - $totalSleeps;
-
-                                                            /* Available sleeps on regular sunday */
-                                                            $sun_sleeps_avail      = ($sun_sleeps_diff >= 0) ? $sun_sleeps_diff : 0;
-
-                                                            if($sleepsRequest <= $sun_sleeps_avail) {
-                                                                $availableStatus[] = 'available';
-                                                            }
-                                                            else {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m")], 422);
-                                                            }
-
-                                                            /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                            if($cabinDetails->sun_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->sun_inquiry_guest) {
-                                                                $availableStatus[] = 'notAvailable';
-                                                                /*return response()->json(['error' => __("tours.inquiryAlert").$generateBookingDate->format("d.m").__("tours.inquiryAlert1").$cabinDetails->sun_inquiry_guest.__("tours.inquiryAlert2").$clickHere.__("tours.inquiryAlert3")], 422);*/
-                                                                return response()->json(['error', __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->sun_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")], 422);
-                                                            }
-                                                        }
-                                                        else {
-                                                            $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i], 422);
-                                                        }
-                                                    }
-                                                }
                                             }
 
                                             /* Calculating sleeps for normal */

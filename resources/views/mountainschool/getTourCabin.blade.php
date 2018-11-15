@@ -30,7 +30,7 @@
                         <div class="col-md-4">
                             <div class="form-group {{ $errors->has('tour_guide') ? ' has-error' : '' }}">
                                 <label>@lang('tours.lblContactPerson')<span class="required">*</span></label>
-                                <input type="text" class="form-control " id="tour_guide" name="tour_guide" placeholder="@lang('mountainschool.lblMountainGuidesPH')" value="{{old('tour_guide' ,$tour->basic_settings->contact_person )}}" maxlength="255">
+                                <input type="text" class="form-control " id="tour_guide" name="tour_guide" placeholder="@lang('mountainschool.lblMountainGuidesPH')" value="{{old('tour_guide' ,$tour->basic_settings['contact_person'] )}}" maxlength="255">
                                 <span class="help-block"><strong>{{ $errors->first('tour_guide') }}</strong></span>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                                 <select class="form-control guestsInputCls" id="guests{{$c}}" name="guests{{$c}}[]">
                                                     <option value="0">@lang('mountainschool.lblNoOfGuestsPH')</option>
                                                     @for ($n=1; $n<=30; $n++)
-                                                        <option @if(old('guests', $tour->basic_settings->guests) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuests')</option>
+                                                        <option @if(old('guests', $tour->basic_settings['guests']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuests')</option>
                                                     @endfor
                                                 </select>
 
@@ -88,7 +88,7 @@
                                                 <select class="form-control guidesInputCls" id="no_guides{{$c}}" name="no_guides{{$c}}[]" >
                                                     <option value="0">@lang('mountainschool.lblNoOfnGuidesPH')</option>
                                                     @for($n=1; $n<=8; $n++)
-                                                        <option @if(old('no_guides', $tour->basic_settings->no_guides) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuides')</option>
+                                                        <option @if(old('no_guides', $tour->basic_settings['no_guides']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuides')</option>
                                                     @endfor
                                                 </select>
 
@@ -106,7 +106,7 @@
                                                         <select class="form-control bedsInputCls" id="beds{{$c}}" name="beds{{$c}}[]">
                                                             <option value="">@lang('mountainschool.lblMountainbedsPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
-                                                                <option @if(old('beds', $tour->basic_settings->beds) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptBeds')</option>
+                                                                <option @if(old('beds', $tour->basic_settings['beds']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptBeds')</option>
                                                             @endfor
                                                         </select>
 
@@ -121,7 +121,7 @@
                                                         <select class="form-control dormitoryInputCls" id="dormitory{{$c}}" name="dormitory{{$c}}[]">
                                                             <option value="">@lang('mountainschool.lblMountaindormPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
-                                                                <option @if(old('dormitory', $tour->basic_settings->dorms) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptDorms')</option>
+                                                                <option @if(old('dormitory', $tour->basic_settings['dorms']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptDorms')</option>
                                                             @endfor
                                                         </select>
 
@@ -135,7 +135,7 @@
                                                         <select class="form-control sleepsInputCls" id="sleeps{{$c}}" name="sleeps{{$c}}[]">
                                                             <option value="">@lang('mountainschool.lblSleepingPlacePH')</option>
                                                             @for($n=1; $n<=40; $n++)
-                                                                <option @if(old('sleeps', $tour->basic_settings->sleeps) == $n) selected @endif value="{{$n}}" >{{$n}} @lang('mountainschool.lblOptSleepPlaz')  </option>
+                                                                <option @if(old('sleeps', $tour->basic_settings['sleeps']) == $n) selected @endif value="{{$n}}" >{{$n}} @lang('mountainschool.lblOptSleepPlaz')  </option>
                                                             @endfor
                                                         </select>
 
@@ -177,7 +177,7 @@
                                                     <label>@lang('cabins.lblHalfboard')</label>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="halfboard{{$c}}" class="halfboardCls" name="halfboard{{$c}}[]" value="1" @if(old('halfboard', $tour->basic_settings->half_board) == '1') checked @endif>@lang('cabins.half_board_available')
+                                                            <input type="checkbox" id="halfboard{{$c}}" class="halfboardCls" name="halfboard{{$c}}[]" value="1" @if(old('halfboard', $tour->basic_settings['half_board']) == '1') checked @endif>@lang('cabins.half_board_available')
                                                         </label>
                                                     </div>
                                                 </div>
