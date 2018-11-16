@@ -808,7 +808,11 @@ class BookingsController extends Controller
                 $details_modal               = '<a class="nounderline" data-toggle="modal" data-target="#bookingModal_' . $booking->_id . '">' . $booking->invoice_number . '</a><div class="modal fade" id="bookingModal_' . $booking->_id . '" tabindex="-1" role="dialog" aria-labelledby="userUpdateModalLabel"><div class="modal-dialog"><div class="modal-content">' . $details_contents . '</div></div></div>';
 
                 // Edit booking
-                $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="nounderline m-l-10 text-danger" href=" ' . route('mountainschool.bookings.cancel', ['id' => $booking->_id]) . ' "><i class="fa fa-ban" aria-hidden="true"></i></a>';
+                if ($booking->status != "2") {
+                    $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="nounderline m-l-10 text-danger" href=" ' . route('mountainschool.bookings.cancel', ['id' => $booking->_id]) . ' "><i class="fa fa-ban" aria-hidden="true"></i></a>';
+                } else {
+                    $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                }
 
                 // Data table contents
                 $invoiceNumber_comment        = $details_modal;
