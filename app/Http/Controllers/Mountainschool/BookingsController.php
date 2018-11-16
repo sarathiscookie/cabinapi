@@ -170,15 +170,6 @@ class BookingsController extends Controller
                                     }
                                     /* Checking season end */
 
-                                    // Checking bookings available begins
-                                    $mon_day              = ($cabinDetails->mon_day === 1) ? 'Mon' : 0;
-                                    $tue_day              = ($cabinDetails->tue_day === 1) ? 'Tue' : 0;
-                                    $wed_day              = ($cabinDetails->wed_day === 1) ? 'Wed' : 0;
-                                    $thu_day              = ($cabinDetails->thu_day === 1) ? 'Thu' : 0;
-                                    $fri_day              = ($cabinDetails->fri_day === 1) ? 'Fri' : 0;
-                                    $sat_day              = ($cabinDetails->sat_day === 1) ? 'Sat' : 0;
-                                    $sun_day              = ($cabinDetails->sun_day === 1) ? 'Sun' : 0;
-
                                     //Getting bookings from booking collection status 1=> Fix, 2=> Cancel, 3=> Completed, 4=> Request (Reservation), 5=> Waiting for payment, 6=> Expired, 7=> Inquiry, 8=> Cart 9=> Old (Booking updated)
                                     $bookings             = Booking::select('beds', 'dormitory', 'sleeps')
                                         ->where('is_delete', 0)
@@ -936,15 +927,6 @@ class BookingsController extends Controller
                             }
                         }
                         /* Checking season end */
-
-                        // Checking bookings available begins
-                        $mon_day              = ($cabinDetails->mon_day === 1) ? 'Mon' : 0;
-                        $tue_day              = ($cabinDetails->tue_day === 1) ? 'Tue' : 0;
-                        $wed_day              = ($cabinDetails->wed_day === 1) ? 'Wed' : 0;
-                        $thu_day              = ($cabinDetails->thu_day === 1) ? 'Thu' : 0;
-                        $fri_day              = ($cabinDetails->fri_day === 1) ? 'Fri' : 0;
-                        $sat_day              = ($cabinDetails->sat_day === 1) ? 'Sat' : 0;
-                        $sun_day              = ($cabinDetails->sun_day === 1) ? 'Sun' : 0;
 
                         //Getting bookings from booking collection status 1=> Fix, 2=> Cancel, 3=> Completed, 4=> Request (Reservation), 5=> Waiting for payment, 6=> Expired, 7=> Inquiry, 8=> Cart 9=> Old (Booking updated)
                         $bookings             = Booking::select('beds', 'dormitory', 'sleeps')
