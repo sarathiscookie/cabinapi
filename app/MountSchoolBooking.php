@@ -107,7 +107,7 @@ class MountSchoolBooking extends Eloquent
     public function handleCancelRequest()
     {
         // Cancel the booking records
-        $this->is_delete = 1;
+        $this->status = "2";
         $this->save();
     }
 }
