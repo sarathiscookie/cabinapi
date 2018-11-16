@@ -501,12 +501,13 @@ class BookingsController extends Controller
                                     }
                                 }
 
-                                $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tour_name))->first();
+                                //return $request->all();
+                                $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tourname))->first();
 
                                 // Save Booking Data
                                 $booking = new MountSchoolBooking;
 
-                                $booking->tour_name      = $tour['name'];
+                                $booking->tour_name      = $tour['tour_name'];
                                 $booking->ind_tour_no    = $request->ind_tour_no[0];
                                 $booking->no_guides      = $request->$no_guides[0];
                                 $booking->total_guests   = $request->$guests[0] + $request->$no_guides[0];
