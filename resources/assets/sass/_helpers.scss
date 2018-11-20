@@ -25,6 +25,14 @@
     margin: auto !important;
 }
 
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.mr-auto {
+    margin-right: auto !important;
+}
+
 @for $i from 0 through 25 {
     .p-l-#{$i * 5} {
         padding-left: #{$i * 5}px !important;
@@ -109,4 +117,16 @@
 
 .font-overline {
     text-decoration: overline;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
 }

@@ -33,12 +33,24 @@ class SettingsController extends Controller
     public function update(TourRequest $request)
     {
         if($request->has('updateBasicSettings')) {
-            Settings::updateOrCreate(
-                ['user_id' => Auth::user()->_id, 'is_delete' => 0],
-                ['contact_person' => $request->contact_person, 'no_guides' => (int)$request->no_guides, 'half_board' => $request->half_board, 'beds' => (int)$request->beds, 'dorms' => (int)$request->dorms, 'sleeps' => (int)$request->sleeps, 'guests' => (int)$request->guests]
-            );
+            if ((($request->no_guides + $request->guests) == $request->sleeps) || ($request->no_guides + $request->guests) == ($request->beds + $request->dorms)) {
+                Settings::updateOrCreate(
+                    ['user_id'           => Auth::user()->_id, 'is_delete' => 0],
+                    [
+                        'contact_person' => $request->contact_person,
+                        'no_guides'      => (int)$request->no_guides,
+                        'half_board'     => $request->half_board,
+                        'beds'           => (int)$request->beds,
+                        'dorms'          => (int)$request->dorms,
+                        'sleeps'         => (int)$request->sleeps,
+                        'guests'         => (int)$request->guests
+                    ]
+                );
 
-            return redirect()->back()->with('success', __('tours.successMsgbsUpt'));
+                return redirect()->back()->with('success', __('tours.successMsgbsUpt'));
+            }
+
+            return back()->with('error', __('tours.settings.match.sleeps_and_guests'));
         }
         else {
             abort(404);

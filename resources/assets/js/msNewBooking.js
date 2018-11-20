@@ -8,9 +8,9 @@ $(function(){
 
     // Create Mountain School Booking
     $('#newBooking').on('click', function() {
-        var divId    = 'tourbox';
-        var url      = '/mountainschool/bookings/store';
-        var $btn     = $(this).button('loading');
+        var divId = 'tourbox';
+        var url   = '/mountainschool/bookings/store';
+        var $btn  = $(this).button('loading');
         $('#' + divId).find('.has-error').removeClass('has-error');
         $('#' + divId).find('.help-block').html('<strong></strong>');
         $btn.button('loading');
@@ -41,8 +41,7 @@ $(function(){
                         $( "#errors_"+bookingOrder ).html( errorsHtml );
 
                         $btn.button('reset');
-                    }
-                    else {
+                    } else {
                         $( "#errors_"+bookingOrder ).hide();
                         var errData = data.responseJSON;
 
@@ -66,20 +65,39 @@ $(function(){
                         $btn.button('reset');
                     }
                 }
+
+                if( data.status === 423) {
+                    var response     = JSON.parse(data.responseText);
+                    var bookingOrder = data.responseJSON.bookingOrder;
+                    var tourNumber   = data.responseJSON.tourNumber;
+                    console.log('here');
+
+                    $( "#errors_" + bookingOrder + '_' + tourNumber ).show();
+
+                    errorsHtml = '<div class="alert alert-danger"><ul>';
+                    errorsHtml += '<li>' + response.error + '</li>';
+                    errorsHtml += '</ul></div>';
+
+                    $( "#errors_" + bookingOrder + '_' + tourNumber ).html( errorsHtml );
+
+                    $btn.button('reset');
+                }
             });
     });
 
     // Choose tour name
+    var tour_index = 0;
     $('#tourname').change(function () {
         var tourId = $('#tourname').val();
+        tour_index++;
         if(tourId != '') {
             ovelayLoading('add', 'tourbox');
             $.ajax({
                 type: "GET",
-                url: '/mountainschool/tours/gettour/'+tourId,
+                url: '/mountainschool/tours/gettour/'+tourId+'?tour_index='+tour_index,
                 success: function (data) {
                     ovelayLoading('remove');
-                    $('#cabindtls').html(data);
+                    $('#cabindtls').append(data);
                     $('#newBooking').show();
                 }
             });
@@ -96,4 +114,8 @@ $(function(){
             $("#overlay").remove();
         }
     }
+
+    $(document).on('click','#remove',function(e) {
+        $(this).closest('.col-md-12').remove();
+    });
 });

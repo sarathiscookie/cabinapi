@@ -180,4 +180,9 @@ return [
     'bookingLimitReachedTwo'                    => ' Personen buchen. Sollten Sie mehr Plätze benötigen, starten Sie bitte eine neue Buchung.',
     'sleepsNotAvailable'                        => ' Schlafplätze sind nicht verfügbar am ',
     'alreadyFilledSleeps'                       => ' Schlafplätze sind ausgebucht am ',
+
+    'name.required'                             => 'Tourname muss angegeben werden.',
+    'number.required'                           => 'Tournummer muss angegeben werden.',
+
+    'settings.match.sleeps_and_guests'          => 'The sum of guests and guides has to be equal to the sum of beds and dorms, or equal to the number of sleeps.'
 ];
