@@ -70,7 +70,6 @@ $(function(){
                     var response     = JSON.parse(data.responseText);
                     var bookingOrder = data.responseJSON.bookingOrder;
                     var tourNumber   = data.responseJSON.tourNumber;
-                    console.log('here');
 
                     $( "#errors_" + bookingOrder + '_' + tourNumber ).show();
 

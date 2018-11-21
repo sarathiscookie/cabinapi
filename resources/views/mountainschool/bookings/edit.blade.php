@@ -159,7 +159,7 @@
                                 <label>
                                     {{ __('mountainschool/bookings.edit.form.guides') }} <span class="required">*</span>
                                 </label>
-                                <input type="text"
+                                <input type="number"
                                        class="form-control"
                                        id="guides"
                                        name="guides"
@@ -177,7 +177,7 @@
                                 <label>
                                     {{ __('mountainschool/bookings.edit.form.guests') }} <span class="required">*</span>
                                 </label>
-                                <input type="text"
+                                <input type="number"
                                        class="form-control"
                                        id="guests"
                                        name="guests"

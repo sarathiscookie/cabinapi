@@ -57,8 +57,6 @@ class BookingsController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        //return $request->all();
-        //return count($request->get('ind_tour_no'));
         if (isset($request->formPart) && $request->formPart == 'newBooking') {
             $available             = 'failure';
             $bedsRequest           = 0;
@@ -502,33 +500,6 @@ class BookingsController extends Controller
                                         }
                                     }
                                 }
-
-                                //return $request->all();
-                                $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tourname))->first();
-
-                                // Save Booking Data
-                                $booking = new MountSchoolBooking;
-
-                                $booking->tour_name      = $tour['tour_name'];
-                                $booking->ind_tour_no    = $request->ind_tour_no[$tb];
-                                $booking->no_guides      = $request->no_guides[$tb][$i];
-                                $booking->total_guests   = $request->guests[$tb][$i] + $request->$no_guides[$tb][$i];
-                                $booking->guests         = $request->$guests[$tb][$i];
-                                $booking->tour_guide     = $request->tour_guide[$tb];
-                                $booking->ind_notice     = $request->ind_notice[$tb];
-                                $booking->cabin_name     = $cabinDetails->name;
-                                $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
-                                $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
-                                $booking->user_id        = new \MongoDB\BSON\ObjectID(Auth::id());
-                                $booking->bookingdate    = Carbon::now();
-                                $booking->invoice_number = $invoiceNumber;
-                                $booking->is_delete      = 0;
-                                $booking->status         = "1";
-                                $booking->sleeps         = $request->sleeps[$tb][$i];
-                                $booking->beds           = $request->beds[$tb][$i];
-                                $booking->dormitory      = $request->dormitory[$tb][$i];
-
-                                $booking->save();
                             }
                         }
                         else {
@@ -536,13 +507,42 @@ class BookingsController extends Controller
                         }
                     }
                     else {
-                        //return response()->json(['failureMsg' =>  __('tours.dateGreater')]);
                         return response()->json(['error' => __("tours.dateGreater"), 'bookingOrder' => $i], 423);
                     }
                 }
             }
 
-            // Successfully save a booking
+            $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tourname))->first();
+
+            // Save Booking Data
+            for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
+                for ($i = 0; $i < $request->no_cabins; $i++) {
+                    $booking = new MountSchoolBooking;
+
+                    $booking->tour_name      = $tour['tour_name'];
+                    $booking->ind_tour_no    = $request->ind_tour_no[$tb];
+                    $booking->no_guides      = $request->no_guides[$tb][$i];
+                    $booking->total_guests   = $request->guests[$tb][$i] + $request->$no_guides[$tb][$i];
+                    $booking->guests         = $request->guests[$tb][$i];
+                    $booking->tour_guide     = $request->tour_guide[$tb];
+                    $booking->ind_notice     = $request->ind_notice[$tb];
+                    $booking->cabin_name     = $cabinDetails->name;
+                    $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
+                    $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
+                    $booking->user_id        = new \MongoDB\BSON\ObjectID(Auth::id());
+                    $booking->bookingdate    = Carbon::now();
+                    $booking->invoice_number = $invoiceNumber;
+                    $booking->is_delete      = 0;
+                    $booking->status         = "1";
+                    $booking->sleeps         = $request->sleeps[$tb][$i];
+                    $booking->beds           = $request->beds[$tb][$i];
+                    $booking->dormitory      = $request->dormitory[$tb][$i];
+
+                    $booking->save();
+                }
+            }
+
+            // Return success response
             $available = 'success';
             return response()->json(['response' => $available]);
         }

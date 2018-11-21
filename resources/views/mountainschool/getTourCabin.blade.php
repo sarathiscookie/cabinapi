@@ -50,8 +50,6 @@
                     @isset($tour->cabins)
                         @php
                             $c = 0;
-                            $calendar_index = 0;
-                            $cabins_number = 0;
                         @endphp
 
                         @foreach($tour->cabins as $key => $valArray)
@@ -59,12 +57,6 @@
                                 $c++;
                                 $cabinId  = $valArray['cId'];
                                 $calendar = $calendarServices->calendar($cabinId);
-
-                                if($cabins_number) {
-                                    $calendar_index = $cabins_number + count($tour->cabins);
-                                }
-
-                                $calendar_index = count($tour->cabins);
                             @endphp
                             <div class="row cabinlistcss" style="margin: 2px;">
                                 <div class="col-md-12">
@@ -79,7 +71,6 @@
 
                                     <div class="row">
                                         <div class="col-md-2">
-                                            {{ $c }}
                                             <div class="form-group {{ $errors->has('guests') ? ' has-error' : '' }}">
                                                 <label>@lang('mountainschool.lblNoOfGuests')<span class="required">*</span></label>
                                                 <select class="form-control guestsInputCls" id="guests" name="guests[{{ $tour_index - 1 }}][]">
@@ -156,17 +147,17 @@
                                             @endif
                                         @endif
 
-                                        <div class="calendar" data-id="{{ $calendar_index }}" data-cabinid="{{ $valArray['cId'] }}">
-                                            <div class="holiday{{ $calendar_index }}" data-holiday="{{ $calendar[0] }}"></div>
-                                            <div class="green{{ $calendar_index }}" data-green="{{ $calendar[1] }}"></div>
-                                            <div class="orange{{ $calendar_index }}" data-orange="{{ $calendar[2] }}"></div>
-                                            <div class="red{{ $calendar_index }}" data-red="{{ $calendar[3] }}"></div>
-                                            <div class="notSeasonTime{{ $calendar_index }}" data-notseasontime="{{ $calendar[4] }}"></div>
+                                        <div class="calendar" data-id="{{ $tour_index }}{{ $c }}" data-cabinid="{{ $valArray['cId'] }}">
+                                            <div class="holiday{{ $tour_index }}{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
+                                            <div class="green{{ $tour_index }}{{ $c }}" data-green="{{ $calendar[1] }}"></div>
+                                            <div class="orange{{ $tour_index }}{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
+                                            <div class="red{{ $tour_index }}{{ $c }}" data-red="{{ $calendar[3] }}"></div>
+                                            <div class="notSeasonTime{{ $tour_index }}{{ $c }}" data-notseasontime="{{ $calendar[4] }}"></div>
 
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckIn')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $calendar_index }}" name="check_in[{{ $tour_index - 1 }}][]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off">
+                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $tour_index }}{{ $c }}" name="check_in[{{ $tour_index - 1 }}][]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_in') }}</strong></span>
                                                 </div>
@@ -175,7 +166,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_out') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckOut')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $calendar_index }}" name="check_out[{{ $tour_index - 1}}][]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off">
+                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $tour_index }}{{ $c }}" name="check_out[{{ $tour_index - 1}}][]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_out') }}</strong></span>
                                                 </div>
