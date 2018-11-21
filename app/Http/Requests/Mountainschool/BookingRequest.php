@@ -38,8 +38,8 @@ class BookingRequest extends FormRequest
 
         for ($i=1; $i <= $m; $i++) {
             for($j = 1; $j <= $k; $j++) {
-                $rules1['check_in' . $i . $j . '.*.*']   = 'required';
-                $rules1['check_out' . $i . $j . '.*.*']  = 'required';
+                $rules1['check_in' . $i . $j . '.*']   = 'required';
+                $rules1['check_out' . $i . $j . '.*']  = 'required';
             }
         }
 
@@ -67,7 +67,7 @@ class BookingRequest extends FormRequest
     public function messages()
     {
         $k       =  $this->request->get('no_cabins');
-        $m     = count($this->request->get('ind_tour_no'));
+        $m       = count($this->request->get('ind_tour_no'));
         $msgApp  = [];
 
         for($j = 1 ; $j <= $k ; $j++) {
@@ -82,8 +82,8 @@ class BookingRequest extends FormRequest
 
         for ($i=1; $i <= $m; $i++) {
             for($j = 1; $j <= $k; $j++) {
-                $msgApp[ 'check_in' . $i . $j . '.*.*.required']          = __('tours.checkInRequired');
-                $msgApp[ 'check_out' . $i . $j . '.*.*.required']         = __('tours.checkOutRequired');
+                $msgApp[ 'check_in' . $i . $j . '.*.required']          = __('tours.checkInRequired');
+                $msgApp[ 'check_out' . $i . $j . '.*.required']         = __('tours.checkOutRequired');
             }
         }
 

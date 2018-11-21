@@ -157,7 +157,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckIn')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $tour_index }}{{ $c }}" name="check_in{{ $tour_index }}{{ $c }}[{{ $tour_index - 1 }}][]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off" required="required">
+                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $tour_index }}{{ $c }}" name="check_in{{ $tour_index }}{{ $c }}[]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off" required="required">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_in') }}</strong></span>
                                                 </div>
@@ -166,7 +166,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_out') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckOut')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $tour_index }}{{ $c }}" name="check_out{{ $tour_index }}{{ $c }}[{{ $tour_index - 1}}][]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off" required="required">
+                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $tour_index }}{{ $c }}" name="check_out{{ $tour_index }}{{ $c }}[]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off" required="required">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_out') }}</strong></span>
                                                 </div>
