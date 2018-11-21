@@ -67,6 +67,7 @@ $(function(){
                 }
 
                 if( data.status === 423) {
+                    $(".error").hide();
                     var response     = JSON.parse(data.responseText);
                     var bookingOrder = data.responseJSON.bookingOrder;
                     var tourNumber   = data.responseJSON.tourNumber;

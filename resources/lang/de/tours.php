@@ -184,5 +184,5 @@ return [
     'name.required'                             => 'Tourname muss angegeben werden.',
     'number.required'                           => 'Tournummer muss angegeben werden.',
 
-    'settings.match.sleeps_and_guests'          => 'The sum of guests and guides has to be equal to the sum of beds and dorms, or equal to the number of sleeps.'
+    'settings.match.sleeps_and_guests'          => 'Die Summe der Gäste und Bergführer muss gleich der Summe der Betten und Lager oder gleich der Anzahl der Schlafplätze sein.'
 ];

@@ -300,7 +300,10 @@
                 var v =$(this).val();  // getting search input value
                 booking_data.columns(i).search(v).draw();
             });
+        });
 
+        $("#booking_data").on("click", ".cancel-booking", function() {
+            return confirm('{{ trans('mountainschool/bookings.notice.cancel.confirm') }}');
         });
     </script>
 @endsection

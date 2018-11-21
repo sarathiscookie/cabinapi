@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12" id="errors_{{ $c - 1 }}_{{ $tour_index - 1 }}" style="display: none;"></div>
+                                    <div class="col-md-12 error" id="errors_{{ $c - 1 }}_{{ $tour_index - 1 }}" style="display: none;"></div>
 
                                     <div class="row">
                                         <div class="col-md-2">

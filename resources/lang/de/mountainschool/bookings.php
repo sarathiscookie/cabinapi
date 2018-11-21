@@ -30,6 +30,7 @@ return [
 
     // Notices
     'notice.save'                   => "Buchung wurde erfolgreich gespeichert",
-    'notice.update'                => "Buchung wurde erfolgreich aktualisiert",
-    'notice.cancel'                 => "Buchung erfolgreich storniert"
+    'notice.update'                 => "Buchung wurde erfolgreich aktualisiert",
+    'notice.cancel'                 => "Buchung erfolgreich storniert",
+    'notice.cancel.confirm'         => "Sind Sie sicher, dass Sie diese Buchung stornieren möchten"
 ];

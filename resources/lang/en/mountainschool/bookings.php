@@ -30,6 +30,7 @@ return [
 
     // Notices
     'notice.save'               => "Booking was successfully saved",
-    'notice.update'            => "Booking was successfully updated",
-    'notice.cancel'             => "Booking was successfully canceled"
+    'notice.update'             => "Booking was successfully updated",
+    'notice.cancel'             => "Booking was successfully canceled",
+    'notice.cancel.confirm'     => "Are you sure you want to cancel the booking?"
 ];

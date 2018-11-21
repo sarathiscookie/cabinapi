@@ -73,15 +73,6 @@ class BookingsController extends Controller
             $clickHere             = '<a href="/inquiry">click here</a>';
             for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
                 for ($i = 0; $i < $request->no_cabins; $i++) {
-                    $cabinId             = 'cabinId' . $i;
-                    $no_guides           = 'no_guides' . $i;
-                    $guests              = 'guests' . $i;
-                    $check_in            = 'check_in' . $i;
-                    $check_out           = 'check_out' . $i;
-                    $halfboard           = 'halfboard' . $i;
-                    $dormitory           = 'dormitory' . $i;
-                    $beds                = 'beds' . $i;
-                    $sleeps              = 'sleeps' . $i;
                     $monthBegin          = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
                     $monthEnd            = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
                     $d1                  = new DateTime($monthBegin);
@@ -522,7 +513,7 @@ class BookingsController extends Controller
                     $booking->tour_name      = $tour['tour_name'];
                     $booking->ind_tour_no    = $request->ind_tour_no[$tb];
                     $booking->no_guides      = $request->no_guides[$tb][$i];
-                    $booking->total_guests   = $request->guests[$tb][$i] + $request->$no_guides[$tb][$i];
+                    $booking->total_guests   = $request->guests[$tb][$i] + $request->no_guides[$tb][$i];
                     $booking->guests         = $request->guests[$tb][$i];
                     $booking->tour_guide     = $request->tour_guide[$tb];
                     $booking->ind_notice     = $request->ind_notice[$tb];
@@ -812,7 +803,7 @@ class BookingsController extends Controller
 
                 // Edit booking
                 if ($booking->status != "2") {
-                    $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="nounderline m-l-10 text-danger" href=" ' . route('mountainschool.bookings.cancel', ['id' => $booking->_id]) . ' "><i class="fa fa-ban" aria-hidden="true"></i></a>';
+                    $edit_section                  = '<a class="nounderline" href=" ' . route('mountainschool.bookings.edit', ['id' => $booking->_id]) . ' "><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="nounderline m-l-10 text-danger cancel-booking" onclick="console.log(false);" href=" ' . route('mountainschool.bookings.cancel', ['id' => $booking->_id]) . ' "><i class="fa fa-ban" aria-hidden="true"></i></a>';
                 } else {
                     $edit_section                  = '----';
                 }
