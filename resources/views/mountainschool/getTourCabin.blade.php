@@ -3,7 +3,7 @@
     <div class="box box-default box-solid">
         <div class="box-header with-border d-flex align-items-center">
             <h3 class="box-title">@lang('mountainschool.tourDetails')</h3>
-            <i class="fa fa-times-circle text-danger ml-auto" id="remove"></i>
+            <i class="fa fa-times-circle text-danger ml-auto remove-booking" id="remove"></i>
         </div>
         <!-- /.box-header -->
 
