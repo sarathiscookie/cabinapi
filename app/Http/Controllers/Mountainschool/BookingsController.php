@@ -73,8 +73,13 @@ class BookingsController extends Controller
             $clickHere             = '<a href="/inquiry">click here</a>';
             for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
                 for ($i = 0; $i < $request->no_cabins; $i++) {
-                    $monthBegin          = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
-                    $monthEnd            = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
+                    $tour_index = $tb+1;
+                    $cabin_index = $i+1;
+                    $check_in            = 'check_in' . $tour_index . $cabin_index;
+                    $check_out           = 'check_out' . $tour_index . $cabin_index;
+
+                    $monthBegin          = DateTime::createFromFormat('d.m.y', $request->$check_in[$tb][$i])->format('Y-m-d');
+                    $monthEnd            = DateTime::createFromFormat('d.m.y', $request->$check_out[$tb][$i])->format('Y-m-d');
                     $d1                  = new DateTime($monthBegin);
                     $d2                  = new DateTime($monthEnd);
                     $dateDifference      = $d2->diff($d1);
@@ -518,8 +523,8 @@ class BookingsController extends Controller
                     $booking->tour_guide     = $request->tour_guide[$tb];
                     $booking->ind_notice     = $request->ind_notice[$tb];
                     $booking->cabin_name     = $cabinDetails->name;
-                    $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
-                    $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
+                    $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->$check_in[$tb][$i])->format('Y-m-d');
+                    $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->$check_out[$tb][$i])->format('Y-m-d');
                     $booking->user_id        = new \MongoDB\BSON\ObjectID(Auth::id());
                     $booking->bookingdate    = Carbon::now();
                     $booking->invoice_number = $invoiceNumber;

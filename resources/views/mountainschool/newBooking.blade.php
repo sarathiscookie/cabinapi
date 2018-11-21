@@ -69,7 +69,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button style="display: none;" type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="loading..." value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                                <button style="display: none;" type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="{{ __('mountainschool/bookings.button.loading') }}" value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
                             </div>
                         </div>
                     </div>

@@ -24,9 +24,11 @@ return [
     'edit.form.guests'              => "Anzahl Gäste",
     'edit.form.beds'                => "Betten Anzahl",
     'edit.form.sleeps'              => "Übernachtungen Anzahl",
-    'edit.form.dorms'               => "Schlafzimmer Anzahl",
+    'edit.form.dorms'               => "Lager Anzahl",
     'edit.form.halfboard'           => "Halbpension",
     'edit.form.save'                => "Speichern",
+
+    'button.loading'                => "Lädt...",
 
     // Notices
     'notice.save'                   => "Buchung wurde erfolgreich gespeichert",

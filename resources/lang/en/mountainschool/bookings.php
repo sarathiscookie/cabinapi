@@ -28,6 +28,9 @@ return [
     'edit.form.halfboard'       => "Half Board Available",
     'edit.form.save'            => "Save",
 
+    // Buttons
+    'button.loading'            => "Loading...",
+
     // Notices
     'notice.save'               => "Booking was successfully saved",
     'notice.update'             => "Booking was successfully updated",
