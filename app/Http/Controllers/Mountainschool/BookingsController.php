@@ -57,8 +57,6 @@ class BookingsController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        // return $request->all();
-        // return count($request->get('ind_tour_no'));
         if (isset($request->formPart) && $request->formPart == 'newBooking') {
             $available             = 'failure';
             $bedsRequest           = 0;
@@ -543,6 +541,8 @@ class BookingsController extends Controller
                         $dormitory           = 'dormitory' . $tour_index . $i;
                         $sleeps              = 'sleeps' . $tour_index . $i;
 
+                        $halfboard           = 'halfboard' . $tour_index . $i;
+
                         $booking = new MountSchoolBooking;
 
                         $booking->tour_name      = $tour['tour_name'];
@@ -563,6 +563,7 @@ class BookingsController extends Controller
                         $booking->sleeps         = $request->$sleeps[0];
                         $booking->beds           = $request->$beds[0];
                         $booking->dormitory      = $request->$dormitory[0];
+                        $booking->halfboard      = $request->$halfboard[0] ? $request->$halfboard[0] : 0;
 
                         $booking->save();
                     }

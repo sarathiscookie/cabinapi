@@ -92,7 +92,9 @@ class MountSchoolBooking extends Eloquent
 
         // Save booking data if it has halfboard option
         if ($request->has('halfboard')) {
-            $this->halfboard = "1";
+            $this->halfboard = 1;
+        } else {
+            $this->halfboard = 0;
         }
 
         // Save the records in the database
