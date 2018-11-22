@@ -63,17 +63,17 @@
                                     <div class="row" style="margin-bottom: 5px;">
                                         <div class="col-md-12 gradient-gray">
                                             <h4 class="fa fa-home"><strong>{{$valArray['name']}} @if($valArray['other_cabin'] == '1')<span class="badge">@lang('tours.neighborCabin')</span>@endif</strong></h4>
-                                            <input class="otherCabinCls" type="hidden" data-other_cabin="{{$valArray['other_cabin']}}" value="{{$valArray['cId']}}" name="cabinId[{{ $tour_index - 1 }}][]">
+                                            <input class="otherCabinCls" type="hidden" data-other_cabin="{{$valArray['other_cabin']}}" value="{{$valArray['cId']}}" name="cabinId[{{ $tour_index }}][]">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12 error" id="errors_{{ $c - 1 }}_{{ $tour_index - 1 }}" style="display: none;"></div>
+                                    <div class="col-md-12 error" id="errors_{{ $c }}_{{ $tour_index }}" style="display: none;"></div>
 
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('guests') ? ' has-error' : '' }}">
                                                 <label>@lang('mountainschool.lblNoOfGuests')<span class="required">*</span></label>
-                                                <select class="form-control guestsInputCls" id="guests" name="guests[{{ $tour_index - 1 }}][]">
+                                                <select class="form-control guestsInputCls" id="guests" name="guests{{ $tour_index }}{{ $c }}[]">
                                                     <option value="0">@lang('mountainschool.lblNoOfGuestsPH')</option>
                                                     @for ($n=1; $n<=30; $n++)
                                                         <option @if(old('guests', $tour->basic_settings['guests']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuests')</option>
@@ -87,7 +87,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('no_guides') ? ' has-error' : '' }}">
                                                 <label>@lang('mountainschool.lblNoOfnGuides')</label>
-                                                <select class="form-control guidesInputCls" id="no_guides" name="no_guides[{{ $tour_index - 1 }}][]" >
+                                                <select class="form-control guidesInputCls" id="no_guides" name="no_guides{{ $tour_index }}{{ $c }}[]" >
                                                     <option value="0">@lang('mountainschool.lblNoOfnGuidesPH')</option>
                                                     @for($n=1; $n<=8; $n++)
                                                         <option @if(old('no_guides', $tour->basic_settings['no_guides']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuides')</option>
@@ -98,14 +98,14 @@
                                             </div>
                                         </div>
 
-                                        <input type="hidden" name="sleeping_place[{{ $tour_index - 1 }}][]" value="{{ $valArray['sleeping_place'] }}">
+                                        <input type="hidden" name="sleeping_place[{{ $tour_index }}][]" value="{{ $valArray['sleeping_place'] }}">
 
                                         @if($valArray['other_cabin'] == '0')
                                             @if($valArray['sleeping_place'] != 1)
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
                                                         <label>@lang('mountainschool.lblMountainbeds')</label>
-                                                        <select class="form-control bedsInputCls" id="beds" name="beds[{{ $tour_index - 1 }}][]">
+                                                        <select class="form-control bedsInputCls" id="beds" name="beds{{ $tour_index }}{{ $c }}[]">
                                                             <option value="">@lang('mountainschool.lblMountainbedsPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
                                                                 <option @if(old('beds', $tour->basic_settings['beds']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptBeds')</option>
@@ -120,7 +120,7 @@
                                                     <div class="form-group {{ $errors->has('dormitory') ? ' has-error' : '' }}">
                                                         <label> @lang('mountainschool.lblMountaindorm')</label>
 
-                                                        <select class="form-control dormitoryInputCls" id="dormitory" name="dormitory[{{ $tour_index - 1 }}][]">
+                                                        <select class="form-control dormitoryInputCls" id="dormitory" name="dormitory{{ $tour_index }}{{ $c }}[]">
                                                             <option value="">@lang('mountainschool.lblMountaindormPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
                                                                 <option @if(old('dormitory', $tour->basic_settings['dorms']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptDorms')</option>
@@ -134,7 +134,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
                                                         <label>@lang('mountainschool.lblSleepingPlace')<span class="required">*</span></label>
-                                                        <select class="form-control sleepsInputCls" id="sleeps" name="sleeps[{{ $tour_index - 1 }}][]">
+                                                        <select class="form-control sleepsInputCls" id="sleeps" name="sleeps{{ $tour_index }}{{ $c }}[]">
                                                             <option value="">@lang('mountainschool.lblSleepingPlacePH')</option>
                                                             @for($n=1; $n<=40; $n++)
                                                                 <option @if(old('sleeps', $tour->basic_settings['sleeps']) == $n) selected @endif value="{{$n}}" >{{$n}} @lang('mountainschool.lblOptSleepPlaz')  </option>
@@ -179,7 +179,7 @@
                                                     <label>@lang('cabins.lblHalfboard')</label>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="halfboard{{ $tour_index }}" class="halfboardCls" name="halfboard[{{ $tour_index - 1 }}][]" value="1" @if(old('halfboard', $tour->basic_settings['half_board']) == '1') checked @endif>@lang('cabins.half_board_available')
+                                                            <input type="checkbox" id="halfboard{{ $tour_index }}{{ $c }}" class="halfboardCls" name="halfboard{{ $tour_index }}{{ $c }}[]" value="1" @if(old('halfboard', $tour->basic_settings['half_board']) == '1') checked @endif>@lang('cabins.half_board_available')
                                                         </label>
                                                     </div>
                                                 </div>
@@ -190,7 +190,8 @@
                                 </div>
                             </div>
                         @endforeach
-                        <input type="hidden" name="no_cabins" value="{{$tour->no_cabins}}">
+                        <input type="hidden" name="no_cabins[{{ $tour_index }}]" value="{{$tour->no_cabins}}">
+                        <input type="hidden" name="tours_ids[]" value="{{$tour->_id}}">
                     @endisset
                 </div>
             </div>

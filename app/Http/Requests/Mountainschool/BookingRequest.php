@@ -24,22 +24,21 @@ class BookingRequest extends FormRequest
      */
     public function rules()
     {
+        $m = count($this->request->get('ind_tour_no'));
 
-        $k     = $this->request->get('no_cabins');
-        $m     = count($this->request->get('ind_tour_no'));
         $rules1 = [];
 
-        for($j = 1; $j <= $k; $j++) {
-            $rules1['guests'.$j.'.*']     = 'required|not_in:0';
-            $rules1['sleeps'.$j.'.*']     = 'required|not_in:0';
-            $rules1['beds'.$j.'.*']       = 'required_without:dormitory'.$j.'.*';
-            $rules1['dormitory'.$j.'.*']  = 'required_without:beds'.$j.'.*';
-        }
+        for ($j = 0; $j < $m; $j++) {
+            $tour = $this->request->get('tours_ids')[$j];
+            $k = $this->request->get('no_cabins')[$tour];
 
-        for ($i=1; $i <= $m; $i++) {
-            for($j = 1; $j <= $k; $j++) {
-                $rules1['check_in' . $i . $j . '.*']   = 'required';
-                $rules1['check_out' . $i . $j . '.*']  = 'required';
+            for ($i = 1; $i <= $k; $i++) {
+                $rules1['guests' . $tour . $i . '.*']     = 'required|not_in:0';
+                $rules1['sleeps' . $tour . $i. '.*']     = 'required|not_in:0';
+                $rules1['beds' . $tour . $i. '.*']       = 'required_without:dormitory';
+                $rules1['dormitory' . $tour . $i. '.*']  = 'required_without:beds';
+                $rules1['check_in' . $tour . $i. '.*']   = 'required';
+                $rules1['check_out' . $tour . $i. '.*']  = 'required';
             }
         }
 
@@ -66,24 +65,24 @@ class BookingRequest extends FormRequest
      */
     public function messages()
     {
-        $k       =  $this->request->get('no_cabins');
-        $m       = count($this->request->get('ind_tour_no'));
+        $m = count($this->request->get('ind_tour_no'));
+
         $msgApp  = [];
 
-        for($j = 1 ; $j <= $k ; $j++) {
-            $msgApp[ 'no_guides'.$j.'.*.required']         = __('tours.guidesRequired');
-            $msgApp[ 'guests'.$j.'.*.required']            = __('tours.guestsRequired');
-            $msgApp[ 'guests'.$j.'.*.not_in']              = __('tours.guestNotIn');
-            $msgApp[ 'sleeps'.$j.'.*.required']            = __('tours.sleepsRequired');
-            $msgApp[ 'sleeps'.$j.'.*.not_in']              = __('tours.sleepsNotIn');
-            $msgApp[ 'beds'.$j.'.*.required_without']      = __('tours.bedsRequiredWithout');
-            $msgApp[ 'dormitory'.$j.'.*.required_without'] = __('tours.dormsRequireWithout');
-        }
+        for ($j = 0; $j < $m; $j++) {
+            $tour = $this->request->get('tours_ids')[$j];
+            $k = $this->request->get('no_cabins')[$tour];
 
-        for ($i=1; $i <= $m; $i++) {
-            for($j = 1; $j <= $k; $j++) {
-                $msgApp[ 'check_in' . $i . $j . '.*.required']          = __('tours.checkInRequired');
-                $msgApp[ 'check_out' . $i . $j . '.*.required']         = __('tours.checkOutRequired');
+            for ($i=1; $i <= $k; $i++) {
+                $msgApp[ 'no_guides' . $tour . $i . '.*.required']         = __('tours.guidesRequired');
+                $msgApp[ 'guests' . $tour . $i . '.*.required']            = __('tours.guestsRequired');
+                $msgApp[ 'guests' . $tour . $i . '.*.not_in']              = __('tours.guestNotIn');
+                $msgApp[ 'sleeps' . $tour . $i . '.*.required']            = __('tours.sleepsRequired');
+                $msgApp[ 'sleeps' . $tour . $i . '.*.not_in']              = __('tours.sleepsNotIn');
+                $msgApp[ 'beds' . $tour . $i . '.*.required_without']      = __('tours.bedsRequiredWithout');
+                $msgApp[ 'dormitory'. $tour . $i .'.*.required_without']   = __('tours.dormsRequireWithout');
+                $msgApp[ 'check_in' . $tour . $i . '.*.required']          = __('tours.checkInRequired');
+                $msgApp[ 'check_out' . $tour . $i . '.*.required']         = __('tours.checkOutRequired');
             }
         }
 

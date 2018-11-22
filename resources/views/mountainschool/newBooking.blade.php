@@ -4,9 +4,6 @@
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
-    @php
-        $tours = 0;
-    @endphp
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">

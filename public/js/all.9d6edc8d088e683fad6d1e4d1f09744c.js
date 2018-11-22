@@ -304,7 +304,13 @@ $(function(){
         }
     }
 
-    $(document).on('click','#remove',function(e) {
-        $(this).closest('.col-md-12').remove();
+    $('.remove-booking').click(function() {
+        $.ajax({
+            type: "GET",
+            url: '/mountainschool/tours/gettour/'+tourId+'?remove_tour=remove_tour',
+            success: function (data) {
+                $(this).closest('.col-md-12').remove();
+            }
+        });
     });
 });

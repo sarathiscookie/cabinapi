@@ -86,15 +86,13 @@ $(function(){
     });
 
     // Choose tour name
-    var tour_index = 0;
     $('#tourname').change(function () {
         var tourId = $('#tourname').val();
-        tour_index++;
         if(tourId != '') {
             ovelayLoading('add', 'tourbox');
             $.ajax({
                 type: "GET",
-                url: '/mountainschool/tours/gettour/'+tourId+'?tour_index='+tour_index,
+                url: '/mountainschool/tours/gettour/'+tourId,
                 success: function (data) {
                     ovelayLoading('remove');
                     $('#cabindtls').append(data);

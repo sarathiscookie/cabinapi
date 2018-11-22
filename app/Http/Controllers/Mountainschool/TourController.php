@@ -451,8 +451,8 @@ class TourController extends Controller
         }
 
         return view('mountainschool.getTourCabin', [
-            'tour' => $tours,
-            'tour_index' => request()->tour_index
+            'tour'       => $tours,
+            'tour_index' => $id
         ]);
     }
 
