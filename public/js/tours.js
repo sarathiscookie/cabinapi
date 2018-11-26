@@ -16,6 +16,7 @@ $(function () {
             "lengthMenu": [10, 50, 100, 250, 500],
             "processing": true,
             "serverSide": true,
+            "deferRender": true,
             "ajax": {
                 "url": '/mountainschool/tours/datatables',
                 "dataType": "json",

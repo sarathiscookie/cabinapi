@@ -102,7 +102,7 @@
                                                         <select id="tour_cabins" name="tour_cabins" class="form-control">
                                                             <option value="">@lang('tours.lblCabinPH')</option>
                                                             <optgroup label="@lang('tours.registeredCabin')">
-                                                                @foreach($cabins  as $Key => $val )
+                                                                @foreach($cabins as $Key => $val )
                                                                     @if($val->other_cabin == '0')
                                                                         <option value="{{$val->name}}">{{$val->name}}</option>
                                                                     @endif

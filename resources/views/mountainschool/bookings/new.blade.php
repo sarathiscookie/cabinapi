@@ -28,7 +28,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form role="form" method="post" id="tourBookingFrm" name="tourBookingFrm">
+            <form role="form" method="post" id="tourBookingFrm" name="tourBookingFrm[]">
                 <div class="box box-primary">
                     <div class="row">
                         <div class="col-md-12">
@@ -40,10 +40,10 @@
                             <div class="box-body" id="tourbox">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('tourname') ? ' has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('tourname') ? 'has-error' : '' }}" id="new_tour">
                                             <label>@lang('mountainschool.lblTourName') <span class="required">*</span></label>
                                             <select class="form-control" id="tourname" name="tourname">
-                                                <option value="">@lang('mountainschool.lblTourNamePH')</option>
+                                                <option value="" id="new_booking">@lang('mountainschool.lblTourNamePH')</option>
                                                 @if(isset($tourList))
                                                     @foreach($tourList as $key => $type)
                                                         @if($type->tour_name != '')
@@ -52,13 +52,12 @@
                                                     @endforeach
                                                 @endif
                                             </select>
-                                            <span class="help-block"><strong>  {{ $errors->first('tourname') }}</strong></span>
+                                            <span class="help-block"><strong>{{ $errors->first('tourname') }}</strong></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row" id="cabindtls">
-                                    <div class="col-md-6"></div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +66,7 @@
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-md-12">
-                                <button style="display: none;" type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="loading..." value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
+                                <button style="display: none;" type="button" class="btn btn-primary pull-right" name="newBooking" id="newBooking" data-loading-text="{{ __('mountainschool/bookings.button.loading') }}" value="newBooking"><i class="fa fa-fw fa-save"></i>@lang('tours.btnSave')</button>
                             </div>
                         </div>
                     </div>

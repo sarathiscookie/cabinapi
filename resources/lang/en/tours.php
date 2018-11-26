@@ -41,6 +41,7 @@ return [
     'lblTourNo'                                 => 'Tour Number',
     'lblTourNoPH'                               => 'Enter Tour Number',
     'lblAddNewCab'                              => 'Add New Cabin',
+    'lblCabin'                                  => 'Cabin',
     'lblCabinName'                              => 'Cabin Name',
     'lblCabinNamePH'                            => 'Enter Cabin Name',
     'lblWebsite'                                => 'Website',
@@ -181,4 +182,9 @@ return [
     'bookingLimitReachedTwo'                    => ' persons. If you need more seats, please start a new booking.',
     'sleepsNotAvailable'                        => ' Sleeps are not available on ',
     'alreadyFilledSleeps'                       => ' Sleeps are already filled on ',
+
+    'name.required'                             => 'The Tour Name field is required.',
+    'number.required'                           => 'The Tour Number field is required.',
+
+    'settings.match.sleeps_and_guests'          => 'The sum of guests and guides has to be equal to the sum of beds and dorms, or equal to the number of sleeps.'
 ];

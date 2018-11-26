@@ -11647,6 +11647,13 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+/* Checking for the CSRF token */
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 /**
@@ -11658,7 +11665,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 Vue.component('example', __webpack_require__("./resources/assets/js/components/Example.vue"));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app'
 });
 
 /***/ }),
@@ -11676,7 +11683,7 @@ var Component = __webpack_require__("./node_modules/vue-loader/lib/component-nor
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\Laravelproject\\cabinapi\\resources\\assets\\js\\components\\Example.vue"
+Component.options.__file = "/home/vlad/Documents/Sites/cabinapi/resources/assets/js/components/Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11701,7 +11708,7 @@ module.exports = Component.exports
 /***/ "./resources/assets/sass/app.scss":
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Missing binding /home/vlad/Documents/Sites/cabinapi/node_modules/node-sass/vendor/linux-x64-48/binding.node\nNode Sass could not find a binding for your current environment: Linux 64-bit with Node.js 6.x\n\nFound bindings for the following environments:\n  - Linux 64-bit with Node.js 10.x\n\nThis usually happens because your environment has changed since running `npm install`.\nRun `npm rebuild node-sass` to download the binding for your current environment.\n    at module.exports (/home/vlad/Documents/Sites/cabinapi/node_modules/node-sass/lib/binding.js:15:13)\n    at Object.<anonymous> (/home/vlad/Documents/Sites/cabinapi/node_modules/node-sass/lib/index.js:14:35)\n    at Module._compile (module.js:577:32)\n    at Object.Module._extensions..js (module.js:586:10)\n    at Module.load (module.js:494:32)\n    at tryModuleLoad (module.js:453:12)\n    at Function.Module._load (module.js:445:3)\n    at Module.require (module.js:504:17)\n    at require (internal/module.js:20:19)\n    at Object.<anonymous> (/home/vlad/Documents/Sites/cabinapi/node_modules/sass-loader/lib/loader.js:3:14)\n    at Module._compile (module.js:577:32)\n    at Object.Module._extensions..js (module.js:586:10)\n    at Module.load (module.js:494:32)\n    at tryModuleLoad (module.js:453:12)\n    at Function.Module._load (module.js:445:3)\n    at Module.require (module.js:504:17)\n    at require (internal/module.js:20:19)\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:13:17)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at runLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModule.js:192:19)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:170:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:27:11)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:165:10)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:173:18\n    at loadLoader (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/loadLoader.js:36:3)\n    at iteratePitchingLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:169:2)\n    at runLoaders (/home/vlad/Documents/Sites/cabinapi/node_modules/loader-runner/lib/LoaderRunner.js:362:2)\n    at NormalModule.doBuild (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModule.js:179:3)\n    at NormalModule.build (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModule.js:268:15)\n    at Compilation.buildModule (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/Compilation.js:142:10)\n    at moduleFactory.create (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/Compilation.js:429:9)\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModuleFactory.js:251:4\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModuleFactory.js:93:13\n    at /home/vlad/Documents/Sites/cabinapi/node_modules/tapable/lib/Tapable.js:268:11\n    at NormalModuleFactory.params.normalModuleFactory.plugin (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (/home/vlad/Documents/Sites/cabinapi/node_modules/tapable/lib/Tapable.js:272:13)\n    at onDoneResolving (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModuleFactory.js:68:11)\n    at onDoneResolving (/home/vlad/Documents/Sites/cabinapi/node_modules/webpack/lib/NormalModuleFactory.js:197:6)\n    at _combinedTickCallback (internal/process/next_tick.js:73:7)");
 
 /***/ }),
 

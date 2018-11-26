@@ -11647,6 +11647,13 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+/* Checking for the CSRF token */
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 /**
@@ -11658,7 +11665,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 Vue.component('example', __webpack_require__("./resources/assets/js/components/Example.vue"));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app'
 });
 
 /***/ }),

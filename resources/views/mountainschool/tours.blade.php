@@ -64,20 +64,13 @@
                                     <th>@lang('tours.createDate')</th>
                                     <th>@lang('tours.edit')</th>
                                 </tr>
+                                <tr>
+                                    <th><input type="text" id="0"  class="form-control input-sm search-input" placeholder="@lang('tours.searchTourCode')"></th>
+                                    <th colspan="5"><input type="text" id="1"  class="form-control input-sm search-input-tourname" placeholder="@lang('tours.searchTourName')"></th>
+                                </tr>
                                 </thead>
 
                                 <tbody></tbody>
-
-                                <tfoot>
-                                <tr>
-                                    <th><input type="text" id="0"  class="form-control input-sm search-input" placeholder="@lang('tours.searchTourCode')"></th>
-                                    <th><input type="text" id="1"  class="form-control input-sm search-input-tourname" placeholder="@lang('tours.searchTourName')"></th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                </tfoot>
                             </table>
 
                         </div>

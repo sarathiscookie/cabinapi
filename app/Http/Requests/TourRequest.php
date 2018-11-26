@@ -116,9 +116,9 @@ class TourRequest extends FormRequest
         if ($this->request->get('updateBasicSettings') === 'updateBasicSettings') {
             $rules = [
                 'contact_person' => 'required|max:100',
-                'beds'           => 'required|not_in:0',
-                'dorms'          => 'required|not_in:0',
-                'sleeps'         => 'required|not_in:0',
+                'beds'           => 'required',
+                'dorms'          => 'required',
+                'sleeps'         => 'required',
             ];
         }
 
@@ -198,7 +198,12 @@ class TourRequest extends FormRequest
             'ind_tour_no.*.max'            => __('tours.individualTourNoMax')
         ];
 
-        $msg = array_merge($msgApp,$messages);
+        $messages_tour = [
+            'tour_name.required' => __('tours.name.required'),
+            'tour_no.required'   => __('tours.number.required'),
+        ];
+
+        $msg = array_merge($messages, $messages_tour);
 
         return $msg;
     }

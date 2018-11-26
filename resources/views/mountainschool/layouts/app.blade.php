@@ -20,6 +20,9 @@
 
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- Custom Style from compiled sass -->
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}" media="screen" title="no title">
 <style>
     .required{
         color:red;
@@ -167,7 +170,7 @@
 
                     <ul class="treeview-menu">
                         <li><a href="/mountainschool/bookings"><i class="fa fa-circle-o"></i> @lang('menu.bookingListMenu') <span class="pull-right-container"><span class="label label-primary pull-right">{!! $miscellaneous->mSchoolBookingCount() !!}</span></span></a></li>
-                        <li><a href="/mountainschool/bookings/create"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
+                        <li><a href="{{ route('mountainschool.bookings.create') }}"><i class="fa fa-circle-o"></i> @lang('menu.bookingCreateMenu')</a></li>
                     </ul>
                 </li>
 
@@ -195,7 +198,7 @@
                     </ul>--}}
 
                     <ul class="treeview-menu">
-                        <li><a href="/mountainschool/basicsettings"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
+                        <li><a href="{{ route('mountainschool.settings.edit') }}"><i class="fa fa-circle-o"></i> @lang('menu.basicsettings')</a></li>
                     </ul>
                 </li>
 

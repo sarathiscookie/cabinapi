@@ -12,7 +12,7 @@
                 <small>@lang('tours.basicSetsmallHeading')</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a></li>             
+                <li><a href="/mountainschool/bookings"><i class="fa fa-dashboard"></i> @lang('tours.breadcrumbOne')</a></li>
                 <li class="fa fa-edit active">@lang('tours.breadcrumbbasicSet')</li>
             </ol>
         </section>
@@ -29,12 +29,12 @@
                             </h4>
                         </div>
 
-                        @if (session('failure'))
+                        @if (session('error'))
                             <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                {{ session('failure') }}
+                                {{ session('error') }}
                             </div>
                         @endif
 
@@ -67,7 +67,7 @@
                                $guest         = '';
                             }
                         @endphp
-                        <form role="form" method="post" action="{{ route('mountainschool.updatebasicsettings') }}">
+                        <form role="form" method="post" action="{{ route('mountainschool.settings.update') }}">
 
                             {{ csrf_field() }}
 
@@ -88,7 +88,7 @@
                                             <label>@lang('tours.lblNoGuides')</label>
                                             <select class="form-control" id="no_guides" name="no_guides">
                                                 <option value="">@lang('tours.lblNoGuidesPH')</option>
-                                                @for($i = 1; $i <= 10; $i++)
+                                                @for($i = 0; $i <= 10; $i++)
                                                     <option value="{{ $i }}" @if(old('no_guides', $guides) == $i) selected @endif>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -104,7 +104,7 @@
                                             <label>@lang('mountainschool.lblNoOfGuests')<span class="required">*</span></label>
                                             <select class="form-control guestsInputCls" id="guests" name="guests">
                                                 <option value="0">@lang('mountainschool.lblNoOfGuestsPH')</option>
-                                                @for ($i=1; $i<=30; $i++)
+                                                @for ($i = 0; $i <= 30; $i++)
                                                     <option value="{{$i}}" @if(old('guests', $guest) == $i) selected @endif>{{$i}} @lang('mountainschool.lblOptGuests')</option>
                                                 @endfor
                                             </select>
@@ -122,7 +122,7 @@
                                             <label>@lang('tours.beds') <span class="required">*</span></label>
                                             <select class="form-control" id="beds" name="beds">
                                                 <option value="">@lang('tours.bedsPH')</option>
-                                                @for($i = 1; $i <= 30; $i++)
+                                                @for($i = 0; $i <= 30; $i++)
                                                     <option value="{{ $i }}" @if(old('beds', $beds) == $i) selected @endif>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -138,7 +138,7 @@
                                             <label>@lang('tours.dorms') <span class="required">*</span></label>
                                             <select class="form-control" id="dorms" name="dorms">
                                                 <option value="">@lang('tours.dormsPH')</option>
-                                                @for($i = 1; $i <= 30; $i++)
+                                                @for($i = 0; $i <= 30; $i++)
                                                     <option value="{{ $i }}" @if(old('dorms', $dorms) == $i) selected @endif>{{ $i }}</option>
                                                 @endfor
                                             </select>
@@ -154,7 +154,7 @@
                                             <label>@lang('tours.sleeps') <span class="required">*</span></label>
                                             <select class="form-control" id="sleeps" name="sleeps">
                                                 <option value="">@lang('tours.sleepsPH')</option>
-                                                @for($i = 1; $i <= 30; $i++)
+                                                @for($i = 0; $i <= 30; $i++)
                                                     <option value="{{ $i }}" @if(old('sleeps', $sleeps) == $i) selected @endif>{{ $i }}</option>
                                                 @endfor
                                             </select>

@@ -41,6 +41,7 @@ return [
     'lblTourNo'                                 => 'Tournummer',
     'lblTourNoPH'                               => 'Tournummer eingeben',
     'lblAddNewCab'                              => 'Neue Hütte eintragen',
+    'lblCabin'                                  => 'Hütte',
     'lblCabinName'                              => 'Hüttenname',
     'lblCabinNamePH'                            => 'Hüttenname eingeben',
     'lblWebsite'                                => 'Webseite',
@@ -166,8 +167,8 @@ return [
     'sixtyDaysExceed'                           => 'Es können maximal 60 Tage gebucht werden',
     'notSeasonTime'                             => 'Ausgewählte Termine sind leider außerhalb der Saisonzeit.',
     'holidayIncludedAlert'                      => 'Buchung nicht möglich, da ein Ruhetag dazwischen liegt',
-    'bedsDormsNotMatchGuestGuide'               => 'Sorry beds and dorms are not matching with sum of guest and guides',
-    'sleepsNotMatchGuestGuide'                  => 'Sorry sleeps are not matching with sum of guest and guides',
+    'bedsDormsNotMatchGuestGuide'               => 'Die Anzahl der Betten und Lager stimmen nicht mit der Anzahl der Gäste und Bergführer überein.',
+    'sleepsNotMatchGuestGuide'                  => 'Die Anzahl der Schlafplätze stimmt nicht mit der Anzahl der Gäste und Bergführer überein',
     'alreadyFilledBedsDorms'                    => ' Betten und Lager sind ausgebucht am ',
     'bedsNotAvailable'                          => ' Betten sind nicht verfügbar am ',
     'dormsNotAvailable'                         => ' Lager sind nicht verfügbar am ',
@@ -180,4 +181,9 @@ return [
     'bookingLimitReachedTwo'                    => ' Personen buchen. Sollten Sie mehr Plätze benötigen, starten Sie bitte eine neue Buchung.',
     'sleepsNotAvailable'                        => ' Schlafplätze sind nicht verfügbar am ',
     'alreadyFilledSleeps'                       => ' Schlafplätze sind ausgebucht am ',
+
+    'name.required'                             => 'Tourname muss angegeben werden.',
+    'number.required'                           => 'Tournummer muss angegeben werden.',
+
+    'settings.match.sleeps_and_guests'          => 'Die Summe der Gäste und Bergführer muss gleich der Summe der Betten und Lager oder gleich der Anzahl der Schlafplätze sein.'
 ];
