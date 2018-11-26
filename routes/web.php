@@ -687,6 +687,8 @@ Route::get('/session', function() {
         /* get tours for  booking */
         Route::get('/tours/gettour/{id}/index/{tour_index}', 'Mountainschool\TourController@getTourForBooking');
 
+        Route::post('/tours/gettours', 'Mountainschool\TourController@getToursForBooking');
+
         /* Listing tours */
         Route::get('/tours', 'Mountainschool\TourController@index')->name('mountainschool.tours');
 

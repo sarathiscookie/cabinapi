@@ -457,20 +457,8 @@ class TourController extends Controller
         ]);
     }
 
-    /**
-     * duplicatingBooking for getting saved booking
-     *
-     * @return \Illuminate\Http\Response
-     */
-    protected function duplicatingBooking(Request $request)
+    public function getToursForBooking()
     {
-        /*$tour = Tour::where('_id', $request->tourId)->first();
-
-        // Getting bookings from mschool collection
-        $msBookings = MountSchoolBooking::where('is_delete', 0)
-            ->where('tour_name', $tour->tour_name)
-            ->first();
-
-        dd($msBookings);*/
+        return request()->all();
     }
 }

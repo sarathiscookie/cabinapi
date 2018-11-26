@@ -109,9 +109,7 @@ $(function(){
     // Duplicate selected tour
     $(document).on('click', '#add_tour', function(e) {
         var tourId = $('#add_tour').data('tour');
-
         getTour(tourId);
-        updateTours(tourId);
     });
 
     // Remove tour from list
@@ -132,19 +130,26 @@ $(function(){
                 ovelayLoading('remove');
                 $('#cabindtls').append(data);
                 $('#newBooking').show();
+                updateTours(tourId);
             }
         });
     }
 
     function updateTours(tourId) {
-        var cabins = $('.tour-box').data('cabins');
 
-        $('.checkInCls').each(function(index) {
-            for (var i = cabins.length - 1; i >= 0; i--) {
-                $(this).attr('id', 'check_in[' + index+ '][' + cabins[i] + ']');
-                $(this).attr('name', 'check_in[' + index + '][' + cabins[i] + ']');
-            }
-        });
+        $.each( $('.tour-box'), function(i, tour_box) {
+           $('.checkInCls', tour_box).each(function(index) {
+                $(this).attr('id', 'check_in[' + i + '][' + (index + 1) + ']');
+                $(this).attr('name', 'check_in[' + i + '][' + (index + 1) + ']');
+           });
+        })
+
+        $.each( $('.tour-box'), function(i, tour_box) {
+           $('.checkOutCls', tour_box).each(function(index) {
+                $(this).attr('id', 'check_out[' + i + '][' + (index + 1) + ']');
+                $(this).attr('name', 'check_out[' + i + '][' + (index + 1) + ']');
+           });
+        })
     }
 
     // Overlay after submit
@@ -157,6 +162,5 @@ $(function(){
             $("#overlay").remove();
         }
     }
-
 
 });
