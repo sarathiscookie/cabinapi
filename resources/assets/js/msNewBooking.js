@@ -139,14 +139,14 @@ $(function(){
 
         $.each( $('.tour-box'), function(i, tour_box) {
            $('.checkInCls', tour_box).each(function(index) {
-                $(this).attr('id', 'check_in[' + i + '][' + (index + 1) + ']');
+                $(this).attr('id', 'check_in' + i + (index + 1));
                 $(this).attr('name', 'check_in[' + i + '][' + (index + 1) + ']');
            });
         })
 
         $.each( $('.tour-box'), function(i, tour_box) {
            $('.checkOutCls', tour_box).each(function(index) {
-                $(this).attr('id', 'check_out[' + i + '][' + (index + 1) + ']');
+                $(this).attr('id', 'check_out' + i + (index + 1));
                 $(this).attr('name', 'check_out[' + i + '][' + (index + 1) + ']');
            });
         })

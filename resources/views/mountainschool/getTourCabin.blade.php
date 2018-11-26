@@ -147,11 +147,11 @@
                                         @endif
 
                                         <div class="calendar" data-id="{{ $tour_index }}{{ $c }}" data-cabinid="{{ $valArray['cId'] }}">
-                                            <div class="calendar-holiday holiday{{ $tour_index }}{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
-                                            <div class="calendar-green green{{ $tour_index }}{{ $c }}" data-green="{{ $calendar[1] }}"></div>
-                                            <div class="calendar-orange orange{{ $tour_index }}{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
-                                            <div class="calendar-red red{{ $tour_index }}{{ $c }}" data-red="{{ $calendar[3] }}"></div>
-                                            <div class="calendar-not-season notSeasonTime{{ $tour_index }}{{ $c }}" data-notseasontime="{{ $calendar[4] }}"></div>
+                                            <div class="holiday{{ $tour_index }}{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
+                                            <div class="green{{ $tour_index }}{{ $c }}" data-green="{{ $calendar[1] }}"></div>
+                                            <div class="orange{{ $tour_index }}{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
+                                            <div class="red{{ $tour_index }}{{ $c }}" data-red="{{ $calendar[3] }}"></div>
+                                            <div class="notSeasonTime{{ $tour_index }}{{ $c }}" data-notseasontime="{{ $calendar[4] }}"></div>
 
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
