@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/session', function() {
+    return Session::all();
+});
+
 //Auth::routes();
 
 /*
@@ -667,16 +671,30 @@ Route::get('/', function () {
         Route::get('/dashboard', 'Mountainschool\DashboardController@index')->name('mountainschoolDash');
 
         /* Listing bookings */
-        Route::get('/bookings', 'Mountainschool\BookingController@index')->name('mountainschool.bookings');
+        Route::get('/bookings', 'Mountainschool\BookingsController@index')->name('mountainschool.bookings');
 
         /* Show datatable page */
-        Route::post('/bookings/datatables', 'Mountainschool\BookingController@dataTables')->name('mountainschool.bookings.datatables');
+        Route::post('/bookings/datatables', 'Mountainschool\BookingsController@dataTables')->name('mountainschool.bookings.datatables');
 
         /* new booking */
-        Route::get('/bookings/create', 'Mountainschool\TourController@createTourNewBooking');
+        Route::get('/bookings/create', 'Mountainschool\BookingsController@create')->name('mountainschool.bookings.create');
+
+        /* store a booking */
+        Route::post('/bookings/store', 'Mountainschool\BookingsController@store')->name('mountainschool.bookings.store');
+
+        /* edit booking */
+        Route::get('/bookings/edit/{id}', 'Mountainschool\BookingsController@edit')->name('mountainschool.bookings.edit');
+
+        /* update booking */
+        Route::post('/bookings/update/{id}', 'Mountainschool\BookingsController@update')->name('mountainschool.bookings.update');
+
+        /* cancel booking */
+        Route::get('/bookings/cancel/{id}', 'Mountainschool\BookingsController@cancel')->name('mountainschool.bookings.cancel');
 
         /* get tours for  booking */
-        Route::get('/tours/gettour/{id}', 'Mountainschool\TourController@getTourForBooking');
+        Route::get('/tours/gettour/{id}/index/{tour_index}', 'Mountainschool\TourController@getTourForBooking');
+
+        Route::post('/tours/gettours', 'Mountainschool\TourController@getToursForBooking');
 
         /* Listing tours */
         Route::get('/tours', 'Mountainschool\TourController@index')->name('mountainschool.tours');
@@ -722,16 +740,13 @@ Route::get('/', function () {
         /* checkAvailability */
         Route::post('/checkAvailability', 'Mountainschool\TourController@checkAvailability')->name('mountainschool.checkAvailability');
 
-        /*mydata user deatils update */
-        Route::post('/bookingStore', 'Mountainschool\TourController@bookingStore')->name('mountainschool.tours.bookingStore');
-
         /*duplicatingBooking Tour */
         // Route::get('/duplicatingBooking', 'Mountainschool\TourController@duplicatingBooking') ;
         /* Basic settings Tour */
 
-        Route::get('/basicsettings', 'Mountainschool\TourController@basicSettings');
+        Route::get('/settings/edit', 'Mountainschool\SettingsController@edit')->name('mountainschool.settings.edit');
 
         /* Settings update */
-        Route::post('/updateBasicSettings', 'Mountainschool\TourController@updateBasicSettings')->name('mountainschool.updatebasicsettings');
+        Route::post('/settings/update', 'Mountainschool\SettingsController@update')->name('mountainschool.settings.update');
     });
  });

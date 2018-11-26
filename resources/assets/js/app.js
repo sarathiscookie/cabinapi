@@ -5,6 +5,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+/* Checking for the CSRF token */
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 window.Vue = require('vue');
 
 /**

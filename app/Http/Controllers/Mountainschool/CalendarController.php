@@ -11,41 +11,12 @@ use App\Cabin;
 use DateTime;
 use DatePeriod;
 use DateInterval;
+use App\Traits\DateGenerate;
+use App\Traits\DateFormat;
 
 class CalendarController extends Controller
 {
-    /**
-     * To generate date between two dates.
-     *
-     * @param  string  $now
-     * @param  string  $end
-     * @return \Illuminate\Http\Response
-     */
-    protected function generateDates($now, $end){
-        $period = new DatePeriod(
-            new DateTime($now),
-            new DateInterval('P1D'),
-            new DateTime($end)
-        );
-
-        return $period;
-    }
-
-    /**
-     * To generate date format as mongo.
-     *
-     * @param  string  $date
-     * @return \Illuminate\Http\Response
-     */
-    protected function getDateUtc($date)
-    {
-        $dateFormatChange = DateTime::createFromFormat("d.m.y", $date)->format('Y-m-d');
-        $dateTime         = new DateTime($dateFormatChange);
-        $timeStamp        = $dateTime->getTimestamp();
-        $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
-        return $utcDateTime;
-    }
-
+    use DateGenerate, DateFormat;
     /**
      * Show the data when page initial loads.
      *
