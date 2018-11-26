@@ -41,6 +41,7 @@ return [
     'lblTourNo'                                 => 'Tournummer',
     'lblTourNoPH'                               => 'Tournummer eingeben',
     'lblAddNewCab'                              => 'Neue Hütte eintragen',
+    'lblCabin'                                  => 'Hütte',
     'lblCabinName'                              => 'Hüttenname',
     'lblCabinNamePH'                            => 'Hüttenname eingeben',
     'lblWebsite'                                => 'Webseite',

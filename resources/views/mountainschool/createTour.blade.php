@@ -122,7 +122,7 @@
         });
 
         var glo_i           = 0;
-        var lblCabin        = 'Cabin ';
+        var lblCabin        = '{{ __('tours.lblCabin') }}';
         var lblReqSpanCabin = '<span  class="required">*</span>';
         $('#tour_cabins').change(function () {
             if ($('#tour_cabins').val() != '') {
@@ -138,7 +138,7 @@
                         addNewCabin(glo_i);
                     }
                     else {
-                        var html = ' <div class="row" id="crowid' + glo_i + '" rid="' + glo_i + '"><div class="col-md-6"  >    <div class="form-group"  >      <label> ' + lblCabin + glo_i + lblReqSpanCabin + '</label><input type="text" readonly="readonly" name="cabins[]" class="form-control" value="' + $('#tour_cabins').val() + '">  </div>   </div><div class="col-md-1"  ><a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative; bottom: -30px;"></a>  </div> </div>';
+                        var html = ' <div class="row" id="crowid' + glo_i + '" rid="' + glo_i + '"><div class="col-md-6"  >    <div class="form-group"  >      <label> ' + lblCabin + ' ' + glo_i + lblReqSpanCabin + '</label><input type="text" readonly="readonly" name="cabins[]" class="form-control" value="' + $('#tour_cabins').val() + '">  </div>   </div><div class="col-md-1"  ><a href="javascript:void(0)"  class="delRow"> <img src="/img/delete.png" alt="Remove" width="25" hight="25" style=" position: relative; bottom: -30px;"></a>  </div> </div>';
 
                         $(html).insertBefore("#tour_cabins_row");
                         $("#tour_cabins").val("").attr("selected","selected");

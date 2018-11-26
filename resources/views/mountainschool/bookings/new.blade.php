@@ -40,7 +40,7 @@
                             <div class="box-body" id="tourbox">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group {{ $errors->has('tourname') ? ' has-error' : '' }}">
+                                        <div class="form-group {{ $errors->has('tourname') ? 'has-error' : '' }}" id="new_tour">
                                             <label>@lang('mountainschool.lblTourName') <span class="required">*</span></label>
                                             <select class="form-control" id="tourname" name="tourname">
                                                 <option value="" id="new_booking">@lang('mountainschool.lblTourNamePH')</option>

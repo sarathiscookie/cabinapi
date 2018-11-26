@@ -1,19 +1,18 @@
-<div class="col-md-12">
+<div class="col-md-12 tour-box" data-cabins="{{ $no_cabins }}">
 
     <div class="box box-default box-solid">
         <div class="box-header with-border d-flex align-items-center">
             <h3 class="box-title">@lang('mountainschool.tourDetails')</h3>
             <i class="fa fa-times-circle text-danger ml-auto remove-booking" id="remove"></i>
         </div>
-        <!-- /.box-header -->
 
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group"><label> Tour No:</label>{{$tour->tour_no}}</div>
+                    <div class="form-group"><label> Tour No:</label>{{ $tour->tour_no }}</div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group"><label> @lang('mountainschool.lblTourName'):</label>{{$tour->tour_name}}</div>
+                    <div class="form-group"><label> @lang('mountainschool.lblTourName'):</label>{{ $tour->tour_name }}</div>
                 </div>
             </div>
             <div class="cabinPart">
@@ -73,7 +72,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('guests') ? ' has-error' : '' }}">
                                                 <label>@lang('mountainschool.lblNoOfGuests')<span class="required">*</span></label>
-                                                <select class="form-control guestsInputCls" id="guests" name="guests{{ $tour_index }}{{ $c }}[]">
+                                                <select class="form-control guestsInputCls" id="guests" name="guests[{{ $tour_index }}][{{ $c }}]">
                                                     <option value="0">@lang('mountainschool.lblNoOfGuestsPH')</option>
                                                     @for ($n=1; $n<=30; $n++)
                                                         <option @if(old('guests', $tour->basic_settings['guests']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuests')</option>
@@ -87,7 +86,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group {{ $errors->has('no_guides') ? ' has-error' : '' }}">
                                                 <label>@lang('mountainschool.lblNoOfnGuides')</label>
-                                                <select class="form-control guidesInputCls" id="no_guides" name="no_guides{{ $tour_index }}{{ $c }}[]" >
+                                                <select class="form-control guidesInputCls" id="no_guides" name="no_guides[{{ $tour_index }}][{{ $c }}]" >
                                                     <option value="0">@lang('mountainschool.lblNoOfnGuidesPH')</option>
                                                     @for($n=1; $n<=8; $n++)
                                                         <option @if(old('no_guides', $tour->basic_settings['no_guides']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptGuides')</option>
@@ -98,14 +97,14 @@
                                             </div>
                                         </div>
 
-                                        <input type="hidden" name="sleeping_place[{{ $tour_index }}][]" value="{{ $valArray['sleeping_place'] }}">
+                                        <input type="hidden" name="sleeping_place[{{ $tour_index }}][{{ $c }}]" value="{{ $valArray['sleeping_place'] }}">
 
                                         @if($valArray['other_cabin'] == '0')
                                             @if($valArray['sleeping_place'] != 1)
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('beds') ? ' has-error' : '' }}">
                                                         <label>@lang('mountainschool.lblMountainbeds')</label>
-                                                        <select class="form-control bedsInputCls" id="beds" name="beds{{ $tour_index }}{{ $c }}[]">
+                                                        <select class="form-control bedsInputCls" id="beds" name="beds[{{ $tour_index }}][{{ $c }}]">
                                                             <option value="">@lang('mountainschool.lblMountainbedsPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
                                                                 <option @if(old('beds', $tour->basic_settings['beds']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptBeds')</option>
@@ -120,7 +119,7 @@
                                                     <div class="form-group {{ $errors->has('dormitory') ? ' has-error' : '' }}">
                                                         <label> @lang('mountainschool.lblMountaindorm')</label>
 
-                                                        <select class="form-control dormitoryInputCls" id="dormitory" name="dormitory{{ $tour_index }}{{ $c }}[]">
+                                                        <select class="form-control dormitoryInputCls" id="dormitory" name="dormitory[{{ $tour_index }}][{{ $c }}]">
                                                             <option value="">@lang('mountainschool.lblMountaindormPH')</option>
                                                             @for ($n=1; $n<=40; $n++)
                                                                 <option @if(old('dormitory', $tour->basic_settings['dorms']) == $n) selected @endif value="{{$n}}">{{$n}} @lang('mountainschool.lblOptDorms')</option>
@@ -134,7 +133,7 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group {{ $errors->has('sleeps') ? ' has-error' : '' }}">
                                                         <label>@lang('mountainschool.lblSleepingPlace')<span class="required">*</span></label>
-                                                        <select class="form-control sleepsInputCls" id="sleeps" name="sleeps{{ $tour_index }}{{ $c }}[]">
+                                                        <select class="form-control sleepsInputCls" id="sleeps" name="sleeps[{{ $tour_index }}][{{ $c }}]">
                                                             <option value="">@lang('mountainschool.lblSleepingPlacePH')</option>
                                                             @for($n=1; $n<=40; $n++)
                                                                 <option @if(old('sleeps', $tour->basic_settings['sleeps']) == $n) selected @endif value="{{$n}}" >{{$n}} @lang('mountainschool.lblOptSleepPlaz')  </option>
@@ -148,16 +147,16 @@
                                         @endif
 
                                         <div class="calendar" data-id="{{ $tour_index }}{{ $c }}" data-cabinid="{{ $valArray['cId'] }}">
-                                            <div class="holiday{{ $tour_index }}{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
-                                            <div class="green{{ $tour_index }}{{ $c }}" data-green="{{ $calendar[1] }}"></div>
-                                            <div class="orange{{ $tour_index }}{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
-                                            <div class="red{{ $tour_index }}{{ $c }}" data-red="{{ $calendar[3] }}"></div>
-                                            <div class="notSeasonTime{{ $tour_index }}{{ $c }}" data-notseasontime="{{ $calendar[4] }}"></div>
+                                            <div class="calendar-holiday holiday{{ $tour_index }}{{ $c }}" data-holiday="{{ $calendar[0] }}"></div>
+                                            <div class="calendar-green green{{ $tour_index }}{{ $c }}" data-green="{{ $calendar[1] }}"></div>
+                                            <div class="calendar-orange orange{{ $tour_index }}{{ $c }}" data-orange="{{ $calendar[2] }}"></div>
+                                            <div class="calendar-red red{{ $tour_index }}{{ $c }}" data-red="{{ $calendar[3] }}"></div>
+                                            <div class="calendar-not-season notSeasonTime{{ $tour_index }}{{ $c }}" data-notseasontime="{{ $calendar[4] }}"></div>
 
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_in') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckIn')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $tour_index }}{{ $c }}" name="check_in{{ $tour_index }}{{ $c }}[]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off" required="required">
+                                                    <input type="text" class="form-control checkInCls" id="check_in{{ $tour_index }}{{ $c }}" name="check_in[{{ $tour_index }}][{{ $c }}]" placeholder="@lang('mountainschool.lblCheckInPH')" value="" readonly autocomplete="off" required="required">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_in') }}</strong></span>
                                                 </div>
@@ -166,7 +165,7 @@
                                             <div class="col-md-2">
                                                 <div class="form-group {{ $errors->has('check_out') ? ' has-error' : '' }}">
                                                     <label>@lang('mountainschool.lblCheckOut')<span class="required">*</span></label>
-                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $tour_index }}{{ $c }}" name="check_out{{ $tour_index }}{{ $c }}[]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off" required="required">
+                                                    <input type="text" class="form-control checkOutCls" id="check_out{{ $tour_index }}{{ $c }}" name="check_out[{{ $tour_index }}][{{ $c }}]" placeholder="@lang('mountainschool.lblCheckOutPH')" value="" readonly autocomplete="off" required="required">
 
                                                     <span class="help-block"><strong>{{ $errors->first('check_out') }}</strong></span>
                                                 </div>
@@ -190,18 +189,11 @@
                                 </div>
                             </div>
                         @endforeach
-                        <input type="hidden" name="no_cabins[{{ $tour_index }}]" value="{{$tour->no_cabins}}">
-                        <input type="hidden" name="tours_ids[]" value="{{$tour->_id}}">
+                        <input type="hidden" name="no_cabins[{{ $tour_index }}]" value="{{ $tour->no_cabins }}">
+                        <input type="hidden" name="tour_id" value="{{ $tour->_id }}">
                     @endisset
                 </div>
             </div>
         </div>
-        {{--<div id="appendDup"></div>--}}
-        <!-- /.box-body -->
     </div>
-    <!-- /.box -->
 </div>
-
-
-
-

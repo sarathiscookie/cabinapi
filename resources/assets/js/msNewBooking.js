@@ -85,22 +85,67 @@ $(function(){
             });
     });
 
+    var tour_index = 0;
+
     // Choose tour name
     $('#tourname').change(function () {
         var tourId = $('#tourname').val();
+
         if(tourId != '') {
             ovelayLoading('add', 'tourbox');
             $.ajax({
                 type: "GET",
-                url: '/mountainschool/tours/gettour/'+tourId,
+                url: '/mountainschool/tours/gettour/'+tourId+'/index/'+tour_index,
                 success: function (data) {
                     ovelayLoading('remove');
                     $('#cabindtls').append(data);
+                    $('#new_tour').html('<i class="fa fa-plus-circle fa-2x icon-primary" id="add_tour" data-tour="' + tourId + '"' + '></i>');
                     $('#newBooking').show();
                 }
             });
         }
     });
+
+    // Duplicate selected tour
+    $(document).on('click', '#add_tour', function(e) {
+        var tourId = $('#add_tour').data('tour');
+
+        getTour(tourId);
+        updateTours(tourId);
+    });
+
+    // Remove tour from list
+    $(document).on('click', '#remove', function(e) {
+        var tourId = $('#add_tour').data('tour');
+        tour_index--;
+        $(this).closest('.col-md-12').remove();
+        updateTours(tourId);
+    });
+
+    function getTour(tourId) {
+        ovelayLoading('add', 'tourbox');
+        tour_index++;
+        $.ajax({
+            type: "GET",
+            url: '/mountainschool/tours/gettour/'+tourId+'/index/'+tour_index,
+            success: function (data) {
+                ovelayLoading('remove');
+                $('#cabindtls').append(data);
+                $('#newBooking').show();
+            }
+        });
+    }
+
+    function updateTours(tourId) {
+        var cabins = $('.tour-box').data('cabins');
+
+        $('.checkInCls').each(function(index) {
+            for (var i = cabins.length - 1; i >= 0; i--) {
+                $(this).attr('id', 'check_in[' + index+ '][' + cabins[i] + ']');
+                $(this).attr('name', 'check_in[' + index + '][' + cabins[i] + ']');
+            }
+        });
+    }
 
     // Overlay after submit
     function ovelayLoading(arg, appendDiv) {
@@ -113,7 +158,5 @@ $(function(){
         }
     }
 
-    $(document).on('click','#remove',function(e) {
-        $(this).closest('.col-md-12').remove();
-    });
+
 });

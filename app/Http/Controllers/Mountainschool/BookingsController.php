@@ -46,7 +46,7 @@ class BookingsController extends Controller
                     ->orderBy('createdate', 'desc')
                     ->get();
 
-        return view('mountainschool.newBooking', ['tourList' => $tourList]);
+        return view('mountainschool.bookings.new', ['tourList' => $tourList]);
     }
 
     /**
@@ -57,6 +57,7 @@ class BookingsController extends Controller
      */
     public function store(BookingRequest $request)
     {
+        // return $request->all();
         if (isset($request->formPart) && $request->formPart == 'newBooking') {
             $available             = 'failure';
             $bedsRequest           = 0;
@@ -72,26 +73,20 @@ class BookingsController extends Controller
 
             $clickHere             = '<a href="/inquiry">click here</a>';
             for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
+                for ($i = 1; $i <= $request->no_cabins[$tb]; $i++) {
+                    // Get request fields
 
-                $tour_index        = $request->tours_ids[$tb];
-                for ($i = 1; $i <= $request->no_cabins[$tour_index]; $i++) {
-                    // Cabin Details
+                    $sleeps = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : 0;
+                    $beds = !empty($request->beds[$tb][$i]) ? $request->beds[$tb][$i] : 0;
+                    $dormitory = !empty($request->dormitory[$tb][$i]) ? $request->dormitory[$tb][$i] : 0;
+
+                    // Get cabin details
                     $cabinDetails       = Cabin::where('is_delete', 0)
-                        ->where('_id', new \MongoDB\BSON\ObjectID($request->cabinId[$tour_index][$i-1]))
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->cabinId[$tb][$i-1]))
                         ->first();
 
-                    $check_in            = 'check_in' . $tour_index . $i;
-                    $check_out           = 'check_out' . $tour_index . $i;
-
-                    $no_guides           = 'no_guides' . $tour_index . $i;
-                    $guests              = 'guests' . $tour_index . $i;
-
-                    $beds                = 'beds' . $tour_index . $i;
-                    $dormitory           = 'dormitory' . $tour_index . $i;
-                    $sleeps              = 'sleeps' . $tour_index . $i;
-
-                    $monthBegin          = DateTime::createFromFormat('d.m.y', $request->$check_in[0])->format('Y-m-d');
-                    $monthEnd            = DateTime::createFromFormat('d.m.y', $request->$check_out[0])->format('Y-m-d');
+                    $monthBegin          = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
+                    $monthEnd            = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
                     $d1                  = new DateTime($monthBegin);
                     $d2                  = new DateTime($monthEnd);
                     $dateDifference      = $d2->diff($d1);
@@ -168,7 +163,7 @@ class BookingsController extends Controller
 
                                         foreach ($array_intersect as $array_intersect_key => $array_intersect_values) {
                                             if((strtotime($array_intersect_key) >= strtotime($monthBegin)) && (strtotime($array_intersect_key) < strtotime($monthEnd))) {
-                                                return response()->json(['error' => __('tours.holidayIncludedAlert'), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                return response()->json(['error' => __('tours.holidayIncludedAlert'), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                             }
                                         }
                                     }
@@ -217,14 +212,14 @@ class BookingsController extends Controller
 
                                     // Taking beds, dorms and sleeps depends up on sleeping_place
                                     if($cabinDetails->sleeping_place != 1) {
-                                        if( ((int)$request->$beds[0] + (int)$request->$dormitory[0]) === ((int)$request->$guests[0] + (int)$request->$no_guides[0]) )
+                                        if( ((int)$beds + (int)$dormitory) === ((int)$request->guests[$tb][$i] + (int)$request->no_guides[$tb][$i]) )
                                         {
                                             $totalBeds           = $sumBeds + $msSumBeds;
                                             $totalDorms          = $sumDorms + $msSumDorms;
 
-                                            $bedsRequest         = (int)$request->$beds[0];
-                                            $dormsRequest        = (int)$request->$dormitory[0];
-                                            $requestBedsSumDorms = (int)$request->$beds[0] + (int)$request->$dormitory[0];
+                                            $bedsRequest         = (int)$beds;
+                                            $dormsRequest        = (int)$dormitory;
+                                            $requestBedsSumDorms = (int)$beds + (int)$dormitory;
 
                                             /* Calculating beds & dorms for not regular */
                                             if($cabinDetails->not_regular === 1) {
@@ -254,7 +249,7 @@ class BookingsController extends Controller
                                                         }
                                                         else {
                                                             $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                            return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
 
                                                         if($dormsRequest <= $not_regular_dorms_avail) {
@@ -262,19 +257,19 @@ class BookingsController extends Controller
                                                         }
                                                         else {
                                                             $availableStatus[] = 'notAvailable';
-                                                            return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                            return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
 
                                                         /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
                                                         if($cabinDetails->not_regular_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->not_regular_inquiry_guest) {
                                                             $availableStatus[] = 'notAvailable';
 
-                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
                                                     }
                                                     else {
                                                         $availableStatus[] = 'notAvailable';
-                                                        return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                        return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                             }
@@ -303,7 +298,7 @@ class BookingsController extends Controller
                                                                 }
                                                                 else {
                                                                     $availableStatus[] = 'notAvailable';
-                                                                    return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                    return response()->json(['error' => $bedsRequest.__("tours.bedsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
 
                                                                 if($dormsRequest <= $dorms_avail) {
@@ -311,19 +306,19 @@ class BookingsController extends Controller
                                                                 }
                                                                 else {
                                                                     $availableStatus[] = 'notAvailable';
-                                                                    return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                    return response()->json(['error' => $dormsRequest.__("tours.dormsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
 
                                                                 /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
                                                                 if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $requestBedsSumDorms >= $cabinDetails->$week_day . '_inquiry_guest') {
                                                                     $availableStatus[] = 'notAvailable';
 
-                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
                                                             }
                                                             else {
                                                                 $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                return response()->json(['error' => __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                             }
                                                         }
                                                     }
@@ -361,26 +356,29 @@ class BookingsController extends Controller
                                                     if($cabinDetails->inquiry_starts > 0 && $requestBedsSumDorms >= $cabinDetails->inquiry_starts) {
                                                         $availableStatus[] = 'notAvailable';
                                                         /*return response()->json(['error' =>  __("tours.inquiryAlert").$generateBookingDate->format("d.m"). __("tours.inquiryAlert1").$cabinDetails->inquiry_starts. __("tours.inquiryAlert2").$clickHere. __("tours.inquiryAlert3")], 422);*/
-                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' =>  __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                    return response()->json(['error' =>  __("tours.alreadyFilledBedsDorms").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                 }
                                             }
 
                                         }
                                         else {
-                                            return response()->json(['error' => __("tours.bedsDormsNotMatchGuestGuide"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                            return response()->json(['error' => __("tours.bedsDormsNotMatchGuestGuide"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                         }
                                     }
                                     else {
-                                        if( (int)$request->$sleeps[0] === ((int)$request->$guests[0] + (int)$request->$no_guides[0]) ) {
+                                        if( (int)$sleeps === ((int)$request->guests[$tb][$i] + (int)$request->no_guides[$tb][$i]) ) {
                                             $totalSleeps         = $sumSleeps + $msSumSleeps;
 
-                                            $sleepsRequest       = (int)$request->$sleeps[0];
-                                            $requestBedsSumDorms = (int)$request->$beds[0] + (int)$request->$dormitory[0];
+                                            if ($request->sleeping_place[$tb][$i] == 0) {
+                                                $requestBedsSumDorms = (int)$beds + (int)$dormitory;
+                                            } else {
+                                                $sleepsRequest       = (int)$sleeps;
+                                            }
 
                                             /* Calculating sleeps for not regular */
                                             if($cabinDetails->not_regular === 1) {
@@ -415,12 +413,12 @@ class BookingsController extends Controller
                                                         if($cabinDetails->not_regular_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->not_regular_inquiry_guest) {
                                                             $availableStatus[] = 'notAvailable';
 
-                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
                                                     }
                                                     else {
                                                         $availableStatus[] = 'notAvailable';
-                                                        return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                        return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                             }
@@ -448,19 +446,19 @@ class BookingsController extends Controller
                                                                 }
                                                                 else {
                                                                     $availableStatus[] = 'notAvailable';
-                                                                    return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                    return response()->json(['error' => $sleepsRequest.__("tours.sleepsNotAvailable").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
 
                                                                 /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
                                                                 if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $sleepsRequest >= $cabinDetails->$week_day . '_inquiry_guest') {
                                                                     $availableStatus[] = 'notAvailable';
 
-                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
                                                             }
                                                             else {
                                                                 $availableStatus[] = 'notAvailable';
-                                                                return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                                return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                             }
                                                         }
                                                     }
@@ -489,18 +487,18 @@ class BookingsController extends Controller
                                                     if($cabinDetails->inquiry_starts > 0 && $sleepsRequest >= $cabinDetails->inquiry_starts) {
                                                         $availableStatus[] = 'notAvailable';
 
-                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                                 else {
                                                     $availableStatus[] = 'notAvailable';
-                                                    return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                                    return response()->json(['error' => __("tours.alreadyFilledSleeps").$generateBookingDate->format("d.m"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                 }
 
                                             }
                                         }
                                         else {
-                                            return response()->json(['error' => __("tours.sleepsNotMatchGuestGuide"), 'bookingOrder' => $i, 'tourNumber' => $tour_index], 423);
+                                            return response()->json(['error' => __("tours.sleepsNotMatchGuestGuide"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                         }
                                     }
                                 }
@@ -516,54 +514,47 @@ class BookingsController extends Controller
                 }
             }
 
-            $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tourname))->first();
+            $tour = Tour::where('_id', new \MongoDB\BSON\ObjectID($request->tour_id))->first();
 
             // Save Booking Data
             for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
-                $tour_index = $request->tours_ids[$tb];
 
                 // Save only non-neighbour cabin data
-                for ($i = 1; $i <= $request->no_cabins[$tour_index]; $i++) {
+                for ($i = 1; $i <= $request->no_cabins[$tb]; $i++) {
+
+                    // Get request fields
+                    $sleeps = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : 0;
+                    $beds = !empty($request->beds[$tb][$i]) ? $request->beds[$tb][$i] : 0;
+                    $dormitory = !empty($request->dormitory[$tb][$i]) ? $request->dormitory[$tb][$i] : 0;
+
                     // Cabin Details
                     $cabinDetails       = Cabin::where('is_delete', 0)
-                        ->where('_id', new \MongoDB\BSON\ObjectID($request->cabinId[$tour_index][$i-1]))
+                        ->where('_id', new \MongoDB\BSON\ObjectID($request->cabinId[$tb][$i-1]))
                         ->first();
 
                     if ($cabinDetails->other_cabin === '0') {
-
-                        $check_in            = 'check_in' . $tour_index . $i;
-                        $check_out           = 'check_out' . $tour_index . $i;
-
-                        $no_guides           = 'no_guides' . $tour_index . $i;
-                        $guests              = 'guests' . $tour_index . $i;
-
-                        $beds                = 'beds' . $tour_index . $i;
-                        $dormitory           = 'dormitory' . $tour_index . $i;
-                        $sleeps              = 'sleeps' . $tour_index . $i;
-
-                        $halfboard           = 'halfboard' . $tour_index . $i;
 
                         $booking = new MountSchoolBooking;
 
                         $booking->tour_name      = $tour['tour_name'];
                         $booking->ind_tour_no    = $request->ind_tour_no[$tb];
-                        $booking->no_guides      = $request->$no_guides[0];
-                        $booking->total_guests   = $request->$guests[0] + $request->$no_guides[0];
-                        $booking->guests         = $request->$guests[0];
+                        $booking->no_guides      = $request->no_guides[$tb][$i];
+                        $booking->total_guests   = $request->guests[$tb][$i] + $request->no_guides[$tb][$i];
+                        $booking->guests         = $request->guests[$tb][$i];
                         $booking->tour_guide     = $request->tour_guide[$tb];
                         $booking->ind_notice     = $request->ind_notice[$tb];
                         $booking->cabin_name     = $cabinDetails->name;
-                        $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->$check_in[0])->format('Y-m-d');
-                        $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->$check_out[0])->format('Y-m-d');
+                        $booking->check_in       = DateTime::createFromFormat('d.m.y', $request->check_in[$tb][$i])->format('Y-m-d');
+                        $booking->reserve_to     = DateTime::createFromFormat('d.m.y', $request->check_out[$tb][$i])->format('Y-m-d');
                         $booking->user_id        = new \MongoDB\BSON\ObjectID(Auth::id());
                         $booking->bookingdate    = Carbon::now();
                         $booking->invoice_number = $invoiceNumber;
                         $booking->is_delete      = 0;
                         $booking->status         = "1";
-                        $booking->sleeps         = $request->$sleeps[0];
-                        $booking->beds           = $request->$beds[0];
-                        $booking->dormitory      = $request->$dormitory[0];
-                        $booking->halfboard      = $request->$halfboard[0] ? $request->$halfboard[0] : 0;
+                        $booking->sleeps         = $sleeps;
+                        $booking->beds           = $beds;
+                        $booking->dormitory      = $dormitory;
+                        $booking->halfboard      = $request->halfboard[$tb][$i] ? $request->halfboard[$tb][$i] : 0;
 
                         $booking->save();
                     }

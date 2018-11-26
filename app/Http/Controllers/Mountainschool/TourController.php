@@ -402,7 +402,7 @@ class TourController extends Controller
      * @param  string $id
      * @return \Illuminate\Http\Response
      */
-    public function getTourForBooking($id)
+    public function getTourForBooking($id, $tour_index)
     {
         /* Get basic settings data */
         $basic_settings = Settings::where('is_delete', 0)
@@ -452,7 +452,8 @@ class TourController extends Controller
 
         return view('mountainschool.getTourCabin', [
             'tour'       => $tours,
-            'tour_index' => $id
+            'tour_index' => $tour_index,
+            'no_cabins'  => $tours->no_cabins
         ]);
     }
 
