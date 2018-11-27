@@ -57,7 +57,6 @@ class BookingsController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        // return $request->all();
         if (isset($request->formPart) && $request->formPart == 'newBooking') {
             $available             = 'failure';
             $bedsRequest           = 0;
