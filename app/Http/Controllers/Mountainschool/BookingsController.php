@@ -57,7 +57,6 @@ class BookingsController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        // return $request->all();
         if (isset($request->formPart) && $request->formPart == 'newBooking') {
             $available             = 'failure';
             $bedsRequest           = 0;
@@ -261,10 +260,10 @@ class BookingsController extends Controller
                                                         }
 
                                                         /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                        if($cabinDetails->not_regular_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->not_regular_inquiry_guest) {
+                                                        if($cabinDetails->not_regular_ms_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->not_regular_ms_inquiry_guest) {
                                                             $availableStatus[] = 'notAvailable';
 
-                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_ms_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
                                                     }
                                                     else {
@@ -285,9 +284,14 @@ class BookingsController extends Controller
 
                                                             $dates_array[] = $dates;
 
-                                                            if(($totalBeds < $cabinDetails->$week_day . '_beds') || ($totalDorms < $cabinDetails->$week_day . '_dorms')) {
-                                                                $beds_diff              = $cabinDetails->$week_day . '_beds' - $totalBeds;
-                                                                $dorms_diff             = $cabinDetails->$week_day . '_dorms' - $totalDorms;
+                                                            $beds_day   = $week_day . '_beds';
+                                                            $dorms_day  = $week_day . '_dorms';
+                                                            $inq_guest  = $week_day . '_ms_inquiry_guest';
+
+                                                            if(($totalBeds < $cabinDetails->$beds_day) || ($totalDorms < $cabinDetails->$dorms_day)) {
+
+                                                                $beds_diff              = $cabinDetails->$beds_day - $totalBeds;
+                                                                $dorms_diff             = $cabinDetails->$dorms_day - $totalDorms;
 
                                                                 /* Available beds and dorms on regular monday */
                                                                 $beds_avail             = ($beds_diff >= 0) ? $beds_diff : 0;
@@ -310,10 +314,10 @@ class BookingsController extends Controller
                                                                 }
 
                                                                 /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                                if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $requestBedsSumDorms >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                                if($cabinDetails->$inq_guest > 0 && $requestBedsSumDorms >= $cabinDetails->$inq_guest) {
                                                                     $availableStatus[] = 'notAvailable';
 
-                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->$inq_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
                                                             }
                                                             else {
@@ -353,10 +357,10 @@ class BookingsController extends Controller
                                                     }
 
                                                     /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                    if($cabinDetails->inquiry_starts > 0 && $requestBedsSumDorms >= $cabinDetails->inquiry_starts) {
+                                                    if($cabinDetails->ms_inquiry_starts > 0 && $requestBedsSumDorms >= $cabinDetails->ms_inquiry_starts) {
                                                         $availableStatus[] = 'notAvailable';
-                                                        /*return response()->json(['error' =>  __("tours.inquiryAlert").$generateBookingDate->format("d.m"). __("tours.inquiryAlert1").$cabinDetails->inquiry_starts. __("tours.inquiryAlert2").$clickHere. __("tours.inquiryAlert3")], 422);*/
-                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+
+                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->ms_inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                                 else {
@@ -410,10 +414,10 @@ class BookingsController extends Controller
                                                         }
 
                                                         /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                        if($cabinDetails->not_regular_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->not_regular_inquiry_guest) {
+                                                        if($cabinDetails->not_regular_ms_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->not_regular_ms_inquiry_guest) {
                                                             $availableStatus[] = 'notAvailable';
 
-                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+                                                            return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_ms_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                         }
                                                     }
                                                     else {
@@ -435,8 +439,11 @@ class BookingsController extends Controller
 
                                                             $dates_array[] = $dates;
 
-                                                            if(($totalSleeps < $cabinDetails->$week_day . '_sleeps')) {
-                                                                $sleeps_diff       = $cabinDetails->$week_day . '_sleeps' - $totalSleeps;
+                                                            $sleeps_day = $week_day . '_sleeps';
+                                                            $inq_guest  = $week_day . '_ms_inquiry_guest';
+
+                                                            if(($totalSleeps < $cabinDetails->$sleeps_day)) {
+                                                                $sleeps_diff       = $cabinDetails->$sleeps_day - $totalSleeps;
 
                                                                 /* Available sleeps on regular monday */
                                                                 $sleeps_avail      = ($sleeps_diff >= 0) ? $sleeps_diff : 0;
@@ -450,10 +457,10 @@ class BookingsController extends Controller
                                                                 }
 
                                                                 /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                                if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $sleepsRequest >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                                if($cabinDetails->$inq_guest > 0 && $sleepsRequest >= $cabinDetails->$inq_guest) {
                                                                     $availableStatus[] = 'notAvailable';
 
-                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+                                                                    return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->$inq_guest - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                                 }
                                                             }
                                                             else {
@@ -484,10 +491,10 @@ class BookingsController extends Controller
                                                     }
 
                                                     /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                    if($cabinDetails->inquiry_starts > 0 && $sleepsRequest >= $cabinDetails->inquiry_starts) {
+                                                    if($cabinDetails->ms_inquiry_starts > 0 && $sleepsRequest >= $cabinDetails->ms_inquiry_starts) {
                                                         $availableStatus[] = 'notAvailable';
 
-                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
+                                                        return response()->json(['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->ms_inquiry_starts - 1).__("tours.bookingLimitReachedTwo"), 'bookingOrder' => $i, 'tourNumber' => $tb], 423);
                                                     }
                                                 }
                                                 else {
@@ -1046,10 +1053,10 @@ class BookingsController extends Controller
                                             }
 
                                             /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                            if($cabinDetails->not_regular_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->not_regular_inquiry_guest) {
+                                            if($cabinDetails->not_regular_ms_inquiry_guest > 0 && $requestBedsSumDorms >= $cabinDetails->not_regular_ms_inquiry_guest) {
                                                 $availableStatus[] = 'notAvailable';
 
-                                                return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
+                                                return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_ms_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
                                             }
                                         }
                                         else {
@@ -1070,9 +1077,13 @@ class BookingsController extends Controller
 
                                                 $dates_array[] = $dates;
 
-                                                if(($totalBeds < $cabinDetails->$week_day . '_beds') || ($totalDorms < $cabinDetails->$week_day . '_dorms')) {
-                                                    $beds_diff              = $cabinDetails->$week_day . '_beds' - $totalBeds;
-                                                    $dorms_diff             = $cabinDetails->$week_day . '_dorms' - $totalDorms;
+                                                $beds_day   = $week_day . '_beds';
+                                                $dorms_day  = $week_day . '_dorms';
+                                                $inq_guest  = $week_day . '_ms_inquiry_guest';
+
+                                                if(($totalBeds < $cabinDetails->$beds_day) || ($totalDorms < $cabinDetails->$dorms_day)) {
+                                                    $beds_diff              = $cabinDetails->$beds_day - $totalBeds;
+                                                    $dorms_diff             = $cabinDetails->$dorms_day - $totalDorms;
 
                                                     /* Available beds and dorms on regular tuesday */
                                                     $beds_avail             = ($beds_diff >= 0) ? $beds_diff : 0;
@@ -1095,10 +1106,10 @@ class BookingsController extends Controller
                                                     }
 
                                                     /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                    if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $requestBedsSumDorms >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                    if($cabinDetails->$inq_guest > 0 && $requestBedsSumDorms >= $cabinDetails->$inq_guest) {
                                                         $availableStatus[] = 'notAvailable';
 
-                                                        return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->tue_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
+                                                        return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->$inq_guest - 1).__("tours.bookingLimitReachedTwo")];
                                                     }
                                                 }
                                                 else {
@@ -1139,10 +1150,10 @@ class BookingsController extends Controller
                                         }
 
                                         /* Checking requested beds and dorms sum is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                        if($cabinDetails->inquiry_starts > 0 && $requestBedsSumDorms >= $cabinDetails->inquiry_starts) {
+                                        if($cabinDetails->ms_inquiry_starts > 0 && $requestBedsSumDorms >= $cabinDetails->ms_inquiry_starts) {
                                             $availableStatus[] = 'notAvailable';
 
-                                            return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo")];
+                                            return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->ms_inquiry_starts - 1).__("tours.bookingLimitReachedTwo")];
                                         }
                                     }
                                     else {
@@ -1193,10 +1204,10 @@ class BookingsController extends Controller
                                             }
 
                                             /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                            if($cabinDetails->not_regular_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->not_regular_inquiry_guest) {
+                                            if($cabinDetails->not_regular_ms_inquiry_guest > 0 && $sleepsRequest >= $cabinDetails->not_regular_ms_inquiry_guest) {
                                                 $availableStatus[] = 'notAvailable';
 
-                                                return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
+                                                return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->not_regular_ms_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
                                             }
                                         }
                                         else {
@@ -1219,8 +1230,11 @@ class BookingsController extends Controller
 
                                                 $dates_array[] = $dates;
 
-                                                if(($totalSleeps < $cabinDetails->$week_day . '_sleeps')) {
-                                                    $sleeps_diff       = $cabinDetails->$week_day . '_sleeps' - $totalSleeps;
+                                                $sleeps_day = $week_day . '_sleeps';
+                                                $inq_guest  = $week_day . '_ms_inquiry_guest';
+
+                                                if(($totalSleeps < $cabinDetails->$sleeps_day)) {
+                                                    $sleeps_diff       = $cabinDetails->$sleeps_day - $totalSleeps;
 
                                                     /* Available sleeps on regular monday */
                                                     $sleeps_avail      = ($sleeps_diff >= 0) ? $sleeps_diff : 0;
@@ -1234,10 +1248,10 @@ class BookingsController extends Controller
                                                     }
 
                                                     /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                                    if($cabinDetails->$week_day . '_inquiry_guest' > 0 && $sleepsRequest >= $cabinDetails->$week_day . '_inquiry_guest') {
+                                                    if($cabinDetails->$inq_guest > 0 && $sleepsRequest >= $cabinDetails->$inq_guest) {
                                                         $availableStatus[] = 'notAvailable';
 
-                                                        return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->mon_inquiry_guest - 1).__("tours.bookingLimitReachedTwo")];
+                                                        return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->$inq_guest - 1).__("tours.bookingLimitReachedTwo")];
                                                     }
                                                 }
                                                 else {
@@ -1268,10 +1282,10 @@ class BookingsController extends Controller
                                         }
 
                                         /* Checking requested sleeps is greater or equal to inquiry. Cabin inquiry guest is greater than 0 */
-                                        if($cabinDetails->inquiry_starts > 0 && $sleepsRequest >= $cabinDetails->inquiry_starts) {
+                                        if($cabinDetails->ms_inquiry_starts > 0 && $sleepsRequest >= $cabinDetails->ms_inquiry_starts) {
                                             $availableStatus[] = 'notAvailable';
 
-                                            return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->inquiry_starts - 1).__("tours.bookingLimitReachedTwo")];
+                                            return ['error' => __("tours.bookingLimitReached").$generateBookingDate->format("d.m").__("tours.bookingLimitReachedOne").($cabinDetails->ms_inquiry_starts - 1).__("tours.bookingLimitReachedTwo")];
                                         }
                                     }
                                     else {
