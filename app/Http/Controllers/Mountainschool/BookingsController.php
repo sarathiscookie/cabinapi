@@ -97,22 +97,6 @@ class BookingsController extends Controller
                             // If cabin is a registered cabin then booking data store in to database
                             if($cabinDetails->other_cabin === '0') {
 
-                                // Generate auto number and create invoice number
-                                if (!empty($cabinDetails->invoice_autonum)) {
-                                    $autoNumber = (int)$cabinDetails->invoice_autonum + 1;
-
-                                    $cabinDetails->invoice_autonum = $autoNumber;
-                                    $cabinDetails->save();
-                                }
-                                else {
-                                    $autoNumber = 100000;
-                                }
-
-                                if (!empty($cabinDetails->invoice_code)) {
-                                    $invoiceCode   = $cabinDetails->invoice_code;
-                                    $invoiceNumber = $invoiceCode . "-" . date("y") . "-" . $autoNumber;
-                                }
-
                                 $seasons           = Season::where('cabin_id', new \MongoDB\BSON\ObjectID($cabinDetails->_id))->get();
 
                                 // Generate dates b/w checking from and to
@@ -538,6 +522,23 @@ class BookingsController extends Controller
                     $cabinDetails       = Cabin::where('is_delete', 0)
                         ->where('_id', new \MongoDB\BSON\ObjectID($request->cabinId[$tb][$i-1]))
                         ->first();
+
+                    // Generate auto number and create invoice number
+                    if (!empty($cabinDetails->invoice_autonum)) {
+                        $autoNumber = (int)$cabinDetails->invoice_autonum + 1;
+
+                        $cabinDetails->invoice_autonum = $autoNumber;
+                        $cabinDetails->save();
+                    }
+                    else {
+                        $autoNumber = 100000;
+                    }
+
+                    // Generate booking number with cabin invoice code
+                    if (!empty($cabinDetails->invoice_code)) {
+                        $invoiceCode   = $cabinDetails->invoice_code;
+                        $invoiceNumber = $invoiceCode . "-" . date("y") . "-" . $autoNumber;
+                    }
 
                     if ($cabinDetails->other_cabin === '0') {
 
