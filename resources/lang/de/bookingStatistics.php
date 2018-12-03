@@ -27,6 +27,7 @@ return [
     'panelLabelDateRange'          => 'Zeitraum Auswahl',
     'graphFixLabel'                => 'Fix',
     'graphCancelLabel'             => 'Storniert',
+    'graphCompleteLabel'           => 'Abgeschlossen',
     'graphWaitingLabel'            => 'Warten auf Zahlung',
     'graphGotMoneyLabel'           => 'Negative Storno',
     'graphNotGetMoneyLabel'        => 'Positive Storno',

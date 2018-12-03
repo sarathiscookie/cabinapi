@@ -79,6 +79,7 @@ class BookingStatisticsController extends Controller
         {
             $sum_of_fix             = [];
             $sum_of_cancelled       = [];
+            $sum_of_completed       = [];
             $sum_of_waiting         = [];
             $sum_of_gotMoney        = [];
             $sum_of_notGetMoney     = [];
@@ -183,6 +184,12 @@ class BookingStatisticsController extends Controller
                     $sum_of_cancelled[$checkinFrom] = $row->prepayment_amount;
                 }
 
+                if($row->status == "3")
+                {
+                    $completed[$checkinFrom]        = $row->count;
+                    $sum_of_completed[$checkinFrom] = $row->prepayment_amount;
+                }
+
                 if($row->status == "5")
                 {
                     $waiting[$checkinFrom]        = $row->count;
@@ -192,6 +199,7 @@ class BookingStatisticsController extends Controller
 
             $total_fix       = array_sum($sum_of_fix);
             $total_cancelled = array_sum($sum_of_cancelled);
+            $total_completed = array_sum($sum_of_completed);
             $total_waiting   = array_sum($sum_of_waiting);
 
             /* y- axis graph data */
@@ -210,6 +218,14 @@ class BookingStatisticsController extends Controller
             }
             ksort($cancelled,1);
             $canc   = array_values($cancelled);
+
+            foreach ($labels as $xlabel){
+                if(!isset($completed[$xlabel])){
+                    $completed[$xlabel] = "0";
+                }
+            }
+            ksort($completed,1);
+            $comp   = array_values($completed);
 
             foreach ($labels as $xlabel){
                 if(!isset($waiting[$xlabel])){
@@ -233,6 +249,14 @@ class BookingStatisticsController extends Controller
                 'borderColor'=> 'rgba(255, 99, 132, 1)',
                 'borderWidth'=> 1,
                 'data' => $canc,
+            ];
+
+            $chartData[] =[
+                'label'=> __('bookingStatistics.graphCompleteLabel'),
+                'backgroundColor' => 'rgba(255, 206, 86, 0.2)',
+                'borderColor'=> 'rgba(255, 206, 86, 1)',
+                'borderWidth'=> 1,
+                'data' => $comp,
             ];
 
             $chartData[] =[
@@ -375,7 +399,7 @@ class BookingStatisticsController extends Controller
             ];
             /* Cancelled positive and negative end */
 
-            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'total_fix' => $total_fix, 'total_cancelled' => $total_cancelled, 'total_waiting' => $total_waiting, 'total_gotMoney' => $total_gotMoney, 'total_notGetMoney' => $total_notGetMoney]);
+            return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'total_fix' => $total_fix, 'total_cancelled' => $total_cancelled, 'total_completed' => $total_completed, 'total_waiting' => $total_waiting, 'total_gotMoney' => $total_gotMoney, 'total_notGetMoney' => $total_notGetMoney]);
         }
     }
 

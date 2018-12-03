@@ -136,6 +136,7 @@
             cabinPlaceholder: '{{ trans('bookingStatistics.cabinPlaceholder') }}',
             fixSumLabel: '{{ trans('bookingStatistics.graphFixLabel') }}',
             cancelledSumLabel: '{{ trans('bookingStatistics.graphCancelLabel') }}',
+            completedSumLabel: '{{ trans('bookingStatistics.graphCompleteLabel') }}',
             waitingSumLabel: '{{ trans('bookingStatistics.graphWaitingLabel') }}',
             userGotMoneySumLabel: '{{ trans('bookingStatistics.graphGotMoneyLabel') }}',
             userNotGetMoneySumLabel: '{{ trans('bookingStatistics.graphNotGetMoneyLabel') }}'
