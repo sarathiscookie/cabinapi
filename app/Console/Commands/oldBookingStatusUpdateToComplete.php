@@ -51,9 +51,11 @@ class oldBookingStatusUpdateToComplete extends Command
             ->whereRaw(['reserve_to' => ['$lt' => $utcDateTime]])
             ->get();
 
-        foreach($bookings as $booking) {
-            $booking->status = '3';
-            $booking->save();
+        if($bookings) {
+            foreach($bookings as $booking) {
+                $booking->status = '3';
+                $booking->save();
+            }
         }
     }
 }
