@@ -45,17 +45,10 @@ class oldBookingStatusUpdateToComplete extends Command
         $timeStamp        = $dateTime->getTimestamp();
         $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
 
-        $bookings         = Booking::where('is_delete', 0)
+        Booking::where('is_delete', 0)
             ->where('status', '1')
-            ->where('payment_status', '1')
+            ->whereIn('payment_status', ['1', '2'])
             ->whereRaw(['reserve_to' => ['$lt' => $utcDateTime]])
-            ->get();
-
-        if($bookings) {
-            foreach($bookings as $booking) {
-                $booking->status = '3';
-                $booking->save();
-            }
-        }
+            ->update(['status'=>'3']);
     }
 }
