@@ -64,17 +64,17 @@ class oldBookingStatusUpdateToComplete extends Command
         $utcDateTimeEnd        = new \MongoDB\BSON\UTCDateTime($timeStampEnd * 1000);
 
         // Functionality to update status to complete where status data type is int
-        Booking::where('is_delete', 0)
+        /*Booking::where('is_delete', 0)
             ->where('status', 1)
             ->whereIn('payment_status', ['1', '2'])
             ->whereRaw(['reserve_to' => ['$gte' => $utcDateTimeBegin, '$lte' => $utcDateTimeEnd]])
-            ->update(['status'=>'3']);
+            ->update(['status'=>'3']);*/
 
         // Functionality to update status to complete where payment status is 0
-        /*Booking::where('is_delete', 0)
+        Booking::where('is_delete', 0)
             ->where('status', 1)
             ->where('payment_status', '0')
             ->whereRaw(['reserve_to' => ['$gte' => $utcDateTimeBegin, '$lte' => $utcDateTimeEnd]])
-            ->update(['status'=>'3']);*/
+            ->update(['status'=>'3']);
     }
 }
