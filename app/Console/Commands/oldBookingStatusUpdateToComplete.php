@@ -49,6 +49,32 @@ class oldBookingStatusUpdateToComplete extends Command
             ->where('status', '1')
             ->whereIn('payment_status', ['1', '2'])
             ->whereRaw(['reserve_to' => ['$lt' => $utcDateTime]])
-            ->update(['status'=>'3']);
+            ->update(['status' => '3']);
+
+        /* Some old bookings status data type is wrong and payment status is 0. */
+        /*$dateBegin           = '01.01.18';
+        $dateEnd               = '01.12.18';
+        $dateFormatChangeBegin = DateTime::createFromFormat("d.m.y", $dateBegin)->format('Y-m-d');
+        $dateFormatChangeEnd   = DateTime::createFromFormat("d.m.y", $dateEnd)->format('Y-m-d');
+        $dateTimeBegin         = new DateTime($dateFormatChangeBegin);
+        $dateTimeEnd           = new DateTime($dateFormatChangeEnd);
+        $timeStampBegin        = $dateTimeBegin->getTimestamp();
+        $timeStampEnd          = $dateTimeEnd->getTimestamp();
+        $utcDateTimeBegin      = new \MongoDB\BSON\UTCDateTime($timeStampBegin * 1000);
+        $utcDateTimeEnd        = new \MongoDB\BSON\UTCDateTime($timeStampEnd * 1000);*/
+
+        // Functionality to update status to complete where status data type is int
+        /*Booking::where('is_delete', 0)
+            ->where('status', 1)
+            ->whereIn('payment_status', ['1', '2'])
+            ->whereRaw(['reserve_to' => ['$gte' => $utcDateTimeBegin, '$lte' => $utcDateTimeEnd]])
+            ->update(['status'=>'3']);*/
+
+        // Functionality to update status to complete where payment status is 0
+        /*Booking::where('is_delete', 0)
+            ->where('status', 1)
+            ->where('payment_status', '0')
+            ->whereRaw(['reserve_to' => ['$gte' => $utcDateTimeBegin, '$lte' => $utcDateTimeEnd]])
+            ->update(['status'=>'3']);*/
     }
 }
