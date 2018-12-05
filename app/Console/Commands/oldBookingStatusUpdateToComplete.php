@@ -39,18 +39,18 @@ class oldBookingStatusUpdateToComplete extends Command
      */
     public function handle()
     {
-        $date             = date('d.m.y');
+        /*$date             = date('d.m.y');
         $dateFormatChange = DateTime::createFromFormat("d.m.y", $date)->format('Y-m-d');
         $dateTime         = new DateTime($dateFormatChange);
         $timeStamp        = $dateTime->getTimestamp();
         $utcDateTime      = new \MongoDB\BSON\UTCDateTime($timeStamp * 1000);
 
+
         Booking::where('is_delete', 0)
             ->where('status', '1')
             ->whereIn('payment_status', ['1', '2'])
             ->whereRaw(['reserve_to' => ['$lt' => $utcDateTime]])
-            ->update(['status' => '3']);
-
+            ->update(['status' => '3']);*/
         /* Some old bookings status data type is wrong and payment status is 0. */
         $dateBegin           = '01.01.18';
         $dateEnd               = '01.12.18';
