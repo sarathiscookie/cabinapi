@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         '\App\Console\Commands\CleanupBookingsInCart',
+        '\App\Console\Commands\oldBookingStatusUpdateToComplete',
     ];
 
     /**
@@ -25,7 +26,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('Bookings:cartCleanup')
-                 ->hourly();
+                 ->dailyAt('6:00');
+
+        $schedule->command('bookingStatusUpdate:completed')
+                 ->dailyAt('7:00');
     }
 
     /**

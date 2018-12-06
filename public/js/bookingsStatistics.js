@@ -19,6 +19,7 @@ $(function () {
         cabinPlaceholder: window.translations.cabinPlaceholder,
         fixSumLabel: window.translations.fixSumLabel,
         cancelledSumLabel: window.translations.cancelledSumLabel,
+        completedSumLabel: window.translations.completedSumLabel,
         waitingSumLabel: window.translations.waitingSumLabel,
         userGotMoneySumLabel: window.translations.userGotMoneySumLabel,
         userNotGetMoneySumLabel: window.translations.userNotGetMoneySumLabel
@@ -113,7 +114,7 @@ $(function () {
                                 pointHoverBorderColor: "rgba(220,220,220,1)",
                                 pointHoverBorderWidth: 2,
                                 pointRadius: 1,
-                                pointHitRadius: 10,
+                                pointHitRadius: 10
                             }
                         },
                         responsive: true,
@@ -122,20 +123,20 @@ $(function () {
                             xAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Datum",
+                                    labelString: "Datum"
                                 }
                             }],
                             yAxes: [{
                                 scaleLabel: {
                                     display: true,
-                                    labelString: "Anzahl",
+                                    labelString: "Anzahl"
                                 }
                             }]
                         }
                     }
                 });
 
-                $('.status_sum').html('<div class="input-group"><span class="label label-default">'+translations.fixSumLabel+' <span class="badge">'+formatter.format(response.total_fix)+'</span></span> <span class="label label-default">'+translations.cancelledSumLabel+' <span class="badge">'+formatter.format(response.total_cancelled)+'</span></span> <span class="label label-default">'+translations.waitingSumLabel+' <span class="badge">'+formatter.format(response.total_waiting)+'</span></span> <span class="label label-default">'+translations.userGotMoneySumLabel+' <span class="badge">'+formatter.format(response.total_gotMoney)+'</span></span> <span class="label label-default">'+translations.userNotGetMoneySumLabel+' <span class="badge">'+formatter.format(response.total_notGetMoney)+'</span></span></div>');
+                $('.status_sum').html('<div class="input-group"><span class="label label-default">'+translations.fixSumLabel+' <span class="badge">'+formatter.format(response.total_fix)+'</span></span> <span class="label label-default">'+translations.cancelledSumLabel+' <span class="badge">'+formatter.format(response.total_cancelled)+'</span></span> <span class="label label-default">'+translations.completedSumLabel+' <span class="badge">'+formatter.format(response.total_completed)+'</span></span> <span class="label label-default">'+translations.waitingSumLabel+' <span class="badge">'+formatter.format(response.total_waiting)+'</span></span> <span class="label label-default">'+translations.userGotMoneySumLabel+' <span class="badge">'+formatter.format(response.total_gotMoney)+'</span></span> <span class="label label-default">'+translations.userNotGetMoneySumLabel+' <span class="badge">'+formatter.format(response.total_notGetMoney)+'</span></span></div>');
 
                 $btn.button('reset');
             })
