@@ -27,6 +27,7 @@ return [
     'dateRangePlaceholder'                   => 'Zeitraum auswählen',
 
     'bookingNumber'                          => 'Buchungs-Nr.',
+    'orderNumber'                            => 'Order-Nr',
     'email'                                  => 'E-Mail',
     'from'                                   => 'Anreise',
     'to'                                     => 'Abreise',

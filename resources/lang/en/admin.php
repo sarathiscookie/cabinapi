@@ -27,6 +27,7 @@ return [
     'dateRangePlaceholder'                   => 'Select date range',
 
     'bookingNumber'                          => 'Booking Num',
+    'orderNumber'                            => 'Order Num',
     'email'                                  => 'Email',
     'from'                                   => 'From',
     'to'                                     => 'To',

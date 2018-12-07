@@ -108,6 +108,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('admin.bookingNumber')</th>
+                                    <th>@lang('admin.orderNumber')</th>
                                     <th>@lang('admin.email')</th>
                                     <th>@lang('admin.from')</th>
                                     <th>@lang('admin.to')</th>
@@ -128,6 +129,7 @@
                                 <tr>
                                     <td></td>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('admin.searchBoookingNo')"></th>
+                                    <th><input type="text" id="3"  class="form-control input-sm search-input" placeholder="@lang('admin.searchOrderNo')"></th>
                                     <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="@lang('admin.SearchEmail')"></th>
                                     <td></td>
                                     <td></td>

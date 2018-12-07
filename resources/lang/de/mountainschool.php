@@ -96,7 +96,7 @@ return [
     'lblCheckOutPH'                         => 'Abreise auswählen',
     'lblMountainDays'                       => 'Tage',
     'lblMountainDaysPH'                     => 'Tage auswählen',
-    'lblOptGuides'                          => 'Bergührer',
+    'lblOptGuides'                          => 'Bergführer',
     'lblOptGuests'                          => 'Gäste',
     'lblOptDorms'                           => 'Lager',
     'lblOptBeds'                            => 'Betten',

@@ -34,4 +34,16 @@ class Booking extends Eloquent
      */
 
     protected $dates = ['bookingdate', 'checkin_from', 'reserve_to'];
+
+    /**
+     * Append each order to booking
+     */
+    protected $appends = ['order_number'];
+
+    public function getOrderNumberAttribute()
+    {
+        return Order::where('_id', $this->order_id)
+            ->pluck('order_id')
+            ->first();
+    }
 }

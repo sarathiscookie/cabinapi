@@ -57,6 +57,7 @@ $(function () {
             "columns": [
                 { "data": "hash" },
                 { "data": "invoice_number" },
+                { "data": "order_number" },
                 { "data": "usrEmail" },
                 { "data": "checkin_from" },
                 { "data": "reserve_to" },

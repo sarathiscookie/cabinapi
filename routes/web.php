@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/session', function() {
-    return Session::all();
+Route::get('/books', function() {
+    return App\Booking::take(50)->orderBy('_id', "DESC")->get();
 });
 
 //Auth::routes();
