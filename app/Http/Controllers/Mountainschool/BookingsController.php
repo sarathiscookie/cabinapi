@@ -74,10 +74,9 @@ class BookingsController extends Controller
             for ($tb = 0; $tb < count($request->get('ind_tour_no')); $tb++) {
                 for ($i = 1; $i <= $request->no_cabins[$tb]; $i++) {
                     // Get request fields
-
-                    $sleeps = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : 0;
-                    $beds = !empty($request->beds[$tb][$i]) ? $request->beds[$tb][$i] : 0;
-                    $dormitory = !empty($request->dormitory[$tb][$i]) ? $request->dormitory[$tb][$i] : 0;
+                    $beds      = $request->beds[$tb][$i];
+                    $dormitory = $request->dormitory[$tb][$i];
+                    $sleeps    = $request->sleeps[$tb][$i];
 
                     // Get cabin details
                     $cabinDetails       = Cabin::where('is_delete', 0)
@@ -514,9 +513,11 @@ class BookingsController extends Controller
                 for ($i = 1; $i <= $request->no_cabins[$tb]; $i++) {
 
                     // Get request fields
-                    $sleeps = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : 0;
-                    $beds = !empty($request->beds[$tb][$i]) ? $request->beds[$tb][$i] : 0;
+                    $beds      = !empty($request->beds[$tb][$i]) ? $request->beds[$tb][$i] : 0;
                     $dormitory = !empty($request->dormitory[$tb][$i]) ? $request->dormitory[$tb][$i] : 0;
+
+                    // If sleeps request is empty, calculate sleeps as sum of beds and dorms
+                    $sleeps    = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : $request->beds[$tb][$i] + $request->dormitory[$tb][$i];
 
                     // Cabin Details
                     $cabinDetails       = Cabin::where('is_delete', 0)
@@ -559,9 +560,9 @@ class BookingsController extends Controller
                         $booking->invoice_number = $invoiceNumber;
                         $booking->is_delete      = 0;
                         $booking->status         = "1";
-                        $booking->sleeps         = $sleeps;
-                        $booking->beds           = $beds;
-                        $booking->dormitory      = $dormitory;
+                        $booking->sleeps         = (int) $sleeps;
+                        $booking->beds           = (int) $beds;
+                        $booking->dormitory      = (int) $dormitory;
                         $booking->halfboard      = $request->halfboard[$tb][$i] ? $request->halfboard[$tb][$i] : 0;
 
                         $booking->save();
