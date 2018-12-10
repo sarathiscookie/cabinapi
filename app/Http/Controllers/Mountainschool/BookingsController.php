@@ -517,7 +517,7 @@ class BookingsController extends Controller
                     $dormitory = !empty($request->dormitory[$tb][$i]) ? $request->dormitory[$tb][$i] : 0;
 
                     // If sleeps request is empty, calculate sleeps as sum of beds and dorms
-                    $sleeps    = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : $request->beds[$tb][$i] + $request->dormitory[$tb][$i];
+                    // $sleeps    = !empty($request->sleeps[$tb][$i]) ? $request->sleeps[$tb][$i] : $request->beds[$tb][$i] + $request->dormitory[$tb][$i];
 
                     // Cabin Details
                     $cabinDetails       = Cabin::where('is_delete', 0)

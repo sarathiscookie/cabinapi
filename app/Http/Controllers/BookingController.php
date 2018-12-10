@@ -41,18 +41,17 @@ class BookingController extends Controller
 
         $columns = array(
             1 => 'invoice_number',
-            2 => 'order_number',
-            3 => 'usrEmail',
-            4 => 'checkin_from',
-            5 => 'reserve_to',
-            6 => 'beds',
-            7 => 'dormitory',
-            8 => 'sleeps',
-            9 => 'status',
-            10 => 'payment_status',
-            11 => 'payment_type',
-            12 => 'total_prepayment_amount',
-            13 => 'txid'
+            2 => 'usrEmail',
+            3 => 'checkin_from',
+            4 => 'reserve_to',
+            5 => 'beds',
+            6 => 'dormitory',
+            7 => 'sleeps',
+            8 => 'status',
+            9 => 'payment_status',
+            10 => 'payment_type',
+            11 => 'total_prepayment_amount',
+            12 => 'txid'
         );
 
         if($request->parameterId)
@@ -109,7 +108,9 @@ class BookingController extends Controller
                     })
                         ->count();
                 }
-            } else if (count($users) > 0) {
+            }
+
+            if (count($users) > 0) {
                 foreach ($users as $user) {
                     $q->where(function($query) use ($user) {
                         $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
@@ -120,21 +121,6 @@ class BookingController extends Controller
                     })
                         ->count();
                 }
-            } else {
-                $q->where(function($query) use ($search) {
-                    $query->where('invoice_number', 'like', "%{$search}%")
-                        ->orWhere('order_number', 'like', "%{$search}%")
-                        ->orWhere('payment_type', 'like', "%{$search}%")
-                        ->orWhere('txid', 'like', "%{$search}%");
-                });
-
-                $totalFiltered = $q->where(function($query) use ($search) {
-                    $query->where('invoice_number', 'like', "%{$search}%")
-                        ->orWhere('order_number', 'like', "%{$search}%")
-                        ->orWhere('payment_type', 'like', "%{$search}%")
-                        ->orWhere('txid', 'like', "%{$search}%");
-                })
-                    ->count();
             }
 
         }
@@ -401,11 +387,8 @@ class BookingController extends Controller
                     $checkbox        = '<input class="checked" type="checkbox" name="id[]" value="'.$booking->_id.'" />';
                 }
 
-                $order_number = Order::where("_id", new \MongoDB\BSON\ObjectID($booking->order_id))->first();
-
                 $nestedData['hash']                    = $checkbox;
                 $nestedData['invoice_number']          = '<a class="nounderline modalBooking" data-toggle="modal" data-target="#bookingModal_'.$booking->_id.'" data-modalID="'.$booking->_id.'">'.$booking->invoice_number.'</a>';
-                $nestedData['order_number']            = $order_number->order_id ?? '----';
                 $nestedData['usrEmail']                = $bookedBy;
                 $nestedData['checkin_from']            = $checkin_from;
                 $nestedData['reserve_to']              = $reserve_to;
