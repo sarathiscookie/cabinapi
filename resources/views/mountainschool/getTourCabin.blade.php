@@ -178,7 +178,7 @@
                                                     <label>@lang('cabins.lblHalfboard')</label>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="halfboard{{ $tour_index }}{{ $c }}" class="halfboardCls" name="halfboard{{ $tour_index }}{{ $c }}[]" value="1" @if(old('halfboard', $tour->basic_settings['half_board']) == '1') checked @endif>@lang('cabins.half_board_available')
+                                                            <input type="checkbox" id="halfboard{{ $tour_index }}{{ $c }}" class="halfboardCls" name="halfboard[{{ $tour_index }}][{{ $c }}]" value="1" @if(old('halfboard', $tour->basic_settings['half_board']) == '1') checked @endif>@lang('cabins.half_board_available')
                                                         </label>
                                                     </div>
                                                 </div>
