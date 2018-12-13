@@ -547,9 +547,9 @@ class BookingsController extends Controller
 
                         $booking->tour_name      = $tour['tour_name'];
                         $booking->ind_tour_no    = $request->ind_tour_no[$tb];
-                        $booking->no_guides      = $request->no_guides[$tb][$i];
-                        $booking->total_guests   = $request->guests[$tb][$i] + $request->no_guides[$tb][$i];
-                        $booking->guests         = $request->guests[$tb][$i];
+                        $booking->no_guides      = (int) $request->no_guides[$tb][$i];
+                        $booking->total_guests   = (int) $request->guests[$tb][$i] + $request->no_guides[$tb][$i];
+                        $booking->guests         = (int) $request->guests[$tb][$i];
                         $booking->tour_guide     = $request->tour_guide[$tb];
                         $booking->ind_notice     = $request->ind_notice[$tb];
                         $booking->cabin_name     = $cabinDetails->name;
@@ -563,7 +563,7 @@ class BookingsController extends Controller
                         $booking->sleeps         = (int) $sleeps;
                         $booking->beds           = (int) $beds;
                         $booking->dormitory      = (int) $dormitory;
-                        $booking->halfboard      = !empty($request->halfboard[$tb][$i]) ? (int) $request->halfboard[$tb][$i] : 0;
+                        $booking->half_board     = !empty($request->halfboard[$tb][$i]) ? (string) $request->halfboard[$tb][$i] : "0";
 
                         $booking->save();
                     }
