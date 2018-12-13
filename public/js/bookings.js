@@ -74,7 +74,7 @@ $(function () {
             "columnDefs": [
                 {
                     "orderable": false,
-                    "targets": [0, 2, 5, 6, 7, 8, 9, 10, 13, 14]
+                    "targets": [0, 2, 5, 6, 7, 8, 9, 12, 13]
                 }
             ],
             "language": {

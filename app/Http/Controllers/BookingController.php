@@ -90,26 +90,6 @@ class BookingController extends Controller
                 ->take($limit)
                 ->get();
 
-            $orders    = Order::where(function($query) use ($search) {
-                    $query->where('order_id', 'like', "%{$search}%");
-                })
-                ->skip($start)
-                ->take($limit)
-                ->get();
-
-            if(count($orders) > 0) {
-                foreach ($orders as $order) {
-                    $q->where(function($query) use ($order) {
-                        $query->where('order_id', new \MongoDB\BSON\ObjectID($order->_id));
-                    });
-
-                    $totalFiltered = $q->where(function($query) use ($order) {
-                        $query->where('order_id', new \MongoDB\BSON\ObjectID($order->_id));
-                    })
-                        ->count();
-                }
-            }
-
             if (count($users) > 0) {
                 foreach ($users as $user) {
                     $q->where(function($query) use ($user) {
@@ -239,29 +219,6 @@ class BookingController extends Controller
 
                     $totalFiltered = $q->where(function($query) use ($user) {
                         $query->where('user', new \MongoDB\BSON\ObjectID($user->_id));
-                    })
-                        ->count();
-                }
-            }
-        }
-
-        if( !empty($params['columns'][3]['search']['value']) ) {
-            $orders     = Order::select('_id', 'order_id')
-                ->where(function($query) use ($params) {
-                    $query->where('order_id', 'like', "%{$params['columns'][3]['search']['value']}%");
-                })
-                ->skip($start)
-                ->take($limit)
-                ->get();
-
-            if(count($orders) > 0) {
-                foreach ($orders as $ord) {
-                    $q->where(function($query) use ($ord) {
-                        $query->where('order_id', new \MongoDB\BSON\ObjectID($ord->_id));
-                    });
-
-                    $totalFiltered = $q->where(function($query) use ($ord) {
-                        $query->where('order_id', new \MongoDB\BSON\ObjectID($ord->_id));
                     })
                         ->count();
                 }
