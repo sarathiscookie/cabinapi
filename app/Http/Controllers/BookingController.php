@@ -103,6 +103,16 @@ class BookingController extends Controller
                 }
             }
 
+            $q->where(function($query) use ($search) {
+                $query->where('txid', 'like', "%{$search}%")
+                      ->orWhere('invoice_number', 'like', "%{$search}");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($search) {
+                $query->where('txid', 'like', "%{$search}%")
+                      ->orWhere('invoice_number', 'like', "%{$search}");
+            })
+                ->count();
         }
 
         /* Date range func and cabin name filter func begin */
