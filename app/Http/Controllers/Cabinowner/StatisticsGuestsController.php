@@ -55,7 +55,7 @@ class StatisticsGuestsController extends Controller
     {
         /* Creating 30 days default date. When guest statistics page load chart will show with default 30 days count*/
         $monthBegin      = date("d.m.Y");
-        $monthEnd        = date("d.m.Y", strtotime('+30 days'));
+        $monthEnd        = date("d.m.Y", strtotime('+14 days'));
         $defaultDate     = $monthBegin.'-'.$monthEnd;
 
         return view('cabinowner.statisticsGuests', ['defaultDate' => $defaultDate]);
@@ -79,7 +79,6 @@ class StatisticsGuestsController extends Controller
      */
     public function store(Request $request)
     {
-        $test = [];
         $xCoord               = [];
         $yCoordSleeps         = [];
         $yCoordMsSleeps       = [];

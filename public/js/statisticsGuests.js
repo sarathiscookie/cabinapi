@@ -18,7 +18,7 @@ $(function () {
     $('#guests_count_stat').daterangepicker({
         autoUpdateInput: false,
         startDate: moment(),
-        endDate: moment().add(30, 'days'),
+        endDate: moment().add(14, 'days'),
         ranges: {
             'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
             'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
