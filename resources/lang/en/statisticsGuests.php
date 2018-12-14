@@ -26,6 +26,9 @@ return [
     'panelLabelDateRange'          => 'Date Range',
     'dateRangePlaceholder'         => 'Select date range',
     'generateButton'               => 'Generate',
-    'labelGuest'                   => 'Total no of guests',
-    'labelMSchool'                 => 'Total no of mountain schools',
+    'labelGuest'                   => 'No of guests',
+    'labelMSchool'                 => 'No of MS Guests',
+    'labelHalfboard'               => 'No of normal halfboard',
+    'labelMsHalfboard'             => 'No of MS halfboard',
+    'labelTotalGuestEachDays'      => 'Total no of ms & normal guest each days',
 ];

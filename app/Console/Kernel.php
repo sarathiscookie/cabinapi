@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
             ->hourly();
 
         $schedule->command('bookingStatusUpdate:completed')
-            ->dailyAt('7:00');
+            ->dailyAt('7:30');
     }
 
     /**

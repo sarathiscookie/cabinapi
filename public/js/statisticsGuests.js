@@ -62,7 +62,7 @@ $(function () {
         })
             .done(function( response ) {
                 $('#chartGuestsCountStatistics').remove();
-                $('#graphGuestsCountStat').append('<canvas id="chartGuestsCountStatistics" <!--style="height: 400px;"-->></canvas>');
+                $('#graphGuestsCountStat').append('<canvas id="chartGuestsCountStatistics"></canvas>');
 
                 var lineChart = {
                     labels: response.chartLabel,

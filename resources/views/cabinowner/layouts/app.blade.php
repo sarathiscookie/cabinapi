@@ -269,21 +269,21 @@
     <!-- Socket io -->
     <script src="{{ asset('plugins/socket/socket.io.min.js') }}"></script>
     <script>
-        var socket = io('{{env('APP_URL')}}:3000');
-        /* Realtime message notification */
+        /*var socket = io('{{--{{env('APP_URL')}}--}}:3000');
+        // Realtime message notification
         socket.on('message', function(data){
            if(data){
                $('.messages-menu').empty();
                $('.messages-menu').html(data);
            }
         });
-        /* Realtime inquiry notification */
+        // Realtime inquiry notification
         socket.on('inquiryCount', function(data){
             if(data){
                 $('.tasks-menu').empty();
                 $('.tasks-menu').html(data);
             }
-        });
+        });*/
     </script>
 
 
