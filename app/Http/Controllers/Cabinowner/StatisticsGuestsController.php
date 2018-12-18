@@ -119,37 +119,21 @@ class StatisticsGuestsController extends Controller
 
             // Getting count of sleeps, beds and dorms
             if(count($bookings) > 0) {
-                $sleeps    = $bookings->sum('sleeps');
-                $halfboard = $bookings->sum('halfboard');
-
-                // If normal guest selected halfboard, on graph sum of sleeps (each day) will show.
-                if($halfboard > 0) {
-                    $halfboardSelectedNormalGuest = $sleeps; //How many normal guest need halfboard facility
-                }
-                else {
-                    $halfboardSelectedNormalGuest = 0;
-                }
+                $sleeps      = $bookings->sum('sleeps');
+                $halfboard   = $bookings->sum('halfboard'); // How many normal bookings have halfboard
             }
             else {
-                $halfboardSelectedNormalGuest = 0;
-                $sleeps       = 0;
+                $halfboard   = 0;
+                $sleeps      = 0;
             }
 
             if(count($msBookings) > 0) {
                 $msSleeps    = $msBookings->sum('sleeps');
-                $msHalfboard = $msBookings->sum('half_board');
-
-                // If ms guest selected halfboard, on graph sum of sleeps (each day) will show.
-                if($msHalfboard > 0) {
-                    $halfboardSelectedMsGuest = $msSleeps; //How many ms guest need halfboard facility
-                }
-                else {
-                    $halfboardSelectedMsGuest = 0;
-                }
+                $msHalfboard = $msBookings->sum('half_board'); // How many ms bookings have halfboard
             }
             else {
-                $msSleeps       = 0;
-                $halfboardSelectedMsGuest = 0;
+                $msSleeps    = 0;
+                $msHalfboard = 0;
             }
 
             // Sum of bookings (Mountain School & Normal) on each days
@@ -163,7 +147,7 @@ class StatisticsGuestsController extends Controller
             $yCoordSleeps[]          = $sleeps;
             $yCoordMsSleeps[]        = $msSleeps;
             $xCoord[]                = $generateBookingDat;
-            $totalHalfBoard[]        = $halfboardSelectedNormalGuest + $halfboardSelectedMsGuest;
+            $totalHalfBoard[]        = $halfboard + $msHalfboard;
         }
 
         $sleeps_sum = array_sum($totalSleeps);
