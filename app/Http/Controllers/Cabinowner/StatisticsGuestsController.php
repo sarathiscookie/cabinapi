@@ -79,7 +79,6 @@ class StatisticsGuestsController extends Controller
      */
     public function store(Request $request)
     {
-        $test                 = [];
         $xCoord               = [];
         $yCoordSleeps         = [];
         $yCoordMsSleeps       = [];
@@ -167,7 +166,6 @@ class StatisticsGuestsController extends Controller
             $totalHalfBoard[]        = $halfboardSelectedNormalGuest + $halfboardSelectedMsGuest;
         }
 
-        //dd($totalHalfBoard);
         $sleeps_sum = array_sum($totalSleeps);
 
         // Normal bookings sleeps
