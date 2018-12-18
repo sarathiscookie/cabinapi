@@ -79,6 +79,7 @@ class StatisticsGuestsController extends Controller
      */
     public function store(Request $request)
     {
+        $test                 = [];
         $xCoord               = [];
         $yCoordSleeps         = [];
         $yCoordMsSleeps       = [];
@@ -119,21 +120,37 @@ class StatisticsGuestsController extends Controller
 
             // Getting count of sleeps, beds and dorms
             if(count($bookings) > 0) {
-                $sleeps      = $bookings->sum('sleeps');
-                $halfboard   = $bookings->sum('halfboard');
+                $sleeps    = $bookings->sum('sleeps');
+                $halfboard = $bookings->sum('halfboard');
+
+                // If normal guest selected halfboard, on graph sum of sleeps (each day) will show.
+                if($halfboard > 0) {
+                    $halfboardSelectedNormalGuest = $sleeps; //How many normal guest need halfboard facility
+                }
+                else {
+                    $halfboardSelectedNormalGuest = 0;
+                }
             }
             else {
-                $halfboard   = 0;
-                $sleeps      = 0;
+                $halfboardSelectedNormalGuest = 0;
+                $sleeps       = 0;
             }
 
             if(count($msBookings) > 0) {
                 $msSleeps    = $msBookings->sum('sleeps');
                 $msHalfboard = $msBookings->sum('half_board');
+
+                // If ms guest selected halfboard, on graph sum of sleeps (each day) will show.
+                if($msHalfboard > 0) {
+                    $halfboardSelectedMsGuest = $msSleeps; //How many ms guest need halfboard facility
+                }
+                else {
+                    $halfboardSelectedMsGuest = 0;
+                }
             }
             else {
-                $msSleeps    = 0;
-                $msHalfboard = 0;
+                $msSleeps       = 0;
+                $halfboardSelectedMsGuest = 0;
             }
 
             // Sum of bookings (Mountain School & Normal) on each days
@@ -147,9 +164,10 @@ class StatisticsGuestsController extends Controller
             $yCoordSleeps[]          = $sleeps;
             $yCoordMsSleeps[]        = $msSleeps;
             $xCoord[]                = $generateBookingDat;
-            $totalHalfBoard[]        = $halfboard + $msHalfboard;
+            $totalHalfBoard[]        = $halfboardSelectedNormalGuest + $halfboardSelectedMsGuest;
         }
 
+        //dd($totalHalfBoard);
         $sleeps_sum = array_sum($totalSleeps);
 
         // Normal bookings sleeps
@@ -159,15 +177,6 @@ class StatisticsGuestsController extends Controller
             'borderColor'=> 'rgba(54, 162, 235, 1)',
             'borderWidth'=> 1,
             'data' => $yCoordSleeps,
-        ];
-
-        // Total no of halfboard (Mountain school and Normal bookings)
-        $chartData[] = [
-            'label'=> __('statisticsGuests.labelTotalHalfboard'),
-            'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-            'borderColor'=> 'rgba(255,99,132,1)',
-            'borderWidth'=> 1,
-            'data' => $totalHalfBoard,
         ];
 
         // Ms bookings sleeps
@@ -186,6 +195,15 @@ class StatisticsGuestsController extends Controller
             'borderColor'=> 'rgba(153, 102, 255, 1)',
             'borderWidth'=> 1,
             'data' => $totalSleeps,
+        ];
+
+        // Total no of halfboard (Mountain school and Normal bookings)
+        $chartData[] = [
+            'label'=> __('statisticsGuests.labelTotalHalfboard'),
+            'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+            'borderColor'=> 'rgba(255,99,132,1)',
+            'borderWidth'=> 1,
+            'data' => $totalHalfBoard,
         ];
 
         return response()->json(['chartData' => $chartData, 'chartLabel' => $xCoord, 'sleeps_sum' => $sleeps_sum]);
