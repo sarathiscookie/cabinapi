@@ -18,7 +18,7 @@ $(function () {
     $('#guests_count_stat').daterangepicker({
         autoUpdateInput: false,
         startDate: moment(),
-        endDate: moment().add(30, 'days'),
+        endDate: moment().add(14, 'days'),
         ranges: {
             'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
             'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
@@ -62,7 +62,7 @@ $(function () {
         })
             .done(function( response ) {
                 $('#chartGuestsCountStatistics').remove();
-                $('#graphGuestsCountStat').append('<canvas id="chartGuestsCountStatistics" <!--style="height: 400px;"-->></canvas>');
+                $('#graphGuestsCountStat').append('<canvas id="chartGuestsCountStatistics"></canvas>');
 
                 var lineChart = {
                     labels: response.chartLabel,

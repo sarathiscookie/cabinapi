@@ -26,6 +26,8 @@ return [
     'panelLabelDateRange'          => 'Zeitraum Auswahl',
     'dateRangePlaceholder'         => 'Zeitraum auswählen',
     'generateButton'               => 'Bestätigen',
-    'labelGuest'                   => 'Gesamtzahl Gäste',
-    'labelMSchool'                 => 'Gesamtzahl Bergschulen',
+    'labelGuest'                   => 'Gäste',
+    'labelMSchool'                 => 'Bergschulen',
+    'labelTotalHalfboard'          => 'Halbpension',
+    'labelTotalGuestEachDays'      => 'Gäste + Bergschulen',
 ];
