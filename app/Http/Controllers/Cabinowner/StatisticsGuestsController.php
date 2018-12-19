@@ -97,11 +97,12 @@ class StatisticsGuestsController extends Controller
 
         $generateBookingDates = $this->generateDates($monthBegin, $monthEnd);
 
-        foreach ($generateBookingDates as $generateBookingDate) {
+        foreach ($generateBookingDates as $key => $generateBookingDate) {
 
             $generateBookingDat = $generateBookingDate->format('d.m.y');
 
-            $bookings = Booking::select('sleeps', 'halfboard', 'invoice_number')
+            // Normal booking selecting
+            $bookings           = Booking::select('sleeps', 'halfboard', 'invoice_number')
                 ->where('is_delete', 0)
                 ->where('cabinname', $cabin->name)
                 ->whereIn('status', ['1', '3'])
@@ -109,7 +110,10 @@ class StatisticsGuestsController extends Controller
                 ->whereRaw(['reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDat)]])
                 ->get();
 
-            $msBookings = MountSchoolBooking::select('sleeps', 'half_board', 'invoice_number')
+            // Filtering bookings where halfboard selected by guest
+            $filteredBookings   = $bookings->where('halfboard', '1');
+
+            $msBookings         = MountSchoolBooking::select('sleeps', 'half_board', 'invoice_number')
                 ->where('is_delete', 0)
                 ->where('cabin_name', $cabin->name)
                 ->whereIn('status', ['1', '3'])
@@ -117,10 +121,13 @@ class StatisticsGuestsController extends Controller
                 ->whereRaw(['reserve_to' => ['$gt' => $this->getDateUtc($generateBookingDat)]])
                 ->get();
 
+            // Filtering MsBookings where halfboard selected by guest
+            $filteredMsBookings = $msBookings->where('half_board', '1');
+
             // Getting count of sleeps, beds and dorms
             if(count($bookings) > 0) {
                 $sleeps      = $bookings->sum('sleeps');
-                $halfboard   = $bookings->sum('halfboard'); // How many normal bookings have halfboard
+                $halfboard   = $filteredBookings->sum('sleeps'); // How many normal bookings have halfboard
             }
             else {
                 $halfboard   = 0;
@@ -129,7 +136,7 @@ class StatisticsGuestsController extends Controller
 
             if(count($msBookings) > 0) {
                 $msSleeps    = $msBookings->sum('sleeps');
-                $msHalfboard = $msBookings->sum('half_board'); // How many ms bookings have halfboard
+                $msHalfboard = $filteredMsBookings->sum('sleeps'); // How many ms bookings have halfboard
             }
             else {
                 $msSleeps    = 0;
@@ -140,14 +147,14 @@ class StatisticsGuestsController extends Controller
             $totalSleeps[] = (int)$sleeps + $msSleeps;
 
             // Preparing array
-            $prepareArraySleeps      = [$generateBookingDat => $sleeps];
-            $prepareArrayMsSleeps    = [$generateBookingDat => $msSleeps];
+            $prepareArraySleeps   = [$generateBookingDat => $sleeps];
+            $prepareArrayMsSleeps = [$generateBookingDat => $msSleeps];
 
             // x & y coordinates for marking in graph
-            $yCoordSleeps[]          = $sleeps;
-            $yCoordMsSleeps[]        = $msSleeps;
-            $xCoord[]                = $generateBookingDat;
-            $totalHalfBoard[]        = $halfboard + $msHalfboard;
+            $yCoordSleeps[]   = $sleeps;
+            $yCoordMsSleeps[] = $msSleeps;
+            $xCoord[]         = $generateBookingDat;
+            $totalHalfBoard[] = $halfboard + $msHalfboard;
         }
 
         $sleeps_sum = array_sum($totalSleeps);
