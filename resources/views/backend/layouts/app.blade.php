@@ -199,7 +199,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/admin/cabinlite"><i class="fa fa-circle-o"></i> @lang('menu.cabinLiteMenu')</a></li>
-
+                        <li><a href="/admin/neighbour/cabins"><i class="fa fa-circle-o"></i> @lang('menu.neighbourCabinMenu')</a></li>
                     </ul>
                 </li>
             </ul>

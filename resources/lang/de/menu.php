@@ -44,6 +44,7 @@ return [
     'mUsersMenu'                            => 'Bergschulen',
     'cabinsMenu'                            => 'Hütten',
     'cabinLiteMenu'                         => 'Hüttenliste',
+    'neighbourCabinMenu'                    => 'Neighbour Cabin',
     'priceListsMenu'                        => 'Preisliste',
 
     'bookingCreateMenu'                     => 'Neue Buchung',

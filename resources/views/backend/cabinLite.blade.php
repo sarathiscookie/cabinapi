@@ -45,7 +45,7 @@
                         <div class="box-body table-responsive">
                             <div class="responseStatusMessage"></div>
 
-                            <table id="user_data" class="table table-bordered table-striped table-hover">
+                            <table id="cabin_data" class="table table-bordered table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th>@lang('cabins.CabinCode')</th>
@@ -53,6 +53,7 @@
                                     <th>@lang('cabins.email')</th>
                                     <th>@lang('cabins.name') </th>
                                     <th>@lang('cabins.cabinType')</th>
+                                    <th>@lang('cabins.switchToNeighbour')</th>
                                     <th>@lang('cabins.update')</th>
                                 </tr>
                                 </thead>
@@ -61,7 +62,11 @@
                                 <tr>
                                     <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="@lang('cabins.searchCabinLite')"></th>
                                     <th><input type="text" id="2"  class="form-control input-sm search-input-cabin" placeholder="@lang('cabins.searchCabin')"></th>
-                                    <td colspan="4"></td>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </tfoot>
                             </table>

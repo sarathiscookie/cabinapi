@@ -28,6 +28,8 @@ return [
     'closeBtn'                               => 'Schließen',
     'cabinName'                              => 'Hüttenname',
     'CabinLite'                              => 'Hüttenkürzel',
+    'switchToNeighbour'                      => 'Switch to neighbour cabin',
+    'switchToNeighbourButton'                => 'Switch to neighbour cabin',
 
     'userUpdateModalHeading'                 => 'Details',
     'userUpdateModalFirstName'               => 'Vorname',

@@ -74,6 +74,13 @@ class CabinLiteController extends Controller
                         ->orWhere('name', 'like', "%{$search}%");
 
                 });
+
+                $totalFiltered = $q->where(function ($query) use ($search) {
+                    $query->where('invoice_code', 'like', "%{$search}%")
+                        ->orWhere('name', 'like', "%{$search}%");
+
+                })
+                    ->count();
             }
         }
 
@@ -132,6 +139,7 @@ class CabinLiteController extends Controller
                     $nestedData['cabinname'] = $cabin_name;
                     $nestedData['usrEmail']  = $usrEmail;
                     $nestedData['usrName']   = $usrFirstname . ' ' . $usrLastname;
+                    $nestedData['switchToNeighbour']   = '<button class="btn btn-primary btn-sm switchToNeighbourCabin" value="'.$cabinList->_id.'">'. __('cabins.switchToNeighbourButton'). '</button>';
                     $nestedData['usrUpdate'] = '<a class="nounderline" href="/admin/cabinlite/edit/' . $cabinList->_id . '"   ><span class="label label-info">'. __('cabins.menuInfo'). '</span> </a><a class="nounderline" href="/admin/cabinlite/contingent/' . $cabinList->_id . '"><span class="label label-default">'. __('cabins.menuContigent'). '</span> </a><a class="nounderline" href="/admin/cabinlite/seasondetails/' . $cabinList->_id . '"><span class="label label-info">'. __('cabins.menuSeason'). '</span></a>';
                     $nestedData['cabinType'] = $this->getCabinType($cabinList->booking_type);
                     $data[] = $nestedData;
@@ -545,16 +553,26 @@ class CabinLiteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CabinLiteRequest $request)
+    public function cabinTypeChangeToNeighbour(Request $request)
     {
+        $cabin      = Cabin::where('is_delete', 0)
+            ->where('other_cabin', '0')
+            ->find($request->cabinId);
 
-//
+        if($cabin) {
+            $cabin->other_cabin = '1';
+            $cabin->save();
+
+            return response()->json(['successMsg' => __('cabins.successMsgUdt')]);
+        }
+        else {
+            return response()->json(['successMsg' => __('cabins.failure')]);
+        }
     }
 
 

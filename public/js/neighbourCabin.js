@@ -10,24 +10,19 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     /* Data table functionality begin */
-    var cabin_data = $('#cabin_data').DataTable({
+    var normalCabin = $('#normalCabin').DataTable({
         "bSort": false,
         "lengthMenu": [10, 50, 100, 250, 500],
         "processing": true,
         "serverSide": true,
         "ajax": {
-            "url": '/admin/cabinlite/datatables',
+            "url": '/admin/neighbour/cabins/datatables',
             "dataType": "json",
             "type": "POST"
         },
         "columns": [
-            { "data": "cabinAbbr" },
-            { "data": "cabinname" },
-            { "data": "usrEmail" },
-            { "data": "usrName" },
-            { "data": "cabinType" },
-            { "data": "switchToNeighbour" },
-            { "data": "usrUpdate" }
+            { "data": "cabinName" },
+            { "data": "switchToNormalCabin" }
         ],
         "language": {
             "sEmptyTable":   	"Keine Daten in der Tabelle vorhanden",
@@ -58,26 +53,26 @@ $(function () {
     $('.search-input').on( 'keyup change', function () {
         var i =$(this).attr('id');   // getting column index
         var v =$(this).val();  // getting search input value
-        cabin_data.columns(i).search(v).draw();
+        normalCabin.columns(i).search(v).draw();
     });
 
     $('.search-input-cabin').on( 'keyup change', function () {
         var i =$(this).attr('id');   // getting column index
         var v =$(this).val();   // getting search input value
-        cabin_data.columns(i).search(v).draw();
+        normalCabin.columns(i).search(v).draw();
     });
     /* Data table functionality end */
 
 
     // Normal cabin switch to neighbour cabin
-    $('#cabin_data tbody').on( 'click', 'button.switchToNeighbourCabin', function(e){
+    $('#normalCabin tbody').on( 'click', 'button.switchToNormalCabin', function(e){
         e.preventDefault();
 
         var cabinId = $(this).val();
         var $btn    = $(this).button('loading');
 
         $.ajax({
-            url: '/admin/cabinlite/switch/to/neighbour',
+            url: '/admin/neighbour/cabins/switch/to/normal',
             data: { "cabinId": cabinId },
             dataType: 'JSON',
             type: 'PUT'
@@ -85,11 +80,11 @@ $(function () {
             .done(function( result ) {
                 $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+result.successMsg+'</div>');
                 $btn.button('reset');
-                cabin_data.ajax.reload(null, false);
+                normalCabin.ajax.reload(null, false);
             })
             .fail(function() {
                 $('.responseMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS! </strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
-                cabin_data.ajax.reload(null, false);
+                normalCabin.ajax.reload(null, false);
             });
     });
 

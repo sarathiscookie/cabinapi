@@ -46,6 +46,7 @@ return [
     'mUsersMenu'                            => 'Mountain Schools',
     'cabinsMenu'                            => 'Cabins',
     'cabinLiteMenu'                         => 'Cabin Lite',
+    'neighbourCabinMenu'                    => 'Neighbour Cabin',
     'priceListsMenu'                        => 'Price List',
     'tourCreateMenu'                        => 'Create Tour',
     'tourMenu'                              => 'Tours',

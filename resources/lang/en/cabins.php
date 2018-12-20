@@ -27,6 +27,8 @@ return [
     'noResult'                               => 'No Result',
     'cabinName'                              => 'Cabin Name',
     'CabinLite'                              => 'Cabin Lite',
+    'switchToNeighbour'                      => 'Switch to neighbour cabin',
+    'switchToNeighbourButton'                => 'Switch to neighbour cabin',
 
     'userUpdateModalHeading'                 => 'Cabin Lite',
     'userUpdateModalFirstName'               => 'First Name',

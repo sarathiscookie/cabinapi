@@ -362,6 +362,21 @@ Route::get('/', function () {
      /* delete winter season */
      Route::post('/cabinlite/seasondetails/winter/delete', 'CabinLiteOpenCloseSeasonController@deleteWinter')->name('admin.cabinlite.season.winter.delete');
 
+     /* Switch normal cabin to neighbour cabin */
+     Route::put('/cabinlite/switch/to/neighbour', 'CabinLiteController@cabinTypeChangeToNeighbour')->name('admin.cabinlite.switch.to.neighbour');
+
+     /* Listing neighbour cabins */
+
+     Route::get('/neighbour/cabins', 'NeighbourCabinController@index')->name('admin.neighbour.cabins');
+
+     /* Show datatable page */
+     Route::post('/neighbour/cabins/datatables', 'NeighbourCabinController@dataTables')->name('admin.neighbour.cabins.datatables');
+
+     /* Switch normal cabin to neighbour cabin */
+     Route::put('/neighbour/cabins/switch/to/normal', 'NeighbourCabinController@cabinTypeChangeToNormal')->name('admin.neighbour.cabins.switch.to.normal');
+
+
+
      /*
       |--------------------------------------------------------------------------
       | Routes for Image Upload
